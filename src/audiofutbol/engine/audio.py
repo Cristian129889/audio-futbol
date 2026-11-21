@@ -123,6 +123,25 @@ EVENT_DISPLAY_NAMES_ES: dict[str, str] = {
 }
 
 
+MASTER_SFX_HEADROOM = 0.42
+MASTER_MUSIC_HEADROOM = 0.34
+MASTER_CROWD_HEADROOM = 0.28
+VOLUME_CURVE_EXPONENT = 2.2
+
+
+def perceptual_gain(level: float, master: float = 1.0, headroom: float = 1.0) -> float:
+    """Map a 0..1 UI slider to perceptual amplitude using an exponential loudness curve.
+
+    Human hearing is logarithmic: linear 10% (-20 dB) still sounds loud on headphones.
+    A power curve (exponent 2.2) plus headroom makes 10% genuinely soft and 100% safe.
+    """
+    clamped = max(0.0, min(1.0, float(level)))
+    clamped_master = max(0.0, min(1.0, float(master)))
+    if clamped <= 0.0 or clamped_master <= 0.0:
+        return 0.0
+    return (clamped ** VOLUME_CURVE_EXPONENT) * (clamped_master ** 1.8) * headroom
+
+
 def score_sound_tokens(tokens: list[str], aliases: list[str]) -> float:
     best = 0.0
     for token in tokens:
@@ -241,9 +260,14 @@ class AudioEngine:
         try:
             channel = sound.play(loops=-1 if loop else 0)
             if channel is not None:
-                vol = max(0.0, min(1.0, self.config.vol_efectos * volume))
-                left = vol if pan is None else vol * min(1.0, 1.0 - pan)
-                right = vol if pan is None else vol * min(1.0, 1.0 + pan)
+                base_gain = perceptual_gain(
+                    self.config.vol_efectos,
+                    master=self.config.vol_maestro,
+                    headroom=MASTER_SFX_HEADROOM,
+                )
+                vol = max(0.0, min(1.0, base_gain * max(0.0, float(volume))))
+                left = vol if pan is None else vol * min(1.0, max(0.0, 1.0 - pan))
+                right = vol if pan is None else vol * min(1.0, max(0.0, 1.0 + pan))
                 channel.set_volume(left, right)
             return channel
         except Exception:
@@ -251,10 +275,29 @@ class AudioEngine:
 
     def start_crowd_ambience(self, attendance_factor: float = 1.0) -> None:
         self.stop_crowd_ambience()
-        if self.config.vol_ambiente <= 0:
+        if self.config.vol_ambiente <= 0 or self.config.vol_maestro <= 0:
             return
-        vol = min(1.0, self.config.vol_ambiente * attendance_factor)
-        self._crowd_channel = self.play_sfx("tribuna", volume=vol, loop=True)
+        if not self.ok or self._pygame is None:
+            return
+        paths = self.candidates("tribuna")
+        if not paths:
+            return
+        sound = self._load_sound(random.choice(paths))
+        if sound is None:
+            return
+        try:
+            channel = sound.play(loops=-1)
+            if channel is not None:
+                gain = perceptual_gain(
+                    self.config.vol_ambiente,
+                    master=self.config.vol_maestro,
+                    headroom=MASTER_CROWD_HEADROOM,
+                )
+                vol = max(0.0, min(1.0, gain * attendance_factor))
+                channel.set_volume(vol, vol)
+            self._crowd_channel = channel
+        except Exception:
+            self._crowd_channel = None
 
     def stop_crowd_ambience(self) -> None:
         if self._crowd_channel is not None:
@@ -281,7 +324,7 @@ class AudioEngine:
         if tracks:
             try:
                 self._pygame.mixer.music.load(str(random.choice(tracks)))
-                self._pygame.mixer.music.set_volume(self.config.vol_musica)
+                self.set_music_volume(self.config.vol_musica)
                 self._pygame.mixer.music.play(-1)
             except Exception:
                 pass
@@ -298,7 +341,12 @@ class AudioEngine:
         if not self.ok or self._pygame is None:
             return
         try:
-            self._pygame.mixer.music.set_volume(max(0.0, min(1.0, volume)))
+            gain = perceptual_gain(
+                volume,
+                master=self.config.vol_maestro,
+                headroom=MASTER_MUSIC_HEADROOM,
+            )
+            self._pygame.mixer.music.set_volume(max(0.0, min(1.0, gain)))
         except Exception:
             pass
 
@@ -310,8 +358,13 @@ class AudioEngine:
             if candidate.is_file():
                 try:
                     self._pygame.mixer.music.load(str(candidate))
+                    gain = perceptual_gain(
+                        self.config.vol_musica,
+                        master=self.config.vol_maestro,
+                        headroom=MASTER_MUSIC_HEADROOM,
+                    )
                     self._pygame.mixer.music.set_volume(
-                        max(0.0, min(1.0, self.config.vol_musica * volume))
+                        max(0.0, min(1.0, gain * max(0.0, float(volume))))
                     )
                     self._pygame.mixer.music.play(-1 if loop else 0)
                 except Exception:

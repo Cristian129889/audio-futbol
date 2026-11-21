@@ -12,17 +12,19 @@ from typing import Any
 class GameConfig:
     """User-configurable audio, gameplay, and accessibility settings."""
 
-    vol_musica: float = 0.6
-    vol_efectos: float = 0.9
+    vol_maestro: float = 0.65
+    vol_musica: float = 0.35
+    vol_efectos: float = 0.50
     musica: bool = True
     turno_seg: int = 60
-    vol_ambiente: float = 0.35
+    vol_ambiente: float = 0.25
     gol_visitante: bool = True
     var: bool = True
     aviso_tiros: bool = True
     braille: bool = True
 
     def clamp(self) -> None:
+        self.vol_maestro = max(0.0, min(1.0, round(float(self.vol_maestro), 2)))
         self.vol_musica = max(0.0, min(1.0, round(float(self.vol_musica), 2)))
         self.vol_efectos = max(0.0, min(1.0, round(float(self.vol_efectos), 2)))
         self.vol_ambiente = max(0.0, min(1.0, round(float(self.vol_ambiente), 2)))
@@ -31,6 +33,7 @@ class GameConfig:
 
     def to_dict(self) -> dict[str, Any]:
         return {
+            "vol_maestro": self.vol_maestro,
             "vol_musica": self.vol_musica,
             "vol_efectos": self.vol_efectos,
             "musica": self.musica,

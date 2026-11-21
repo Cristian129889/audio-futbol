@@ -5,7 +5,13 @@ from __future__ import annotations
 from pathlib import Path
 import sys
 
-from audiofutbol.engine.audio import AudioEngine, SOUND_ALIASES
+from audiofutbol.engine.audio import (
+    AudioEngine,
+    MASTER_MUSIC_HEADROOM,
+    MASTER_SFX_HEADROOM,
+    SOUND_ALIASES,
+    perceptual_gain,
+)
 from audiofutbol.engine.config import GameConfig
 from audiofutbol.engine.paths import AppPaths
 from audiofutbol.engine.tts.base import NullSpeechBackend
@@ -81,12 +87,23 @@ def test_audio_engine_indexes_all_normalized_events() -> None:
         assert (paths.themes_dir / f"{theme}.ogg").is_file()
 
 
+def test_perceptual_volume_curve_is_gentle_at_low_levels() -> None:
+    assert perceptual_gain(0.0, 1.0, MASTER_SFX_HEADROOM) == 0.0
+    low_sfx = perceptual_gain(0.10, 0.65, MASTER_SFX_HEADROOM)
+    mid_sfx = perceptual_gain(0.50, 0.65, MASTER_SFX_HEADROOM)
+    high_sfx = perceptual_gain(1.00, 1.00, MASTER_SFX_HEADROOM)
+    assert low_sfx < 0.005  # 10% must be genuinely soft, never deafening
+    assert low_sfx < mid_sfx < high_sfx <= MASTER_SFX_HEADROOM
+    assert perceptual_gain(0.10, 0.65, MASTER_MUSIC_HEADROOM) < 0.004
+
+
 def test_config_roundtrip_and_clamping(tmp_path: Path) -> None:
     cfg_file = tmp_path / "config.json"
-    cfg = GameConfig(vol_musica=1.5, vol_efectos=-0.2, turno_seg=45, var=False, braille=False)
+    cfg = GameConfig(vol_maestro=1.4, vol_musica=1.5, vol_efectos=-0.2, turno_seg=45, var=False, braille=False)
     assert cfg.save(cfg_file) is True
 
     loaded = GameConfig.load(cfg_file)
+    assert loaded.vol_maestro == 1.0
     assert loaded.vol_musica == 1.0
     assert loaded.vol_efectos == 0.0
     assert loaded.turno_seg == 60
