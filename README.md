@@ -45,21 +45,21 @@ src/audiofutbol/
 └── scenes/                    # Máquina de escenas (menú principal, hubs, opciones, partido)
 ```
 
-## Instalación y ejecución (entorno Conda `fútbol`)
+## Instalación y ejecución (entorno Conda `futbol`)
 
 ### 1. Crear o activar el entorno Conda
 
 Si ya tienes el entorno creado:
 
 ```powershell
-conda activate fútbol
+conda activate futbol
 ```
 
 Si clonas el repositorio desde cero:
 
 ```powershell
 conda env create -f environment.yml
-conda activate fútbol
+conda activate futbol
 ```
 
 Instalar el paquete en modo editable (si creaste el entorno manualmente):
@@ -86,7 +86,7 @@ También puedes iniciar con `python -m audiofutbol` si deseas lanzarlo desde una
 
 ### Menús y lectores
 - `Flecha arriba / abajo`: moverse por las opciones o líneas
-- `Flecha izquierda / derecha`: cambiar valores en Opciones
+- `Flecha izquierda / derecha`: cambiar valores en Opciones (de 5% en 5% con curva perceptual suave)
 - `Inicio / Fin / RePág / AvPág`: saltar al inicio, final o de 10 en 10
 - `Letras (A-Z)`: saltar por inicial en listas largas (selecciones, clubes)
 - `Enter`: confirmar
@@ -95,23 +95,23 @@ También puedes iniciar con `python -m audiofutbol` si deseas lanzarlo desde una
 - `F2`: repetir el último mensaje
 
 ### Durante un partido
-- `F`: pase filtrado | `R`: regate | `D`: disparo | `B`: conducir el balón
-- `M`: marcador (y global en vueltas) | `T`: minuto | `P`: posesión y zona
-- `G`: goles | `A`: tarjetas | `E`: tiros y tiros a puerta | `S`: estadísticas completas
-- `C`: cambios de jugadores | `L`: alineación en campo
-- `H`: hacer tiempo | `V`: historial del VAR | `F1`: ayuda de atajos
+- **Ataque**: `Q` cambio de frente | `F` pase filtrado | `R` regate | `D` disparo | `B` conducir el balón
+- **Defensa**: `1` presionar arriba | `2` defender en bloque | `3` salir a marcar | `4` preparar contraataque | `5` barrida | `6` falta táctica | `7` trampa del fuera de juego
+- **Táctica y contexto**: `X` cambiar postura táctica en vivo (Equilibrado / Ofensivo / Defensivo) | `N` clima, táctica, carril e impulso del partido
+- **Información**: `M` marcador (y global en vueltas) | `T` minuto | `P` posesión, portador y carril | `G` goles | `A` tarjetas | `E` tiros y tiros a puerta | `S` estadísticas completas (con atajadas, intercepciones y bloqueos)
+- **Gestión**: `C` cambios de jugadores | `L` alineación en campo | `H` hacer tiempo | `V` historial del VAR | `F1` ayuda de atajos
 
 ## Pruebas automatizadas
 
 ```powershell
-conda activate fútbol
+conda activate futbol
 pytest -v
 ```
 
 ## Compilar ejecutable portable sin consola (`.exe`)
 
 ```powershell
-conda activate fútbol
+conda activate futbol
 python scripts/build_exe.py
 ```
 

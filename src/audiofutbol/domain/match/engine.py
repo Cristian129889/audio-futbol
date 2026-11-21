@@ -1,13 +1,19 @@
-"""MatchEngine orchestrator: coordinates turns, halves, VAR, set pieces, and substitutions."""
+"""MatchEngine orchestrator: 2D stereo field, individual duels, rich block defense, tactics & AI."""
 
 from __future__ import annotations
 
 import random
 from typing import Callable
 
+from audiofutbol.domain.match.narration import Narrator
 from audiofutbol.domain.match.ports import HeadlessMatchIO, MatchIO, MatchSettings
 from audiofutbol.domain.match.set_pieces import SetPieceResolver
-from audiofutbol.domain.match.state import ZONES_OWN, ZONES_RIVAL, MatchState
+from audiofutbol.domain.match.state import (
+    LANE_SIDE_NAME,
+    ZONES_OWN,
+    ZONES_RIVAL,
+    MatchState,
+)
 from audiofutbol.domain.match.substitutions import SubstitutionManager
 from audiofutbol.domain.match.var import VarSystem
 from audiofutbol.domain.models import MatchResult, Player, Team
@@ -53,6 +59,7 @@ class MatchEngine:
             attendance=attendance,
             rng=rng,
         )
+        self.narrator = Narrator(self.state.rng)
         self.var = VarSystem(self.state, self.io, self._crowd_react)
         self.set_pieces = SetPieceResolver(
             self.state, self.io, self.var, self._choose, self._crowd_react
@@ -83,12 +90,29 @@ class MatchEngine:
         amb = self.state.settings.crowd_volume
         if self.state.muted or amb <= 0:
             return
-        if self.state.roll((0.8 if zone >= 2 else 0.45) / self.state.factor):
+        if self.state.roll((0.75 if zone >= 2 else 0.40) / self.state.factor):
             self.io.play_sfx(
                 "abucheo",
-                pan=self.state.rng.uniform(-0.5, 0.5),
-                volume=min(1.0, amb * 1.2),
+                pan=self.state.stereo_pan(0.25),
+                volume=min(1.0, amb * 1.15),
             )
+
+    def _rival_aggression(self) -> float:
+        """Adaptive AI urgency: pushes harder when trailing late, steadier when leading."""
+        if self.state.total_turns <= 0:
+            return 0.0
+        progress = self.state.turn / float(self.state.total_turns)
+        score = (
+            self.state.aggregate()
+            if self.state.first_leg is not None
+            else self.state.goals
+        )
+        diff = score[1] - score[0]
+        if progress >= 0.72 and diff < 0:
+            return 0.14  # Rival trailing late -> throws numbers forward
+        if progress >= 0.78 and diff > 0:
+            return -0.08  # Rival protecting lead
+        return 0.0
 
     # ------------------------------------------------------- In-match shortcuts
     def build_shortcuts(self) -> dict[str, Callable[[], str | None]]:
@@ -99,13 +123,17 @@ class MatchEngine:
             self.io.speak(f"Minuto {self.state.minute()}", interrupt=True)
 
         def k_possession() -> None:
+            carrier = self.state.ensure_ball_carrier()
             if self.state.possession == 0:
                 self.io.speak(
-                    f"Tienes el balón {ZONES_OWN[self.state.zone]}", interrupt=True
+                    f"Tienes el balón {ZONES_OWN[self.state.zone]}, "
+                    f"{self.state.lane_text()}. Lo lleva {carrier.name}.",
+                    interrupt=True,
                 )
             else:
                 self.io.speak(
-                    f"{self.state.team_name(1)} tiene el balón {ZONES_RIVAL[self.state.zone]}",
+                    f"{self.state.team_name(1)} tiene el balón {ZONES_RIVAL[self.state.zone]}, "
+                    f"{self.state.lane_text()}. Lo lleva {carrier.name}.",
                     interrupt=True,
                 )
 
@@ -159,15 +187,39 @@ class MatchEngine:
                 text = ". ".join(f"Minuto {m}: {t}" for m, t in self.state.var_log)
                 self.io.speak(text, interrupt=True)
 
+        def k_tactic() -> None:
+            desc = self.state.cycle_tactic()
+            self.io.update_hud(self.state.hud_status())
+            self.io.speak(f"Postura táctica cambiada. {desc}", interrupt=True)
+
+        def k_context() -> None:
+            tp = self.state.tactic_profile()
+            sol = (
+                f" Solidez del bloque nivel {self.state.block_solidity} de 3."
+                if self.state.block_solidity > 0
+                else ""
+            )
+            space = (
+                " Tienes espacios abiertos tras descolocar al rival."
+                if self.state.space_bonus > 0
+                else ""
+            )
+            self.io.speak(
+                f"Clima: {self.state.weather.name_es}. Postura: {tp['label']}. "
+                f"El juego está {self.state.lane_text()}. "
+                f"{self.state.momentum_summary()}{sol}{space}",
+                interrupt=True,
+            )
+
         def k_help() -> None:
             self.io.speak(
-                "Atajos: M marcador. T tiempo. P posesión. G goles. A tarjetas. "
-                "E tiros y tiros a puerta. S estadísticas del partido. H hacer tiempo. "
-                "V decisiones del VAR. C cambios de jugadores. L alineación en el campo. "
-                "Cuando atacas: F pase filtrado, R regate, D disparo, B conducir el balón. "
-                "Cerca del área también puedes centrar o intentar una chilena. "
-                "Control silencia la voz, F2 repite el último mensaje. "
-                "Flechas para elegir, Enter para confirmar, Escape para pausa.",
+                "Atajos: M marcador. T tiempo. P posesión y carril. G goles. A tarjetas. "
+                "E tiros y tiros a puerta. S estadísticas. X cambiar táctica en vivo. "
+                "N clima, táctica e impulso del partido. H hacer tiempo. V VAR. "
+                "C cambios. L alineación. "
+                "En ataque: Q cambio de frente, F pase filtrado, R regate, D disparo, B conducir. "
+                "En defensa: 1 presionar, 2 bloque, 3 marcar, 4 contraataque, 5 barrida, 6 falta táctica, 7 fuera de juego. "
+                "Control silencia, F2 repite, Escape pausa.",
                 interrupt=True,
             )
 
@@ -183,6 +235,8 @@ class MatchEngine:
             "l": k_lineup,
             "h": k_time_waste,
             "v": k_var,
+            "x": k_tactic,
+            "n": k_context,
             "f1": k_help,
         }
 
@@ -224,177 +278,291 @@ class MatchEngine:
                 self.state.abandoned = True
                 return 0
 
-    # ------------------------------------------------------- Attack / Defense Turns
-    def _lose_possession(self, can_foul: bool = True) -> None:
+    # ------------------------------------------------------- Attack Sub-actions
+    def _lose_possession(self, can_foul: bool = True, interceptor: Player | None = None) -> None:
         z = self.state.zone
+        self.state.space_bonus = 0.0
         if can_foul and z >= 1 and self.state.roll(0.16):
             self._speak("Te derriban.")
             self.set_pieces.foul(1, z, "normal")
         else:
-            self.state.possession, self.state.zone = 1, min(2, 3 - z)
+            self.state.shift_momentum(-0.7)
+            self.state.set_possession(1, min(2, 3 - z), lane=self.state.lane, carrier=interceptor)
 
-    def _through_ball(self, z: int, mid_diff: float) -> None:
-        rec = self.state.pick_receiver(0, "filtrado")
-        passer = self.state.pick_player(
-            0, {"MED": 4.0, "DEL": 1.0, "DEF": 0.8, "POR": 0.0}
+    def _short_pass(self, z: int, carrier: Player, mid_diff: float) -> None:
+        rec = self.state.pick_receiver(0, "corto", exclude=carrier)
+        marker = self.state.pick_player(1, {"MED": 3.5, "DEF": 3.0, "DEL": 0.6, "POR": 0.0})
+        duel = self.state.duel_advantage(carrier, marker)
+        bonus = self.state.space_bonus * 0.5
+        self.state.space_bonus = max(0.0, self.state.space_bonus - 0.05)
+
+        if self.state.roll(0.78 + mid_diff * 0.75 + duel * 0.5 + bonus):
+            self.state.zone = min(3, z + 1)
+            # Subtle lateral ball movement
+            if self.state.roll(0.45):
+                self.state.lane = self.state.rng.choice((-1, 0, 1))
+            self.state.ball_carrier = rec
+            self._sfx("balon", self.state.stereo_pan())
+            if self.state.roll(0.20):
+                self.state.space_bonus = min(0.14, self.state.space_bonus + 0.06)
+                self.state.shift_momentum(0.8)
+                self._crowd_react("ovacion", 1.1)
+                self._speak(
+                    self.narrator.say(
+                        "short_pass_one_two",
+                        pas=carrier.name,
+                        rec=rec.name,
+                        zona=f"{ZONES_OWN[self.state.zone]}, {self.state.lane_text()}",
+                    )
+                )
+            else:
+                self._speak(
+                    self.narrator.say(
+                        "short_pass_ok",
+                        pas=carrier.name,
+                        rec=rec.name,
+                        zona=f"{ZONES_OWN[self.state.zone]}, {self.state.lane_text()}",
+                    )
+                )
+        else:
+            self.state.interceptions[1] += 1
+            self._speak(
+                self.narrator.say(
+                    "short_pass_cut",
+                    def_=marker.name,
+                    pas=carrier.name,
+                    rec=rec.name,
+                    rival=self.state.team_name(1),
+                )
+            )
+            self._lose_possession(can_foul=True, interceptor=marker)
+
+    def _switch_play(self, carrier: Player, mid_diff: float) -> None:
+        """Cross-field switch to the opposite wing: stereo pan + disorganizes rival defense."""
+        target_lane = -self.state.lane if self.state.lane != 0 else self.state.rng.choice((-1, 1))
+        rec = self.state.pick_player(
+            0, {"DEL": 3.5, "MED": 3.5, "DEF": 1.2, "POR": 0.0}, exclude=carrier
         )
-        self._sfx("balon")
-        if z >= 1 and self.state.roll(0.14):
+        marker = self.state.pick_player(1, {"MED": 3.0, "DEF": 3.0, "DEL": 0.5, "POR": 0.0})
+        p = (0.72 + mid_diff * 0.65 + self.state.duel_advantage(carrier, marker) * 0.4) * self.state.weather.long_pass_mod
+
+        self._sfx("balon", target_lane * 0.85)
+        if self.state.roll(p):
+            self.state.lane = target_lane
+            self.state.zone = min(3, max(self.state.zone, 2) if self.state.zone >= 1 else 1)
+            self.state.ball_carrier = rec
+            self.state.space_bonus = min(0.18, self.state.space_bonus + 0.12)
+            self.state.shift_momentum(0.9)
+            self._speak(
+                self.narrator.say(
+                    "switch_play_ok",
+                    pas=carrier.name,
+                    rec=rec.name,
+                    banda=LANE_SIDE_NAME[target_lane],
+                )
+            )
+        else:
+            self.state.interceptions[1] += 1
+            self._speak(
+                self.narrator.say(
+                    "switch_play_cut",
+                    pas=carrier.name,
+                    def_=marker.name,
+                    rival=self.state.team_name(1),
+                )
+            )
+            self._lose_possession(can_foul=False, interceptor=marker)
+
+    def _through_ball(self, z: int, carrier: Player, mid_diff: float) -> None:
+        rec = self.state.pick_receiver(0, "filtrado", exclude=carrier)
+        marker = self.state.pick_player(1, {"DEF": 4.5, "MED": 2.0, "DEL": 0.1, "POR": 0.0})
+        self._sfx("balon", self.state.stereo_pan())
+        if z >= 1 and self.state.roll(0.13):
             self._sfx("silbato")
             self._speak(
-                f"Pase filtrado de {passer.name} para {rec.name}, pero estaba en fuera de juego."
+                f"Pase filtrado de {carrier.name} para {rec.name}, pero estaba en fuera de juego."
             )
-            self.state.possession, self.state.zone = 1, 1
+            self.state.space_bonus = 0.0
+            self.state.set_possession(1, 1)
             return
-        if self.state.roll(0.36 + mid_diff * 0.8):
+
+        duel = self.state.duel_advantage(carrier, marker)
+        bonus = self.state.space_bonus * 0.7
+        self.state.space_bonus = 0.0
+        if self.state.roll(0.38 + mid_diff * 0.75 + duel * 0.55 + bonus):
             self.state.zone = min(3, z + 2)
-            if self.state.roll(0.22):
+            self.state.lane = 0
+            self.state.ball_carrier = rec
+            self.state.shift_momentum(1.3)
+            if self.state.roll(0.24):
                 self._crowd_react("ovacion", 2.0)
                 self._speak(
-                    f"¡Súper pase de {passer.name} para {rec.name}! Rompe toda la defensa. "
+                    f"¡Súper pase de {carrier.name} para {rec.name}! Rompe toda la defensa. "
                     f"Ahora {ZONES_OWN[self.state.zone]}."
                 )
-                self.state.add_highlight(f"Súper pase de {passer.name} para {rec.name}.")
+                self.state.add_highlight(f"Súper pase de {carrier.name} para {rec.name}.")
+                self.state.space_bonus = 0.10
             else:
                 self._speak(
-                    f"¡Pase filtrado de {passer.name} para {rec.name}! "
+                    f"¡Pase filtrado de {carrier.name} para {rec.name}! "
                     f"Ahora {ZONES_OWN[self.state.zone]}."
                 )
         else:
+            self.state.interceptions[1] += 1
             self._speak(
-                f"El pase filtrado de {passer.name} para {rec.name} es interceptado."
+                f"El pase filtrado de {carrier.name} hacia {rec.name} es cortado por {marker.name}."
             )
-            self._lose_possession(False)
+            self._lose_possession(can_foul=False, interceptor=marker)
 
-    def _dribble(self, z: int, att_diff: float) -> None:
-        player = self.state.pick_player(
-            0, {"DEL": 4.0, "MED": 3.0, "DEF": 0.5, "POR": 0.0}
-        )
-        self._sfx("regate")
-        if self.state.roll(0.48 + att_diff * 0.8):
+    def _dribble(self, z: int, carrier: Player, att_diff: float) -> None:
+        marker = self.state.pick_player(1, {"DEF": 4.0, "MED": 3.0, "DEL": 0.3, "POR": 0.0})
+        self._sfx("regate", self.state.stereo_pan())
+        duel = self.state.duel_advantage(carrier, marker)
+        bonus = self.state.space_bonus * 0.6
+        self.state.space_bonus = max(0.0, self.state.space_bonus - 0.06)
+
+        if self.state.roll(0.47 + att_diff * 0.70 + duel * 0.75 + bonus):
+            self.state.dribbles_won[0] += 1
             q = self.state.rng.random()
-            if q < 0.14:
+            if q < 0.15:
                 self.state.zone = min(3, z + 2)
+                self.state.shift_momentum(1.8)
                 self._crowd_react("ovacion", 2.0)
                 self._speak(
-                    f"¡Regate milagroso de {player.name}! Deja atrás a dos rivales. "
-                    f"Ahora {ZONES_OWN[self.state.zone]}."
+                    self.narrator.say(
+                        "dribble_magic",
+                        jug=carrier.name,
+                        def_=marker.name,
+                        zona=f"{ZONES_OWN[self.state.zone]}, {self.state.lane_text()}",
+                    )
                 )
-                self.state.add_highlight(f"Regate milagroso de {player.name}.")
-            elif q < 0.32:
+                self.state.add_highlight(f"Regate milagroso de {carrier.name}.")
+            elif q < 0.35:
                 self.state.zone = min(3, z + 1)
+                self.state.shift_momentum(1.1)
                 self._crowd_react("ovacion", 1.5)
                 self._speak(
-                    f"¡Técnica depurada de {player.name}! Se saca al marcador de encima. "
-                    f"Ahora {ZONES_OWN[self.state.zone]}."
+                    self.narrator.say(
+                        "dribble_skill",
+                        jug=carrier.name,
+                        def_=marker.name,
+                        zona=f"{ZONES_OWN[self.state.zone]}, {self.state.lane_text()}",
+                    )
                 )
-                self.state.add_highlight(f"Técnica depurada de {player.name}.")
+                self.state.add_highlight(f"Técnica depurada de {carrier.name}.")
             else:
                 self.state.zone = min(3, z + 1)
+                self.state.shift_momentum(0.6)
                 self._speak(
-                    f"{player.name} regatea a su marcador. Ahora {ZONES_OWN[self.state.zone]}."
+                    self.narrator.say(
+                        "dribble_ok",
+                        jug=carrier.name,
+                        def_=marker.name,
+                        zona=f"{ZONES_OWN[self.state.zone]}, {self.state.lane_text()}",
+                    )
                 )
+            self.state.ball_carrier = carrier
         else:
-            self._speak(f"{player.name} pierde el balón en el regate.")
-            self._lose_possession()
-
-    def _carry_ball(self, z: int, att_diff: float) -> None:
-        player = self.state.pick_player(
-            0, {"MED": 3.0, "DEL": 2.5, "DEF": 1.0, "POR": 0.0}
-        )
-        self._sfx("balon")
-        if self.state.roll(0.70 + att_diff * 0.6):
-            self.state.zone = min(3, z + 1)
             self._speak(
-                f"{player.name} conduce el balón con la cabeza levantada y avanza. "
-                f"Ahora {ZONES_OWN[self.state.zone]}."
+                self.narrator.say("dribble_lost", def_=marker.name, jug=carrier.name)
             )
-            if self.state.roll(0.15):
-                self._crowd_react("ovacion", 1.2)
-        elif self.state.roll(0.30):
+            self._lose_possession(can_foul=True, interceptor=marker)
+
+    def _carry_ball(self, z: int, carrier: Player, att_diff: float) -> None:
+        marker = self.state.pick_player(1, {"DEF": 3.5, "MED": 3.5, "DEL": 0.4, "POR": 0.0})
+        self._sfx("balon", self.state.stereo_pan())
+        duel = self.state.duel_advantage(carrier, marker)
+        if self.state.roll(0.68 + att_diff * 0.55 + duel * 0.45 + self.state.space_bonus * 0.5):
+            self.state.zone = min(3, z + 1)
+            self.state.ball_carrier = carrier
+            self.state.shift_momentum(0.4)
             self._speak(
-                f"¡{player.name} es derribado por el rival mientras conduce el balón!"
+                self.narrator.say(
+                    "carry_ok",
+                    jug=carrier.name,
+                    banda_txt=self.state.lane_text(),
+                    zona=ZONES_OWN[self.state.zone],
+                )
+            )
+            if self.state.roll(0.16):
+                self._crowd_react("ovacion", 1.2)
+        elif self.state.roll(0.32):
+            self._speak(
+                f"¡{carrier.name} es derribado por {marker.name} mientras conduce el balón!"
             )
             self.set_pieces.foul(1, z)
         else:
             self._speak(
-                f"El rival le quita el balón a {player.name} mientras lo conduce."
+                self.narrator.say("carry_lost", def_=marker.name, jug=carrier.name)
             )
-            self._lose_possession()
+            self._lose_possession(can_foul=True, interceptor=marker)
 
-    def _long_pass_to_lone_striker(self, striker: Player, mid_diff: float) -> None:
-        passer = self.state.pick_player(
-            0, {"MED": 4.0, "DEL": 1.0, "DEF": 1.5, "POR": 0.0}
-        )
-        self._sfx("balon")
+    def _long_pass_to_lone_striker(
+        self, carrier: Player, striker: Player, mid_diff: float
+    ) -> None:
+        self._sfx("balon", self.state.stereo_pan())
         if self.state.roll(0.10):
             self._sfx("silbato")
             self._speak(
-                f"El pase largo de {passer.name} deja a {striker.name} en fuera de juego."
+                f"El pase largo de {carrier.name} deja a {striker.name} en fuera de juego."
             )
-            self.state.possession, self.state.zone = 1, 1
-        elif self.state.roll(0.68 + mid_diff * 0.6):
+            self.state.set_possession(1, 1)
+        elif self.state.roll((0.68 + mid_diff * 0.6) * self.state.weather.long_pass_mod):
             self._crowd_react("ovacion", 1.6)
             self._speak(
-                f"¡Gran pase largo de {passer.name}! {striker.name} controla solo, dentro del área."
+                f"¡Gran pase largo de {carrier.name}! {striker.name} controla solo, dentro del área."
             )
             self.state.zone = 3
+            self.state.lane = 0
+            self.state.ball_carrier = striker
             self.state.add_highlight(
-                f"Pase largo de {passer.name} para {striker.name}, que quedó solo frente al portero."
+                f"Pase largo de {carrier.name} para {striker.name}, que quedó solo frente al portero."
             )
             self.set_pieces.shot(0, 3, mult=1.25, shooter=striker)
         else:
             self._speak(
-                f"El pase largo de {passer.name} para {striker.name} sale muy largo y el portero rival lo recoge."
+                f"El pase largo de {carrier.name} para {striker.name} sale muy largo y el portero rival lo recoge."
             )
             self._lose_possession(False)
 
-    def _quiet_attack(self, style: int) -> None:
-        z_txt = ZONES_OWN[self.state.zone]
+    def _quiet_attack(self, style: int, carrier: Player) -> None:
+        z_txt = f"{ZONES_OWN[self.state.zone]}, {self.state.lane_text()}"
+        rec = self.state.pick_receiver(0, "corto", exclude=carrier)
+        marker = self.state.pick_player(1, {"DEF": 3.0, "MED": 3.0, "DEL": 0.4, "POR": 0.0})
         if style == 0:
-            self._sfx("balon")
-            rec = self.state.pick_receiver(0, "corto")
+            self._sfx("balon", self.state.stereo_pan())
+            self.state.ball_carrier = rec
             self._speak(
-                f"Pase corto para {rec.name} y mantienes la posesión, todavía {z_txt}."
+                self.narrator.say("quiet_attack_short", pas=carrier.name, rec=rec.name, zona=z_txt)
             )
         elif style == 1:
-            self._sfx("balon")
+            self.state.lane = self.state.rng.choice((-1, 0, 1))
+            self.state.ball_carrier = rec
+            self._sfx("balon", self.state.stereo_pan())
             self._speak(
-                f"Cambias de lado con un pase largo, sin ganar terreno. Sigues {z_txt}."
+                self.narrator.say("quiet_attack_long", pas=carrier.name, rec=rec.name, zona=z_txt)
             )
         elif style == 2:
             self._speak(
-                f"Te quedas con el balón y esperas el momento. Sigues {z_txt}."
+                self.narrator.say("quiet_attack_dribble", jug=carrier.name, def_=marker.name, zona=z_txt)
             )
         else:
             self._speak(
-                f"Conduces el balón unos metros, sin ganar terreno. Sigues {z_txt}."
-            )
-
-    def _quiet_defense(self, style: int) -> None:
-        rival = self.state.team_name(1)
-        if style == 0:
-            self._speak(f"Presionas y {rival} se deshace del balón sin avanzar.")
-        elif style == 1:
-            self._speak(
-                f"Mantienes el bloque y {rival} mueve el balón sin encontrar espacios."
-            )
-        elif style == 2:
-            self._speak(
-                f"Sales a marcar y {rival} no encuentra con quién combinar. El balón no avanza."
-            )
-        else:
-            self._speak(
-                f"Esperas para salir al contraataque, pero {rival} conserva el balón."
+                self.narrator.say("quiet_attack_carry", jug=carrier.name, zona=z_txt)
             )
 
     def _attack_turn(self) -> None:
         z = self.state.zone
-        self._speak(f"Minuto {self.state.minute()}. Tienes el balón {ZONES_OWN[z]}.")
+        carrier = self.state.ensure_ball_carrier(0)
+        space_hint = " Tienes espacios abiertos." if self.state.space_bonus >= 0.10 else ""
+        self._speak(
+            f"Minuto {self.state.minute()}. Tienes el balón {ZONES_OWN[z]}, "
+            f"{self.state.lane_text()}. Lo lleva {carrier.name}.{space_hint}"
+        )
         lone_striker: Player | None = None
-        if z in (1, 2) and not self.state.auto and self.state.roll(0.13 / self.state.factor):
+        if z in (1, 2) and not self.state.auto and self.state.roll(0.14 / self.state.factor):
             lone_striker = self.state.pick_player(
-                0, {"DEL": 6.0, "MED": 1.5, "DEF": 0.0, "POR": 0.0}
+                0, {"DEL": 6.0, "MED": 1.5, "DEF": 0.0, "POR": 0.0}, exclude=carrier
             )
             self._speak(
                 f"¡{lone_striker.name} está solo en el área, frente al portero! "
@@ -410,18 +578,19 @@ class MatchEngine:
             ops.append(label)
             weights.append(weight)
 
-        add("corto", "Pase corto", 40)
+        add("corto", "Pase corto", 34)
+        add("cambio_frente", "Cambio de frente", 14)
         add("filtrado", "Pase filtrado", 17)
-        add("largo", "Pase largo", 15)
-        add("regate", "Regate", 20)
+        add("largo", "Pase largo", 14)
+        add("regate", "Regate", 19)
         add(
             "disparo",
             "Disparo a puerta" if z >= 2 else "Disparo de lejos",
             {0: 1, 1: 3, 2: 20, 3: 55}[z],
         )
-        add("conducir", "Conducir el balón", 18)
+        add("conducir", "Conducir el balón", 17)
         if z >= 2:
-            add("centro", "Centro al área", 14)
+            add("centro", "Centro al área", 16 if self.state.lane != 0 else 11)
         if z >= 3:
             add("chilena", "Intentar una chilena", 2)
         if lone_striker is not None:
@@ -432,6 +601,7 @@ class MatchEngine:
             )
 
         quick_keys = {
+            "q": keys.index("cambio_frente"),
             "f": keys.index("filtrado"),
             "r": keys.index("regate"),
             "d": keys.index("disparo"),
@@ -448,10 +618,11 @@ class MatchEngine:
         if (
             self.state.factor > 1
             and action in ("corto", "largo", "regate", "conducir")
-            and not self.state.roll(1.0 / self.state.factor)
+            and not self.state.roll(1.18 / self.state.factor)
         ):
             self._quiet_attack(
-                {"corto": 0, "largo": 1, "regate": 2, "conducir": 3}[action]
+                {"corto": 0, "largo": 1, "regate": 2, "conducir": 3}[action],
+                carrier,
             )
             return
 
@@ -459,81 +630,234 @@ class MatchEngine:
         att_diff = (self.state.rating(0, "att") - self.state.rating(1, "dfn")) / 100.0
 
         if action == "corto":
-            rec = self.state.pick_receiver(0, "corto")
-            if self.state.roll(0.80 + mid_diff * 0.8):
-                self.state.zone = min(3, z + 1)
-                self._sfx("balon")
-                self._speak(
-                    f"Pase corto para {rec.name}. Avanzas, ahora {ZONES_OWN[self.state.zone]}."
-                )
-            else:
-                self._speak(f"Pase interceptado, iba para {rec.name}.")
-                self._lose_possession()
+            self._short_pass(z, carrier, mid_diff)
+        elif action == "cambio_frente":
+            self._switch_play(carrier, mid_diff)
         elif action == "filtrado":
-            self._through_ball(z, mid_diff)
+            self._through_ball(z, carrier, mid_diff)
         elif action == "largo":
             if z >= 1 and self.state.roll(0.12):
                 self._sfx("silbato")
                 self._speak("El pase largo deja al delantero en fuera de juego.")
-                self.state.possession, self.state.zone = 1, 1
+                self.state.set_possession(1, 1)
             elif self.state.roll(
-                0.50 + (self.state.rating(0, "mid") - self.state.rating(1, "dfn")) / 100.0 * 0.6
+                (0.50 + (self.state.rating(0, "mid") - self.state.rating(1, "dfn")) / 100.0 * 0.6)
+                * self.state.weather.long_pass_mod
             ):
+                rec = self.state.pick_receiver(0, "filtrado", exclude=carrier)
                 self.state.zone = min(3, z + 2)
-                self._sfx("balon")
-                self._speak(f"¡Gran pase largo! Ahora {ZONES_OWN[self.state.zone]}.")
+                self.state.ball_carrier = rec
+                self._sfx("balon", self.state.stereo_pan())
+                self._speak(
+                    f"¡Gran pase largo de {carrier.name} para {rec.name}! "
+                    f"Ahora {ZONES_OWN[self.state.zone]}, {self.state.lane_text()}."
+                )
             else:
-                self._speak("El pase largo se pierde.")
+                self._speak(f"El pase largo de {carrier.name} se pierde.")
                 self._lose_possession(False)
         elif action == "regate":
-            self._dribble(z, att_diff)
+            self._dribble(z, carrier, att_diff)
         elif action == "conducir":
-            self._carry_ball(z, att_diff)
+            self._carry_ball(z, carrier, att_diff)
         elif action == "disparo":
-            self.set_pieces.shot(0, z)
+            self.set_pieces.shot(0, z, shooter=carrier if carrier.position != "POR" else None)
         elif action == "centro":
-            self.set_pieces.cross(0)
+            self.set_pieces.cross(0, crosser=carrier)
         elif action == "solo" and lone_striker is not None:
-            self._long_pass_to_lone_striker(lone_striker, mid_diff)
+            self._long_pass_to_lone_striker(carrier, lone_striker, mid_diff)
         else:
             self.set_pieces.shot(0, 3, mult=0.55, bicycle=True)
 
+    # ------------------------------------------------------- Defense Sub-actions
     def _rival_advance(self, step: int) -> None:
         rz = self.state.zone
         rival = self.state.team_name(1)
-        if rz == 2 and self.state.roll(0.30):
-            self._speak(f"{rival} prueba suerte desde lejos.")
-            self.set_pieces.shot(1, 2)
-        elif rz >= 2 and self.state.roll(0.22):
+        carrier = self.state.ensure_ball_carrier(1)
+        urgency = self._rival_aggression()
+
+        if rz == 2 and self.state.roll(0.28 + urgency * 0.5):
+            self._speak(f"{carrier.name}, de {rival}, prueba suerte desde lejos.")
+            self.set_pieces.shot(1, 2, shooter=carrier)
+        elif rz >= 2 and self.state.roll(0.26 if self.state.lane != 0 else 0.18):
             self.state.possession = 1
-            self._speak(f"{rival} llega por la banda.")
-            self.set_pieces.cross(1)
+            if self.state.lane == 0:
+                self.state.lane = self.state.rng.choice((-1, 1))
+            self._speak(f"{carrier.name} desborda {self.state.lane_text()}.")
+            self.set_pieces.cross(1, crosser=carrier)
         elif rz >= 3 or rz + step > 3:
-            self._speak(f"{rival} se planta ante tu portero.")
-            self.set_pieces.shot(1, 3)
+            self._speak(f"{carrier.name}, de {rival}, se planta ante tu portero.")
+            self.set_pieces.shot(1, 3, shooter=carrier)
         else:
             self.state.zone = rz + step
-            self._speak(f"{rival} avanza, ahora {ZONES_RIVAL[self.state.zone]}.")
+            if self.state.roll(0.45):
+                self.state.lane = self.state.rng.choice((-1, 0, 1))
+            next_c = self.state.pick_receiver(1, "corto", exclude=carrier)
+            self.state.ball_carrier = next_c
+            self._speak(
+                f"{rival} avanza con {next_c.name}, ahora {ZONES_RIVAL[self.state.zone]}, "
+                f"{self.state.lane_text()}."
+            )
 
-    def _recover_ball(self, text: str, zone: int) -> None:
-        self.state.possession, self.state.zone = 0, zone
-        self._sfx("balon")
-        player = self.state.pick_player(
+    def _recover_ball(
+        self,
+        text: str,
+        zone: int,
+        player: Player | None = None,
+        space_bonus: float = 0.0,
+    ) -> None:
+        recoverer = player or self.state.pick_player(
             0, {"DEF": 3.0, "MED": 3.0, "DEL": 0.8, "POR": 0.0}
         )
-        self._speak(f"{text} Lo recupera {player.name}.")
+        self.state.interceptions[0] += 1
+        self.state.set_possession(0, zone, lane=self.state.lane, carrier=recoverer)
+        if space_bonus > 0:
+            self.state.space_bonus = max(self.state.space_bonus, space_bonus)
+        if self._rival_aggression() > 0:
+            self.state.space_bonus = max(self.state.space_bonus, 0.10)
+        self.state.shift_momentum(1.0)
+        self._sfx("balon", self.state.stereo_pan())
+        if recoverer.name in text:
+            self._speak(text)
+        else:
+            self._speak(f"{text} Lo recupera {recoverer.name}.")
         if self.state.roll(0.35):
             self._crowd_react("ovacion", 1.2)
 
+    def _defend_in_block(self, rz: int, base: float, carrier: Player) -> None:
+        """Dynamic 6-outcome block defense with stacking solidity, push-backs, and interceptions."""
+        defender = self.state.pick_player(
+            0, {"DEF": 4.2, "MED": 3.6, "DEL": 0.4, "POR": 0.0}
+        )
+        rival = self.state.team_name(1)
+        tp = self.state.tactic_profile()
+        dfn_edge = (self.state.rating(0, "dfn") - self.state.rating(1, "att")) / 100.0
+        duel = self.state.duel_advantage(defender, carrier)
+        solidity_bonus = self.state.block_solidity * 0.055
+        strength = base + 0.07 + dfn_edge * 0.55 + duel * 0.45 + tp["block_bonus"] + solidity_bonus
+
+        roll = self.state.rng.random()
+
+        # 1) Clean interception between the lines
+        if roll < max(0.14, min(0.55, strength)):
+            target_z = 2 if (self.state.block_solidity >= 2 and self.state.roll(0.45)) else 1
+            bonus = 0.08 if self.state.block_solidity >= 2 else 0.0
+            msg = self.narrator.say(
+                "block_intercept", def_=defender.name, riv=carrier.name
+            )
+            self._recover_ball(msg, target_z, player=defender, space_bonus=bonus)
+            return
+
+        # 2) Push rival backwards (real spatial rollback!)
+        if rz >= 1 and roll < strength + 0.18:
+            self.state.zone = max(0, rz - 1)
+            self.state.block_solidity = min(3, self.state.block_solidity + 1)
+            self.state.shift_momentum(0.7)
+            self.state.fatigue[id(carrier)] = min(
+                100.0, self.state.fatigue.get(id(carrier), 0.0) + 3.0
+            )
+            self._sfx("balon", self.state.stereo_pan())
+            self._speak(
+                self.narrator.say(
+                    "block_push_back",
+                    rival=rival,
+                    riv=carrier.name,
+                    def_=defender.name,
+                    zona_r=ZONES_RIVAL[self.state.zone],
+                )
+            )
+            return
+
+        # 3) Trap rival against touchline -> win throw-in / turnover
+        if roll < strength + 0.27:
+            wing = self.state.lane if self.state.lane != 0 else self.state.rng.choice((-1, 1))
+            self.state.lane = wing
+            msg = self.narrator.say(
+                "block_force_wide",
+                riv=carrier.name,
+                def_=defender.name,
+                rival=rival,
+                banda=LANE_SIDE_NAME[wing],
+            )
+            self._recover_ball(msg, 1, player=defender)
+            return
+
+        # 4) Force a desperate long shot from outside the box (often blocked!)
+        if rz >= 2 and roll < strength + 0.37:
+            self._speak(self.narrator.say("block_desperate_shot", riv=carrier.name))
+            if self.state.roll(0.56 + dfn_edge * 0.5):
+                self.state.blocks[0] += 1
+                self.state.shots[1] += 1
+                self._sfx("barrera", self.state.stereo_pan())
+                msg = self.narrator.say(
+                    "block_shot_blocked", def_=defender.name, riv=carrier.name
+                )
+                self._recover_ball(msg, 1, player=defender, space_bonus=0.08)
+            else:
+                self.set_pieces.shot(1, 2, mult=0.72, shooter=carrier)
+            return
+
+        # 5) Hold the line and stack solidity (short pace or tense stand-off)
+        if roll < strength + 0.54:
+            self.state.block_solidity = min(3, self.state.block_solidity + 1)
+            self.state.shift_momentum(0.35)
+            self._speak(
+                self.narrator.say(
+                    "block_hold_solid",
+                    rival=rival,
+                    riv=carrier.name,
+                    def_=defender.name,
+                )
+            )
+            return
+
+        # 6) Rival creativity breaks through the block
+        self.state.block_solidity = max(0, self.state.block_solidity - 1)
+        self._speak(
+            self.narrator.say("block_broken", riv=carrier.name, rival=rival)
+        )
+        self._rival_advance(1)
+
+    def _offside_trap(self, carrier: Player) -> None:
+        """High-risk/high-reward offside trap when rival builds in open field."""
+        leader = self.state.pick_player(0, {"DEF": 6.0, "MED": 1.0, "DEL": 0.0, "POR": 0.0})
+        dfn_edge = (self.state.rating(0, "dfn") - self.state.rating(1, "att")) / 100.0
+        success_prob = 0.52 + dfn_edge * 0.65 + self.state.block_solidity * 0.04
+        if self.state.roll(success_prob):
+            self._sfx("silbato")
+            self.state.shift_momentum(1.2)
+            self._speak(
+                self.narrator.say(
+                    "offside_trap_win",
+                    riv=carrier.name,
+                    def_=leader.name,
+                    rival=self.state.team_name(1),
+                )
+            )
+            self.state.set_possession(0, 1, carrier=leader)
+        else:
+            striker = self.state.pick_scorer(1, header=False)
+            self._speak(self.narrator.say("offside_trap_fail", riv=striker.name))
+            self.state.zone = 3
+            self.state.lane = 0
+            self.set_pieces.shot(1, 3, mult=1.22, shooter=striker)
+
     def _defense_turn(self) -> None:
         rz = self.state.zone
+        carrier = self.state.ensure_ball_carrier(1)
+        rival = self.state.team_name(1)
+        sol_txt = (
+            f" Bloque firme, nivel {self.state.block_solidity}."
+            if self.state.block_solidity > 0
+            else ""
+        )
         self._speak(
-            f"Minuto {self.state.minute()}. {self.state.team_name(1)} "
-            f"tiene el balón {ZONES_RIVAL[rz]}."
+            f"Minuto {self.state.minute()}. {rival} tiene el balón "
+            f"{ZONES_RIVAL[rz]}, {self.state.lane_text()}. Lo lleva {carrier.name}.{sol_txt}"
         )
         self._crowd_boo_rival(rz)
         if rz >= 3 and not self.state.auto:
             self._speak("Cuidado: una falta ahora sería penal.")
+
         options = [
             "Presionar arriba",
             "Defender en bloque",
@@ -542,92 +866,147 @@ class MatchEngine:
             "Barrida",
             "Falta táctica",
         ]
-        choice = self._choose("¿Cómo defiendes?", options, [28, 34, 14, 18, 5, 1], None)
+        weights = [26, 34, 15, 17, 5, 1]
+        quick_keys = {"1": 0, "2": 1, "3": 2, "4": 3, "5": 4, "6": 5}
+        if rz in (1, 2):
+            options.append("Trampa del fuera de juego")
+            weights.append(5)
+            quick_keys["7"] = 6
+
+        choice = self._choose("¿Cómo defiendes?", options, weights, quick_keys)
         if self.state.abandoned:
             return
         if self.state.roll(0.004 / self.state.factor):
             self.set_pieces.foul(1, 3 - rz, "mano")
             return
+
+        # Note: Defender en bloque (choice == 1) ALWAYS runs its rich 6-outcome logic!
         if (
             self.state.factor > 1
-            and choice in (0, 1, 2, 3)
-            and not self.state.roll(1.0 / self.state.factor)
+            and choice in (0, 2, 3)
+            and not self.state.roll(1.15 / self.state.factor)
         ):
-            self._quiet_defense(choice)
+            defender = self.state.pick_player(0, {"DEF": 3.5, "MED": 3.5, "DEL": 0.4, "POR": 0.0})
+            key_map = {
+                0: "quiet_defense_press",
+                2: "quiet_defense_mark",
+                3: "quiet_defense_counter",
+            }
+            self._speak(
+                self.narrator.say(
+                    key_map[choice], def_=defender.name, riv=carrier.name, rival=rival
+                )
+            )
             return
 
-        base = 0.24 + (self.state.rating(0, "mid") - self.state.rating(1, "mid")) / 100.0 * 0.6
+        base = 0.25 + (self.state.rating(0, "mid") - self.state.rating(1, "mid")) / 100.0 * 0.6
+        behind_risk = float(self.state.tactic_profile().get("behind_risk", 0.0))
+
         if choice == 0:
-            if self.state.roll(base + 0.12):
-                self._recover_ball(
-                    "Presionas arriba y recuperas el balón.",
-                    2 if self.state.roll(0.3) else 1,
-                )
+            defender = self.state.pick_player(0, {"DEL": 2.5, "MED": 4.0, "DEF": 2.0, "POR": 0.0})
+            # High press burns a touch of extra stamina
+            self.state.fatigue[id(defender)] = min(
+                100.0, self.state.fatigue.get(id(defender), 0.0) + 2.0
+            )
+            if self.state.roll(base + 0.13 + self.state.duel_advantage(defender, carrier) * 0.45):
+                msg = self.narrator.say("press_win", def_=defender.name, riv=carrier.name, rival=rival)
+                self._recover_ball(msg, 2 if self.state.roll(0.38) else 1, player=defender, space_bonus=0.07)
             else:
-                self._speak("La presión no sale bien.")
-                self._rival_advance(2 if self.state.roll(0.4) else 1)
+                self._speak(self.narrator.say("press_fail", riv=carrier.name, rival=rival))
+                self._rival_advance(2 if self.state.roll(0.38 + behind_risk) else 1)
         elif choice == 1:
-            if self.state.roll(base + 0.06):
-                self._recover_ball("Cierras bien y recuperas el balón.", 1)
-            else:
-                self._rival_advance(1)
+            self._defend_in_block(rz, base, carrier)
         elif choice == 2:
-            defender = self.state.pick_player(
-                0, {"DEF": 4.0, "MED": 3.0, "DEL": 0.3, "POR": 0.0}
-            )
-            carrier = self.state.pick_player(
-                1, {"DEF": 1.0, "MED": 3.0, "DEL": 2.0, "POR": 0.0}
-            )
-            self._speak(
-                f"Sales a marcar: {defender.name} va a por {carrier.name}, que lleva el balón."
-            )
-            if self.state.roll(base + 0.08):
-                self._recover_ball(
-                    f"Marcaje cerrado de {defender.name} y le quita el balón a {carrier.name}.",
-                    2 if self.state.roll(0.25) else 1,
-                )
-            elif self.state.roll(0.07):
+            defender = self.state.pick_player(0, {"DEF": 4.0, "MED": 3.0, "DEL": 0.3, "POR": 0.0})
+            duel = self.state.duel_advantage(defender, carrier)
+            self._speak(f"Sales a marcar: {defender.name} va a por {carrier.name}.")
+            if self.state.roll(base + 0.09 + duel * 0.65):
+                msg = self.narrator.say("mark_win", def_=defender.name, riv=carrier.name)
+                self._recover_ball(msg, 2 if self.state.roll(0.28) else 1, player=defender)
+            elif self.state.roll(0.07 * self.state.weather.slide_foul_mod):
                 self._speak(f"{defender.name} llega tarde al marcaje.")
                 self.set_pieces.foul(0, rz, "normal")
-            elif self.state.roll(0.45):
+            elif self.state.roll(0.42 - duel * 0.4):
                 self._speak(f"{carrier.name} se quita la marca de {defender.name}.")
                 self._rival_advance(1)
             else:
                 self._speak(
-                    f"El marcaje de {defender.name} funciona: {carrier.name} "
-                    "no puede avanzar y tiene que pasar atrás."
+                    self.narrator.say("mark_stall", def_=defender.name, riv=carrier.name)
                 )
         elif choice == 3:
-            if self.state.roll(base - 0.04):
-                self._recover_ball("¡Recuperas y sales al contraataque!", 2)
+            defender = self.state.pick_player(0, {"DEF": 3.5, "MED": 3.5, "DEL": 0.5, "POR": 0.0})
+            bonus_def = 0.06 if self.state.tactic == "defensivo" else 0.0
+            if self.state.roll(base - 0.02 + bonus_def + self._rival_aggression() * 0.4):
+                msg = self.narrator.say("counter_win", def_=defender.name, rival=rival)
+                self._recover_ball(msg, 2, player=defender, space_bonus=0.16)
             else:
                 self._rival_advance(1)
         elif choice == 4:
-            self._sfx("barrida")
-            if self.state.roll(
-                0.42 + (self.state.rating(0, "dfn") - self.state.rating(1, "att")) / 100.0 * 0.7
-            ):
-                self._recover_ball("¡Barrida limpia! Robas el balón.", 1)
-            elif self.state.roll(0.70):
+            self._sfx("barrida", self.state.stereo_pan())
+            defender = self.state.pick_player(0, {"DEF": 4.5, "MED": 2.5, "DEL": 0.3, "POR": 0.0})
+            duel = self.state.duel_advantage(defender, carrier)
+            clean_prob = (
+                0.42
+                + (self.state.rating(0, "dfn") - self.state.rating(1, "att")) / 100.0 * 0.65
+                + duel * 0.5
+            ) / self.state.weather.slide_foul_mod
+            if self.state.roll(clean_prob):
+                self._recover_ball(
+                    f"¡Barrida limpia de {defender.name}! Roba el balón a {carrier.name}.",
+                    1,
+                    player=defender,
+                )
+            elif self.state.roll(0.68 * self.state.weather.slide_foul_mod):
                 self.set_pieces.foul(0, rz, "barrida")
             else:
-                self._speak("El rival te regatea y te pasa de largo.")
+                self._speak(f"{carrier.name} salta la barrida de {defender.name} y pasa de largo.")
                 self._rival_advance(2)
-        else:
+        elif choice == 5:
             if self.state.roll(0.92):
                 self.set_pieces.foul(0, rz, "tactica")
             else:
                 self._speak("El árbitro deja seguir.")
                 self._rival_advance(1)
+        else:
+            self._offside_trap(carrier)
 
-    # ------------------------------------------------------- Match Flow
+    # ------------------------------------------------------- Match Flow & Dynamic Events
     def _ambient_foul(self) -> None:
         offender = self.state.rng.choice((0, 1))
         zr = self.state.rng.choices((0, 1, 2, 3), weights=[16, 47, 34, 3])[0]
         self._speak(f"Minuto {self.state.minute()}.")
         self.set_pieces.foul(offender, zr, "mano" if self.state.roll(0.05) else "normal")
 
+    def _midfield_clash(self) -> None:
+        p0 = self.state.pick_player(0, {"MED": 4.0, "DEF": 2.5, "DEL": 1.5, "POR": 0.0})
+        p1 = self.state.pick_player(1, {"MED": 4.0, "DEF": 2.5, "DEL": 1.5, "POR": 0.0})
+        self._sfx("choque", self.state.stereo_pan())
+        winner_idx = 0 if self.state.roll(0.50 + self.state.duel_advantage(p0, p1)) else 1
+        winner_player = p0 if winner_idx == 0 else p1
+        self._speak(
+            self.narrator.say(
+                "midfield_clash",
+                jug=p0.name,
+                riv=p1.name,
+                ganador=self.state.team_name(winner_idx),
+            )
+        )
+        self.state.set_possession(winner_idx, 1, lane=0, carrier=winner_player)
+
+    def _check_late_match_tension(self) -> None:
+        if (
+            self.state.final_stretch_announced
+            or self.state.muted
+            or self.state.minute() < 80
+        ):
+            return
+        if abs(self.state.goals[0] - self.state.goals[1]) <= 1:
+            self.state.final_stretch_announced = True
+            self._crowd_react("ovacion", 1.4)
+            self._speak(self.narrator.say("late_tension"))
+
     def _play_turn(self) -> None:
+        self._check_late_match_tension()
         self.subs.check_injuries()
         self.subs.ai_waste_time()
         self.subs.ai_substitutions(1)
@@ -636,10 +1015,12 @@ class MatchEngine:
         self.state.possession_turns[self.state.possession] += 1
 
         roll = self.state.rng.random()
-        if roll < 0.12 / self.state.factor:
+        if roll < 0.11 / self.state.factor:
             self._ambient_foul()
-        elif roll < 0.22 / self.state.factor:
+        elif roll < 0.20 / self.state.factor:
             self.set_pieces.throw_in()
+        elif roll < 0.24 / self.state.factor:
+            self._midfield_clash()
         else:
             if self.state.possession == 0:
                 self._attack_turn()
@@ -647,6 +1028,7 @@ class MatchEngine:
                 self._defense_turn()
 
         self.state.turn += 1
+        self.state.decay_momentum()
         self.subs.apply_turn_fatigue()
 
     def _added_time(self) -> int:
@@ -769,10 +1151,11 @@ class MatchEngine:
             self.io.play_theme("musica_versus", volume=0.7)
         self._speak(
             f"{self.state.title}. {self.state.team_name(0)} contra {self.state.team_name(1)}. "
-            "Pulsa F1 para ver los atajos. Con la tecla C haces cambios de jugadores."
+            "Pulsa F1 para ver los atajos. Con X cambias tu postura táctica y con C haces cambios."
         )
         if self.state.stadium:
             self._speak(f"Hoy se juega en {self.state.stadium}.")
+        self._speak(self.state.weather.announcement)
         if self.state.attendance:
             self._speak(self.state.attendance[0])
         if self.state.first_leg is not None:
@@ -799,8 +1182,7 @@ class MatchEngine:
             factor = self.state.attendance[1] if self.state.attendance else 1.0
             self.io.start_crowd(factor)
 
-        self.state.possession = self.state.rng.choice((0, 1))
-        self.state.zone = 1
+        self.state.set_possession(self.state.rng.choice((0, 1)), 1, lane=0)
 
         try:
             while (

@@ -231,11 +231,14 @@ class SubstitutionManager:
 
     def apply_turn_fatigue(self) -> None:
         rates = {"POR": 0.5, "DEF": 2.0, "MED": 2.6, "DEL": 2.3}
+        user_stamina_mult = float(self.state.tactic_profile().get("stamina", 1.0))
         for team_idx in (0, 1):
+            mult = user_stamina_mult if team_idx == 0 else 1.0
             for player in self.state.xi[team_idx]:
                 pid = id(player)
                 delta = (
                     rates[player.position]
+                    * mult
                     * self.state.rng.uniform(0.8, 1.2)
                     / self.state.factor
                 )

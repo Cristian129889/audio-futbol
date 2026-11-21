@@ -3,7 +3,12 @@
 REGLAS: tuple[str, ...] = (
     "Reglas de AudioFútbol.",
     "Cada partido dura 90 minutos, con descanso a los 45. Se juega por jugadas en las que decides qué hacer. Cada jugada dura 1 minuto, o lo que elijas en Opciones: 2 minutos, 1 minuto o 30 segundos. Cuanto más cortas son las jugadas, más realista y más largo es el partido.",
-    "Si tienes el balón, eliges entre pase corto, pase filtrado, pase largo, regate, disparo, conducir el balón (tecla B) y, cerca del área, centro o chilena. A veces el juego avisa de que un delantero está solo en el área frente al portero: entonces aparece la opción de pase largo para ese jugador.",
+    "Si tienes el balón, sabes qué jugador lo lleva y por qué carril atacas (banda izquierda, centro o banda derecha), con sonido estéreo direccional. Eliges entre pase corto, cambio de frente (tecla Q), pase filtrado (F), pase largo, regate (R), disparo (D), conducir el balón (B) y, cerca del área, centro o chilena. A veces el juego avisa de que un delantero está solo en el área frente al portero.",
+    "Cambio de frente: cruza el balón a la banda contraria con paneo estéreo, descoloca a la defensa rival y te da ventaja de espacio en la siguiente jugada.",
+    "Si el rival tiene el balón, eliges cómo defender (también con teclas rápidas del 1 al 7): presionar arriba, defender en bloque, salir a marcar, preparar contraataque, barrida, falta táctica o trampa del fuera de juego.",
+    "Defender en bloque: ordena tus líneas para interceptar pases entre líneas, empujar al rival hacia atrás, encerrarlo en la banda o bloquear disparos lejanos. Mantener el bloque varios turnos seguidos acumula solidez defensiva.",
+    "Trampa del fuera de juego: opción arriesgada cuando el rival ataca en campo abierto. Si tus defensas coordinan la línea, recuperas el balón al instante; si falla, el delantero queda mano a mano con tu portero.",
+    "Postura táctica y clima: con la tecla X cambias en vivo entre Equilibrado, Ofensivo y Defensivo. Con la tecla N escuchas el clima (despejado, lluvia o viento, que afectan la física del balón), tu táctica actual y quién domina el impulso del partido.",
     "Tiros libres: el juego dice a cuántos metros fuera del área se cometió la falta. Cuanto más cerca del área, más peligroso es el tiro. Cualquier jugador de campo puede intentar una chilena.",
     "Estadio: antes de cada partido de local, el juego dice si el estadio está lleno, a media entrada o con entrada baja, según los resultados del equipo local en casa. En las finales siempre está lleno.",
     "Vueltas de las eliminatorias: al terminar, el marcador de cada vuelta dice también el global de la llave.",

@@ -345,10 +345,23 @@ class SetPieceResolver:
             else self.state.pick_scorer(att_idx, header=header)
         )
         self.state.shots[att_idx] += 1
-        base = {0: 0.004, 1: 0.010, 2: 0.06, 3: 0.31}[zone]
+        base = {0: 0.004, 1: 0.012, 2: 0.068, 3: 0.31}[zone]
+        player_factor = max(0.78, min(1.26, self.state.effective_overall(taker) / 76.0))
+        angle_factor = 1.0
+        if not (header or free_kick or bicycle or rebound):
+            angle_factor = 1.06 if self.state.lane == 0 else 0.90
+        space_factor = 1.0
+        if att_idx == 0 and self.state.space_bonus > 0:
+            space_factor = 1.0 + self.state.space_bonus
+            self.state.space_bonus = 0.0
+
         p = (
             base
             * mult
+            * player_factor
+            * angle_factor
+            * space_factor
+            * self.state.weather.shot_skid_mod
             * (
                 1
                 + (self.state.rating(att_idx, "att") - self.state.rating(def_idx, "dfn"))
@@ -360,7 +373,7 @@ class SetPieceResolver:
         p *= self.state.goal_factor * gk_factor
 
         sfx_kind = "chilena" if bicycle else ("cabezazo" if header else "balon")
-        self._sfx(sfx_kind, self.state.rng.uniform(-0.8, 0.8))
+        self._sfx(sfx_kind, self.state.stereo_pan(0.18))
         if bicycle:
             self._speak(f"¡{taker.name} se eleva de espaldas al arco e intenta una chilena!")
         elif rebound:
@@ -403,7 +416,9 @@ class SetPieceResolver:
         roll = self.state.rng.random()
         if roll < 0.38:
             self.state.shots_on_target[att_idx] += 1
-            self._sfx("parada")
+            self.state.saves[def_idx] += 1
+            self.state.shift_momentum(-1.4 if att_idx == 0 else 1.8)
+            self._sfx("parada", self.state.stereo_pan(0.15))
             gk = self.state.goalkeeper(def_idx)
             self._speak(
                 f"El portero {gk.name} ataja el disparo."
@@ -415,15 +430,17 @@ class SetPieceResolver:
                     f"Gran atajada del portero de {self.state.team_name(def_idx)} al remate de {taker.name}."
                 )
             self._announce_shots(att_idx)
-            if zone >= 2 and depth < 2 and self.state.roll(0.28 if header else 0.24):
+            spill_prob = (0.28 if header else 0.24) * self.state.weather.gk_spill_mod
+            if zone >= 2 and depth < 2 and self.state.roll(spill_prob):
                 self._speak("¡El portero no logra retener el balón!")
                 self.rebound(att_idx, depth, from_corner, min(zone, 3))
             elif self.state.roll(0.22) and allow_corner:
                 self.corner(att_idx, consecutive=from_corner)
             else:
-                self.state.possession, self.state.zone = def_idx, 1
+                self.state.set_possession(def_idx, 1)
         elif roll < 0.55:
-            self._sfx("poste")
+            self._sfx("poste", self.state.stereo_pan(0.15))
+            self.state.shift_momentum(0.8 if att_idx == 0 else -0.8)
             self._speak("¡Poste!")
             self.state.add_highlight(
                 f"Poste de {taker.name}, de {self.state.team_name(att_idx)}."
@@ -435,7 +452,7 @@ class SetPieceResolver:
             elif self.state.roll(0.4) and allow_corner:
                 self.corner(att_idx, consecutive=from_corner)
             else:
-                self.state.possession, self.state.zone = def_idx, 1
+                self.state.set_possession(def_idx, 1)
         elif roll < 0.82:
             self._sfx("casi")
             q = self.state.rng.random()
@@ -452,7 +469,11 @@ class SetPieceResolver:
             self._announce_shots(att_idx)
             self.goal_kick(def_idx)
         else:
-            self._speak("Un defensa bloquea el disparo.")
+            self.state.blocks[def_idx] += 1
+            blocker = self.state.pick_player(
+                def_idx, {"DEF": 5.0, "MED": 2.0, "DEL": 0.2, "POR": 0.0}
+            )
+            self._speak(f"{blocker.name} se cruza a tiempo y bloquea el disparo.")
             self._announce_shots(att_idx)
             if zone >= 1 and self.state.roll(0.04):
                 self._sfx("silbato")
@@ -469,7 +490,7 @@ class SetPieceResolver:
             elif allow_corner:
                 self.corner(att_idx, consecutive=from_corner)
             else:
-                self.state.possession, self.state.zone = def_idx, 1
+                self.state.set_possession(def_idx, 1, carrier=blocker)
         return "fallo"
 
     def score_goal(
@@ -510,7 +531,8 @@ class SetPieceResolver:
                 f"Minuto {self.state.minute()}."
             )
         self._announce_scoreboard()
-        self.state.possession, self.state.zone = 1 - team_idx, 1
+        self.state.shift_momentum(3.5 if team_idx == 0 else -3.5)
+        self.state.set_possession(1 - team_idx, 1, lane=0)
         if (
             goal_type != "de penal"
             and self.state.settings.var_enabled
@@ -527,15 +549,22 @@ class SetPieceResolver:
         player = crosser or self.state.pick_player(
             att_idx, {"MED": 3.0, "DEL": 2.0, "DEF": 1.0, "POR": 0.0}
         )
-        self._sfx("balon")
-        self._speak(f"{player.name} manda un centro al área.")
+        wing_bonus = 1.12 if self.state.lane != 0 else 0.94
+        if att_idx == 0 and self.state.space_bonus > 0:
+            wing_bonus += self.state.space_bonus * 0.8
+            self.state.space_bonus = 0.0
+        self._sfx("balon", self.state.stereo_pan(0.10))
+        self._speak(f"{player.name} manda un centro al área {self.state.lane_text()}.")
         outcome, factor = self.aerial_defense(att_idx, "Centro")
         if outcome != "sigue" or self.state.abandoned:
             return
-        p = 0.57 + (
-            self.state.rating(att_idx, "att") - self.state.rating(def_idx, "dfn")
-        ) / 100.0 * 0.5
+        p = (
+            (0.55 + (self.state.rating(att_idx, "att") - self.state.rating(def_idx, "dfn")) / 100.0 * 0.5)
+            * wing_bonus
+            * self.state.weather.cross_mod
+        )
         if self.state.roll(p):
+            self.state.lane = 0
             if self.state.roll(0.05):
                 self.shot(att_idx, 3, mult=0.50 * mult, bicycle=True)
             else:
@@ -544,7 +573,7 @@ class SetPieceResolver:
             self.corner(att_idx)
         else:
             self._speak("La defensa despeja el centro.")
-            self.state.possession, self.state.zone = def_idx, 1
+            self.state.set_possession(def_idx, 1)
 
     def corner(self, att_idx: int, consecutive: bool = False) -> None:
         if consecutive and self.state.corner_streak[0] == att_idx:

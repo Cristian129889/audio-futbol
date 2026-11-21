@@ -1,7 +1,8 @@
-"""Mutable state, probability helpers, ratings, and statistics for a match."""
+"""Mutable state, 2D spatial field, weather/tactic physics, momentum, ratings, and stats."""
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 import random
 from typing import Any
 
@@ -22,11 +23,109 @@ ZONES_RIVAL: dict[int, str] = {
     3: "¡dentro de tu área!",
 }
 
+LANES_ES: dict[int, str] = {
+    -1: "por la banda izquierda",
+    0: "por el centro",
+    1: "por la banda derecha",
+}
+
+LANE_SIDE_NAME: dict[int, str] = {
+    -1: "izquierda",
+    0: "central",
+    1: "derecha",
+}
+
 PENALTY_DIRECTIONS: tuple[str, ...] = ("a la izquierda", "al centro", "a la derecha")
 
 
+@dataclass(frozen=True)
+class WeatherProfile:
+    """Match weather conditions with tangible physical effects on gameplay."""
+
+    key: str
+    name_es: str
+    announcement: str
+    shot_skid_mod: float = 1.0
+    gk_spill_mod: float = 1.0
+    slide_foul_mod: float = 1.0
+    long_pass_mod: float = 1.0
+    cross_mod: float = 1.0
+
+
+WEATHER_PROFILES: tuple[WeatherProfile, ...] = (
+    WeatherProfile(
+        key="despejado",
+        name_es="despejado",
+        announcement="El cielo está despejado y el césped en perfectas condiciones.",
+    ),
+    WeatherProfile(
+        key="nublado",
+        name_es="fresco y nublado",
+        announcement="Noche fresca y césped rápido, ideal para un partido intenso.",
+        shot_skid_mod=1.03,
+    ),
+    WeatherProfile(
+        key="lluvia",
+        name_es="lluvia",
+        announcement=(
+            "Llueve sobre el estadio: el balón corre más rápido en tiros rasantes, "
+            "el portero puede dar más rebotes y las barridas son más resbaladizas."
+        ),
+        shot_skid_mod=1.08,
+        gk_spill_mod=1.35,
+        slide_foul_mod=1.22,
+        long_pass_mod=0.95,
+    ),
+    WeatherProfile(
+        key="viento",
+        name_es="viento fuerte",
+        announcement=(
+            "Sopla viento fuerte en el estadio: los centros y pases largos "
+            "pueden ser más impredecibles."
+        ),
+        long_pass_mod=0.90,
+        cross_mod=0.92,
+    ),
+)
+
+TACTICS_ORDER: tuple[str, ...] = ("equilibrado", "ofensivo", "defensivo")
+
+TACTIC_PROFILES: dict[str, dict[str, Any]] = {
+    "equilibrado": {
+        "label": "Equilibrado",
+        "desc": "Equilibrado: balance entre ataque y orden defensivo.",
+        "att": 0.0,
+        "mid": 0.0,
+        "dfn": 0.0,
+        "stamina": 1.0,
+        "behind_risk": 0.0,
+        "block_bonus": 0.0,
+    },
+    "ofensivo": {
+        "label": "Ofensivo",
+        "desc": "Ofensivo: más llegada y remate, pero dejas más espacios atrás.",
+        "att": 4.5,
+        "mid": 2.0,
+        "dfn": -4.0,
+        "stamina": 1.18,
+        "behind_risk": 0.12,
+        "block_bonus": -0.05,
+    },
+    "defensivo": {
+        "label": "Defensivo",
+        "desc": "Defensivo: bloque mucho más sólido y mejor contraataque, menos posesión arriba.",
+        "att": -3.0,
+        "mid": -1.0,
+        "dfn": 5.0,
+        "stamina": 0.88,
+        "behind_risk": -0.08,
+        "block_bonus": 0.08,
+    },
+}
+
+
 def prob(p: float, rng: random.Random | None = None) -> bool:
-    """Clamped Bernoulli trial matching original AudioFútbol tuning (0.0 .. 0.97)."""
+    """Clamped Bernoulli trial matching AudioFútbol tuning (0.0 .. 0.97)."""
     r = rng.random() if rng is not None else random.random()
     return r < max(0.0, min(0.97, p))
 
@@ -64,6 +163,16 @@ class MatchState:
         self.stadium = stadium
         self.title = title
 
+        # Weather & Tactical state
+        self.weather: WeatherProfile = self.rng.choices(
+            WEATHER_PROFILES, weights=[48, 22, 18, 12]
+        )[0]
+        self.tactic: str = "equilibrado"
+        self.momentum: float = 0.0  # -10 (rival dominates) .. +10 (user dominates)
+        self.block_solidity: int = 0  # 0..3 accumulated when holding block cleanly
+        self.space_bonus: float = 0.0  # bonus on next user attack (counter / switch play)
+        self.final_stretch_announced: bool = False
+
         self.highlights: list[tuple[int, str]] = []
         self.max_substitutions = max_substitutions
         self.substitutions_used: list[int] = [0, 0]
@@ -87,6 +196,10 @@ class MatchState:
         self.gk_penalty: list[int] = [0, 0]
         self.shots: list[int] = [0, 0]
         self.shots_on_target: list[int] = [0, 0]
+        self.saves: list[int] = [0, 0]
+        self.interceptions: list[int] = [0, 0]
+        self.blocks: list[int] = [0, 0]
+        self.dribbles_won: list[int] = [0, 0]
         self.corner_streak: list[Any] = [None, 0]
         self.match_yellows: dict[int, int] = {}
         self.scorers: list[tuple[int, Player, int]] = []
@@ -95,6 +208,8 @@ class MatchState:
         self.turn: int = 0
         self.possession: int = 0
         self.zone: int = 1
+        self.lane: int = 0  # -1 left wing, 0 center, +1 right wing
+        self.ball_carrier: Player | None = None
         self.knockout = knockout
         self.auto = auto
         self.muted = auto
@@ -131,8 +246,38 @@ class MatchState:
     def minute(self) -> int:
         return int(self.turn * self.turn_seconds / 60)
 
+    def lane_text(self) -> str:
+        return LANES_ES[self.lane]
+
+    def stereo_pan(self, jitter: float = 0.12) -> float:
+        """Compute stereo panning (-1..1) anchored to current pitch lane."""
+        base = self.lane * 0.70
+        return max(-0.95, min(0.95, base + self.rng.uniform(-jitter, jitter)))
+
+    def shift_momentum(self, delta: float) -> None:
+        self.momentum = max(-10.0, min(10.0, self.momentum + delta))
+
+    def decay_momentum(self) -> None:
+        self.momentum *= 0.90
+
+    def momentum_summary(self) -> str:
+        if self.momentum >= 3.5:
+            return f"{self.team_name(0)} domina el ritmo y empuja con fuerza."
+        if self.momentum <= -3.5:
+            return f"{self.team_name(1)} está crecido y controla el impulso del partido."
+        return "El partido está parejo y disputado."
+
+    def cycle_tactic(self) -> str:
+        idx = TACTICS_ORDER.index(self.tactic)
+        self.tactic = TACTICS_ORDER[(idx + 1) % len(TACTICS_ORDER)]
+        self.refresh_ratings()
+        return TACTIC_PROFILES[self.tactic]["desc"]
+
+    def tactic_profile(self) -> dict[str, Any]:
+        return TACTIC_PROFILES[self.tactic]
+
     def effective_overall(self, player: Player) -> float:
-        val = player.overall * (1.0 - 0.12 * self.fatigue.get(id(player), 0.0) / 100.0)
+        val = player.overall * (1.0 - 0.14 * self.fatigue.get(id(player), 0.0) / 100.0)
         if id(player) in self.injured:
             val *= 0.6
         return val
@@ -147,21 +292,39 @@ class MatchState:
             return sum(self.effective_overall(p) for p in xi) / max(1, len(xi))
 
         d, m, f, gk = avg("DEF"), avg("MED"), avg("DEL"), avg("POR")
-        return {
+        res = {
             "att": 0.6 * f + 0.4 * m,
             "mid": 0.6 * m + 0.2 * f + 0.2 * d,
             "dfn": 0.7 * d + 0.3 * m,
             "gk": gk,
         }
+        if team_idx == 0:
+            tp = self.tactic_profile()
+            res["att"] += tp["att"]
+            res["mid"] += tp["mid"]
+            res["dfn"] += tp["dfn"]
+        return res
 
     def refresh_ratings(self) -> None:
         self.ratings = [self.compute_ratings(0), self.compute_ratings(1)]
 
     def rating(self, team_idx: int, key: str) -> float:
         val = self.ratings[team_idx][key]
+        mom_boost = (self.momentum if team_idx == 0 else -self.momentum) * 0.35
         if key == "gk":
-            return val + self.gk_penalty[team_idx]
-        return val * (1.0 - 0.07 * self.red_cards[team_idx])
+            return val + self.gk_penalty[team_idx] + mom_boost * 0.5
+        return (val + mom_boost) * (1.0 - 0.07 * self.red_cards[team_idx])
+
+    def duel_advantage(self, player_a: Player, player_b: Player) -> float:
+        """Individual player-vs-player rating edge scaled to roughly -0.18..+0.18."""
+        return max(
+            -0.18,
+            min(
+                0.18,
+                (self.effective_overall(player_a) - self.effective_overall(player_b))
+                / 110.0,
+            ),
+        )
 
     def goalkeeper(self, team_idx: int) -> Player | None:
         for player in self.xi[team_idx]:
@@ -169,14 +332,57 @@ class MatchState:
                 return player
         return None
 
-    def pick_player(self, team_idx: int, weights_by_pos: dict[str, float]) -> Player:
-        xi = self.xi[team_idx]
+    def pick_player(
+        self,
+        team_idx: int,
+        weights_by_pos: dict[str, float],
+        exclude: Player | None = None,
+    ) -> Player:
+        xi = [p for p in self.xi[team_idx] if p is not exclude] or list(self.xi[team_idx])
         weights = [
-            weights_by_pos.get(p.position, 1.0) * (p.overall / 70.0) ** 2 for p in xi
+            weights_by_pos.get(p.position, 1.0)
+            * (self.effective_overall(p) / 70.0) ** 2
+            for p in xi
         ]
         if sum(weights) <= 0:
             weights = [1.0] * len(xi)
         return self.rng.choices(xi, weights=weights)[0]
+
+    def ensure_ball_carrier(self, team_idx: int | None = None) -> Player:
+        idx = self.possession if team_idx is None else team_idx
+        if self.ball_carrier is not None and self.ball_carrier in self.xi[idx]:
+            return self.ball_carrier
+        if self.zone <= 0:
+            weights = {"DEF": 4.0, "POR": 1.0, "MED": 2.0, "DEL": 0.3}
+        elif self.zone == 1:
+            weights = {"DEF": 2.5, "MED": 4.0, "DEL": 1.2, "POR": 0.1}
+        elif self.zone == 2:
+            weights = {"MED": 3.5, "DEL": 3.0, "DEF": 0.8, "POR": 0.0}
+        else:
+            weights = {"DEL": 4.5, "MED": 2.5, "DEF": 0.4, "POR": 0.0}
+        self.ball_carrier = self.pick_player(idx, weights)
+        return self.ball_carrier
+
+    def set_possession(
+        self,
+        team_idx: int,
+        zone: int,
+        lane: int | None = None,
+        carrier: Player | None = None,
+    ) -> None:
+        self.possession = team_idx
+        self.zone = max(0, min(3, zone))
+        if lane is not None:
+            self.lane = max(-1, min(1, lane))
+        else:
+            self.lane = self.rng.choices((-1, 0, 1), weights=[28, 44, 28])[0]
+        if carrier is not None and carrier in self.xi[team_idx]:
+            self.ball_carrier = carrier
+        else:
+            self.ball_carrier = None
+            self.ensure_ball_carrier(team_idx)
+        if team_idx == 0:
+            self.block_solidity = 0
 
     def pick_scorer(self, team_idx: int, header: bool = False) -> Player:
         weights = (
@@ -186,7 +392,9 @@ class MatchState:
         )
         return self.pick_player(team_idx, weights)
 
-    def pick_receiver(self, team_idx: int, pass_type: str) -> Player:
+    def pick_receiver(
+        self, team_idx: int, pass_type: str, exclude: Player | None = None
+    ) -> Player:
         z = self.zone
         if pass_type == "filtrado":
             weights = {"DEL": 4.0, "MED": 2.5, "DEF": 0.1, "POR": 0.0}
@@ -196,7 +404,7 @@ class MatchState:
             weights = {"MED": 3.0, "DEL": 2.5, "DEF": 0.6, "POR": 0.0}
         else:
             weights = {"DEL": 3.5, "MED": 2.5, "DEF": 0.4, "POR": 0.0}
-        return self.pick_player(team_idx, weights)
+        return self.pick_player(team_idx, weights, exclude=exclude)
 
     def pick_bicycle_taker(self, team_idx: int) -> Player:
         outfield = [p for p in self.xi[team_idx] if p.position != "POR"] or list(
@@ -246,13 +454,14 @@ class MatchState:
         return text
 
     def hud_status(self) -> str:
+        tactic_lbl = TACTIC_PROFILES[self.tactic]["label"]
         base = (
             f"Min {self.minute()}' | {self.team_name(0)} {self.goals[0]} - "
-            f"{self.goals[1]} {self.team_name(1)}"
+            f"{self.goals[1]} {self.team_name(1)} | {tactic_lbl} | {self.weather.name_es.capitalize()}"
         )
         if self.first_leg is not None:
             agg = self.aggregate()
-            base += f" (Global {agg[0]}-{agg[1]})"
+            base += f" | Global {agg[0]}-{agg[1]}"
         return base
 
     @staticmethod
@@ -282,6 +491,9 @@ class MatchState:
             "tarjetas": list(self.cards_log),
             "tiros": list(self.shots),
             "tiros_p": list(self.shots_on_target),
+            "atajadas": list(self.saves),
+            "intercepciones": list(self.interceptions),
+            "bloqueos": list(self.blocks),
             "corners": list(self.corners),
             "faltas": list(self.fouls),
             "pos": list(self.possession_turns),
@@ -306,6 +518,9 @@ class MatchState:
                 f"Tiros: {n0} {snap['tiros'][0]}, {self.format_on_target(snap['tiros_p'][0])}. "
                 f"{n1} {snap['tiros'][1]}, {self.format_on_target(snap['tiros_p'][1])}."
             ),
+            f"Atajadas del portero: {n0} {snap.get('atajadas', [0, 0])[0]}, {n1} {snap.get('atajadas', [0, 0])[1]}.",
+            f"Intercepciones y bloqueos defensivos: {n0} {snap.get('intercepciones', [0, 0])[0] + snap.get('bloqueos', [0, 0])[0]}, "
+            f"{n1} {snap.get('intercepciones', [0, 0])[1] + snap.get('bloqueos', [0, 0])[1]}.",
             f"Tiros de esquina: {n0} {snap['corners'][0]}, {n1} {snap['corners'][1]}. Total {sum(snap['corners'])}.",
             f"Faltas: {n0} {snap['faltas'][0]}, {n1} {snap['faltas'][1]}. Total {sum(snap['faltas'])}.",
         ]

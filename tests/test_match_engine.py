@@ -62,11 +62,58 @@ def test_match_shortcuts_and_time_wasting() -> None:
     io = HeadlessMatchIO(rng=random.Random(1))
     engine = MatchEngine(team_a, team_b, io=io, auto=False, rng=random.Random(2))
     shortcuts = engine.build_shortcuts()
-    for key in ("m", "t", "p", "g", "a", "e", "s", "v", "f1", "h"):
+    for key in ("m", "t", "p", "g", "a", "e", "s", "v", "x", "n", "f1", "h"):
         shortcuts[key]()
-    assert len(io.messages) >= 10
+    assert len(io.messages) >= 12
+    assert engine.state.tactic == "ofensivo"
     # Second time-waste in the same turn is rejected
     assert engine.subs.waste_time(0) is False
+
+
+def test_block_defense_variability_and_solidity() -> None:
+    team_a = create_generic_team("Argentina", 86)
+    team_b = create_generic_team("Uruguay", 82)
+    outcomes: set[str] = set()
+    solidity_seen = False
+    for seed in range(40):
+        io = HeadlessMatchIO(rng=random.Random(seed))
+        engine = MatchEngine(team_a, team_b, io=io, auto=False, rng=random.Random(seed))
+        engine.state.set_possession(1, 2, lane=0)
+        carrier = engine.state.ensure_ball_carrier(1)
+        engine._defend_in_block(2, 0.28, carrier)
+        if io.messages:
+            outcomes.add(io.messages[0])
+        if engine.state.block_solidity > 0:
+            solidity_seen = True
+    assert len(outcomes) >= 10
+    assert solidity_seen is True
+
+
+def test_switch_play_changes_lane_and_grants_space_bonus() -> None:
+    team_a = create_generic_team("España", 90)
+    team_b = create_generic_team("Gales", 70)
+    for seed in range(30):
+        io = HeadlessMatchIO(rng=random.Random(seed))
+        engine = MatchEngine(team_a, team_b, io=io, auto=False, rng=random.Random(seed))
+        engine.state.set_possession(0, 1, lane=-1)
+        carrier = engine.state.ensure_ball_carrier(0)
+        engine._switch_play(carrier, 0.15)
+        if engine.state.possession == 0:
+            assert engine.state.lane == 1
+            assert engine.state.space_bonus > 0
+            return
+    raise AssertionError("Switch of play never succeeded across 30 seeds")
+
+
+def test_narrator_prevents_back_to_back_repeats() -> None:
+    from audiofutbol.domain.match.narration import Narrator
+
+    narrator = Narrator(random.Random(99))
+    prev = None
+    for _ in range(25):
+        line = narrator.say("block_hold_solid", rival="Brasil", riv="Vinicius", def_="Romero")
+        assert line != prev
+        prev = line
 
 
 def test_two_legged_tie_away_goals_and_table_advantage() -> None:
