@@ -110,12 +110,33 @@ pytest -v
 
 ## Compilar ejecutable portable sin consola (`.exe`)
 
+Forma automática (prepara entorno Conda `futbol` o `.venv`, instala dependencias, corre pruebas y compila):
+
+```powershell
+.\scripts\setup_and_build.ps1
+```
+
+Opciones útiles:
+- `.\scripts\setup_and_build.ps1 -UseVenv` usa un entorno virtual local `.venv` en lugar de Conda.
+- `.\scripts\setup_and_build.ps1 -CleanAfter` borra `build/`, `dist/` y `.spec` al terminar.
+- `.\scripts\setup_and_build.ps1 -SkipTests` omite `pytest` antes de compilar.
+
+También puedes compilar manualmente desde el entorno activo:
+
 ```powershell
 conda activate futbol
 python scripts/build_exe.py
 ```
 
 Genera `AudioFutbol_Portable/AudioFutbol.exe` (sin ventana de consola) y `AudioFutbol_Portable.zip` listo para publicar como release en GitHub.
+
+## Limpiar archivos de compilación
+
+Para borrar `build/`, `dist/`, `AudioFutbol_Portable/`, `AudioFutbol_Portable.zip`, `.spec` y cachés sin tocar tus partidas guardadas ni tu configuración:
+
+```powershell
+.\scripts\clean.ps1
+```
 
 ## Licencias de terceros
 
