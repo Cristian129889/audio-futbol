@@ -1,0 +1,360 @@
+"""Pygame mixer audio engine: stereo-panned SFX, crowd ambience, music, and themes."""
+
+from __future__ import annotations
+
+import os
+from pathlib import Path
+import random
+from typing import Any
+
+from audiofutbol.domain.text import normalize_text, tokenize
+from audiofutbol.engine.config import GameConfig
+from audiofutbol.engine.paths import AppPaths
+
+AUDIO_EXTENSIONS: tuple[str, ...] = (
+    ".wav",
+    ".ogg",
+    ".mp3",
+    ".flac",
+    ".opus",
+    ".aiff",
+    ".aif",
+    ".mod",
+    ".xm",
+    ".it",
+    ".s3m",
+)
+
+SOUND_ALIASES: dict[str, list[str]] = {
+    "silbato": ["silbato", "whistle", "pito", "pitido", "referee", "arbitro", "ref"],
+    "silbato_descanso": ["descanso", "halftime"],
+    "silbato_final": ["final", "fulltime"],
+    "falta": ["falta", "foul"],
+    "gol": ["gol", "goal", "scored", "score"],
+    "ovacion": [
+        "ovacion",
+        "cheer",
+        "cheers",
+        "aplauso",
+        "applause",
+        "clap",
+        "hinchada",
+        "aficion",
+        "crowd",
+    ],
+    "abucheo": ["abucheo", "boo", "boos", "jeer"],
+    "balon": ["balon", "ball", "kick", "patada", "pase", "pass", "shot", "tiro"],
+    "cabezazo": ["cabezazo", "header"],
+    "barrera": ["barrera", "wall"],
+    "barrida": ["barrida", "tackle", "slide"],
+    "regate": ["regate", "dribble"],
+    "chilena": ["chilena", "bicycle"],
+    "choque": ["choque", "impact"],
+    "parada": ["parada", "save", "catch", "atajada", "keeper"],
+    "poste": ["poste", "post", "crossbar", "travesano"],
+    "tarjeta": ["tarjeta", "card", "yellow"],
+    "tarjeta_roja": ["roja", "red"],
+    "var": ["var"],
+    "var_confirmado": ["confirmado"],
+    "var_anulado": ["anulado"],
+    "cambio": ["cambio", "tablero", "sub"],
+    "corner": ["corner", "esquina"],
+    "penal": ["penal", "penalty"],
+    "casi": ["casi", "gasp", "uy", "near", "ooh", "oh"],
+    "tribuna": ["tribuna", "ambiente", "ambience", "stadium", "estadio", "atmosphere"],
+    "sorteo": ["sorteo", "draw", "bola"],
+    "mover": ["mover", "cursor", "move", "tick", "select"],
+    "aceptar": ["aceptar", "decide", "confirm", "enter", "ok"],
+    "volver": ["volver", "cancel", "back"],
+}
+
+SOUND_FALLBACKS: dict[str, str] = {
+    "silbato_descanso": "silbato",
+    "silbato_final": "silbato",
+    "falta": "silbato",
+    "penal": "silbato",
+    "tarjeta": "silbato",
+    "tarjeta_roja": "tarjeta",
+    "var": "silbato",
+    "var_confirmado": "var",
+    "var_anulado": "var",
+    "cambio": "aceptar",
+    "corner": "balon",
+    "cabezazo": "balon",
+    "barrera": "balon",
+    "barrida": "balon",
+    "regate": "balon",
+    "chilena": "balon",
+    "choque": "balon",
+    "poste": "balon",
+}
+
+EVENT_DISPLAY_NAMES_ES: dict[str, str] = {
+    "silbato": "silbato del árbitro",
+    "silbato_descanso": "silbato de descanso",
+    "silbato_final": "silbato final",
+    "falta": "falta",
+    "gol": "gol",
+    "ovacion": "ovación",
+    "abucheo": "abucheo",
+    "balon": "golpe de balón",
+    "cabezazo": "cabezazo",
+    "barrera": "balón en la barrera",
+    "barrida": "barrida",
+    "regate": "regate",
+    "chilena": "chilena",
+    "choque": "choque",
+    "parada": "parada del portero",
+    "poste": "poste",
+    "tarjeta": "tarjeta amarilla",
+    "tarjeta_roja": "tarjeta roja",
+    "var": "aviso del VAR",
+    "var_confirmado": "VAR confirmado",
+    "var_anulado": "VAR anulado",
+    "cambio": "cambio de jugador y tiempo añadido",
+    "corner": "córner",
+    "penal": "penal",
+    "casi": "ocasión fallada",
+    "tribuna": "ambiente de tribuna",
+    "sorteo": "sorteo",
+    "mover": "mover en menú",
+    "aceptar": "aceptar en menú",
+    "volver": "volver en menú",
+}
+
+
+def score_sound_tokens(tokens: list[str], aliases: list[str]) -> float:
+    best = 0.0
+    for token in tokens:
+        for idx, alias in enumerate(aliases):
+            if token == alias:
+                best = max(best, max(5.0, 10.0 - idx * 0.5))
+            elif len(alias) >= 4 and token.startswith(alias):
+                best = max(best, 4.0 - idx * 0.1)
+    return best
+
+
+class AudioEngine:
+    """Manages sound effects, crowd loop, background music, and themes."""
+
+    def __init__(self, paths: AppPaths, config: GameConfig, init_mixer: bool = True) -> None:
+        self.paths = paths
+        self.config = config
+        self.ok = False
+        self._pygame: Any = None
+        self.files: list[Path] = []
+        self.assigned: dict[Path, str] = {}
+        self.manual: dict[str, list[Path]] = {}
+        self._cache: dict[Path, Any] = {}
+        self._crowd_channel: Any = None
+
+        if init_mixer:
+            try:
+                import pygame
+
+                self._pygame = pygame
+                if not pygame.mixer.get_init():
+                    pygame.mixer.init()
+                pygame.mixer.set_num_channels(32)
+                self.ok = True
+            except Exception:
+                self.ok = False
+
+        self.index_sounds()
+
+    def index_sounds(self) -> None:
+        """Scan sounds directory and apply optional manual overrides from sonidos.txt."""
+        self.files = []
+        if self.paths.sounds_dir.is_dir():
+            for root, _, filenames in os.walk(self.paths.sounds_dir):
+                for name in sorted(filenames):
+                    if Path(name).suffix.lower() in AUDIO_EXTENSIONS:
+                        self.files.append(Path(root) / name)
+
+        self.assigned = {}
+        for filepath in self.files:
+            tokens = tokenize(filepath.stem)
+            best_event: str | None = None
+            best_score = 0.0
+            for event, aliases in SOUND_ALIASES.items():
+                candidates = aliases + ([event] if event not in aliases else [])
+                score = score_sound_tokens(tokens, candidates)
+                if score > best_score:
+                    best_event, best_score = event, score
+            if best_event:
+                self.assigned[filepath] = best_event
+
+        self.manual = {}
+        if self.paths.sound_map_file.is_file():
+            try:
+                with self.paths.sound_map_file.open("r", encoding="utf-8-sig") as fh:
+                    for raw_line in fh:
+                        line = raw_line.strip()
+                        if not line or line.startswith("#") or "=" not in line:
+                            continue
+                        event_raw, _, target_raw = line.partition("=")
+                        event = normalize_text(event_raw.strip())
+                        target = normalize_text(target_raw.strip().strip('"'))
+                        if target in ("ninguno", "ninguna", "nada"):
+                            self.manual.setdefault(event, [])
+                            continue
+                        for filepath in self.files:
+                            fname = normalize_text(filepath.name)
+                            stem = normalize_text(filepath.stem)
+                            if target in (fname, stem):
+                                self.manual.setdefault(event, []).append(filepath)
+            except Exception:
+                pass
+
+    def candidates(self, event: str) -> list[Path]:
+        if event in self.manual:
+            return self.manual[event]
+        matched = [p for p, ev in self.assigned.items() if ev == event]
+        if not matched and event in SOUND_FALLBACKS:
+            return self.candidates(SOUND_FALLBACKS[event])
+        return matched
+
+    def _load_sound(self, filepath: Path) -> Any:
+        if filepath not in self._cache:
+            try:
+                self._cache[filepath] = self._pygame.mixer.Sound(str(filepath))
+            except Exception:
+                self._cache[filepath] = None
+        return self._cache[filepath]
+
+    def play_sfx(
+        self,
+        event: str,
+        pan: float | None = None,
+        volume: float = 1.0,
+        loop: bool = False,
+    ) -> Any:
+        """Play a sound effect mapped to `event` with optional stereo pan (-1..1)."""
+        if not self.ok or self._pygame is None:
+            return None
+        paths = self.candidates(event)
+        if not paths:
+            return None
+        sound = self._load_sound(random.choice(paths))
+        if sound is None:
+            return None
+        try:
+            channel = sound.play(loops=-1 if loop else 0)
+            if channel is not None:
+                vol = max(0.0, min(1.0, self.config.vol_efectos * volume))
+                left = vol if pan is None else vol * min(1.0, 1.0 - pan)
+                right = vol if pan is None else vol * min(1.0, 1.0 + pan)
+                channel.set_volume(left, right)
+            return channel
+        except Exception:
+            return None
+
+    def start_crowd_ambience(self, attendance_factor: float = 1.0) -> None:
+        self.stop_crowd_ambience()
+        if self.config.vol_ambiente <= 0:
+            return
+        vol = min(1.0, self.config.vol_ambiente * attendance_factor)
+        self._crowd_channel = self.play_sfx("tribuna", volume=vol, loop=True)
+
+    def stop_crowd_ambience(self) -> None:
+        if self._crowd_channel is not None:
+            try:
+                self._crowd_channel.stop()
+            except Exception:
+                pass
+            self._crowd_channel = None
+
+    def play_menu_music(self) -> None:
+        if not self.config.musica or not self.ok or self._pygame is None:
+            return
+        tracks: list[Path] = []
+        if self.paths.music_dir.is_dir():
+            for root, _, filenames in os.walk(self.paths.music_dir):
+                for name in filenames:
+                    if Path(name).suffix.lower() in AUDIO_EXTENSIONS:
+                        tracks.append(Path(root) / name)
+        if not tracks:
+            keywords = ("menu", "musica", "cancion", "bgm", "theme", "title", "intro")
+            for filepath in self.files:
+                if any(tok in keywords for tok in tokenize(filepath.name)):
+                    tracks.append(filepath)
+        if tracks:
+            try:
+                self._pygame.mixer.music.load(str(random.choice(tracks)))
+                self._pygame.mixer.music.set_volume(self.config.vol_musica)
+                self._pygame.mixer.music.play(-1)
+            except Exception:
+                pass
+
+    def stop_music(self, fade_ms: int = 600) -> None:
+        if not self.ok or self._pygame is None:
+            return
+        try:
+            self._pygame.mixer.music.fadeout(fade_ms)
+        except Exception:
+            pass
+
+    def set_music_volume(self, volume: float) -> None:
+        if not self.ok or self._pygame is None:
+            return
+        try:
+            self._pygame.mixer.music.set_volume(max(0.0, min(1.0, volume)))
+        except Exception:
+            pass
+
+    def play_theme(self, name: str, loop: bool = False, volume: float = 1.0) -> None:
+        if not self.config.musica or not self.ok or self._pygame is None:
+            return
+        for ext in AUDIO_EXTENSIONS:
+            candidate = self.paths.themes_dir / f"{name}{ext}"
+            if candidate.is_file():
+                try:
+                    self._pygame.mixer.music.load(str(candidate))
+                    self._pygame.mixer.music.set_volume(
+                        max(0.0, min(1.0, self.config.vol_musica * volume))
+                    )
+                    self._pygame.mixer.music.play(-1 if loop else 0)
+                except Exception:
+                    pass
+                return
+
+    def summary_lines(self) -> list[str]:
+        lines = [f"Hay {len(self.files)} archivos de sonido en la carpeta sonidos."]
+        present: list[tuple[str, int]] = []
+        missing: list[tuple[str, int]] = []
+        for event in SOUND_ALIASES:
+            count = len(self.candidates(event))
+            (present if count else missing).append((event, count))
+        for event, count in present:
+            suffix = "" if count == 1 else "s"
+            lines.append(f"{EVENT_DISPLAY_NAMES_ES[event]}: {count} archivo{suffix}")
+        if missing:
+            lines.append(
+                "Sin sonido asignado: "
+                + ", ".join(EVENT_DISPLAY_NAMES_ES[ev] for ev, _ in missing)
+            )
+        unused = [p for p in self.files if p not in self.assigned]
+        lines.append(f"Archivos que no encajan con ningún evento: {len(unused)}")
+        return lines
+
+    def export_sound_list(self) -> Path | None:
+        target = self.paths.sound_list_file
+        try:
+            with target.open("w", encoding="utf-8") as fh:
+                fh.write("ARCHIVOS DE LA CARPETA SONIDOS (archivo -> evento asignado)\n\n")
+                for filepath in self.files:
+                    rel = os.path.relpath(filepath, self.paths.sounds_dir)
+                    fh.write(f"{rel} -> {self.assigned.get(filepath, '(sin asignar)')}\n")
+                fh.write("\nARCHIVOS DE LA CARPETA MUSICA\n\n")
+                if self.paths.music_dir.is_dir():
+                    for root, _, filenames in os.walk(self.paths.music_dir):
+                        for name in sorted(filenames):
+                            rel = os.path.relpath(Path(root) / name, self.paths.music_dir)
+                            fh.write(f"{rel}\n")
+                fh.write("\nARCHIVOS DE LA CARPETA DATOS\n\n")
+                if self.paths.data_dir.is_dir():
+                    for name in sorted(os.listdir(self.paths.data_dir)):
+                        fh.write(f"{name}\n")
+            return target
+        except Exception:
+            return None
