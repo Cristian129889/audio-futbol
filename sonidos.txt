@@ -1,0 +1,51 @@
+# Asignación de sonidos normalizados para AudioFútbol.
+# Formato: evento = nombre_de_archivo (sin extensión).
+# Si un evento tiene varias líneas, se elige una variación al azar.
+
+# Silbatos
+silbato = silbato_inicio
+silbato = silbato_final
+silbato_descanso = silbato_descanso
+silbato_final = silbato_final_triple
+falta = silbato_falta
+penal = silbato_penal
+
+# Balón y jugadas
+balon = balon_patada
+balon = balon_tiro
+balon = balon_pase
+corner = balon_corner
+cabezazo = balon_cabezazo
+barrera = balon_barrera
+barrida = balon_barrida
+regate = balon_regate
+chilena = balon_chilena
+choque = efecto_choque
+
+# Portero, poste y ocasiones
+parada = tribuna_atajada
+poste = tribuna_poste
+casi = tribuna_gol_fallado
+
+# Tribuna y goles
+gol = tribuna_gol
+gol = tribuna_gol_euforia
+ovacion = tribuna_aplausos_corto
+ovacion = tribuna_aplausos
+abucheo = tribuna_abucheo
+abucheo = tribuna_gol_fallado
+tribuna = tribuna_ambiente
+
+# Tarjetas, VAR y cambios
+tarjeta = tarjeta_amarilla
+tarjeta_roja = tarjeta_roja
+var = var_aviso
+var_confirmado = var_confirmado
+var_anulado = var_anulado
+cambio = cambio_tablero
+
+# Menú y sorteo
+sorteo = menu_seleccionar
+mover = menu_mover
+aceptar = menu_aceptar
+volver = menu_error

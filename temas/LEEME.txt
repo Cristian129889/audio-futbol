@@ -1,0 +1,6 @@
+Pistas de musica del juego, por nombre:
+musica_versus: presentacion del partido.
+musica_victoria y musica_derrota: al terminar tu partido.
+musica_penales: durante la tanda de penales.
+musica_fanfarria: cuando termina el Mundial.
+musica_ataque, musica_defensa y musica_tarjeta: guardadas para usarlas mas adelante.
