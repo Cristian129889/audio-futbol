@@ -1,0 +1,53 @@
+"""Friendly / single knockout match flow."""
+
+from __future__ import annotations
+
+from audiofutbol.domain.match.engine import MatchEngine
+from audiofutbol.domain.models import format_result_text
+from audiofutbol.scenes.base import GameContext
+from audiofutbol.scenes.match_scene import PygameMatchIO
+
+
+def run_friendly_match(ctx: GameContext) -> None:
+    user_team = ctx.ui.choose_team("Elige tu selección", ctx.national_teams)
+    if user_team is None:
+        return
+    rival = ctx.ui.choose_team(
+        "Elige a tu rival", ctx.national_teams, exclude=user_team
+    )
+    if rival is None:
+        return
+    mode = ctx.ui.menu(
+        "Tipo de partido",
+        [
+            "Amistoso, puede terminar en empate",
+            "Eliminatoria, con tiempo extra y penales",
+        ],
+    )
+    if mode is None:
+        return
+
+    venue_pair = ctx.stadiums.venue_for(user_team)
+    venue = f"{venue_pair[0]}, ciudad de {venue_pair[1]}" if venue_pair else None
+
+    ctx.audio.stop_music()
+    engine = MatchEngine(
+        user_team=user_team,
+        rival_team=rival,
+        io=PygameMatchIO(ctx),
+        settings=ctx.match_settings(),
+        knockout=(mode == 1),
+        title="Amistoso",
+        stadium=venue,
+    )
+    result = engine.play()
+    ctx.window.update_status("")
+    ctx.audio.play_menu_music()
+
+    g0, g1 = result.goals
+    if not engine.state.abandoned:
+        ctx.ui.recap(engine.state.recap_lines())
+    ctx.ui.speak(
+        "Resultado final: "
+        + format_result_text(user_team, rival, g0, g1, result.penalties)
+    )
