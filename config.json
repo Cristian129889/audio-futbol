@@ -1,10 +1,10 @@
 {
   "vol_maestro": 0.65,
-  "vol_musica": 0.35,
-  "vol_efectos": 0.50,
-  "vol_ambiente": 0.25,
+  "vol_musica": 1.0,
+  "vol_efectos": 0.55,
   "musica": true,
   "turno_seg": 60,
+  "vol_ambiente": 0.05,
   "gol_visitante": true,
   "var": true,
   "aviso_tiros": true,
