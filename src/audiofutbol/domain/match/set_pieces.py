@@ -345,32 +345,56 @@ class SetPieceResolver:
             else self.state.pick_scorer(att_idx, header=header)
         )
         self.state.shots[att_idx] += 1
-        base = {0: 0.004, 1: 0.012, 2: 0.068, 3: 0.31}[zone]
-        player_factor = max(0.78, min(1.26, self.state.effective_overall(taker) / 76.0))
+        base = {0: 0.005, 1: 0.015, 2: 0.095, 3: 0.36}[zone]
+
+        # Meaningful individual finishing quality (non-linear: 90 OVR >> 70 OVR)
+        eff_taker = self.state.effective_overall(taker)
+        player_factor = max(0.62, min(1.55, (eff_taker / 74.0) ** 1.65))
+
+        # Positional specialty bonus
+        role = self.state.player_role(taker)
+        if header:
+            role_factor = 1.12 if role in ("DEF", "DEL") else 0.94
+        elif zone >= 3:
+            role_factor = {"DEL": 1.12, "MED": 1.00, "DEF": 0.84, "POR": 0.50}.get(role, 1.0)
+        else:
+            role_factor = {"MED": 1.10, "DEL": 1.04, "DEF": 0.85, "POR": 0.45}.get(role, 1.0)
+
         angle_factor = 1.0
         if not (header or free_kick or bicycle or rebound):
-            angle_factor = 1.06 if self.state.lane == 0 else 0.90
+            angle_factor = 1.08 if self.state.lane == 0 else 0.90
+
         space_factor = 1.0
         if att_idx == 0 and self.state.space_bonus > 0:
-            space_factor = 1.0 + self.state.space_bonus
+            space_factor = 1.0 + self.state.space_bonus * 1.15
             self.state.space_bonus = 0.0
+
+        # Real goalkeeper individual quality vs shot
+        gk = self.state.goalkeeper(def_idx)
+        gk_eff = (
+            self.state.effective_overall(gk) + self.state.gk_penalty[def_idx]
+            if gk is not None
+            else 50.0 + self.state.gk_penalty[def_idx]
+        )
+        gk_resistance = max(0.55, min(1.38, 1.0 - (gk_eff - 74.0) / 68.0))
+
+        team_edge = 1.0 + (
+            self.state.rating(att_idx, "att") - self.state.rating(def_idx, "dfn")
+        ) / 100.0 * 2.2
 
         p = (
             base
             * mult
             * player_factor
+            * role_factor
             * angle_factor
             * space_factor
             * self.state.weather.shot_skid_mod
-            * (
-                1
-                + (self.state.rating(att_idx, "att") - self.state.rating(def_idx, "dfn"))
-                / 100.0
-                * 3
-            )
+            * max(0.55, team_edge)
+            * gk_resistance
+            * self.state.goal_factor
+            * gk_factor
         )
-        p *= 1 - (self.state.rating(def_idx, "gk") - 70) / 100.0 * 1.2
-        p *= self.state.goal_factor * gk_factor
 
         sfx_kind = "chilena" if bicycle else ("cabezazo" if header else "balon")
         self._sfx(sfx_kind, self.state.stereo_pan(0.18))

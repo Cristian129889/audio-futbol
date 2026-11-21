@@ -1,4 +1,4 @@
-"""Substitutions, fatigue, injuries, and time-wasting subsystem."""
+"""Substitutions (with natural vs cover-role choice and GK protection), fatigue, injuries, time-wasting."""
 
 from __future__ import annotations
 
@@ -42,6 +42,23 @@ class SubstitutionManager:
             and id(p) not in self.state.excluded_suspended[team_idx]
         ]
 
+    def eligible_replacements(self, team_idx: int, out_player: Player) -> list[Player]:
+        """Return valid bench replacements for `out_player`.
+
+        Prevents subbing a backup goalkeeper in for an outfield player.
+        When replacing a goalkeeper, prioritizes backup goalkeepers first.
+        """
+        bench_players = self.bench(team_idx)
+        out_role = self.state.player_role(out_player)
+        if out_role != "POR":
+            outfield = [p for p in bench_players if p.position != "POR"]
+            return sorted(
+                outfield, key=lambda p: (p.position != out_role, -p.overall)
+            )
+        return sorted(
+            bench_players, key=lambda p: (p.position != "POR", -p.overall)
+        )
+
     def remaining_subs(self, team_idx: int, human: bool = False) -> int | None:
         limit = self.state.max_substitutions if (human and team_idx == 0) else 5
         if limit is None:
@@ -50,8 +67,12 @@ class SubstitutionManager:
 
     def player_status_text(self, player: Player) -> str:
         fatigue_pct = int(round(self.state.fatigue.get(id(player), 0.0)))
+        role = self.state.player_role(player)
+        pos_txt = POSITION_NAMES_ES[player.position]
+        if role != player.position:
+            pos_txt += f" jugando como {POSITION_NAMES_ES[role]}"
         text = (
-            f"{player.name}, {POSITION_NAMES_ES[player.position]}, "
+            f"{player.name}, {pos_txt}, calidad efectiva {int(round(self.state.effective_overall(player)))}, "
             f"cansancio {fatigue_pct} por ciento"
         )
         if id(player) in self.state.injured:
@@ -69,28 +90,55 @@ class SubstitutionManager:
         suffix = "" if rem == 1 else "s"
         return f"Te quedan {rem} cambio{suffix}"
 
-    def apply_substitution(self, team_idx: int, out_player: Player, in_player: Player) -> None:
+    def apply_substitution(
+        self,
+        team_idx: int,
+        out_player: Player,
+        in_player: Player,
+        play_as_position: str | None = None,
+    ) -> None:
         idx = self.state.xi[team_idx].index(out_player)
         self.state.xi[team_idx][idx] = in_player
         self.state.subbed_off[team_idx].add(id(out_player))
+        self.state.position_overrides.pop(id(out_player), None)
+        if play_as_position and play_as_position != in_player.position:
+            self.state.position_overrides[id(in_player)] = play_as_position
+        else:
+            self.state.position_overrides.pop(id(in_player), None)
+
         self.state.substitutions_used[team_idx] += 1
         self.state.lost_seconds += 25
         self.state.fatigue.setdefault(id(in_player), 0.0)
-        if in_player.position == "POR" and self.state.xi[team_idx][0].position != "POR":
+
+        assigned = self.state.player_role(in_player)
+        if assigned == "POR" and self.state.player_role(self.state.xi[team_idx][0]) != "POR":
             self.state.xi[team_idx].remove(in_player)
             self.state.xi[team_idx].insert(0, in_player)
-        has_gk = any(p.position == "POR" for p in self.state.xi[team_idx])
-        self.state.gk_penalty[team_idx] = 0 if has_gk else -25
+
+        has_natural_gk = any(
+            p.position == "POR" and self.state.player_role(p) == "POR"
+            for p in self.state.xi[team_idx]
+        )
+        self.state.gk_penalty[team_idx] = 0 if has_natural_gk else -25
         self.state.ratings[team_idx] = self.state.compute_ratings(team_idx)
         self._sfx("cambio")
+        self.io.update_hud(self.state.hud_status())
 
     def read_lineup(self) -> None:
-        lines = [self.player_status_text(p) for p in self.state.xi[0]]
+        lines = [self.state.formation_text(0) + "."]
+        lines.extend(self.player_status_text(p) for p in self.state.xi[0])
         lines.append(
             f"Cambios hechos: {self.state.substitutions_used[0]}. "
             f"{self.remaining_subs_text(0)}."
         )
         self.io.read_lines("Tu alineación en el campo", lines)
+
+    def _preview_formation_code(self, out_player: Player, in_player: Player, as_role: str) -> str:
+        c = self.state.formation_counts(0)
+        old_role = self.state.player_role(out_player)
+        c[old_role] = max(0, c.get(old_role, 0) - 1)
+        c[as_role] = c.get(as_role, 0) + 1
+        return f"{c['DEF']}-{c['MED']}-{c['DEL']}"
 
     def open_substitution_menu(self, forced_out: Player | None = None) -> bool:
         rem = self.remaining_subs(0, human=True)
@@ -100,8 +148,7 @@ class SubstitutionManager:
                 interrupt=True,
             )
             return False
-        bench_players = self.bench(0)
-        if not bench_players:
+        if not self.bench(0):
             self.io.speak("No tienes suplentes disponibles.", interrupt=True)
             return False
 
@@ -112,7 +159,7 @@ class SubstitutionManager:
             else:
                 on_pitch = list(self.state.xi[0])
                 idx = self.io.choose(
-                    f"Cambios. {self.remaining_subs_text(0)}. ¿Quién sale?",
+                    f"Cambios. {self.state.formation_text(0)}. {self.remaining_subs_text(0)}. ¿Quién sale?",
                     [self.player_status_text(p) for p in on_pitch],
                     initial_index=pos_out,
                 )
@@ -121,10 +168,17 @@ class SubstitutionManager:
                 pos_out = idx
                 out_player = on_pitch[idx]
 
-            candidates = sorted(
-                bench_players,
-                key=lambda p: (p.position != out_player.position, -p.overall),
-            )
+            candidates = self.eligible_replacements(0, out_player)
+            if not candidates:
+                self.io.speak(
+                    "No tienes suplentes de campo disponibles para ese cambio. "
+                    "Un portero suplente no puede entrar como jugador de campo.",
+                    interrupt=True,
+                )
+                if forced_out is not None:
+                    return False
+                continue
+
             idx_in = self.io.choose(
                 f"Sale {out_player.name}. ¿Quién entra?",
                 [
@@ -138,16 +192,45 @@ class SubstitutionManager:
                 continue
 
             in_player = candidates[idx_in]
-            if self.io.confirm(
-                f"Sale {out_player.name} y entra {in_player.name}. ¿Confirmas el cambio?"
-            ):
-                self.apply_substitution(0, out_player, in_player)
-                msg = (
-                    f"Cambio hecho. Sale {out_player.name}, entra {in_player.name}. "
-                    f"{self.remaining_subs_text(0)}."
+            out_role = self.state.player_role(out_player)
+            chosen_role = in_player.position
+
+            # Ask tactical role if natural positions differ on outfield players
+            if out_role != "POR" and in_player.position != out_role:
+                natural_code = self._preview_formation_code(out_player, in_player, in_player.position)
+                cover_code = self._preview_formation_code(out_player, in_player, out_role)
+                role_choice = self.io.choose(
+                    f"{in_player.name} es {POSITION_NAMES_ES[in_player.position]}, "
+                    f"pero sale {out_player.name} que jugaba de {POSITION_NAMES_ES[out_role]}. "
+                    "¿Dónde lo colocas?",
+                    [
+                        f"En su posición natural ({POSITION_NAMES_ES[in_player.position]}): cambia el dibujo a {natural_code}, rinde al 100 por ciento",
+                        f"En la posición de {out_player.name} ({POSITION_NAMES_ES[out_role]}): mantiene el dibujo {cover_code}, rinde algo menos fuera de puesto",
+                    ],
                 )
-                if out_player.position == "POR" and in_player.position != "POR":
-                    msg += " Cuidado, te quedas sin portero."
+                if role_choice is None:
+                    if forced_out is not None:
+                        return False
+                    continue
+                chosen_role = in_player.position if role_choice == 0 else out_role
+            elif out_role == "POR" and in_player.position != "POR":
+                chosen_role = "POR"
+
+            role_desc = (
+                f"como {POSITION_NAMES_ES[chosen_role]}"
+                if chosen_role != in_player.position
+                else f"en su posición natural de {POSITION_NAMES_ES[in_player.position]}"
+            )
+            if self.io.confirm(
+                f"Sale {out_player.name} y entra {in_player.name} {role_desc}. ¿Confirmas el cambio?"
+            ):
+                self.apply_substitution(0, out_player, in_player, play_as_position=chosen_role)
+                msg = (
+                    f"Cambio hecho. Sale {out_player.name}, entra {in_player.name} {role_desc}. "
+                    f"Dibujo actual {self.state.formation_code(0)}. {self.remaining_subs_text(0)}."
+                )
+                if out_role == "POR" and in_player.position != "POR":
+                    msg += " Cuidado, te quedas sin portero natural."
                 self.io.speak(msg)
                 return True
 
@@ -156,9 +239,6 @@ class SubstitutionManager:
             return
         rem = self.remaining_subs(team_idx)
         if (rem is not None and rem <= 0) or not self.state.xi[team_idx]:
-            return
-        bench_players = self.bench(team_idx)
-        if not bench_players:
             return
         candidates = [
             p
@@ -179,13 +259,17 @@ class SubstitutionManager:
             0.25 / self.state.factor
         ):
             return
-        same_pos = [p for p in bench_players if p.position == out_player.position]
-        if not same_pos:
-            if out_player.position == "POR" and id(out_player) not in self.state.injured:
-                return
-            same_pos = bench_players
-        in_player = max(same_pos, key=lambda p: p.overall)
-        self.apply_substitution(team_idx, out_player, in_player)
+        replacements = self.eligible_replacements(team_idx, out_player)
+        if not replacements:
+            return
+        out_role = self.state.player_role(out_player)
+        same_pos = [p for p in replacements if p.position == out_role]
+        if not same_pos and out_role == "POR" and id(out_player) not in self.state.injured:
+            return
+        pool = same_pos or replacements
+        in_player = max(pool, key=lambda p: p.overall)
+        play_as = "POR" if out_role == "POR" else in_player.position
+        self.apply_substitution(team_idx, out_player, in_player, play_as_position=play_as)
         self._speak(
             f"Cambio en {self.state.team_name(team_idx)}: sale {out_player.name}, entra {in_player.name}."
         )
@@ -216,7 +300,7 @@ class SubstitutionManager:
             self.state.ratings[team_idx] = self.state.compute_ratings(team_idx)
             if team_idx == 0 and not self.state.auto:
                 rem = self.remaining_subs(0, human=True)
-                if (rem is None or rem > 0) and self.bench(0):
+                if (rem is None or rem > 0) and self.eligible_replacements(0, player):
                     self.io.speak("Tienes que hacer un cambio. Elige quién entra.")
                     if not self.open_substitution_menu(forced_out=player):
                         self.io.speak(
@@ -224,7 +308,7 @@ class SubstitutionManager:
                         )
                 else:
                     self._speak(
-                        f"No te quedan cambios, {player.name} seguirá jugando lesionado."
+                        f"No te quedan cambios disponibles, {player.name} seguirá jugando lesionado."
                     )
             else:
                 self.ai_substitutions(team_idx)
@@ -236,8 +320,9 @@ class SubstitutionManager:
             mult = user_stamina_mult if team_idx == 0 else 1.0
             for player in self.state.xi[team_idx]:
                 pid = id(player)
+                role = self.state.player_role(player)
                 delta = (
-                    rates[player.position]
+                    rates.get(role, 2.0)
                     * mult
                     * self.state.rng.uniform(0.8, 1.2)
                     / self.state.factor
@@ -262,7 +347,7 @@ class SubstitutionManager:
                     break
 
     def _time_waste_phrase(self, player: Player) -> str:
-        if player.position == "POR":
+        if self.state.player_role(player) == "POR":
             return self.state.rng.choice(
                 [
                     "tarda una eternidad en sacar de meta",

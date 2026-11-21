@@ -669,34 +669,136 @@ class MatchEngine:
             self.set_pieces.shot(0, 3, mult=0.55, bicycle=True)
 
     # ------------------------------------------------------- Defense Sub-actions
+    def _rival_dribble(self, carrier: Player) -> None:
+        """Rival attempts an individual dribble/gambeta against one of your defenders."""
+        defender = self.state.pick_player(
+            0, {"DEF": 4.5, "MED": 3.0, "DEL": 0.2, "POR": 0.0}
+        )
+        self._sfx("regate", self.state.stereo_pan())
+        duel = self.state.duel_advantage(carrier, defender)
+        if self.state.roll(0.42 + duel * 0.75 + self._rival_aggression() * 0.4):
+            self.state.dribbles_won[1] += 1
+            self.state.zone = 3
+            self.state.lane = 0 if self.state.roll(0.65) else self.state.lane
+            self.state.shift_momentum(-1.2)
+            self._speak(
+                self.narrator.say(
+                    "rival_dribble_win", riv=carrier.name, def_=defender.name
+                )
+            )
+            self.set_pieces.shot(1, 3, mult=1.08, shooter=carrier)
+        else:
+            msg = self.narrator.say(
+                "rival_dribble_fail", riv=carrier.name, def_=defender.name
+            )
+            self._recover_ball(msg, 1, player=defender, space_bonus=0.08)
+
+    def _rival_through_ball(self, carrier: Player) -> None:
+        """Rival attempts a incisive through ball behind your back line."""
+        striker = self.state.pick_receiver(1, "filtrado", exclude=carrier)
+        defender = self.state.pick_player(
+            0, {"DEF": 5.0, "MED": 2.0, "DEL": 0.0, "POR": 0.0}
+        )
+        self._sfx("balon", self.state.stereo_pan())
+        duel = self.state.duel_advantage(carrier, defender)
+        if self.state.roll(0.14):
+            self._sfx("silbato")
+            self._speak(
+                f"Pase filtrado de {carrier.name} para {striker.name}, pero el delantero rival estaba en fuera de juego."
+            )
+            self.state.set_possession(0, 1, carrier=defender)
+            return
+        if self.state.roll(0.42 + duel * 0.65):
+            self.state.zone = 3
+            self.state.lane = 0
+            self.state.ball_carrier = striker
+            self._speak(
+                self.narrator.say(
+                    "rival_through_ball_ok", pas=carrier.name, rec=striker.name
+                )
+            )
+            self.set_pieces.shot(1, 3, mult=1.10, shooter=striker)
+        else:
+            msg = self.narrator.say(
+                "rival_through_ball_cut",
+                pas=carrier.name,
+                rec=striker.name,
+                def_=defender.name,
+            )
+            self._recover_ball(msg, 1, player=defender, space_bonus=0.06)
+
     def _rival_advance(self, step: int) -> None:
+        """Proactive, varied rival offense: shoots, crosses, dribbles, or threads passes."""
         rz = self.state.zone
         rival = self.state.team_name(1)
         carrier = self.state.ensure_ball_carrier(1)
         urgency = self._rival_aggression()
+        impatient = self.state.rival_attack_turns >= 2
 
-        if rz == 2 and self.state.roll(0.28 + urgency * 0.5):
-            self._speak(f"{carrier.name}, de {rival}, prueba suerte desde lejos.")
-            self.set_pieces.shot(1, 2, shooter=carrier)
-        elif rz >= 2 and self.state.roll(0.26 if self.state.lane != 0 else 0.18):
-            self.state.possession = 1
-            if self.state.lane == 0:
-                self.state.lane = self.state.rng.choice((-1, 1))
-            self._speak(f"{carrier.name} desborda {self.state.lane_text()}.")
-            self.set_pieces.cross(1, crosser=carrier)
-        elif rz >= 3 or rz + step > 3:
-            self._speak(f"{carrier.name}, de {rival}, se planta ante tu portero.")
-            self.set_pieces.shot(1, 3, shooter=carrier)
-        else:
-            self.state.zone = rz + step
-            if self.state.roll(0.45):
-                self.state.lane = self.state.rng.choice((-1, 0, 1))
-            next_c = self.state.pick_receiver(1, "corto", exclude=carrier)
-            self.state.ball_carrier = next_c
-            self._speak(
-                f"{rival} avanza con {next_c.name}, ahora {ZONES_RIVAL[self.state.zone]}, "
-                f"{self.state.lane_text()}."
-            )
+        # Inside your box (zone 3): ALWAYS finishes — never endless passing!
+        if rz >= 3 or rz + step > 3:
+            if self.state.roll(0.28):
+                self._rival_dribble(carrier)
+            else:
+                self._speak(f"{carrier.name}, de {rival}, se perfila dentro del área y busca el gol.")
+                self.set_pieces.shot(1, 3, shooter=carrier)
+            return
+
+        # Dangerous zone 2 (edge of your box): decisive, varied attacking actions!
+        if rz == 2:
+            action_weights = [
+                ("shot", 30 + (22 if impatient else 0) + int(urgency * 80)),
+                ("cross", 28 if self.state.lane != 0 else 20),
+                ("dribble", 22 + (10 if impatient else 0)),
+                ("through", 18),
+                ("one_two", 14 if not impatient else 6),
+            ]
+            names, wts = zip(*action_weights)
+            move = self.state.rng.choices(names, weights=wts)[0]
+            if move == "shot":
+                self._speak(
+                    self.narrator.say("rival_long_shot", riv=carrier.name, rival=rival)
+                )
+                self.set_pieces.shot(1, 2, mult=1.06, shooter=carrier)
+            elif move == "cross":
+                self.state.possession = 1
+                if self.state.lane == 0:
+                    self.state.lane = self.state.rng.choice((-1, 1))
+                self._speak(f"{carrier.name} desborda {self.state.lane_text()} y busca el centro.")
+                self.set_pieces.cross(1, crosser=carrier)
+            elif move == "dribble":
+                self._rival_dribble(carrier)
+            elif move == "through":
+                self._rival_through_ball(carrier)
+            else:
+                partner = self.state.pick_receiver(1, "filtrado", exclude=carrier)
+                self.state.zone = 3
+                self.state.lane = 0
+                self.state.ball_carrier = partner
+                self._sfx("balon", self.state.stereo_pan())
+                self._speak(
+                    self.narrator.say(
+                        "rival_one_two", pas=carrier.name, rec=partner.name, rival=rival
+                    )
+                )
+                self.set_pieces.shot(1, 3, shooter=partner)
+            return
+
+        # Zones 0-1: advance purposefully, switch wings, or attempt direct through ball
+        if rz == 1 and self.state.roll(0.18 + urgency * 0.35):
+            self._rival_through_ball(carrier)
+            return
+
+        self.state.zone = min(3, rz + step)
+        if self.state.roll(0.55):
+            self.state.lane = self.state.rng.choice((-1, 0, 1))
+        next_c = self.state.pick_receiver(1, "corto", exclude=carrier)
+        self.state.ball_carrier = next_c
+        self._sfx("balon", self.state.stereo_pan())
+        self._speak(
+            f"{rival} progresa con {next_c.name}, ahora {ZONES_RIVAL[self.state.zone]}, "
+            f"{self.state.lane_text()}."
+        )
 
     def _recover_ball(
         self,
@@ -781,10 +883,16 @@ class MatchEngine:
             self._recover_ball(msg, 1, player=defender)
             return
 
-        # 4) Force a desperate long shot from outside the box (often blocked!)
-        if rz >= 2 and roll < strength + 0.37:
+        # 4) Force a desperate long shot or forced cross when rival is impatient / in zone 2+
+        if rz >= 2 and (self.state.rival_attack_turns >= 2 or roll < strength + 0.40):
+            if self.state.lane != 0 and self.state.roll(0.35):
+                self._speak(
+                    f"Sin hueco por el centro, {carrier.name} busca el centro forzado {self.state.lane_text()}."
+                )
+                self.set_pieces.cross(1, mult=0.88, crosser=carrier)
+                return
             self._speak(self.narrator.say("block_desperate_shot", riv=carrier.name))
-            if self.state.roll(0.56 + dfn_edge * 0.5):
+            if self.state.roll(0.50 + dfn_edge * 0.5):
                 self.state.blocks[0] += 1
                 self.state.shots[1] += 1
                 self._sfx("barrera", self.state.stereo_pan())
@@ -793,11 +901,11 @@ class MatchEngine:
                 )
                 self._recover_ball(msg, 1, player=defender, space_bonus=0.08)
             else:
-                self.set_pieces.shot(1, 2, mult=0.72, shooter=carrier)
+                self.set_pieces.shot(1, 2, mult=0.78, shooter=carrier)
             return
 
-        # 5) Hold the line and stack solidity (short pace or tense stand-off)
-        if roll < strength + 0.54:
+        # 5) Hold the line and stack solidity (only on first turn in zone, never loops endlessly)
+        if self.state.rival_attack_turns < 2 and roll < strength + 0.52:
             self.state.block_solidity = min(3, self.state.block_solidity + 1)
             self.state.shift_momentum(0.35)
             self._speak(
@@ -843,6 +951,10 @@ class MatchEngine:
 
     def _defense_turn(self) -> None:
         rz = self.state.zone
+        if rz >= 2:
+            self.state.rival_attack_turns += 1
+        else:
+            self.state.rival_attack_turns = 0
         carrier = self.state.ensure_ball_carrier(1)
         rival = self.state.team_name(1)
         sol_txt = (
@@ -880,11 +992,12 @@ class MatchEngine:
             self.set_pieces.foul(1, 3 - rz, "mano")
             return
 
-        # Note: Defender en bloque (choice == 1) ALWAYS runs its rich 6-outcome logic!
+        # Prevent endless passive turns when rival is already near/in your box!
         if (
             self.state.factor > 1
+            and rz <= 1
             and choice in (0, 2, 3)
-            and not self.state.roll(1.15 / self.state.factor)
+            and not self.state.roll(1.30 / self.state.factor)
         ):
             defender = self.state.pick_player(0, {"DEF": 3.5, "MED": 3.5, "DEL": 0.4, "POR": 0.0})
             key_map = {

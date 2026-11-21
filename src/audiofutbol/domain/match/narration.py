@@ -171,6 +171,35 @@ TEMPLATES: dict[str, tuple[str, ...]] = {
         "Tu equipo aguarda agazapado esperando el error, mientras {rival} mastica la jugada.",
         "Mantienes a tus delanteros listos para correr, pero {rival} cuida el balón sin arriesgar.",
     ),
+    # ---- Proactive rival attacking moves (dribbles, through balls, one-twos, long shots)
+    "rival_dribble_win": (
+        "¡Gambeta eléctrica de {riv}! Deja atrás a {def_} y se mete con peligro hacia el arco.",
+        "{riv} encara con descaro a {def_}, lo quiebra hacia adentro y queda de frente al arco.",
+        "¡Qué recorte de {riv} sobre {def_}! Rompe la marca y busca el remate.",
+    ),
+    "rival_dribble_fail": (
+        "{riv} intenta la gambeta ante {def_}, pero {def_} aguanta firme y le roba el balón.",
+        "{def_} le adivina el amago a {riv} y corta la jugada individual.",
+        "Gran cierre de {def_} en el uno contra uno frente a {riv}. ¡Recuperas!",
+    ),
+    "rival_through_ball_ok": (
+        "¡Pase filtrado quirúrgico de {pas} para {rec}! Rompe tu última línea.",
+        "{pas} mete un balón al vacío para {rec}, que ataca el espacio con peligro.",
+        "¡Alerta! {pas} filtra entre centrales y habilita a {rec} en el área.",
+    ),
+    "rival_through_ball_cut": (
+        "{pas} intenta un pase filtrado buscando a {rec}, pero {def_} lee la jugada e intercepta.",
+        "¡Corte providencial de {def_}! Detiene el balón filtrado de {pas} antes de que llegue a {rec}.",
+    ),
+    "rival_one_two": (
+        "Pared rapidísima entre {pas} y {rec}: {rival} acelera y entra a zona de remate.",
+        "Combinación de primera de {pas} con {rec} que desacomoda a tu defensa.",
+    ),
+    "rival_long_shot": (
+        "{riv} ve el hueco desde fuera del área y suelta un derechazo potente.",
+        "{riv} no lo duda más: se perfila y prueba al arco desde media distancia.",
+        "¡Disparo lejano de {riv}, de {rival}! Busca sorprender al portero.",
+    ),
     # ---- Dynamic ambient / clash / tension
     "midfield_clash": (
         "¡Choque fuerte en la disputa del balón entre {jug} y {riv}! Ambos se levantan rápido y el árbitro deja seguir.",

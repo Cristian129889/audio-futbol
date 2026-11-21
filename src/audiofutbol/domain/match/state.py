@@ -1,4 +1,4 @@
-"""Mutable state, 2D spatial field, weather/tactic physics, momentum, ratings, and stats."""
+"""Mutable state, 2D spatial field, role overrides, weather/tactic physics, momentum, ratings, and stats."""
 
 from __future__ import annotations
 
@@ -36,6 +36,11 @@ LANE_SIDE_NAME: dict[int, str] = {
 }
 
 PENALTY_DIRECTIONS: tuple[str, ...] = ("a la izquierda", "al centro", "a la derecha")
+
+_ADJACENT_ROLES: set[frozenset[str]] = {
+    frozenset(("DEF", "MED")),
+    frozenset(("MED", "DEL")),
+}
 
 
 @dataclass(frozen=True)
@@ -171,12 +176,14 @@ class MatchState:
         self.momentum: float = 0.0  # -10 (rival dominates) .. +10 (user dominates)
         self.block_solidity: int = 0  # 0..3 accumulated when holding block cleanly
         self.space_bonus: float = 0.0  # bonus on next user attack (counter / switch play)
+        self.rival_attack_turns: int = 0  # tracks consecutive rival turns in our half
         self.final_stretch_announced: bool = False
 
         self.highlights: list[tuple[int, str]] = []
         self.max_substitutions = max_substitutions
         self.substitutions_used: list[int] = [0, 0]
         self.subbed_off: list[set[int]] = [set(), set()]
+        self.position_overrides: dict[int, str] = {}  # id(player) -> assigned role if playing out of position
         self.fatigue: dict[int, float] = {}
         self.injured: set[int] = set()
         self.fatigue_warned: set[int] = set()
@@ -220,7 +227,7 @@ class MatchState:
         seg = 120 if auto else settings.turn_seconds
         self.turn_seconds = seg if seg in (120, 60, 30) else 60
         self.factor = 120 // self.turn_seconds
-        self.goal_factor = {1: 1.0, 2: 0.85, 4: 0.68}[self.factor]
+        self.goal_factor = {1: 1.0, 2: 0.92, 4: 0.82}[self.factor]
         self.total_turns = 45 * self.factor
         self.halftime_turn = 22 * self.factor
 
@@ -250,7 +257,6 @@ class MatchState:
         return LANES_ES[self.lane]
 
     def stereo_pan(self, jitter: float = 0.12) -> float:
-        """Compute stereo panning (-1..1) anchored to current pitch lane."""
         base = self.lane * 0.70
         return max(-0.95, min(0.95, base + self.rng.uniform(-jitter, jitter)))
 
@@ -276,8 +282,46 @@ class MatchState:
     def tactic_profile(self) -> dict[str, Any]:
         return TACTIC_PROFILES[self.tactic]
 
+    # ------------------------------------------------------- Role & Formation
+    def player_role(self, player: Player) -> str:
+        """Current tactical position on the pitch (override if playing out of position)."""
+        return self.position_overrides.get(id(player), player.position)
+
+    def out_of_position_factor(self, player: Player) -> float:
+        assigned = self.player_role(player)
+        if assigned == player.position:
+            return 1.0
+        if "POR" in (assigned, player.position):
+            return 0.58
+        if frozenset((assigned, player.position)) in _ADJACENT_ROLES:
+            return 0.88
+        return 0.76
+
+    def formation_counts(self, team_idx: int) -> dict[str, int]:
+        counts = {"POR": 0, "DEF": 0, "MED": 0, "DEL": 0}
+        for p in self.xi[team_idx]:
+            role = self.player_role(p)
+            counts[role] = counts.get(role, 0) + 1
+        return counts
+
+    def formation_code(self, team_idx: int) -> str:
+        c = self.formation_counts(team_idx)
+        return f"{c['DEF']}-{c['MED']}-{c['DEL']}"
+
+    def formation_text(self, team_idx: int) -> str:
+        c = self.formation_counts(team_idx)
+        return (
+            f"Dibujo {c['DEF']}-{c['MED']}-{c['DEL']}: "
+            f"{c['POR']} portero, {c['DEF']} defensas, "
+            f"{c['MED']} mediocampistas y {c['DEL']} delanteros"
+        )
+
     def effective_overall(self, player: Player) -> float:
-        val = player.overall * (1.0 - 0.14 * self.fatigue.get(id(player), 0.0) / 100.0)
+        val = (
+            player.overall
+            * self.out_of_position_factor(player)
+            * (1.0 - 0.14 * self.fatigue.get(id(player), 0.0) / 100.0)
+        )
         if id(player) in self.injured:
             val *= 0.6
         return val
@@ -285,17 +329,24 @@ class MatchState:
     def compute_ratings(self, team_idx: int) -> dict[str, float]:
         xi = self.xi[team_idx]
 
-        def avg(pos: str) -> float:
-            vals = [self.effective_overall(p) for p in xi if p.position == pos]
+        def avg(role: str) -> float:
+            vals = [self.effective_overall(p) for p in xi if self.player_role(p) == role]
             if vals:
                 return sum(vals) / len(vals)
             return sum(self.effective_overall(p) for p in xi) / max(1, len(xi))
 
+        c = self.formation_counts(team_idx)
         d, m, f, gk = avg("DEF"), avg("MED"), avg("DEL"), avg("POR")
+
+        # Tactical formation shape directly affects line strength (vs base 4-3-3)
+        att_shape = (c["DEL"] - 3) * 2.6 + (c["MED"] - 3) * 0.6
+        mid_shape = (c["MED"] - 3) * 2.2
+        dfn_shape = (c["DEF"] - 4) * 2.8 + (c["MED"] - 3) * 0.5
+
         res = {
-            "att": 0.6 * f + 0.4 * m,
-            "mid": 0.6 * m + 0.2 * f + 0.2 * d,
-            "dfn": 0.7 * d + 0.3 * m,
+            "att": 0.62 * f + 0.38 * m + att_shape,
+            "mid": 0.60 * m + 0.20 * f + 0.20 * d + mid_shape,
+            "dfn": 0.72 * d + 0.28 * m + dfn_shape,
             "gk": gk,
         }
         if team_idx == 0:
@@ -316,19 +367,19 @@ class MatchState:
         return (val + mom_boost) * (1.0 - 0.07 * self.red_cards[team_idx])
 
     def duel_advantage(self, player_a: Player, player_b: Player) -> float:
-        """Individual player-vs-player rating edge scaled to roughly -0.18..+0.18."""
+        """Strong individual player-vs-player rating edge (-0.26..+0.26)."""
         return max(
-            -0.18,
+            -0.26,
             min(
-                0.18,
+                0.26,
                 (self.effective_overall(player_a) - self.effective_overall(player_b))
-                / 110.0,
+                / 72.0,
             ),
         )
 
     def goalkeeper(self, team_idx: int) -> Player | None:
         for player in self.xi[team_idx]:
-            if player.position == "POR":
+            if self.player_role(player) == "POR":
                 return player
         return None
 
@@ -340,8 +391,8 @@ class MatchState:
     ) -> Player:
         xi = [p for p in self.xi[team_idx] if p is not exclude] or list(self.xi[team_idx])
         weights = [
-            weights_by_pos.get(p.position, 1.0)
-            * (self.effective_overall(p) / 70.0) ** 2
+            weights_by_pos.get(self.player_role(p), 1.0)
+            * (self.effective_overall(p) / 70.0) ** 2.4
             for p in xi
         ]
         if sum(weights) <= 0:
@@ -383,6 +434,7 @@ class MatchState:
             self.ensure_ball_carrier(team_idx)
         if team_idx == 0:
             self.block_solidity = 0
+            self.rival_attack_turns = 0
 
     def pick_scorer(self, team_idx: int, header: bool = False) -> Player:
         weights = (
@@ -407,13 +459,13 @@ class MatchState:
         return self.pick_player(team_idx, weights, exclude=exclude)
 
     def pick_bicycle_taker(self, team_idx: int) -> Player:
-        outfield = [p for p in self.xi[team_idx] if p.position != "POR"] or list(
+        outfield = [p for p in self.xi[team_idx] if self.player_role(p) != "POR"] or list(
             self.xi[team_idx]
         )
         last = self.last_bicycle_taker.get(team_idx)
         weights = []
         for p in outfield:
-            w = {"DEL": 3.0, "MED": 2.5, "DEF": 1.6}.get(p.position, 1.0)
+            w = {"DEL": 3.0, "MED": 2.5, "DEF": 1.6}.get(self.player_role(p), 1.0)
             if p is last:
                 w *= 0.25
             weights.append(w)
@@ -457,7 +509,7 @@ class MatchState:
         tactic_lbl = TACTIC_PROFILES[self.tactic]["label"]
         base = (
             f"Min {self.minute()}' | {self.team_name(0)} {self.goals[0]} - "
-            f"{self.goals[1]} {self.team_name(1)} | {tactic_lbl} | {self.weather.name_es.capitalize()}"
+            f"{self.goals[1]} {self.team_name(1)} | {self.formation_code(0)} {tactic_lbl} | {self.weather.name_es.capitalize()}"
         )
         if self.first_leg is not None:
             agg = self.aggregate()

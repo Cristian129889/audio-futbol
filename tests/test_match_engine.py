@@ -116,6 +116,81 @@ def test_narrator_prevents_back_to_back_repeats() -> None:
         prev = line
 
 
+def test_substitution_blocks_gk_for_outfield_and_supports_role_choice() -> None:
+    team_a = create_generic_team("Argentina", 84)
+    team_b = create_generic_team("Brasil", 84)
+    engine = MatchEngine(team_a, team_b, io=HeadlessMatchIO(), auto=False)
+
+    defender = next(p for p in engine.state.xi[0] if p.position == "DEF")
+    replacements = engine.subs.eligible_replacements(0, defender)
+    assert all(p.position != "POR" for p in replacements)
+
+    bench_striker = next(p for p in replacements if p.position == "DEL")
+    base_att = engine.state.compute_ratings(0)["att"]
+    base_dfn = engine.state.compute_ratings(0)["dfn"]
+
+    # Option 1: Natural position -> changes formation to 3-3-4 and boosts attack / lowers defense
+    engine.subs.apply_substitution(0, defender, bench_striker, play_as_position="DEL")
+    assert engine.state.formation_code(0) == "3-3-4"
+    assert engine.state.compute_ratings(0)["att"] > base_att
+    assert engine.state.compute_ratings(0)["dfn"] < base_dfn
+
+    # Option 2: Cover outgoing position -> keeps formation but applies out-of-position factor
+    engine2 = MatchEngine(team_a, team_b, io=HeadlessMatchIO(), auto=False)
+    def2 = next(p for p in engine2.state.xi[0] if p.position == "DEF")
+    st2 = next(p for p in engine2.subs.eligible_replacements(0, def2) if p.position == "DEL")
+    engine2.subs.apply_substitution(0, def2, st2, play_as_position="DEF")
+    assert engine2.state.formation_code(0) == "4-3-3"
+    assert engine2.state.player_role(st2) == "DEF"
+    assert engine2.state.out_of_position_factor(st2) < 1.0
+
+
+def test_player_overall_stat_meaningfully_impacts_finishing() -> None:
+    from audiofutbol.domain.models import Player
+
+    elite_striker = Player("Crack 93", "DEL", 93, 9)
+    weak_striker = Player("Novato 60", "DEL", 60, 19)
+    team_a = create_generic_team("Equipo A", 78)
+    team_b = create_generic_team("Equipo B", 78)
+
+    def simulate_shots(shooter: Player) -> int:
+        goals = 0
+        for seed in range(250):
+            rng = random.Random(seed)
+            eng = MatchEngine(
+                team_a, team_b, io=HeadlessMatchIO(rng=rng),
+                settings=MatchSettings(var_enabled=False), auto=True, rng=rng,
+            )
+            eng.state.lane = 0
+            if eng.set_pieces.shot(0, 3, shooter=shooter, corner_ok=False, free_kick=True) == "gol":
+                goals += 1
+        return goals
+
+    elite_goals = simulate_shots(elite_striker)
+    weak_goals = simulate_shots(weak_striker)
+    assert elite_goals > weak_goals * 1.5
+
+
+def test_proactive_rival_finishes_instead_of_endless_passing() -> None:
+    team_a = create_generic_team("Argentina", 80)
+    team_b = create_generic_team("Francia", 85)
+    decisive_plays = 0
+    for seed in range(30):
+        rng = random.Random(seed)
+        io = HeadlessMatchIO(rng=rng)
+        eng = MatchEngine(team_a, team_b, io=io, auto=False, rng=rng)
+        eng.state.set_possession(1, 2, lane=0)
+        eng.state.rival_attack_turns = 2
+        eng._rival_advance(1)
+        if (
+            eng.state.shots[1] > 0
+            or eng.state.corners[1] > 0
+            or eng.state.possession == 0
+        ):
+            decisive_plays += 1
+    assert decisive_plays == 30
+
+
 def test_two_legged_tie_away_goals_and_table_advantage() -> None:
     team_a = create_generic_team("América", 80)
     team_b = create_generic_team("Tigres UANL", 80)
