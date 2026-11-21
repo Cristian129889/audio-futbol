@@ -1,0 +1,588 @@
+{
+ "id": "interamericana_2026",
+ "nombre": "Copa Interamericana 2026",
+ "version_datos": "2026-11-19",
+ "nota": "64 clubes de América: los 32 de la Libertadores, los 18 de la Liga MX y 14 de Estados Unidos, Canadá y Centroamérica. El juego sortea 16 grupos de 4 al empezar, con cuatro bombos por nivel. Pasan los dos primeros de cada grupo a dieciseisavos. Los clubes sin jugadores en datos\\clubes usan plantilla de ejemplo.",
+ "sede_final": [
+  "Hard Rock Stadium",
+  "Miami"
+ ],
+ "equipos": [
+  {
+   "id": "flamengo",
+   "nombre": "Flamengo",
+   "pais": "Brasil",
+   "plantilla": [],
+   "nivel": 82,
+   "estadio": "Maracanã",
+   "ciudad": "Río de Janeiro"
+  },
+  {
+   "id": "estudiantes_de_la_plata",
+   "nombre": "Estudiantes de La Plata",
+   "pais": "Argentina",
+   "plantilla": [],
+   "nivel": 74,
+   "estadio": "Estadio Jorge Luis Hirschi",
+   "ciudad": "La Plata"
+  },
+  {
+   "id": "independiente_medellin",
+   "nombre": "Independiente Medellín",
+   "pais": "Colombia",
+   "plantilla": [],
+   "nivel": 67,
+   "estadio": "Estadio Atanasio Girardot",
+   "ciudad": "Medellín"
+  },
+  {
+   "id": "cusco",
+   "nombre": "Cusco",
+   "pais": "Perú",
+   "plantilla": [],
+   "nivel": 64,
+   "estadio": "Estadio Garcilaso de la Vega",
+   "ciudad": "Cusco"
+  },
+  {
+   "id": "coquimbo_unido",
+   "nombre": "Coquimbo Unido",
+   "pais": "Chile",
+   "plantilla": [],
+   "nivel": 68,
+   "estadio": "Estadio Francisco Sánchez Rumoroso",
+   "ciudad": "Coquimbo"
+  },
+  {
+   "id": "deportes_tolima",
+   "nombre": "Deportes Tolima",
+   "pais": "Colombia",
+   "plantilla": [],
+   "nivel": 68,
+   "estadio": "Estadio Manuel Murillo Toro",
+   "ciudad": "Ibagué"
+  },
+  {
+   "id": "nacional",
+   "nombre": "Nacional",
+   "pais": "Uruguay",
+   "plantilla": [],
+   "nivel": 72,
+   "estadio": "Gran Parque Central",
+   "ciudad": "Montevideo"
+  },
+  {
+   "id": "universitario",
+   "nombre": "Universitario",
+   "pais": "Perú",
+   "plantilla": [],
+   "nivel": 71,
+   "estadio": "Estadio Monumental",
+   "ciudad": "Lima"
+  },
+  {
+   "id": "independiente_rivadavia",
+   "nombre": "Independiente Rivadavia",
+   "pais": "Argentina",
+   "plantilla": [],
+   "nivel": 70,
+   "estadio": "Estadio Bautista Gargantini",
+   "ciudad": "Mendoza"
+  },
+  {
+   "id": "fluminense",
+   "nombre": "Fluminense",
+   "pais": "Brasil",
+   "plantilla": [],
+   "nivel": 77,
+   "estadio": "Maracanã",
+   "ciudad": "Río de Janeiro"
+  },
+  {
+   "id": "bolivar",
+   "nombre": "Bolívar",
+   "pais": "Bolivia",
+   "plantilla": [],
+   "nivel": 68,
+   "estadio": "Estadio Hernando Siles",
+   "ciudad": "La Paz"
+  },
+  {
+   "id": "deportivo_la_guaira",
+   "nombre": "Deportivo La Guaira",
+   "pais": "Venezuela",
+   "plantilla": [],
+   "nivel": 63,
+   "estadio": "Estadio Olímpico de la UCV",
+   "ciudad": "Caracas"
+  },
+  {
+   "id": "universidad_catolica",
+   "nombre": "Universidad Católica",
+   "pais": "Chile",
+   "plantilla": [],
+   "nivel": 70,
+   "estadio": "Estadio San Carlos de Apoquindo",
+   "ciudad": "Santiago"
+  },
+  {
+   "id": "cruzeiro",
+   "nombre": "Cruzeiro",
+   "pais": "Brasil",
+   "plantilla": [],
+   "nivel": 76,
+   "estadio": "Mineirão",
+   "ciudad": "Belo Horizonte"
+  },
+  {
+   "id": "boca_juniors",
+   "nombre": "Boca Juniors",
+   "pais": "Argentina",
+   "plantilla": [],
+   "nivel": 76,
+   "estadio": "La Bombonera",
+   "ciudad": "Buenos Aires"
+  },
+  {
+   "id": "barcelona_de_guayaquil",
+   "nombre": "Barcelona de Guayaquil",
+   "pais": "Ecuador",
+   "plantilla": [],
+   "nivel": 70,
+   "estadio": "Estadio Monumental Banco Pichincha",
+   "ciudad": "Guayaquil"
+  },
+  {
+   "id": "corinthians",
+   "nombre": "Corinthians",
+   "pais": "Brasil",
+   "plantilla": [],
+   "nivel": 77,
+   "estadio": "Neo Química Arena",
+   "ciudad": "São Paulo"
+  },
+  {
+   "id": "platense",
+   "nombre": "Platense",
+   "pais": "Argentina",
+   "plantilla": [],
+   "nivel": 70,
+   "estadio": "Estadio Ciudad de Vicente López",
+   "ciudad": "Vicente López"
+  },
+  {
+   "id": "santa_fe",
+   "nombre": "Santa Fe",
+   "pais": "Colombia",
+   "plantilla": [],
+   "nivel": 67,
+   "estadio": "Estadio El Campín",
+   "ciudad": "Bogotá"
+  },
+  {
+   "id": "penarol",
+   "nombre": "Peñarol",
+   "pais": "Uruguay",
+   "plantilla": [],
+   "nivel": 72,
+   "estadio": "Estadio Campeón del Siglo",
+   "ciudad": "Montevideo"
+  },
+  {
+   "id": "cerro_porteno",
+   "nombre": "Cerro Porteño",
+   "pais": "Paraguay",
+   "plantilla": [],
+   "nivel": 72,
+   "estadio": "La Nueva Olla",
+   "ciudad": "Asunción"
+  },
+  {
+   "id": "palmeiras",
+   "nombre": "Palmeiras",
+   "pais": "Brasil",
+   "plantilla": [],
+   "nivel": 82,
+   "estadio": "Allianz Parque",
+   "ciudad": "São Paulo"
+  },
+  {
+   "id": "sporting_cristal",
+   "nombre": "Sporting Cristal",
+   "pais": "Perú",
+   "plantilla": [],
+   "nivel": 68,
+   "estadio": "Estadio Alberto Gallardo",
+   "ciudad": "Lima"
+  },
+  {
+   "id": "junior_de_barranquilla",
+   "nombre": "Junior de Barranquilla",
+   "pais": "Colombia",
+   "plantilla": [],
+   "nivel": 68,
+   "estadio": "Estadio Metropolitano Roberto Meléndez",
+   "ciudad": "Barranquilla"
+  },
+  {
+   "id": "ldu_quito",
+   "nombre": "LDU Quito",
+   "pais": "Ecuador",
+   "plantilla": [],
+   "nivel": 73,
+   "estadio": "Estadio Rodrigo Paz Delgado",
+   "ciudad": "Quito"
+  },
+  {
+   "id": "mirassol",
+   "nombre": "Mirassol",
+   "pais": "Brasil",
+   "plantilla": [],
+   "nivel": 72,
+   "estadio": "Estadio José Maria de Campos Maia",
+   "ciudad": "Mirassol"
+  },
+  {
+   "id": "lanus",
+   "nombre": "Lanús",
+   "pais": "Argentina",
+   "plantilla": [],
+   "nivel": 73,
+   "estadio": "Estadio Ciudad de Lanús",
+   "ciudad": "Lanús"
+  },
+  {
+   "id": "always_ready",
+   "nombre": "Always Ready",
+   "pais": "Bolivia",
+   "plantilla": [],
+   "nivel": 65,
+   "estadio": "Estadio Municipal de El Alto",
+   "ciudad": "El Alto"
+  },
+  {
+   "id": "independiente_del_valle",
+   "nombre": "Independiente del Valle",
+   "pais": "Ecuador",
+   "plantilla": [],
+   "nivel": 73,
+   "estadio": "Estadio Banco Guayaquil",
+   "ciudad": "Quito"
+  },
+  {
+   "id": "rosario_central",
+   "nombre": "Rosario Central",
+   "pais": "Argentina",
+   "plantilla": [],
+   "nivel": 73,
+   "estadio": "Gigante de Arroyito",
+   "ciudad": "Rosario"
+  },
+  {
+   "id": "universidad_central",
+   "nombre": "Universidad Central",
+   "pais": "Venezuela",
+   "plantilla": [],
+   "nivel": 63,
+   "estadio": "Estadio Olímpico de la UCV",
+   "ciudad": "Caracas"
+  },
+  {
+   "id": "libertad",
+   "nombre": "Libertad",
+   "pais": "Paraguay",
+   "plantilla": [],
+   "nivel": 70,
+   "estadio": "Estadio Doctor Nicolás Leoz",
+   "ciudad": "Asunción"
+  },
+  {
+   "id": "america",
+   "nombre": "América",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 80,
+   "estadio": "Estadio Azteca",
+   "ciudad": "Ciudad de México"
+  },
+  {
+   "id": "chivas",
+   "nombre": "Chivas",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 77,
+   "estadio": "Estadio Akron",
+   "ciudad": "Zapopan"
+  },
+  {
+   "id": "cruz_azul",
+   "nombre": "Cruz Azul",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 79,
+   "estadio": "Estadio Azteca",
+   "ciudad": "Ciudad de México"
+  },
+  {
+   "id": "pumas",
+   "nombre": "Pumas UNAM",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 76,
+   "estadio": "Estadio Olímpico Universitario",
+   "ciudad": "Ciudad de México"
+  },
+  {
+   "id": "tigres",
+   "nombre": "Tigres UANL",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 78,
+   "estadio": "Estadio Universitario",
+   "ciudad": "San Nicolás de los Garza"
+  },
+  {
+   "id": "monterrey",
+   "nombre": "Monterrey",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 79,
+   "estadio": "Estadio BBVA",
+   "ciudad": "Guadalupe"
+  },
+  {
+   "id": "toluca",
+   "nombre": "Toluca",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 78,
+   "estadio": "Estadio Nemesio Díez",
+   "ciudad": "Toluca"
+  },
+  {
+   "id": "pachuca",
+   "nombre": "Pachuca",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 76,
+   "estadio": "Estadio Hidalgo",
+   "ciudad": "Pachuca"
+  },
+  {
+   "id": "leon",
+   "nombre": "León",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 73,
+   "estadio": "Estadio León",
+   "ciudad": "León"
+  },
+  {
+   "id": "atlas",
+   "nombre": "Atlas",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 72,
+   "estadio": "Estadio Jalisco",
+   "ciudad": "Guadalajara"
+  },
+  {
+   "id": "necaxa",
+   "nombre": "Necaxa",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 70,
+   "estadio": "Estadio Victoria",
+   "ciudad": "Aguascalientes"
+  },
+  {
+   "id": "queretaro",
+   "nombre": "Querétaro",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 71,
+   "estadio": "Estadio Corregidora",
+   "ciudad": "Querétaro"
+  },
+  {
+   "id": "tijuana",
+   "nombre": "Tijuana",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 71,
+   "estadio": "Estadio Caliente",
+   "ciudad": "Tijuana"
+  },
+  {
+   "id": "santos",
+   "nombre": "Santos Laguna",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 70,
+   "estadio": "Estadio Corona",
+   "ciudad": "Torreón"
+  },
+  {
+   "id": "puebla",
+   "nombre": "Puebla",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 70,
+   "estadio": "Estadio Cuauhtémoc",
+   "ciudad": "Puebla"
+  },
+  {
+   "id": "san_luis",
+   "nombre": "Atlético San Luis",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 70,
+   "estadio": "Estadio Alfonso Lastras",
+   "ciudad": "San Luis Potosí"
+  },
+  {
+   "id": "juarez",
+   "nombre": "FC Juárez",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 67,
+   "estadio": "Estadio Olímpico Benito Juárez",
+   "ciudad": "Ciudad Juárez"
+  },
+  {
+   "id": "atlante",
+   "nombre": "Atlante",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 66,
+   "estadio": "Estadio Andrés Quintana Roo",
+   "ciudad": "Cancún"
+  },
+  {
+   "id": "inter_miami",
+   "nombre": "Inter Miami",
+   "pais": "Estados Unidos",
+   "plantilla": [],
+   "nivel": 77,
+   "estadio": "Nu Stadium",
+   "ciudad": "Miami"
+  },
+  {
+   "id": "lafc",
+   "nombre": "Los Angeles FC",
+   "pais": "Estados Unidos",
+   "plantilla": [],
+   "nivel": 76,
+   "estadio": "BMO Stadium",
+   "ciudad": "Los Ángeles"
+  },
+  {
+   "id": "seattle",
+   "nombre": "Seattle Sounders",
+   "pais": "Estados Unidos",
+   "plantilla": [],
+   "nivel": 74,
+   "estadio": "Lumen Field",
+   "ciudad": "Seattle"
+  },
+  {
+   "id": "columbus",
+   "nombre": "Columbus Crew",
+   "pais": "Estados Unidos",
+   "plantilla": [],
+   "nivel": 73,
+   "estadio": "Lower.com Field",
+   "ciudad": "Columbus"
+  },
+  {
+   "id": "la_galaxy",
+   "nombre": "LA Galaxy",
+   "pais": "Estados Unidos",
+   "plantilla": [],
+   "nivel": 72,
+   "estadio": "Dignity Health Sports Park",
+   "ciudad": "Carson"
+  },
+  {
+   "id": "philadelphia",
+   "nombre": "Philadelphia Union",
+   "pais": "Estados Unidos",
+   "plantilla": [],
+   "nivel": 72,
+   "estadio": "Subaru Park",
+   "ciudad": "Chester"
+  },
+  {
+   "id": "cincinnati",
+   "nombre": "FC Cincinnati",
+   "pais": "Estados Unidos",
+   "plantilla": [],
+   "nivel": 72,
+   "estadio": "TQL Stadium",
+   "ciudad": "Cincinnati"
+  },
+  {
+   "id": "atlanta",
+   "nombre": "Atlanta United",
+   "pais": "Estados Unidos",
+   "plantilla": [],
+   "nivel": 71,
+   "estadio": "Mercedes-Benz Stadium",
+   "ciudad": "Atlanta"
+  },
+  {
+   "id": "nycfc",
+   "nombre": "New York City FC",
+   "pais": "Estados Unidos",
+   "plantilla": [],
+   "nivel": 71,
+   "estadio": "Yankee Stadium",
+   "ciudad": "Nueva York"
+  },
+  {
+   "id": "vancouver",
+   "nombre": "Vancouver Whitecaps",
+   "pais": "Canadá",
+   "plantilla": [],
+   "nivel": 71,
+   "estadio": "BC Place",
+   "ciudad": "Vancouver"
+  },
+  {
+   "id": "saprissa",
+   "nombre": "Deportivo Saprissa",
+   "pais": "Costa Rica",
+   "plantilla": [],
+   "nivel": 66,
+   "estadio": "Estadio Ricardo Saprissa",
+   "ciudad": "San Juan de Tibás"
+  },
+  {
+   "id": "alajuelense",
+   "nombre": "Alajuelense",
+   "pais": "Costa Rica",
+   "plantilla": [],
+   "nivel": 66,
+   "estadio": "Estadio Alejandro Morera Soto",
+   "ciudad": "Alajuela"
+  },
+  {
+   "id": "olimpia_honduras",
+   "nombre": "Olimpia de Honduras",
+   "pais": "Honduras",
+   "plantilla": [],
+   "nivel": 65,
+   "estadio": "Estadio Nacional Chelato Uclés",
+   "ciudad": "Tegucigalpa"
+  },
+  {
+   "id": "comunicaciones",
+   "nombre": "Comunicaciones",
+   "pais": "Guatemala",
+   "plantilla": [],
+   "nivel": 63,
+   "estadio": "Estadio Cementos Progreso",
+   "ciudad": "Ciudad de Guatemala"
+  }
+ ]
+}

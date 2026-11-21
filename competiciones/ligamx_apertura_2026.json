@@ -1,0 +1,170 @@
+{
+ "id": "ligamx_apertura_2026",
+ "nombre": "Liga MX Apertura 2026",
+ "version_datos": "2026-11-19",
+ "nota": "18 clubes, 17 jornadas de todos contra todos y liguilla de 8 equipos sin play-in. El calendario lo sortea el juego. Estadios y niveles se pueden cambiar a mano. América y Cruz Azul juegan de local en el Estadio Azteca.",
+ "equipos": [
+  {
+   "id": "america",
+   "nombre": "América",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 80,
+   "estadio": "Estadio Azteca",
+   "ciudad": "Ciudad de México"
+  },
+  {
+   "id": "chivas",
+   "nombre": "Chivas",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 77,
+   "estadio": "Estadio Akron",
+   "ciudad": "Zapopan"
+  },
+  {
+   "id": "cruz_azul",
+   "nombre": "Cruz Azul",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 79,
+   "estadio": "Estadio Azteca",
+   "ciudad": "Ciudad de México"
+  },
+  {
+   "id": "pumas",
+   "nombre": "Pumas UNAM",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 76,
+   "estadio": "Estadio Olímpico Universitario",
+   "ciudad": "Ciudad de México"
+  },
+  {
+   "id": "tigres",
+   "nombre": "Tigres UANL",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 78,
+   "estadio": "Estadio Universitario",
+   "ciudad": "San Nicolás de los Garza"
+  },
+  {
+   "id": "monterrey",
+   "nombre": "Monterrey",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 79,
+   "estadio": "Estadio BBVA",
+   "ciudad": "Guadalupe"
+  },
+  {
+   "id": "toluca",
+   "nombre": "Toluca",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 78,
+   "estadio": "Estadio Nemesio Díez",
+   "ciudad": "Toluca"
+  },
+  {
+   "id": "pachuca",
+   "nombre": "Pachuca",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 76,
+   "estadio": "Estadio Hidalgo",
+   "ciudad": "Pachuca"
+  },
+  {
+   "id": "leon",
+   "nombre": "León",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 73,
+   "estadio": "Estadio León",
+   "ciudad": "León"
+  },
+  {
+   "id": "atlas",
+   "nombre": "Atlas",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 72,
+   "estadio": "Estadio Jalisco",
+   "ciudad": "Guadalajara"
+  },
+  {
+   "id": "necaxa",
+   "nombre": "Necaxa",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 70,
+   "estadio": "Estadio Victoria",
+   "ciudad": "Aguascalientes"
+  },
+  {
+   "id": "queretaro",
+   "nombre": "Querétaro",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 71,
+   "estadio": "Estadio Corregidora",
+   "ciudad": "Querétaro"
+  },
+  {
+   "id": "tijuana",
+   "nombre": "Tijuana",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 71,
+   "estadio": "Estadio Caliente",
+   "ciudad": "Tijuana"
+  },
+  {
+   "id": "santos",
+   "nombre": "Santos Laguna",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 70,
+   "estadio": "Estadio Corona",
+   "ciudad": "Torreón"
+  },
+  {
+   "id": "puebla",
+   "nombre": "Puebla",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 70,
+   "estadio": "Estadio Cuauhtémoc",
+   "ciudad": "Puebla"
+  },
+  {
+   "id": "san_luis",
+   "nombre": "Atlético San Luis",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 70,
+   "estadio": "Estadio Alfonso Lastras",
+   "ciudad": "San Luis Potosí"
+  },
+  {
+   "id": "juarez",
+   "nombre": "FC Juárez",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 67,
+   "estadio": "Estadio Olímpico Benito Juárez",
+   "ciudad": "Ciudad Juárez"
+  },
+  {
+   "id": "atlante",
+   "nombre": "Atlante",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 66,
+   "estadio": "Estadio Andrés Quintana Roo",
+   "ciudad": "Cancún"
+  }
+ ]
+}

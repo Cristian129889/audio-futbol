@@ -1,0 +1,13 @@
+JUGADORES REALES DE LOS CLUBES
+
+Pon aqui uno o varios archivos .csv con los jugadores de los clubes de la Liga de Campeones, la Copa Libertadores, la Copa Sudamericana, la Copa Interamericana y la Liga MX.
+Tienen el mismo formato que los de la carpeta datos (mira datos\FORMATO.txt).
+El nombre del club en la columna del equipo debe ser el mismo que usa el juego, por ejemplo: Real Madrid, Bayern de Múnich, Flamengo, Estudiantes de La Plata, Puebla.
+Si no hay columna de equipo, se usa el nombre del archivo como club.
+Cada club necesita al menos 11 jugadores. Los clubes sin archivo usan una plantilla de ejemplo.
+Esta carpeta es aparte de datos para que los clubes no se mezclen con las selecciones del Mundial.
+
+Liga MX: el archivo ligamx_clubes.csv trae jugadores de América, Chivas, Cruz Azul, Pumas UNAM, Tigres UANL, Monterrey, Toluca, Puebla, Tijuana y León.
+Puebla sale de la plantilla oficial publicada el 22 de julio de 2026. Tijuana y León salen de alineaciones de julio y agosto de 2026, y Cruz Azul y Tigres tienen ya los fichajes que aparecen en esas alineaciones.
+Las calidades son siempre estimadas. América, Chivas, Pumas UNAM, Monterrey y Toluca siguen con la lista hecha de memoria y pueden estar desactualizadas.
+Pachuca, Atlas, Necaxa, Querétaro, Santos Laguna, Atlético San Luis, FC Juárez y Atlante usan plantilla de ejemplo hasta que agregues sus jugadores en el mismo archivo o en otro .csv. El nombre del club debe coincidir con competiciones\ligamx_apertura_2026.json.

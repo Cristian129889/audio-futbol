@@ -1,0 +1,12 @@
+name: fútbol
+channels:
+  - defaults
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      - pygame-ce>=2.5.0
+      - comtypes>=1.4.0
+      - pytest>=8.0.0
+      - pyinstaller>=6.0.0
+      - -e .

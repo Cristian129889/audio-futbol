@@ -1,0 +1,5 @@
+Aqui van las DLL del Controller Client de NVDA. Ya vienen incluidas:
+nvdaControllerClient64.dll para Python de 64 bits y nvdaControllerClient32.dll para 32 bits.
+El juego elige la correcta solo. Tambien se acepta el nombre nvda.dll.
+Sin la DLL, el juego usa otra voz.
+La licencia de la DLL esta en LICENCIA_NVDA_controllerClient.txt.

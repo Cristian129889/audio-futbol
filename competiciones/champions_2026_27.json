@@ -1,0 +1,1395 @@
+{
+ "id": "champions_2026_27",
+ "nombre": "Liga de Campeones de la UEFA 2026-27",
+ "version_datos": "2026-11-14",
+ "nota": "Equipos y calendario completos de la fase de liga. Resultados reales cargados solo de la jornada 1; el resto está en null para que el juego los simule. Las plantillas están vacías: se rellenan desde tu base de datos de jugadores.",
+ "formato": {
+  "fase_liga": "36 equipos, tabla única, 8 partidos por equipo (4 de local y 4 de visitante)",
+  "clasificacion": "1 al 8 pasan directo a octavos; 9 al 24 juegan el play-off; 25 al 36 eliminados",
+  "desempate_tabla": [
+   "puntos",
+   "diferencia de goles",
+   "goles a favor"
+  ],
+  "eliminatorias": "ida y vuelta (play-off, octavos, cuartos y semifinales); final a partido único"
+ },
+ "equipos": [
+  {
+   "id": "paris_saintgermain",
+   "nombre": "París Saint-Germain",
+   "nombre_en": "Paris Saint-Germain",
+   "pais": "Francia",
+   "plantilla": [],
+   "nivel": 88,
+   "estadio": "Parc des Princes",
+   "ciudad": "París"
+  },
+  {
+   "id": "aston_villa",
+   "nombre": "Aston Villa",
+   "nombre_en": "Aston Villa",
+   "pais": "Inglaterra",
+   "plantilla": [],
+   "nivel": 80,
+   "estadio": "Villa Park",
+   "ciudad": "Birmingham"
+  },
+  {
+   "id": "arsenal",
+   "nombre": "Arsenal",
+   "nombre_en": "Arsenal",
+   "pais": "Inglaterra",
+   "plantilla": [],
+   "nivel": 87,
+   "estadio": "Emirates Stadium",
+   "ciudad": "Londres"
+  },
+  {
+   "id": "manchester_city",
+   "nombre": "Manchester City",
+   "nombre_en": "Manchester City",
+   "pais": "Inglaterra",
+   "plantilla": [],
+   "nivel": 87,
+   "estadio": "Etihad Stadium",
+   "ciudad": "Mánchester"
+  },
+  {
+   "id": "manchester_united",
+   "nombre": "Manchester United",
+   "nombre_en": "Manchester United",
+   "pais": "Inglaterra",
+   "plantilla": [],
+   "nivel": 82,
+   "estadio": "Old Trafford",
+   "ciudad": "Mánchester"
+  },
+  {
+   "id": "liverpool",
+   "nombre": "Liverpool",
+   "nombre_en": "Liverpool",
+   "pais": "Inglaterra",
+   "plantilla": [],
+   "nivel": 86,
+   "estadio": "Anfield",
+   "ciudad": "Liverpool"
+  },
+  {
+   "id": "inter_de_milan",
+   "nombre": "Inter de Milán",
+   "nombre_en": "Inter Milan",
+   "pais": "Italia",
+   "plantilla": [],
+   "nivel": 86,
+   "estadio": "San Siro",
+   "ciudad": "Milán"
+  },
+  {
+   "id": "napoli",
+   "nombre": "Napoli",
+   "nombre_en": "Napoli",
+   "pais": "Italia",
+   "plantilla": [],
+   "nivel": 82,
+   "estadio": "Estadio Diego Armando Maradona",
+   "ciudad": "Nápoles"
+  },
+  {
+   "id": "roma",
+   "nombre": "Roma",
+   "nombre_en": "Roma",
+   "pais": "Italia",
+   "plantilla": [],
+   "nivel": 79,
+   "estadio": "Estadio Olímpico",
+   "ciudad": "Roma"
+  },
+  {
+   "id": "como",
+   "nombre": "Como",
+   "nombre_en": "Como",
+   "pais": "Italia",
+   "plantilla": [],
+   "nivel": 76,
+   "estadio": "Estadio Giuseppe Sinigaglia",
+   "ciudad": "Como"
+  },
+  {
+   "id": "barcelona",
+   "nombre": "Barcelona",
+   "nombre_en": "Barcelona",
+   "pais": "España",
+   "plantilla": [],
+   "nivel": 87,
+   "estadio": "Spotify Camp Nou",
+   "ciudad": "Barcelona"
+  },
+  {
+   "id": "real_madrid",
+   "nombre": "Real Madrid",
+   "nombre_en": "Real Madrid",
+   "pais": "España",
+   "plantilla": [],
+   "nivel": 88,
+   "estadio": "Santiago Bernabéu",
+   "ciudad": "Madrid"
+  },
+  {
+   "id": "villarreal",
+   "nombre": "Villarreal",
+   "nombre_en": "Villarreal",
+   "pais": "España",
+   "plantilla": [],
+   "nivel": 79,
+   "estadio": "Estadio de la Cerámica",
+   "ciudad": "Villarreal"
+  },
+  {
+   "id": "atletico_de_madrid",
+   "nombre": "Atlético de Madrid",
+   "nombre_en": "Atlético Madrid",
+   "pais": "España",
+   "plantilla": [],
+   "nivel": 84,
+   "estadio": "Riyadh Air Metropolitano",
+   "ciudad": "Madrid"
+  },
+  {
+   "id": "real_betis",
+   "nombre": "Real Betis",
+   "nombre_en": "Real Betis",
+   "pais": "España",
+   "plantilla": [],
+   "nivel": 78,
+   "estadio": "Estadio Benito Villamarín",
+   "ciudad": "Sevilla"
+  },
+  {
+   "id": "bayern_de_munich",
+   "nombre": "Bayern de Múnich",
+   "nombre_en": "Bayern Munich",
+   "pais": "Alemania",
+   "plantilla": [],
+   "nivel": 88,
+   "estadio": "Allianz Arena",
+   "ciudad": "Múnich"
+  },
+  {
+   "id": "borussia_dortmund",
+   "nombre": "Borussia Dortmund",
+   "nombre_en": "Borussia Dortmund",
+   "pais": "Alemania",
+   "plantilla": [],
+   "nivel": 83,
+   "estadio": "Signal Iduna Park",
+   "ciudad": "Dortmund"
+  },
+  {
+   "id": "rb_leipzig",
+   "nombre": "RB Leipzig",
+   "nombre_en": "RB Leipzig",
+   "pais": "Alemania",
+   "plantilla": [],
+   "nivel": 82,
+   "estadio": "Red Bull Arena",
+   "ciudad": "Leipzig"
+  },
+  {
+   "id": "stuttgart",
+   "nombre": "Stuttgart",
+   "nombre_en": "VfB Stuttgart",
+   "pais": "Alemania",
+   "plantilla": [],
+   "nivel": 79,
+   "estadio": "MHPArena",
+   "ciudad": "Stuttgart"
+  },
+  {
+   "id": "lens",
+   "nombre": "Lens",
+   "nombre_en": "Lens",
+   "pais": "Francia",
+   "plantilla": [],
+   "nivel": 76,
+   "estadio": "Estadio Bollaert-Delelis",
+   "ciudad": "Lens"
+  },
+  {
+   "id": "lille",
+   "nombre": "Lille",
+   "nombre_en": "Lille",
+   "pais": "Francia",
+   "plantilla": [],
+   "nivel": 77,
+   "estadio": "Decathlon Arena Pierre-Mauroy",
+   "ciudad": "Villeneuve-d'Ascq"
+  },
+  {
+   "id": "psv_eindhoven",
+   "nombre": "PSV Eindhoven",
+   "nombre_en": "PSV Eindhoven",
+   "pais": "Países Bajos",
+   "plantilla": [],
+   "nivel": 79,
+   "estadio": "Philips Stadion",
+   "ciudad": "Eindhoven"
+  },
+  {
+   "id": "feyenoord",
+   "nombre": "Feyenoord",
+   "nombre_en": "Feyenoord",
+   "pais": "Países Bajos",
+   "plantilla": [],
+   "nivel": 77,
+   "estadio": "De Kuip",
+   "ciudad": "Róterdam"
+  },
+  {
+   "id": "oporto",
+   "nombre": "Oporto",
+   "nombre_en": "Porto",
+   "pais": "Portugal",
+   "plantilla": [],
+   "nivel": 79,
+   "estadio": "Estadio do Dragão",
+   "ciudad": "Oporto"
+  },
+  {
+   "id": "sporting_de_portugal",
+   "nombre": "Sporting de Portugal",
+   "nombre_en": "Sporting CP",
+   "pais": "Portugal",
+   "plantilla": [],
+   "nivel": 80,
+   "estadio": "Estadio José Alvalade",
+   "ciudad": "Lisboa"
+  },
+  {
+   "id": "brujas",
+   "nombre": "Brujas",
+   "nombre_en": "Club Brugge",
+   "pais": "Bélgica",
+   "plantilla": [],
+   "nivel": 76,
+   "estadio": "Estadio Jan Breydel",
+   "ciudad": "Brujas"
+  },
+  {
+   "id": "slavia_de_praga",
+   "nombre": "Slavia de Praga",
+   "nombre_en": "Slavia Prague",
+   "pais": "Chequia",
+   "plantilla": [],
+   "nivel": 74,
+   "estadio": "Fortuna Arena",
+   "ciudad": "Praga"
+  },
+  {
+   "id": "galatasaray",
+   "nombre": "Galatasaray",
+   "nombre_en": "Galatasaray",
+   "pais": "Turquía",
+   "plantilla": [],
+   "nivel": 77,
+   "estadio": "RAMS Park",
+   "ciudad": "Estambul"
+  },
+  {
+   "id": "fenerbahae",
+   "nombre": "Fenerbahçe",
+   "nombre_en": "Fenerbahçe",
+   "pais": "Turquía",
+   "plantilla": [],
+   "nivel": 77,
+   "estadio": "Estadio Şükrü Saracoğlu",
+   "ciudad": "Estambul"
+  },
+  {
+   "id": "shakhtar_donetsk",
+   "nombre": "Shakhtar Donetsk",
+   "nombre_en": "Shakhtar Donetsk",
+   "pais": "Ucrania",
+   "plantilla": [],
+   "nivel": 74,
+   "estadio": "Stamford Bridge",
+   "ciudad": "Londres"
+  },
+  {
+   "id": "viking",
+   "nombre": "Viking",
+   "nombre_en": "Viking",
+   "pais": "Noruega",
+   "plantilla": [],
+   "nivel": 71,
+   "estadio": "SR-Bank Arena",
+   "ciudad": "Stavanger"
+  },
+  {
+   "id": "bodo_glimt",
+   "nombre": "Bodø Glimt",
+   "nombre_en": "Bodø/Glimt",
+   "pais": "Noruega",
+   "plantilla": [],
+   "nivel": 73,
+   "estadio": "Estadio Aspmyra",
+   "ciudad": "Bodø"
+  },
+  {
+   "id": "aek_atenas",
+   "nombre": "AEK Atenas",
+   "nombre_en": "AEK Athens",
+   "pais": "Grecia",
+   "plantilla": [],
+   "nivel": 72,
+   "estadio": "OPAP Arena",
+   "ciudad": "Atenas"
+  },
+  {
+   "id": "lask",
+   "nombre": "LASK",
+   "nombre_en": "LASK",
+   "pais": "Austria",
+   "plantilla": [],
+   "nivel": 70,
+   "estadio": "Raiffeisen Arena",
+   "ciudad": "Linz"
+  },
+  {
+   "id": "slovan_bratislava",
+   "nombre": "Slovan Bratislava",
+   "nombre_en": "Slovan Bratislava",
+   "pais": "Eslovaquia",
+   "plantilla": [],
+   "nivel": 68,
+   "estadio": "Tehelné pole",
+   "ciudad": "Bratislava"
+  },
+  {
+   "id": "sabah",
+   "nombre": "Sabah",
+   "nombre_en": "Sabah",
+   "pais": "Azerbaiyán",
+   "plantilla": [],
+   "nivel": 67,
+   "estadio": "Estadio Olímpico de Bakú",
+   "ciudad": "Bakú"
+  }
+ ],
+ "fases": [
+  {
+   "id": "fase_liga",
+   "nombre": "Fase de liga",
+   "tipo": "liga",
+   "jornadas": [
+    {
+     "numero": 1,
+     "partidos": [
+      {
+       "local": "aek_atenas",
+       "visitante": "lask",
+       "fecha": "2026-09-08/10",
+       "resultado": {
+        "local": 1,
+        "visitante": 0
+       }
+      },
+      {
+       "local": "brujas",
+       "visitante": "aston_villa",
+       "fecha": "2026-09-08/10",
+       "resultado": {
+        "local": 2,
+        "visitante": 3
+       }
+      },
+      {
+       "local": "borussia_dortmund",
+       "visitante": "villarreal",
+       "fecha": "2026-09-08/10",
+       "resultado": {
+        "local": 3,
+        "visitante": 2
+       }
+      },
+      {
+       "local": "oporto",
+       "visitante": "manchester_city",
+       "fecha": "2026-09-08/10",
+       "resultado": {
+        "local": 0,
+        "visitante": 2
+       }
+      },
+      {
+       "local": "lille",
+       "visitante": "real_betis",
+       "fecha": "2026-09-08/10",
+       "resultado": {
+        "local": 2,
+        "visitante": 3
+       }
+      },
+      {
+       "local": "real_madrid",
+       "visitante": "inter_de_milan",
+       "fecha": "2026-09-08/10",
+       "resultado": {
+        "local": 2,
+        "visitante": 1
+       }
+      },
+      {
+       "local": "barcelona",
+       "visitante": "feyenoord",
+       "fecha": "2026-09-08/10",
+       "resultado": {
+        "local": 5,
+        "visitante": 1
+       }
+      },
+      {
+       "local": "stuttgart",
+       "visitante": "viking",
+       "fecha": "2026-09-08/10",
+       "resultado": {
+        "local": 3,
+        "visitante": 1
+       }
+      },
+      {
+       "local": "liverpool",
+       "visitante": "atletico_de_madrid",
+       "fecha": "2026-09-08/10",
+       "resultado": {
+        "local": 2,
+        "visitante": 1
+       }
+      },
+      {
+       "local": "paris_saintgermain",
+       "visitante": "slovan_bratislava",
+       "fecha": "2026-09-08/10",
+       "resultado": {
+        "local": 6,
+        "visitante": 1
+       }
+      },
+      {
+       "local": "sporting_de_portugal",
+       "visitante": "galatasaray",
+       "fecha": "2026-09-08/10",
+       "resultado": {
+        "local": 3,
+        "visitante": 1
+       }
+      },
+      {
+       "local": "napoli",
+       "visitante": "arsenal",
+       "fecha": "2026-09-08/10",
+       "resultado": {
+        "local": 0,
+        "visitante": 1
+       }
+      },
+      {
+       "local": "fenerbahae",
+       "visitante": "roma",
+       "fecha": "2026-09-08/10",
+       "resultado": {
+        "local": 1,
+        "visitante": 1
+       }
+      },
+      {
+       "local": "psv_eindhoven",
+       "visitante": "shakhtar_donetsk",
+       "fecha": "2026-09-08/10",
+       "resultado": {
+        "local": 1,
+        "visitante": 1
+       }
+      },
+      {
+       "local": "como",
+       "visitante": "rb_leipzig",
+       "fecha": "2026-09-08/10",
+       "resultado": {
+        "local": 4,
+        "visitante": 1
+       }
+      },
+      {
+       "local": "bayern_de_munich",
+       "visitante": "bodo_glimt",
+       "fecha": "2026-09-08/10",
+       "resultado": {
+        "local": 5,
+        "visitante": 0
+       }
+      },
+      {
+       "local": "manchester_united",
+       "visitante": "sabah",
+       "fecha": "2026-09-08/10",
+       "resultado": {
+        "local": 4,
+        "visitante": 0
+       }
+      },
+      {
+       "local": "slavia_de_praga",
+       "visitante": "lens",
+       "fecha": "2026-09-08/10",
+       "resultado": {
+        "local": 2,
+        "visitante": 3
+       }
+      }
+     ]
+    },
+    {
+     "numero": 2,
+     "partidos": [
+      {
+       "local": "lens",
+       "visitante": "sporting_de_portugal",
+       "fecha": "2026-10-13",
+       "resultado": null
+      },
+      {
+       "local": "sabah",
+       "visitante": "slavia_de_praga",
+       "fecha": "2026-10-13",
+       "resultado": null
+      },
+      {
+       "local": "arsenal",
+       "visitante": "lille",
+       "fecha": "2026-10-13",
+       "resultado": null
+      },
+      {
+       "local": "atletico_de_madrid",
+       "visitante": "manchester_united",
+       "fecha": "2026-10-13",
+       "resultado": null
+      },
+      {
+       "local": "inter_de_milan",
+       "visitante": "brujas",
+       "fecha": "2026-10-13",
+       "resultado": null
+      },
+      {
+       "local": "galatasaray",
+       "visitante": "barcelona",
+       "fecha": "2026-10-13",
+       "resultado": null
+      },
+      {
+       "local": "rb_leipzig",
+       "visitante": "psv_eindhoven",
+       "fecha": "2026-10-13",
+       "resultado": null
+      },
+      {
+       "local": "viking",
+       "visitante": "bayern_de_munich",
+       "fecha": "2026-10-13",
+       "resultado": null
+      },
+      {
+       "local": "villarreal",
+       "visitante": "napoli",
+       "fecha": "2026-10-13",
+       "resultado": null
+      },
+      {
+       "local": "feyenoord",
+       "visitante": "como",
+       "fecha": "2026-10-14",
+       "resultado": null
+      },
+      {
+       "local": "lask",
+       "visitante": "liverpool",
+       "fecha": "2026-10-14",
+       "resultado": null
+      },
+      {
+       "local": "roma",
+       "visitante": "real_madrid",
+       "fecha": "2026-10-14",
+       "resultado": null
+      },
+      {
+       "local": "aston_villa",
+       "visitante": "fenerbahae",
+       "fecha": "2026-10-14",
+       "resultado": null
+      },
+      {
+       "local": "shakhtar_donetsk",
+       "visitante": "aek_atenas",
+       "fecha": "2026-10-14",
+       "resultado": null
+      },
+      {
+       "local": "bodo_glimt",
+       "visitante": "borussia_dortmund",
+       "fecha": "2026-10-14",
+       "resultado": null
+      },
+      {
+       "local": "manchester_city",
+       "visitante": "paris_saintgermain",
+       "fecha": "2026-10-14",
+       "resultado": null
+      },
+      {
+       "local": "real_betis",
+       "visitante": "oporto",
+       "fecha": "2026-10-14",
+       "resultado": null
+      },
+      {
+       "local": "slovan_bratislava",
+       "visitante": "stuttgart",
+       "fecha": "2026-10-14",
+       "resultado": null
+      }
+     ]
+    },
+    {
+     "numero": 3,
+     "partidos": [
+      {
+       "local": "fenerbahae",
+       "visitante": "slavia_de_praga",
+       "fecha": "2026-10-20",
+       "resultado": null
+      },
+      {
+       "local": "sabah",
+       "visitante": "borussia_dortmund",
+       "fecha": "2026-10-20",
+       "resultado": null
+      },
+      {
+       "local": "roma",
+       "visitante": "slovan_bratislava",
+       "fecha": "2026-10-20",
+       "resultado": null
+      },
+      {
+       "local": "oporto",
+       "visitante": "psv_eindhoven",
+       "fecha": "2026-10-20",
+       "resultado": null
+      },
+      {
+       "local": "liverpool",
+       "visitante": "villarreal",
+       "fecha": "2026-10-20",
+       "resultado": null
+      },
+      {
+       "local": "manchester_city",
+       "visitante": "aek_atenas",
+       "fecha": "2026-10-20",
+       "resultado": null
+      },
+      {
+       "local": "paris_saintgermain",
+       "visitante": "barcelona",
+       "fecha": "2026-10-20",
+       "resultado": null
+      },
+      {
+       "local": "napoli",
+       "visitante": "bodo_glimt",
+       "fecha": "2026-10-20",
+       "resultado": null
+      },
+      {
+       "local": "stuttgart",
+       "visitante": "atletico_de_madrid",
+       "fecha": "2026-10-20",
+       "resultado": null
+      },
+      {
+       "local": "como",
+       "visitante": "manchester_united",
+       "fecha": "2026-10-21",
+       "resultado": null
+      },
+      {
+       "local": "lille",
+       "visitante": "galatasaray",
+       "fecha": "2026-10-21",
+       "resultado": null
+      },
+      {
+       "local": "aston_villa",
+       "visitante": "viking",
+       "fecha": "2026-10-21",
+       "resultado": null
+      },
+      {
+       "local": "brujas",
+       "visitante": "lens",
+       "fecha": "2026-10-21",
+       "resultado": null
+      },
+      {
+       "local": "bayern_de_munich",
+       "visitante": "arsenal",
+       "fecha": "2026-10-21",
+       "resultado": null
+      },
+      {
+       "local": "inter_de_milan",
+       "visitante": "shakhtar_donetsk",
+       "fecha": "2026-10-21",
+       "resultado": null
+      },
+      {
+       "local": "real_madrid",
+       "visitante": "rb_leipzig",
+       "fecha": "2026-10-21",
+       "resultado": null
+      },
+      {
+       "local": "real_betis",
+       "visitante": "feyenoord",
+       "fecha": "2026-10-21",
+       "resultado": null
+      },
+      {
+       "local": "sporting_de_portugal",
+       "visitante": "lask",
+       "fecha": "2026-10-21",
+       "resultado": null
+      }
+     ]
+    },
+    {
+     "numero": 4,
+     "partidos": [
+      {
+       "local": "shakhtar_donetsk",
+       "visitante": "sporting_de_portugal",
+       "fecha": "2026-11-03",
+       "resultado": null
+      },
+      {
+       "local": "galatasaray",
+       "visitante": "stuttgart",
+       "fecha": "2026-11-03",
+       "resultado": null
+      },
+      {
+       "local": "atletico_de_madrid",
+       "visitante": "bayern_de_munich",
+       "fecha": "2026-11-03",
+       "resultado": null
+      },
+      {
+       "local": "barcelona",
+       "visitante": "aston_villa",
+       "fecha": "2026-11-03",
+       "resultado": null
+      },
+      {
+       "local": "feyenoord",
+       "visitante": "inter_de_milan",
+       "fecha": "2026-11-03",
+       "resultado": null
+      },
+      {
+       "local": "bodo_glimt",
+       "visitante": "lille",
+       "fecha": "2026-11-03",
+       "resultado": null
+      },
+      {
+       "local": "lask",
+       "visitante": "slovan_bratislava",
+       "fecha": "2026-11-03",
+       "resultado": null
+      },
+      {
+       "local": "manchester_united",
+       "visitante": "roma",
+       "fecha": "2026-11-03",
+       "resultado": null
+      },
+      {
+       "local": "villarreal",
+       "visitante": "paris_saintgermain",
+       "fecha": "2026-11-03",
+       "resultado": null
+      },
+      {
+       "local": "aek_atenas",
+       "visitante": "real_madrid",
+       "fecha": "2026-11-04",
+       "resultado": null
+      },
+      {
+       "local": "fenerbahae",
+       "visitante": "liverpool",
+       "fecha": "2026-11-04",
+       "resultado": null
+      },
+      {
+       "local": "borussia_dortmund",
+       "visitante": "real_betis",
+       "fecha": "2026-11-04",
+       "resultado": null
+      },
+      {
+       "local": "oporto",
+       "visitante": "napoli",
+       "fecha": "2026-11-04",
+       "resultado": null
+      },
+      {
+       "local": "psv_eindhoven",
+       "visitante": "brujas",
+       "fecha": "2026-11-04",
+       "resultado": null
+      },
+      {
+       "local": "rb_leipzig",
+       "visitante": "manchester_city",
+       "fecha": "2026-11-04",
+       "resultado": null
+      },
+      {
+       "local": "lens",
+       "visitante": "como",
+       "fecha": "2026-11-04",
+       "resultado": null
+      },
+      {
+       "local": "slavia_de_praga",
+       "visitante": "arsenal",
+       "fecha": "2026-11-04",
+       "resultado": null
+      },
+      {
+       "local": "viking",
+       "visitante": "sabah",
+       "fecha": "2026-11-04",
+       "resultado": null
+      }
+     ]
+    },
+    {
+     "numero": 5,
+     "partidos": [
+      {
+       "local": "bodo_glimt",
+       "visitante": "lask",
+       "fecha": "2026-11-24",
+       "resultado": null
+      },
+      {
+       "local": "galatasaray",
+       "visitante": "aston_villa",
+       "fecha": "2026-11-24",
+       "resultado": null
+      },
+      {
+       "local": "arsenal",
+       "visitante": "borussia_dortmund",
+       "fecha": "2026-11-24",
+       "resultado": null
+      },
+      {
+       "local": "como",
+       "visitante": "aek_atenas",
+       "fecha": "2026-11-24",
+       "resultado": null
+      },
+      {
+       "local": "feyenoord",
+       "visitante": "oporto",
+       "fecha": "2026-11-24",
+       "resultado": null
+      },
+      {
+       "local": "manchester_city",
+       "visitante": "napoli",
+       "fecha": "2026-11-24",
+       "resultado": null
+      },
+      {
+       "local": "rb_leipzig",
+       "visitante": "lens",
+       "fecha": "2026-11-24",
+       "resultado": null
+      },
+      {
+       "local": "real_madrid",
+       "visitante": "psv_eindhoven",
+       "fecha": "2026-11-24",
+       "resultado": null
+      },
+      {
+       "local": "slovan_bratislava",
+       "visitante": "real_betis",
+       "fecha": "2026-11-24",
+       "resultado": null
+      },
+      {
+       "local": "sabah",
+       "visitante": "barcelona",
+       "fecha": "2026-11-25",
+       "resultado": null
+      },
+      {
+       "local": "slavia_de_praga",
+       "visitante": "villarreal",
+       "fecha": "2026-11-25",
+       "resultado": null
+      },
+      {
+       "local": "atletico_de_madrid",
+       "visitante": "viking",
+       "fecha": "2026-11-25",
+       "resultado": null
+      },
+      {
+       "local": "brujas",
+       "visitante": "liverpool",
+       "fecha": "2026-11-25",
+       "resultado": null
+      },
+      {
+       "local": "inter_de_milan",
+       "visitante": "stuttgart",
+       "fecha": "2026-11-25",
+       "resultado": null
+      },
+      {
+       "local": "shakhtar_donetsk",
+       "visitante": "fenerbahae",
+       "fecha": "2026-11-25",
+       "resultado": null
+      },
+      {
+       "local": "lille",
+       "visitante": "bayern_de_munich",
+       "fecha": "2026-11-25",
+       "resultado": null
+      },
+      {
+       "local": "paris_saintgermain",
+       "visitante": "roma",
+       "fecha": "2026-11-25",
+       "resultado": null
+      },
+      {
+       "local": "sporting_de_portugal",
+       "visitante": "manchester_united",
+       "fecha": "2026-11-25",
+       "resultado": null
+      }
+     ]
+    },
+    {
+     "numero": 6,
+     "partidos": [
+      {
+       "local": "viking",
+       "visitante": "feyenoord",
+       "fecha": "2026-12-08",
+       "resultado": null
+      },
+      {
+       "local": "villarreal",
+       "visitante": "sabah",
+       "fecha": "2026-12-08",
+       "resultado": null
+      },
+      {
+       "local": "aek_atenas",
+       "visitante": "galatasaray",
+       "fecha": "2026-12-08",
+       "resultado": null
+      },
+      {
+       "local": "roma",
+       "visitante": "sporting_de_portugal",
+       "fecha": "2026-12-08",
+       "resultado": null
+      },
+      {
+       "local": "aston_villa",
+       "visitante": "paris_saintgermain",
+       "fecha": "2026-12-08",
+       "resultado": null
+      },
+      {
+       "local": "barcelona",
+       "visitante": "manchester_city",
+       "fecha": "2026-12-08",
+       "resultado": null
+      },
+      {
+       "local": "bayern_de_munich",
+       "visitante": "slavia_de_praga",
+       "fecha": "2026-12-08",
+       "resultado": null
+      },
+      {
+       "local": "manchester_united",
+       "visitante": "rb_leipzig",
+       "fecha": "2026-12-08",
+       "resultado": null
+      },
+      {
+       "local": "napoli",
+       "visitante": "brujas",
+       "fecha": "2026-12-08",
+       "resultado": null
+      },
+      {
+       "local": "real_betis",
+       "visitante": "como",
+       "fecha": "2026-12-09",
+       "resultado": null
+      },
+      {
+       "local": "slovan_bratislava",
+       "visitante": "shakhtar_donetsk",
+       "fecha": "2026-12-09",
+       "resultado": null
+      },
+      {
+       "local": "arsenal",
+       "visitante": "real_madrid",
+       "fecha": "2026-12-09",
+       "resultado": null
+      },
+      {
+       "local": "borussia_dortmund",
+       "visitante": "inter_de_milan",
+       "fecha": "2026-12-09",
+       "resultado": null
+      },
+      {
+       "local": "lask",
+       "visitante": "fenerbahae",
+       "fecha": "2026-12-09",
+       "resultado": null
+      },
+      {
+       "local": "liverpool",
+       "visitante": "oporto",
+       "fecha": "2026-12-09",
+       "resultado": null
+      },
+      {
+       "local": "psv_eindhoven",
+       "visitante": "atletico_de_madrid",
+       "fecha": "2026-12-09",
+       "resultado": null
+      },
+      {
+       "local": "lens",
+       "visitante": "bodo_glimt",
+       "fecha": "2026-12-09",
+       "resultado": null
+      },
+      {
+       "local": "stuttgart",
+       "visitante": "lille",
+       "fecha": "2026-12-09",
+       "resultado": null
+      }
+     ]
+    },
+    {
+     "numero": 7,
+     "partidos": [
+      {
+       "local": "bodo_glimt",
+       "visitante": "atletico_de_madrid",
+       "fecha": "2027-01-19",
+       "resultado": null
+      },
+      {
+       "local": "galatasaray",
+       "visitante": "feyenoord",
+       "fecha": "2027-01-19",
+       "resultado": null
+      },
+      {
+       "local": "aek_atenas",
+       "visitante": "roma",
+       "fecha": "2027-01-19",
+       "resultado": null
+      },
+      {
+       "local": "aston_villa",
+       "visitante": "borussia_dortmund",
+       "fecha": "2027-01-19",
+       "resultado": null
+      },
+      {
+       "local": "inter_de_milan",
+       "visitante": "liverpool",
+       "fecha": "2027-01-19",
+       "resultado": null
+      },
+      {
+       "local": "oporto",
+       "visitante": "slavia_de_praga",
+       "fecha": "2027-01-19",
+       "resultado": null
+      },
+      {
+       "local": "lille",
+       "visitante": "slovan_bratislava",
+       "fecha": "2027-01-19",
+       "resultado": null
+      },
+      {
+       "local": "real_madrid",
+       "visitante": "lask",
+       "fecha": "2027-01-19",
+       "resultado": null
+      },
+      {
+       "local": "stuttgart",
+       "visitante": "brujas",
+       "fecha": "2027-01-19",
+       "resultado": null
+      },
+      {
+       "local": "fenerbahae",
+       "visitante": "villarreal",
+       "fecha": "2027-01-20",
+       "resultado": null
+      },
+      {
+       "local": "sabah",
+       "visitante": "napoli",
+       "fecha": "2027-01-20",
+       "resultado": null
+      },
+      {
+       "local": "como",
+       "visitante": "paris_saintgermain",
+       "fecha": "2027-01-20",
+       "resultado": null
+      },
+      {
+       "local": "manchester_united",
+       "visitante": "bayern_de_munich",
+       "fecha": "2027-01-20",
+       "resultado": null
+      },
+      {
+       "local": "rb_leipzig",
+       "visitante": "shakhtar_donetsk",
+       "fecha": "2027-01-20",
+       "resultado": null
+      },
+      {
+       "local": "lens",
+       "visitante": "manchester_city",
+       "fecha": "2027-01-20",
+       "resultado": null
+      },
+      {
+       "local": "real_betis",
+       "visitante": "arsenal",
+       "fecha": "2027-01-20",
+       "resultado": null
+      },
+      {
+       "local": "sporting_de_portugal",
+       "visitante": "barcelona",
+       "fecha": "2027-01-20",
+       "resultado": null
+      },
+      {
+       "local": "viking",
+       "visitante": "psv_eindhoven",
+       "fecha": "2027-01-20",
+       "resultado": null
+      }
+     ]
+    },
+    {
+     "numero": 8,
+     "partidos": [
+      {
+       "local": "arsenal",
+       "visitante": "sabah",
+       "fecha": "2027-01-27",
+       "resultado": null
+      },
+      {
+       "local": "roma",
+       "visitante": "lille",
+       "fecha": "2027-01-27",
+       "resultado": null
+      },
+      {
+       "local": "atletico_de_madrid",
+       "visitante": "fenerbahae",
+       "fecha": "2027-01-27",
+       "resultado": null
+      },
+      {
+       "local": "borussia_dortmund",
+       "visitante": "aek_atenas",
+       "fecha": "2027-01-27",
+       "resultado": null
+      },
+      {
+       "local": "brujas",
+       "visitante": "bodo_glimt",
+       "fecha": "2027-01-27",
+       "resultado": null
+      },
+      {
+       "local": "bayern_de_munich",
+       "visitante": "real_betis",
+       "fecha": "2027-01-27",
+       "resultado": null
+      },
+      {
+       "local": "barcelona",
+       "visitante": "como",
+       "fecha": "2027-01-27",
+       "resultado": null
+      },
+      {
+       "local": "shakhtar_donetsk",
+       "visitante": "real_madrid",
+       "fecha": "2027-01-27",
+       "resultado": null
+      },
+      {
+       "local": "feyenoord",
+       "visitante": "rb_leipzig",
+       "fecha": "2027-01-27",
+       "resultado": null
+      },
+      {
+       "local": "lask",
+       "visitante": "oporto",
+       "fecha": "2027-01-27",
+       "resultado": null
+      },
+      {
+       "local": "liverpool",
+       "visitante": "lens",
+       "fecha": "2027-01-27",
+       "resultado": null
+      },
+      {
+       "local": "manchester_city",
+       "visitante": "sporting_de_portugal",
+       "fecha": "2027-01-27",
+       "resultado": null
+      },
+      {
+       "local": "paris_saintgermain",
+       "visitante": "galatasaray",
+       "fecha": "2027-01-27",
+       "resultado": null
+      },
+      {
+       "local": "psv_eindhoven",
+       "visitante": "stuttgart",
+       "fecha": "2027-01-27",
+       "resultado": null
+      },
+      {
+       "local": "slavia_de_praga",
+       "visitante": "aston_villa",
+       "fecha": "2027-01-27",
+       "resultado": null
+      },
+      {
+       "local": "napoli",
+       "visitante": "viking",
+       "fecha": "2027-01-27",
+       "resultado": null
+      },
+      {
+       "local": "villarreal",
+       "visitante": "manchester_united",
+       "fecha": "2027-01-27",
+       "resultado": null
+      },
+      {
+       "local": "slovan_bratislava",
+       "visitante": "inter_de_milan",
+       "fecha": "2027-01-27",
+       "resultado": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "playoff",
+   "nombre": "Play-off de eliminación",
+   "tipo": "eliminatoria",
+   "enfrentan": "puestos 9-16 (cabezas de serie) contra 17-24",
+   "fechas": {
+    "ida": "2027-02-16/17",
+    "vuelta": "2027-02-23/24"
+   },
+   "cruces": []
+  },
+  {
+   "id": "octavos",
+   "nombre": "Octavos de final",
+   "tipo": "eliminatoria",
+   "fechas": {
+    "ida": "2027-03-09/10",
+    "vuelta": "2027-03-16/17"
+   },
+   "cruces": []
+  },
+  {
+   "id": "cuartos",
+   "nombre": "Cuartos de final",
+   "tipo": "eliminatoria",
+   "fechas": {
+    "ida": "2027-04-06/07",
+    "vuelta": "2027-04-13/14"
+   },
+   "cruces": []
+  },
+  {
+   "id": "semifinales",
+   "nombre": "Semifinales",
+   "tipo": "eliminatoria",
+   "fechas": {
+    "ida": "2027-04-27/28",
+    "vuelta": "2027-05-04/05"
+   },
+   "cruces": []
+  },
+  {
+   "id": "final",
+   "nombre": "Final",
+   "tipo": "eliminatoria",
+   "fecha": "2027-06-05",
+   "sede": "Riyadh Air Metropolitano, Madrid",
+   "cruces": []
+  }
+ ],
+ "nota_nivel": "El campo nivel de cada club es una estimación orientativa para crear plantillas de ejemplo. Se puede cambiar a mano. Si pones jugadores reales en datos/clubes, se usan esos jugadores."
+}

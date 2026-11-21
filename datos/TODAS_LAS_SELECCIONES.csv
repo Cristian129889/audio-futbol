@@ -1,0 +1,1249 @@
+﻿seleccion,numero,nombre,posicion,ataque,defensa,pase,porteria
+Canadá,1,Maxime Crépeau,POR,12,20,35,70
+Canadá,2,Dayne St. Clair,POR,12,20,39,74
+Canadá,3,Thomas McGill,POR,12,20,31,66
+Canadá,4,Alphonso Davies,DEF,61,85,73,12
+Canadá,5,Alistair Johnston,DEF,52,76,64,12
+Canadá,6,Moïse Bombito,DEF,52,76,64,12
+Canadá,7,Derek Cornelius,DEF,50,74,62,12
+Canadá,8,Kamal Miller,DEF,50,74,62,12
+Canadá,9,Richie Laryea,DEF,50,74,62,12
+Canadá,10,Joel Waterman,DEF,48,72,60,12
+Canadá,11,Niko Sigur,DEF,48,72,60,12
+Canadá,12,Luc de Fougerolles,DEF,44,68,56,12
+Canadá,13,Stephen Eustáquio,MED,71,67,79,12
+Canadá,14,Ismaël Koné,MED,70,66,78,12
+Canadá,15,Jonathan Osorio,MED,66,62,74,12
+Canadá,16,Mathieu Choinière,MED,66,62,74,12
+Canadá,17,Tajon Buchanan,MED,68,64,76,12
+Canadá,18,Ali Ahmed,MED,62,58,70,12
+Canadá,19,Nathan Saliba,MED,63,59,71,12
+Canadá,20,Liam Millar,MED,64,60,72,12
+Canadá,21,Jonathan David,DEL,84,44,72,10
+Canadá,22,Cyle Larin,DEL,76,36,64,10
+Canadá,23,Tani Oluwaseyi,DEL,74,34,62,10
+Canadá,24,Promise David,DEL,72,32,60,10
+Canadá,25,Jacob Shaffelburg,DEL,74,34,62,10
+Canadá,26,Theo Corbeanu,DEL,68,28,56,10
+México,1,Guillermo Ochoa,POR,12,20,42,77
+México,2,Luis Malagón,POR,12,20,40,75
+México,3,Carlos Acevedo,POR,12,20,37,72
+México,4,Johan Vásquez,DEF,55,79,67,12
+México,5,César Montes,DEF,55,79,67,12
+México,6,Jesús Gallardo,DEF,52,76,64,12
+México,7,Jorge Sánchez,DEF,50,74,62,12
+México,8,Israel Reyes,DEF,52,76,64,12
+México,9,Mateo Chávez,DEF,48,72,60,12
+México,10,Jesús Orozco,DEF,49,73,61,12
+México,11,Gerardo Arteaga,DEF,50,74,62,12
+México,12,Bryan González,DEF,44,68,56,12
+México,13,Edson Álvarez,MED,73,69,81,12
+México,14,Luis Romo,MED,68,64,76,12
+México,15,Orbelín Pineda,MED,69,65,77,12
+México,16,Luis Chávez,MED,70,66,78,12
+México,17,Erik Lira,MED,66,62,74,12
+México,18,Álvaro Fidalgo,MED,70,66,78,12
+México,19,Brian Gutiérrez,MED,66,62,74,12
+México,20,Roberto Alvarado,MED,68,64,76,12
+México,21,Santiago Giménez,DEL,82,42,70,10
+México,22,Raúl Jiménez,DEL,78,38,66,10
+México,23,Hirving Lozano,DEL,78,38,66,10
+México,24,Julián Quiñones,DEL,76,36,64,10
+México,25,Alexis Vega,DEL,74,34,62,10
+México,26,Uriel Antuna,DEL,72,32,60,10
+Estados Unidos,1,Matt Turner,POR,12,20,39,74
+Estados Unidos,2,Matt Freese,POR,12,20,39,74
+Estados Unidos,3,Zack Steffen,POR,12,20,37,72
+Estados Unidos,4,Antonee Robinson,DEF,57,81,69,12
+Estados Unidos,5,Chris Richards,DEF,55,79,67,12
+Estados Unidos,6,Tim Ream,DEF,51,75,63,12
+Estados Unidos,7,Sergiño Dest,DEF,55,79,67,12
+Estados Unidos,8,Joe Scally,DEF,52,76,64,12
+Estados Unidos,9,Miles Robinson,DEF,51,75,63,12
+Estados Unidos,10,Mark McKenzie,DEF,52,76,64,12
+Estados Unidos,11,Auston Trusty,DEF,52,76,64,12
+Estados Unidos,12,Alex Freeman,DEF,44,68,56,12
+Estados Unidos,13,Tyler Adams,MED,73,69,81,12
+Estados Unidos,14,Weston McKennie,MED,73,69,81,12
+Estados Unidos,15,Yunus Musah,MED,70,66,78,12
+Estados Unidos,16,Johnny Cardoso,MED,70,66,78,12
+Estados Unidos,17,Giovanni Reyna,MED,70,66,78,12
+Estados Unidos,18,Malik Tillman,MED,71,67,79,12
+Estados Unidos,19,Sebastian Berhalter,MED,64,60,72,12
+Estados Unidos,20,Brenden Aaronson,MED,67,63,75,12
+Estados Unidos,21,Christian Pulisic,DEL,84,44,72,10
+Estados Unidos,22,Folarin Balogun,DEL,79,39,67,10
+Estados Unidos,23,Ricardo Pepi,DEL,76,36,64,10
+Estados Unidos,24,Timothy Weah,DEL,77,37,65,10
+Estados Unidos,25,Haji Wright,DEL,75,35,63,10
+Estados Unidos,26,Josh Sargent,DEL,76,36,64,10
+Australia,1,Mat Ryan,POR,12,20,39,74
+Australia,2,Joe Gauci,POR,12,20,35,70
+Australia,3,Patrick Beach,POR,12,20,31,66
+Australia,4,Harry Souttar,DEF,52,76,64,12
+Australia,5,Kye Rowles,DEF,49,73,61,12
+Australia,6,Alessandro Circati,DEF,50,74,62,12
+Australia,7,Jordan Bos,DEF,48,72,60,12
+Australia,8,Aziz Behich,DEF,50,74,62,12
+Australia,9,Jason Geria,DEF,47,71,59,12
+Australia,10,Lewis Miller,DEF,47,71,59,12
+Australia,11,Cameron Burgess,DEF,48,72,60,12
+Australia,12,Jacob Italiano,DEF,44,68,56,12
+Australia,13,Jackson Irvine,MED,68,64,76,12
+Australia,14,Ajdin Hrustic,MED,67,63,75,12
+Australia,15,Connor Metcalfe,MED,65,61,73,12
+Australia,16,Aiden O'Neill,MED,65,61,73,12
+Australia,17,Cameron Devlin,MED,64,60,72,12
+Australia,18,Riley McGree,MED,66,62,74,12
+Australia,19,Paul Okon-Engstler,MED,59,55,67,12
+Australia,20,,MED,,,,
+Australia,21,Mitchell Duke,DEL,71,31,59,10
+Australia,22,Craig Goodwin,DEL,74,34,62,10
+Australia,23,Martin Boyle,DEL,74,34,62,10
+Australia,24,Nestory Irankunda,DEL,72,32,60,10
+Australia,25,Mathew Leckie,DEL,72,32,60,10
+Australia,26,Kusini Yengi,DEL,70,30,58,10
+Irán,1,Alireza Beiranvand,POR,12,20,37,72
+Irán,2,Hossein Hosseini,POR,12,20,34,69
+Irán,3,Payam Niazmand,POR,12,20,33,68
+Irán,4,Hossein Kanaanizadegan,DEF,48,72,60,12
+Irán,5,Shojae Khalilzadeh,DEF,48,72,60,12
+Irán,6,Milad Mohammadi,DEF,48,72,60,12
+Irán,7,Ehsan Hajsafi,DEF,49,73,61,12
+Irán,8,Saleh Hardani,DEF,46,70,58,12
+Irán,9,Majid Hosseini,DEF,47,71,59,12
+Irán,10,Ramin Rezaeian,DEF,48,72,60,12
+Irán,11,Omid Noorafkan,DEF,46,70,58,12
+Irán,12,Danial Eiri,DEF,44,68,56,12
+Irán,13,Saeid Ezatolahi,MED,66,62,74,12
+Irán,14,Mehdi Torabi,MED,65,61,73,12
+Irán,15,Saman Ghoddos,MED,66,62,74,12
+Irán,16,Mohammad Mohebi,MED,66,62,74,12
+Irán,17,Alireza Jahanbakhsh,MED,66,62,74,12
+Irán,18,Omid Ebrahimi,MED,64,60,72,12
+Irán,19,Mehdi Ghayedi,MED,64,60,72,12
+Irán,20,Rouzbeh Cheshmi,MED,62,58,70,12
+Irán,21,Mehdi Taremi,DEL,82,42,70,10
+Irán,22,Sardar Azmoun,DEL,78,38,66,10
+Irán,23,Ali Gholizadeh,DEL,73,33,61,10
+Irán,24,Amirhossein Hosseinzadeh,DEL,68,28,56,10
+Irán,25,Shahriyar Moghanlou,DEL,70,30,58,10
+Irán,26,Allahyar Sayyadmanesh,DEL,70,30,58,10
+Japón,1,Zion Suzuki,POR,12,20,42,77
+Japón,2,Keisuke Osako,POR,12,20,35,70
+Japón,3,Tomoki Hayakawa,POR,12,20,33,68
+Japón,4,Takehiro Tomiyasu,DEF,56,80,68,12
+Japón,5,Ko Itakura,DEF,54,78,66,12
+Japón,6,Hiroki Ito,DEF,55,79,67,12
+Japón,7,Yukinari Sugawara,DEF,54,78,66,12
+Japón,8,Shogo Taniguchi,DEF,50,74,62,12
+Japón,9,Seiya Maikuma,DEF,46,70,58,12
+Japón,10,Yuto Nagatomo,DEF,48,72,60,12
+Japón,11,Junnosuke Suzuki,DEF,48,72,60,12
+Japón,12,Ayumu Seko,DEF,47,71,59,12
+Japón,13,Wataru Endo,MED,72,68,80,12
+Japón,14,Daichi Kamada,MED,71,67,79,12
+Japón,15,Ao Tanaka,MED,69,65,77,12
+Japón,16,Hidemasa Morita,MED,70,66,78,12
+Japón,17,Reo Hatate,MED,68,64,76,12
+Japón,18,Takefusa Kubo,MED,74,70,82,12
+Japón,19,Keito Nakamura,MED,70,66,78,12
+Japón,20,Ritsu Doan,MED,71,67,79,12
+Japón,21,Kaoru Mitoma,DEL,80,40,68,10
+Japón,22,Ayase Ueda,DEL,77,37,65,10
+Japón,23,Daizen Maeda,DEL,78,38,66,10
+Japón,24,Takumi Minamino,DEL,78,38,66,10
+Japón,25,Junya Ito,DEL,78,38,66,10
+Japón,26,Koki Ogawa,DEL,72,32,60,10
+Jordania,1,Yazeed Abu Laila,POR,12,20,30,65
+Jordania,2,Abdallah Al-Fakhouri,POR,12,20,27,62
+Jordania,3,Noureddin Bani Attiah,POR,12,20,27,62
+Jordania,4,Yazan Al-Arab,DEF,44,68,56,12
+Jordania,5,Abdallah Nasib,DEF,42,66,54,12
+Jordania,6,Ehsan Haddad,DEF,42,66,54,12
+Jordania,7,Mohammad Abu Hashish,DEF,41,65,53,12
+Jordania,8,Salem Al-Ajalin,DEF,40,64,52,12
+Jordania,9,,DEF,,,,
+Jordania,10,,DEF,,,,
+Jordania,11,,DEF,,,,
+Jordania,12,,DEF,,,,
+Jordania,13,Noor Al-Rawabdeh,MED,60,56,68,12
+Jordania,14,Nizar Al-Rashdan,MED,58,54,66,12
+Jordania,15,Ibrahim Sadeh,MED,56,52,64,12
+Jordania,16,,MED,,,,
+Jordania,17,,MED,,,,
+Jordania,18,,MED,,,,
+Jordania,19,,MED,,,,
+Jordania,20,,MED,,,,
+Jordania,21,Mousa Tamari,DEL,72,32,60,10
+Jordania,22,Ali Olwan,DEL,70,30,58,10
+Jordania,23,Yazan Al-Naimat,DEL,70,30,58,10
+Jordania,24,,DEL,,,,
+Jordania,25,,DEL,,,,
+Jordania,26,,DEL,,,,
+Corea del Sur,1,Kim Seung-gyu,POR,12,20,37,72
+Corea del Sur,2,Jo Hyeon-woo,POR,12,20,37,72
+Corea del Sur,3,Song Bum-keun,POR,12,20,35,70
+Corea del Sur,4,Kim Min-jae,DEF,61,85,73,12
+Corea del Sur,5,Kim Young-gwon,DEF,48,72,60,12
+Corea del Sur,6,Seol Young-woo,DEF,49,73,61,12
+Corea del Sur,7,Lee Ki-hyuk,DEF,46,70,58,12
+Corea del Sur,8,Kim Tae-hwan,DEF,47,71,59,12
+Corea del Sur,9,Cho Yu-min,DEF,46,70,58,12
+Corea del Sur,10,Lee Han-beom,DEF,46,70,58,12
+Corea del Sur,11,Kim Moon-hwan,DEF,46,70,58,12
+Corea del Sur,12,Park Jin-seob,DEF,45,69,57,12
+Corea del Sur,13,Lee Kang-in,MED,73,69,81,12
+Corea del Sur,14,Hwang In-beom,MED,71,67,79,12
+Corea del Sur,15,Paik Seung-ho,MED,66,62,74,12
+Corea del Sur,16,Hong Hyun-seok,MED,64,60,72,12
+Corea del Sur,17,Lee Jae-sung,MED,69,65,77,12
+Corea del Sur,18,Jens Castrop,MED,62,58,70,12
+Corea del Sur,19,Park Yong-woo,MED,62,58,70,12
+Corea del Sur,20,Kim Jin-kyu,MED,62,58,70,12
+Corea del Sur,21,Son Heung-min,DEL,87,47,75,10
+Corea del Sur,22,Hwang Hee-chan,DEL,79,39,67,10
+Corea del Sur,23,Oh Hyeon-gyu,DEL,74,34,62,10
+Corea del Sur,24,Cho Gue-sung,DEL,74,34,62,10
+Corea del Sur,25,Bae Jun-ho,DEL,70,30,58,10
+Corea del Sur,26,Yang Hyun-jun,DEL,70,30,58,10
+Catar,1,Meshaal Barsham,POR,12,20,35,70
+Catar,2,Salah Zakaria,POR,12,20,27,62
+Catar,3,Mahmoud Abunada,POR,12,20,27,62
+Catar,4,Pedro Miguel,DEF,46,70,58,12
+Catar,5,Lucas Mendes,DEF,46,70,58,12
+Catar,6,Boualem Khoukhi,DEF,46,70,58,12
+Catar,7,Homam Ahmed,DEF,45,69,57,12
+Catar,8,Bassam Al-Rawi,DEF,46,70,58,12
+Catar,9,Ayoub Al-Ali,DEF,41,65,53,12
+Catar,10,Sultan Al-Brake,DEF,41,65,53,12
+Catar,11,Tarek Salman,DEF,44,68,56,12
+Catar,12,,DEF,,,,
+Catar,13,Hassan Al-Haydos,MED,65,61,73,12
+Catar,14,Karim Boudiaf,MED,63,59,71,12
+Catar,15,Abdulaziz Hatem,MED,62,58,70,12
+Catar,16,Assim Madibo,MED,60,56,68,12
+Catar,17,Ahmed Fathy,MED,57,53,65,12
+Catar,18,Jassem Gaber,MED,59,55,67,12
+Catar,19,Mostafa Meshaal,MED,56,52,64,12
+Catar,20,,MED,,,,
+Catar,21,Akram Afif,DEL,78,38,66,10
+Catar,22,Almoez Ali,DEL,75,35,63,10
+Catar,23,Mohammed Muntari,DEL,72,32,60,10
+Catar,24,Yusuf Abdurisag,DEL,67,27,55,10
+Catar,25,Ahmed Al-Ganehi,DEL,66,26,54,10
+Catar,26,Edmilson Junior,DEL,68,28,56,10
+Arabia Saudita,1,Mohammed Al-Owais,POR,12,20,38,73
+Arabia Saudita,2,Nawaf Al-Aqidi,POR,12,20,35,70
+Arabia Saudita,3,Ahmed Al-Kassar,POR,12,20,31,66
+Arabia Saudita,4,Ali Al-Bulaihi,DEF,50,74,62,12
+Arabia Saudita,5,Hassan Tambakti,DEF,50,74,62,12
+Arabia Saudita,6,Saud Abdulhamid,DEF,50,74,62,12
+Arabia Saudita,7,Abdulelah Al-Amri,DEF,48,72,60,12
+Arabia Saudita,8,Nawaf Boushal,DEF,48,72,60,12
+Arabia Saudita,9,Jehad Thakri,DEF,46,70,58,12
+Arabia Saudita,10,Mohammed Abu Al-Shamat,DEF,44,68,56,12
+Arabia Saudita,11,Hassan Kadesh,DEF,44,68,56,12
+Arabia Saudita,12,Ali Majrashi,DEF,42,66,54,12
+Arabia Saudita,13,Salem Al-Dawsari,MED,70,66,78,12
+Arabia Saudita,14,Mohamed Kanno,MED,68,64,76,12
+Arabia Saudita,15,Abdulellah Al-Malki,MED,64,60,72,12
+Arabia Saudita,16,Nasser Al-Dawsari,MED,64,60,72,12
+Arabia Saudita,17,Ali Hazazi,MED,60,56,68,12
+Arabia Saudita,18,Sultan Mandash,MED,62,58,70,12
+Arabia Saudita,19,Musab Al-Juwayr,MED,62,58,70,12
+Arabia Saudita,20,Ziyad Al-Johani,MED,60,56,68,12
+Arabia Saudita,21,Firas Al-Buraikan,DEL,75,35,63,10
+Arabia Saudita,22,Saleh Al-Shehri,DEL,74,34,62,10
+Arabia Saudita,23,Abdullah Radif,DEL,70,30,58,10
+Arabia Saudita,24,Sami Al-Najei,DEL,70,30,58,10
+Arabia Saudita,25,Abdullah Al-Hamdan,DEL,71,31,59,10
+Arabia Saudita,26,Marwan Al-Sahafi,DEL,64,24,52,10
+Uzbekistán,1,Utkir Yusupov,POR,12,20,31,66
+Uzbekistán,2,Abduvokhid Nematov,POR,12,20,35,70
+Uzbekistán,3,Botirali Ergashev,POR,12,20,27,62
+Uzbekistán,4,Abdukodir Khusanov,DEF,56,80,68,12
+Uzbekistán,5,Rustam Ashurmatov,DEF,46,70,58,12
+Uzbekistán,6,Umar Eshmurodov,DEF,44,68,56,12
+Uzbekistán,7,Khojiakbar Alijonov,DEF,44,68,56,12
+Uzbekistán,8,Farrukh Sayfiev,DEF,44,68,56,12
+Uzbekistán,9,Sherzod Nasrullaev,DEF,42,66,54,12
+Uzbekistán,10,Abdulla Abdullaev,DEF,42,66,54,12
+Uzbekistán,11,,DEF,,,,
+Uzbekistán,12,,DEF,,,,
+Uzbekistán,13,Otabek Shukurov,MED,64,60,72,12
+Uzbekistán,14,Jaloliddin Masharipov,MED,64,60,72,12
+Uzbekistán,15,Abbosbek Fayzullaev,MED,68,64,76,12
+Uzbekistán,16,Odiljon Hamrobekov,MED,60,56,68,12
+Uzbekistán,17,Jasurbek Jaloliddinov,MED,60,56,68,12
+Uzbekistán,18,,MED,,,,
+Uzbekistán,19,,MED,,,,
+Uzbekistán,20,,MED,,,,
+Uzbekistán,21,Eldor Shomurodov,DEL,75,35,63,10
+Uzbekistán,22,Oston Urunov,DEL,72,32,60,10
+Uzbekistán,23,Igor Sergeev,DEL,70,30,58,10
+Uzbekistán,24,Azizbek Turgunboev,DEL,66,26,54,10
+Uzbekistán,25,,DEL,,,,
+Uzbekistán,26,,DEL,,,,
+Irak,1,Jalal Hassan,POR,12,20,31,66
+Irak,2,Fahad Talib,POR,12,20,27,62
+Irak,3,,POR,,,,
+Irak,4,Rebin Sulaka,DEF,46,70,58,12
+Irak,5,Hussein Ali,DEF,40,64,52,12
+Irak,6,Zaid Tahseen,DEF,40,64,52,12
+Irak,7,Merchas Doski,DEF,42,66,54,12
+Irak,8,,DEF,,,,
+Irak,9,,DEF,,,,
+Irak,10,,DEF,,,,
+Irak,11,,DEF,,,,
+Irak,12,,DEF,,,,
+Irak,13,Amir Al-Ammari,MED,62,58,70,12
+Irak,14,Ibrahim Bayesh,MED,60,56,68,12
+Irak,15,Zidane Iqbal,MED,62,58,70,12
+Irak,16,Aimar Sher,MED,59,55,67,12
+Irak,17,,MED,,,,
+Irak,18,,MED,,,,
+Irak,19,,MED,,,,
+Irak,20,,MED,,,,
+Irak,21,Aymen Hussein,DEL,72,32,60,10
+Irak,22,Ali Jasim,DEL,68,28,56,10
+Irak,23,Mohanad Ali,DEL,68,28,56,10
+Irak,24,,DEL,,,,
+Irak,25,,DEL,,,,
+Irak,26,,DEL,,,,
+Argelia,1,Anthony Mandrea,POR,12,20,37,72
+Argelia,2,Luca Zidane,POR,12,20,33,68
+Argelia,3,Oussama Benbot,POR,12,20,31,66
+Argelia,4,Aïssa Mandi,DEF,52,76,64,12
+Argelia,5,Ramy Bensebaini,DEF,56,80,68,12
+Argelia,6,Rayan Aït-Nouri,DEF,56,80,68,12
+Argelia,7,Youcef Atal,DEF,51,75,63,12
+Argelia,8,Mohamed Amine Tougai,DEF,46,70,58,12
+Argelia,9,Jaouen Hadjam,DEF,46,70,58,12
+Argelia,10,Ramiz Larbi,DEF,44,68,56,12
+Argelia,11,Zineddine Belaïd,DEF,44,68,56,12
+Argelia,12,Rafik Belghali,DEF,48,72,60,12
+Argelia,13,Ismaël Bennacer,MED,71,67,79,12
+Argelia,14,Nabil Bentaleb,MED,63,59,71,12
+Argelia,15,Ramiz Zerrouki,MED,68,64,76,12
+Argelia,16,Hicham Boudaoui,MED,64,60,72,12
+Argelia,17,Houssem Aouar,MED,70,66,78,12
+Argelia,18,Farès Chaïbi,MED,68,64,76,12
+Argelia,19,Saïd Benrahma,MED,66,62,74,12
+Argelia,20,Yacine Titraoui,MED,60,56,68,12
+Argelia,21,Riyad Mahrez,DEL,82,42,70,10
+Argelia,22,Amine Gouiri,DEL,78,38,66,10
+Argelia,23,Mohamed Amoura,DEL,78,38,66,10
+Argelia,24,Baghdad Bounedjah,DEL,72,32,60,10
+Argelia,25,Adem Zorgane,DEL,68,28,56,10
+Argelia,26,Anis Hadj Moussa,DEL,72,32,60,10
+Cabo Verde,1,Vozinha,POR,12,20,33,68
+Cabo Verde,2,Márcio da Rocha,POR,12,20,27,62
+Cabo Verde,3,CJ dos Santos,POR,12,20,29,64
+Cabo Verde,4,Logan Costa,DEF,50,74,62,12
+Cabo Verde,5,Roberto Lopes,DEF,46,70,58,12
+Cabo Verde,6,Steven Moreira,DEF,44,68,56,12
+Cabo Verde,7,Diney Borges,DEF,46,70,58,12
+Cabo Verde,8,Stopira,DEF,42,66,54,12
+Cabo Verde,9,João Paulo,DEF,40,64,52,12
+Cabo Verde,10,Sidny Lopes Cabral,DEF,42,66,54,12
+Cabo Verde,11,,DEF,,,,
+Cabo Verde,12,,DEF,,,,
+Cabo Verde,13,Kevin Pina,MED,64,60,72,12
+Cabo Verde,14,Jamiro Monteiro,MED,66,62,74,12
+Cabo Verde,15,Laros Duarte,MED,60,56,68,12
+Cabo Verde,16,Telmo Arcanjo,MED,60,56,68,12
+Cabo Verde,17,Yannick Semedo,MED,60,56,68,12
+Cabo Verde,18,,MED,,,,
+Cabo Verde,19,,MED,,,,
+Cabo Verde,20,,MED,,,,
+Cabo Verde,21,Ryan Mendes,DEL,72,32,60,10
+Cabo Verde,22,Garry Rodrigues,DEL,70,30,58,10
+Cabo Verde,23,Bebé,DEL,70,30,58,10
+Cabo Verde,24,Willy Semedo,DEL,68,28,56,10
+Cabo Verde,25,Dailon Livramento,DEL,72,32,60,10
+Cabo Verde,26,,DEL,,,,
+Costa de Marfil,1,Yahia Fofana,POR,12,20,37,72
+Costa de Marfil,2,Badra Ali Sangaré,POR,12,20,31,66
+Costa de Marfil,3,Mohamed Koné,POR,12,20,27,62
+Costa de Marfil,4,Evan Ndicka,DEF,56,80,68,12
+Costa de Marfil,5,Odilon Kossounou,DEF,54,78,66,12
+Costa de Marfil,6,Ousmane Diomande,DEF,54,78,66,12
+Costa de Marfil,7,Willy Boly,DEF,48,72,60,12
+Costa de Marfil,8,Ghislain Konan,DEF,48,72,60,12
+Costa de Marfil,9,Emmanuel Agbadou,DEF,52,76,64,12
+Costa de Marfil,10,Wilfried Singo,DEF,54,78,66,12
+Costa de Marfil,11,Clément Akpa,DEF,46,70,58,12
+Costa de Marfil,12,Guela Doué,DEF,52,76,64,12
+Costa de Marfil,13,Franck Kessié,MED,72,68,80,12
+Costa de Marfil,14,Seko Fofana,MED,70,66,78,12
+Costa de Marfil,15,Ibrahim Sangaré,MED,71,67,79,12
+Costa de Marfil,16,Jean Michaël Seri,MED,64,60,72,12
+Costa de Marfil,17,Christ Inao Oulaï,MED,62,58,70,12
+Costa de Marfil,18,Parfait Guiagon,MED,60,56,68,12
+Costa de Marfil,19,,MED,,,,
+Costa de Marfil,20,,MED,,,,
+Costa de Marfil,21,Sébastien Haller,DEL,76,36,64,10
+Costa de Marfil,22,Simon Adingra,DEL,78,38,66,10
+Costa de Marfil,23,Amad Diallo,DEL,81,41,69,10
+Costa de Marfil,24,Nicolas Pépé,DEL,76,36,64,10
+Costa de Marfil,25,Oumar Diakité,DEL,72,32,60,10
+Costa de Marfil,26,Evann Guessand,DEL,78,38,66,10
+Egipto,1,Mohamed El Shenawy,POR,12,20,39,74
+Egipto,2,Mohamed Abou Gabal,POR,12,20,33,68
+Egipto,3,Mostafa Shobeir,POR,12,20,29,64
+Egipto,4,Mohamed Abdelmonem,DEF,50,74,62,12
+Egipto,5,Yasser Ibrahim,DEF,44,68,56,12
+Egipto,6,Ahmed Fatouh,DEF,46,70,58,12
+Egipto,7,Mohamed Hany,DEF,48,72,60,12
+Egipto,8,Ramy Rabia,DEF,48,72,60,12
+Egipto,9,Khaled Sobhi,DEF,42,66,54,12
+Egipto,10,Hossam Abdelmaguid,DEF,44,68,56,12
+Egipto,11,Karim Hafez,DEF,44,68,56,12
+Egipto,12,Ahmed Hegazi,DEF,48,72,60,12
+Egipto,13,Mohamed Elneny,MED,66,62,74,12
+Egipto,14,Hamdi Fathi,MED,64,60,72,12
+Egipto,15,Marwan Attia,MED,62,58,70,12
+Egipto,16,Emam Ashour,MED,64,60,72,12
+Egipto,17,Trézéguet,MED,67,63,75,12
+Egipto,18,Mahmoud Saber,MED,60,56,68,12
+Egipto,19,Haissem Hassan,MED,62,58,70,12
+Egipto,20,Zizo,MED,64,60,72,12
+Egipto,21,Mohamed Salah,DEL,92,52,80,10
+Egipto,22,Omar Marmoush,DEL,85,45,73,10
+Egipto,23,Mostafa Mohamed,DEL,76,36,64,10
+Egipto,24,Ibrahim Adel,DEL,70,30,58,10
+Egipto,25,Ahmed Sayed,DEL,72,32,60,10
+Egipto,26,Hamza Abdelkarim,DEL,64,24,52,10
+Ghana,1,Lawrence Ati-Zigi,POR,12,20,37,72
+Ghana,2,Benjamin Asare,POR,12,20,29,64
+Ghana,3,Joseph Anang,POR,12,20,29,64
+Ghana,4,Mohammed Salisu,DEF,52,76,64,12
+Ghana,5,Alexander Djiku,DEF,50,74,62,12
+Ghana,6,Tariq Lamptey,DEF,52,76,64,12
+Ghana,7,Gideon Mensah,DEF,48,72,60,12
+Ghana,8,Baba Rahman,DEF,48,72,60,12
+Ghana,9,Alidu Seidu,DEF,48,72,60,12
+Ghana,10,Jerome Opoku,DEF,46,70,58,12
+Ghana,11,Abdul Mumin,DEF,46,70,58,12
+Ghana,12,Jonas Adjetey,DEF,44,68,56,12
+Ghana,13,Thomas Partey,MED,74,70,82,12
+Ghana,14,Mohammed Kudus,MED,76,72,84,12
+Ghana,15,Salis Abdul Samed,MED,68,64,76,12
+Ghana,16,Kamaldeen Sulemana,MED,68,64,76,12
+Ghana,17,Abdul Fatawu Issahaku,MED,66,62,74,12
+Ghana,18,Elisha Owusu,MED,64,60,72,12
+Ghana,19,Majeed Ashimeru,MED,62,58,70,12
+Ghana,20,Ernest Nuamah,MED,66,62,74,12
+Ghana,21,Jordan Ayew,DEL,74,34,62,10
+Ghana,22,Iñaki Williams,DEL,78,38,66,10
+Ghana,23,Antoine Semenyo,DEL,81,41,69,10
+Ghana,24,Ibrahim Osman,DEL,72,32,60,10
+Ghana,25,Brandon Thomas-Asante,DEL,70,30,58,10
+Ghana,26,Prince Kwabena Adu,DEL,68,28,56,10
+Marruecos,1,Yassine Bounou,POR,12,20,48,83
+Marruecos,2,Munir El Kajoui,POR,12,20,37,72
+Marruecos,3,Ahmed Reda Tagnaouti,POR,12,20,33,68
+Marruecos,4,Achraf Hakimi,DEF,65,89,77,12
+Marruecos,5,Nayef Aguerd,DEF,55,79,67,12
+Marruecos,6,Noussair Mazraoui,DEF,57,81,69,12
+Marruecos,7,Romain Saïss,DEF,50,74,62,12
+Marruecos,8,Adam Masina,DEF,50,74,62,12
+Marruecos,9,Yahia Attiyat Allah,DEF,48,72,60,12
+Marruecos,10,Chadi Riad,DEF,50,74,62,12
+Marruecos,11,Anass Salah-Eddine,DEF,50,74,62,12
+Marruecos,12,Zakaria El Ouahdi,DEF,48,72,60,12
+Marruecos,13,Sofyan Amrabat,MED,72,68,80,12
+Marruecos,14,Azzedine Ounahi,MED,70,66,78,12
+Marruecos,15,Bilal El Khannouss,MED,70,66,78,12
+Marruecos,16,Neil El Aynaoui,MED,70,66,78,12
+Marruecos,17,Ismael Saibari,MED,70,66,78,12
+Marruecos,18,Eliesse Ben Seghir,MED,68,64,76,12
+Marruecos,19,Amine Harit,MED,68,64,76,12
+Marruecos,20,Abde Ezzalzouli,MED,69,65,77,12
+Marruecos,21,Brahim Díaz,DEL,82,42,70,10
+Marruecos,22,Hakim Ziyech,DEL,78,38,66,10
+Marruecos,23,Youssef En-Nesyri,DEL,77,37,65,10
+Marruecos,24,Ayoub El Kaabi,DEL,76,36,64,10
+Marruecos,25,Soufiane Rahimi,DEL,72,32,60,10
+Marruecos,26,Ez Abde,DEL,75,35,63,10
+Senegal,1,Édouard Mendy,POR,12,20,42,77
+Senegal,2,Yehvann Diouf,POR,12,20,37,72
+Senegal,3,Mory Diaw,POR,12,20,35,70
+Senegal,4,Kalidou Koulibaly,DEF,56,80,68,12
+Senegal,5,Abdou Diallo,DEF,50,74,62,12
+Senegal,6,Moussa Niakhaté,DEF,52,76,64,12
+Senegal,7,Ismail Jakobs,DEF,50,74,62,12
+Senegal,8,Krépin Diatta,DEF,50,74,62,12
+Senegal,9,Pape Abou Cissé,DEF,48,72,60,12
+Senegal,10,Moustapha Mbow,DEF,46,70,58,12
+Senegal,11,Formose Mendy,DEF,44,68,56,12
+Senegal,12,Ilay Camara,DEF,40,64,52,12
+Senegal,13,Idrissa Gueye,MED,69,65,77,12
+Senegal,14,Pape Matar Sarr,MED,73,69,81,12
+Senegal,15,Lamine Camara,MED,69,65,77,12
+Senegal,16,Pathé Ciss,MED,66,62,74,12
+Senegal,17,Habib Diarra,MED,68,64,76,12
+Senegal,18,Pape Gueye,MED,70,66,78,12
+Senegal,19,Cheikh Sabaly,MED,56,52,64,12
+Senegal,20,Iliman Ndiaye,MED,71,67,79,12
+Senegal,21,Sadio Mané,DEL,82,42,70,10
+Senegal,22,Nicolas Jackson,DEL,81,41,69,10
+Senegal,23,Ismaïla Sarr,DEL,80,40,68,10
+Senegal,24,Boulaye Dia,DEL,77,37,65,10
+Senegal,25,Bamba Dieng,DEL,72,32,60,10
+Senegal,26,Habib Diallo,DEL,72,32,60,10
+Sudáfrica,1,Ronwen Williams,POR,12,20,39,74
+Sudáfrica,2,Veli Mothwa,POR,12,20,31,66
+Sudáfrica,3,Sipho Chaine,POR,12,20,31,66
+Sudáfrica,4,Mothobi Mvala,DEF,46,70,58,12
+Sudáfrica,5,Siyanda Xulu,DEF,44,68,56,12
+Sudáfrica,6,Khuliso Mudau,DEF,46,70,58,12
+Sudáfrica,7,Aubrey Modiba,DEF,46,70,58,12
+Sudáfrica,8,Nkosinathi Sibisi,DEF,44,68,56,12
+Sudáfrica,9,Grant Kekana,DEF,44,68,56,12
+Sudáfrica,10,Rushine De Reuck,DEF,46,70,58,12
+Sudáfrica,11,Thapelo Maseko,DEF,40,64,52,12
+Sudáfrica,12,,DEF,,,,
+Sudáfrica,13,Teboho Mokoena,MED,66,62,74,12
+Sudáfrica,14,Themba Zwane,MED,64,60,72,12
+Sudáfrica,15,Sphephelo Sithole,MED,64,60,72,12
+Sudáfrica,16,Percy Tau,MED,64,60,72,12
+Sudáfrica,17,Thapelo Morena,MED,62,58,70,12
+Sudáfrica,18,Oswin Appollis,MED,62,58,70,12
+Sudáfrica,19,,MED,,,,
+Sudáfrica,20,,MED,,,,
+Sudáfrica,21,Lyle Foster,DEL,72,32,60,10
+Sudáfrica,22,Evidence Makgopa,DEL,68,28,56,10
+Sudáfrica,23,Relebohile Mofokeng,DEL,70,30,58,10
+Sudáfrica,24,Iqraam Rayners,DEL,68,28,56,10
+Sudáfrica,25,Zakhele Lepasa,DEL,64,24,52,10
+Sudáfrica,26,,DEL,,,,
+Túnez,1,Aymen Dahmen,POR,12,20,35,70
+Túnez,2,Bechir Ben Said,POR,12,20,31,66
+Túnez,3,Sabri Ben Hessen,POR,12,20,27,62
+Túnez,4,Montassar Talbi,DEF,50,74,62,12
+Túnez,5,Yassine Meriah,DEF,48,72,60,12
+Túnez,6,Ali Abdi,DEF,48,72,60,12
+Túnez,7,Dylan Bronn,DEF,50,74,62,12
+Túnez,8,Ali Maâloul,DEF,46,70,58,12
+Túnez,9,Wajdi Kechrida,DEF,44,68,56,12
+Túnez,10,Mohamed Amine Ben Hamida,DEF,44,68,56,12
+Túnez,11,Omar Rekik,DEF,44,68,56,12
+Túnez,12,Nader Ghandri,DEF,42,66,54,12
+Túnez,13,Ellyes Skhiri,MED,70,66,78,12
+Túnez,14,Aïssa Laïdouni,MED,66,62,74,12
+Túnez,15,Hannibal Mejbri,MED,66,62,74,12
+Túnez,16,Mohamed Ali Ben Romdhane,MED,64,60,72,12
+Túnez,17,Ferjani Sassi,MED,62,58,70,12
+Túnez,18,Anis Ben Slimane,MED,64,60,72,12
+Túnez,19,Rani Khedira,MED,60,56,68,12
+Túnez,20,Ismaël Gharbi,MED,64,60,72,12
+Túnez,21,Hazem Mastouri,DEL,74,34,62,10
+Túnez,22,Elias Achouri,DEL,72,32,60,10
+Túnez,23,Seifeddine Jaziri,DEL,68,28,56,10
+Túnez,24,Wahbi Khazri,DEL,70,30,58,10
+Túnez,25,Firas Chaouat,DEL,68,28,56,10
+Túnez,26,Naïm Sliti,DEL,70,30,58,10
+RD Congo,1,Lionel Mpasi,POR,12,20,35,70
+RD Congo,2,Timothy Fayulu,POR,12,20,33,68
+RD Congo,3,Matthieu Epolo,POR,12,20,33,68
+RD Congo,4,Chancel Mbemba,DEF,52,76,64,12
+RD Congo,5,Arthur Masuaku,DEF,48,72,60,12
+RD Congo,6,Aaron Wan-Bissaka,DEF,54,78,66,12
+RD Congo,7,Axel Tuanzebe,DEF,50,74,62,12
+RD Congo,8,Joris Kayembe,DEF,46,70,58,12
+RD Congo,9,Gédéon Kalulu,DEF,44,68,56,12
+RD Congo,10,Steve Kapuadi,DEF,44,68,56,12
+RD Congo,11,Dylan Batubinsika,DEF,44,68,56,12
+RD Congo,12,,DEF,,,,
+RD Congo,13,Samuel Moutoussamy,MED,64,60,72,12
+RD Congo,14,Charles Pickel,MED,66,62,74,12
+RD Congo,15,Edo Kayembe,MED,66,62,74,12
+RD Congo,16,Noah Sadiki,MED,68,64,76,12
+RD Congo,17,Théo Bongonda,MED,68,64,76,12
+RD Congo,18,Meschack Elia,MED,66,62,74,12
+RD Congo,19,Gaël Kakuta,MED,60,56,68,12
+RD Congo,20,Nathanaël Mbuku,MED,64,60,72,12
+RD Congo,21,Cédric Bakambu,DEL,74,34,62,10
+RD Congo,22,Yoane Wissa,DEL,79,39,67,10
+RD Congo,23,Fiston Mayele,DEL,74,34,62,10
+RD Congo,24,Simon Banza,DEL,72,32,60,10
+RD Congo,25,Silas Katompa Mvumpa,DEL,72,32,60,10
+RD Congo,26,Brian Cipenga,DEL,66,26,54,10
+Curazao,1,Eloy Room,POR,12,20,33,68
+Curazao,2,Tyrick Bodak,POR,12,20,27,62
+Curazao,3,Trevor Doornbusch,POR,12,20,25,60
+Curazao,4,Armando Obispo,DEF,46,70,58,12
+Curazao,5,Shurandy Sambo,DEF,44,68,56,12
+Curazao,6,Sherel Floranus,DEF,44,68,56,12
+Curazao,7,Jurien Gaari,DEF,42,66,54,12
+Curazao,8,Roshon van Eijma,DEF,44,68,56,12
+Curazao,9,Joshua Brenet,DEF,44,68,56,12
+Curazao,10,,DEF,,,,
+Curazao,11,,DEF,,,,
+Curazao,12,,DEF,,,,
+Curazao,13,Riechedly Bazoer,MED,64,60,72,12
+Curazao,14,Leandro Bacuna,MED,62,58,70,12
+Curazao,15,Juninho Bacuna,MED,64,60,72,12
+Curazao,16,Kenji Gorré,MED,60,56,68,12
+Curazao,17,Jearl Margaritha,MED,58,54,66,12
+Curazao,18,Livano Comenencia,MED,56,52,64,12
+Curazao,19,Godfried Roemeratoe,MED,60,56,68,12
+Curazao,20,,MED,,,,
+Curazao,21,Jürgen Locadia,DEL,70,30,58,10
+Curazao,22,Tahith Chong,DEL,72,32,60,10
+Curazao,23,Gervane Kastaneer,DEL,68,28,56,10
+Curazao,24,Jeremy Antonisse,DEL,68,28,56,10
+Curazao,25,,DEL,,,,
+Curazao,26,,DEL,,,,
+Haití,1,Johny Placide,POR,12,20,31,66
+Haití,2,Josué Duverger,POR,12,20,27,62
+Haití,3,,POR,,,,
+Haití,4,Carlens Arcus,DEF,44,68,56,12
+Haití,5,Ricardo Adé,DEF,44,68,56,12
+Haití,6,Jean-Kévin Duverne,DEF,44,68,56,12
+Haití,7,Wilguens Paugain,DEF,40,64,52,12
+Haití,8,Martin Expérience,DEF,42,66,54,12
+Haití,9,,DEF,,,,
+Haití,10,,DEF,,,,
+Haití,11,,DEF,,,,
+Haití,12,,DEF,,,,
+Haití,13,Danley Jean Jacques,MED,60,56,68,12
+Haití,14,Jean-Ricner Bellegarde,MED,66,62,74,12
+Haití,15,Leverton Pierre,MED,56,52,64,12
+Haití,16,Pierre Richards,MED,56,52,64,12
+Haití,17,,MED,,,,
+Haití,18,,MED,,,,
+Haití,19,,MED,,,,
+Haití,20,,MED,,,,
+Haití,21,Duckens Nazon,DEL,72,32,60,10
+Haití,22,Frantzdy Pierrot,DEL,70,30,58,10
+Haití,23,Wilson Isidor,DEL,72,32,60,10
+Haití,24,Don Deedson Louicius,DEL,68,28,56,10
+Haití,25,Derrick Etienne Jr.,DEL,68,28,56,10
+Haití,26,Ruben Providence,DEL,66,26,54,10
+Panamá,1,Orlando Mosquera,POR,12,20,33,68
+Panamá,2,Luis Mejía,POR,12,20,31,66
+Panamá,3,César Samudio,POR,12,20,27,62
+Panamá,4,Fidel Escobar,DEF,48,72,60,12
+Panamá,5,Michael Amir Murillo,DEF,52,76,64,12
+Panamá,6,César Blackman,DEF,44,68,56,12
+Panamá,7,José Córdoba,DEF,46,70,58,12
+Panamá,8,Eric Davis,DEF,46,70,58,12
+Panamá,9,Andrés Andrade,DEF,46,70,58,12
+Panamá,10,Jorge Gutiérrez,DEF,42,66,54,12
+Panamá,11,Edgardo Fariña,DEF,42,66,54,12
+Panamá,12,,DEF,,,,
+Panamá,13,Aníbal Godoy,MED,64,60,72,12
+Panamá,14,Adalberto Carrasquilla,MED,62,58,70,12
+Panamá,15,Cristian Martínez,MED,60,56,68,12
+Panamá,16,José Luis Rodríguez,MED,62,58,70,12
+Panamá,17,Édgar Bárcenas,MED,60,56,68,12
+Panamá,18,Alberto Quintero,MED,56,52,64,12
+Panamá,19,Azarías Londoño,MED,56,52,64,12
+Panamá,20,,MED,,,,
+Panamá,21,Ismael Díaz,DEL,74,34,62,10
+Panamá,22,José Fajardo,DEL,72,32,60,10
+Panamá,23,Cecilio Waterman,DEL,70,30,58,10
+Panamá,24,Rolando Blackburn,DEL,64,24,52,10
+Panamá,25,Eduardo Guerrero,DEL,68,28,56,10
+Panamá,26,Tomás Rodríguez,DEL,66,26,54,10
+Argentina,1,Emiliano Martínez,POR,12,20,52,87
+Argentina,2,Juan Musso,POR,12,20,42,77
+Argentina,3,Gerónimo Rulli,POR,12,20,41,76
+Argentina,4,Cristian Romero,DEF,63,87,75,12
+Argentina,5,Lisandro Martínez,DEF,60,84,72,12
+Argentina,6,Nicolás Otamendi,DEF,58,82,70,12
+Argentina,7,Nahuel Molina,DEF,57,81,69,12
+Argentina,8,Nicolás Tagliafico,DEF,56,80,68,12
+Argentina,9,Marcos Acuña,DEF,55,79,67,12
+Argentina,10,Leonardo Balerdi,DEF,54,78,66,12
+Argentina,11,Gonzalo Montiel,DEF,54,78,66,12
+Argentina,12,Facundo Medina,DEF,54,78,66,12
+Argentina,13,Alexis Mac Allister,MED,79,75,87,12
+Argentina,14,Rodrigo De Paul,MED,76,72,84,12
+Argentina,15,Enzo Fernández,MED,76,72,84,12
+Argentina,16,Leandro Paredes,MED,72,68,80,12
+Argentina,17,Giovani Lo Celso,MED,73,69,81,12
+Argentina,18,Exequiel Palacios,MED,73,69,81,12
+Argentina,19,Thiago Almada,MED,72,68,80,12
+Argentina,20,Nico Paz,MED,73,69,81,12
+Argentina,21,Lionel Messi,DEL,90,50,78,10
+Argentina,22,Lautaro Martínez,DEL,90,50,78,10
+Argentina,23,Julián Álvarez,DEL,88,48,76,10
+Argentina,24,Nicolás González,DEL,81,41,69,10
+Argentina,25,Giuliano Simeone,DEL,79,39,67,10
+Argentina,26,Franco Mastantuono,DEL,80,40,68,10
+Brasil,1,Alisson,POR,12,20,54,89
+Brasil,2,Ederson,POR,12,20,50,85
+Brasil,3,Bento,POR,12,20,44,79
+Brasil,4,Marquinhos,DEF,64,88,76,12
+Brasil,5,Gabriel Magalhães,DEF,64,88,76,12
+Brasil,6,Éder Militão,DEF,61,85,73,12
+Brasil,7,Bremer,DEF,60,84,72,12
+Brasil,8,Danilo,DEF,57,81,69,12
+Brasil,9,Wesley,DEF,54,78,66,12
+Brasil,10,Alex Sandro,DEF,54,78,66,12
+Brasil,11,Leo Pereira,DEF,55,79,67,12
+Brasil,12,Roger Ibañez,DEF,53,77,65,12
+Brasil,13,Bruno Guimarães,MED,78,74,86,12
+Brasil,14,Lucas Paquetá,MED,75,71,83,12
+Brasil,15,Casemiro,MED,74,70,82,12
+Brasil,16,Matheus Cunha,MED,74,70,82,12
+Brasil,17,Joelinton,MED,72,68,80,12
+Brasil,18,Gerson,MED,72,68,80,12
+Brasil,19,Andrey Santos,MED,70,66,78,12
+Brasil,20,Douglas Santos,MED,68,64,76,12
+Brasil,21,Vinícius Jr,DEL,92,52,80,10
+Brasil,22,Raphinha,DEL,89,49,77,10
+Brasil,23,Rodrygo,DEL,85,45,73,10
+Brasil,24,Estevão,DEL,82,42,70,10
+Brasil,25,Gabriel Martinelli,DEL,82,42,70,10
+Brasil,26,Endrick,DEL,80,40,68,10
+Colombia,1,David Ospina,POR,12,20,41,76
+Colombia,2,Camilo Vargas,POR,12,20,41,76
+Colombia,3,Álvaro Montero,POR,12,20,37,72
+Colombia,4,Dávinson Sánchez,DEF,56,80,68,12
+Colombia,5,Jhon Lucumí,DEF,56,80,68,12
+Colombia,6,Daniel Muñoz,DEF,58,82,70,12
+Colombia,7,Johan Mojica,DEF,55,79,67,12
+Colombia,8,Yerry Mina,DEF,52,76,64,12
+Colombia,9,Santiago Arias,DEF,50,74,62,12
+Colombia,10,Déiver Machado,DEF,48,72,60,12
+Colombia,11,Willer Ditta,DEF,48,72,60,12
+Colombia,12,Carlos Cuesta,DEF,52,76,64,12
+Colombia,13,Jefferson Lerma,MED,71,67,79,12
+Colombia,14,Richard Ríos,MED,71,67,79,12
+Colombia,15,Jhon Arias,MED,72,68,80,12
+Colombia,16,Kevin Castaño,MED,68,64,76,12
+Colombia,17,Juan Fernando Quintero,MED,66,62,74,12
+Colombia,18,Jorge Carrascal,MED,70,66,78,12
+Colombia,19,Mateus Uribe,MED,70,66,78,12
+Colombia,20,James Rodríguez,MED,70,66,78,12
+Colombia,21,Luis Díaz,DEL,89,49,77,10
+Colombia,22,Luis Suárez,DEL,78,38,66,10
+Colombia,23,Jhon Córdoba,DEL,76,36,64,10
+Colombia,24,Rafael Santos Borré,DEL,76,36,64,10
+Colombia,25,Jaminton Campaz,DEL,72,32,60,10
+Colombia,26,Miguel Borja,DEL,74,34,62,10
+Ecuador,1,Hernán Galíndez,POR,12,20,39,74
+Ecuador,2,Alexander Domínguez,POR,12,20,37,72
+Ecuador,3,Moisés Ramírez,POR,12,20,35,70
+Ecuador,4,Piero Hincapié,DEF,60,84,72,12
+Ecuador,5,Willian Pacho,DEF,60,84,72,12
+Ecuador,6,Pervis Estupiñán,DEF,57,81,69,12
+Ecuador,7,Félix Torres,DEF,52,76,64,12
+Ecuador,8,Ángelo Preciado,DEF,50,74,62,12
+Ecuador,9,Joel Ordóñez,DEF,52,76,64,12
+Ecuador,10,Jackson Porozo,DEF,46,70,58,12
+Ecuador,11,Yaimar Medina,DEF,44,68,56,12
+Ecuador,12,Jhoanner Chávez,DEF,44,68,56,12
+Ecuador,13,Moisés Caicedo,MED,80,76,88,12
+Ecuador,14,Alan Franco,MED,68,64,76,12
+Ecuador,15,Kendry Páez,MED,70,66,78,12
+Ecuador,16,Pedro Vite,MED,64,60,72,12
+Ecuador,17,Jeremy Sarmiento,MED,66,62,74,12
+Ecuador,18,Carlos Gruezo,MED,64,60,72,12
+Ecuador,19,Gonzalo Plata,MED,68,64,76,12
+Ecuador,20,Alan Minda,MED,58,54,66,12
+Ecuador,21,Enner Valencia,DEL,76,36,64,10
+Ecuador,22,Kevin Rodríguez,DEL,74,34,62,10
+Ecuador,23,John Yeboah,DEL,74,34,62,10
+Ecuador,24,Jordy Caicedo,DEL,70,30,58,10
+Ecuador,25,Nilson Angulo,DEL,72,32,60,10
+Ecuador,26,Leonardo Campana,DEL,70,30,58,10
+Paraguay,1,Roberto Fernández,POR,12,20,33,68
+Paraguay,2,Gastón Olveira,POR,12,20,31,66
+Paraguay,3,Orlando Gill,POR,12,20,35,70
+Paraguay,4,Gustavo Gómez,DEF,56,80,68,12
+Paraguay,5,Omar Alderete,DEF,52,76,64,12
+Paraguay,6,Fabián Balbuena,DEF,50,74,62,12
+Paraguay,7,Junior Alonso,DEF,50,74,62,12
+Paraguay,8,Juan Cáceres,DEF,48,72,60,12
+Paraguay,9,Alexandro Maidana,DEF,44,68,56,12
+Paraguay,10,Gustavo Velázquez,DEF,46,70,58,12
+Paraguay,11,Santiago Arzamendia,DEF,46,70,58,12
+Paraguay,12,Alan Benítez,DEF,42,66,54,12
+Paraguay,13,Miguel Almirón,MED,70,66,78,12
+Paraguay,14,Diego Gómez,MED,68,64,76,12
+Paraguay,15,Andrés Cubas,MED,66,62,74,12
+Paraguay,16,Mathías Villasanti,MED,66,62,74,12
+Paraguay,17,Damián Bobadilla,MED,64,60,72,12
+Paraguay,18,Ramón Sosa,MED,68,64,76,12
+Paraguay,19,Julio Enciso,MED,71,67,79,12
+Paraguay,20,Matías Galarza,MED,62,58,70,12
+Paraguay,21,Antonio Sanabria,DEL,76,36,64,10
+Paraguay,22,Gabriel Ávalos,DEL,72,32,60,10
+Paraguay,23,Ángel Romero,DEL,72,32,60,10
+Paraguay,24,Alex Arce,DEL,68,28,56,10
+Paraguay,25,Isidro Pitta,DEL,70,30,58,10
+Paraguay,26,Gustavo Caballero,DEL,68,28,56,10
+Uruguay,1,Sergio Rochet,POR,12,20,41,76
+Uruguay,2,Santiago Mele,POR,12,20,37,72
+Uruguay,3,Franco Israel,POR,12,20,37,72
+Uruguay,4,Ronald Araújo,DEF,62,86,74,12
+Uruguay,5,José María Giménez,DEF,57,81,69,12
+Uruguay,6,Mathías Olivera,DEF,55,79,67,12
+Uruguay,7,Guillermo Varela,DEF,50,74,62,12
+Uruguay,8,Sebastián Cáceres,DEF,52,76,64,12
+Uruguay,9,Matías Viña,DEF,50,74,62,12
+Uruguay,10,Santiago Bueno,DEF,52,76,64,12
+Uruguay,11,Joaquín Piquerez,DEF,52,76,64,12
+Uruguay,12,Nahitan Nández,DEF,52,76,64,12
+Uruguay,13,Federico Valverde,MED,83,79,91,12
+Uruguay,14,Rodrigo Bentancur,MED,75,71,83,12
+Uruguay,15,Manuel Ugarte,MED,74,70,82,12
+Uruguay,16,Nicolás De la Cruz,MED,71,67,79,12
+Uruguay,17,Giorgian de Arrascaeta,MED,74,70,82,12
+Uruguay,18,Emiliano Martínez,MED,66,62,74,12
+Uruguay,19,Agustín Canobbio,MED,66,62,74,12
+Uruguay,20,Facundo Pellistri,MED,68,64,76,12
+Uruguay,21,Darwin Núñez,DEL,82,42,70,10
+Uruguay,22,Maximiliano Araújo,DEL,79,39,67,10
+Uruguay,23,Facundo Torres,DEL,74,34,62,10
+Uruguay,24,Rodrigo Aguirre,DEL,74,34,62,10
+Uruguay,25,Brian Rodríguez,DEL,74,34,62,10
+Uruguay,26,Federico Viñas,DEL,74,34,62,10
+Nueva Zelanda,1,Max Crocombe,POR,12,20,31,66
+Nueva Zelanda,2,Alex Paulsen,POR,12,20,29,64
+Nueva Zelanda,3,Michael Woud,POR,12,20,27,62
+Nueva Zelanda,4,Tim Payne,DEF,46,70,58,12
+Nueva Zelanda,5,Michael Boxall,DEF,46,70,58,12
+Nueva Zelanda,6,Liberato Cacace,DEF,50,74,62,12
+Nueva Zelanda,7,Nando Pijnaker,DEF,44,68,56,12
+Nueva Zelanda,8,Tommy Smith,DEF,44,68,56,12
+Nueva Zelanda,9,Francis de Vries,DEF,42,66,54,12
+Nueva Zelanda,10,Finn Surman,DEF,44,68,56,12
+Nueva Zelanda,11,Callan Elliott,DEF,40,64,52,12
+Nueva Zelanda,12,,DEF,,,,
+Nueva Zelanda,13,Joe Bell,MED,64,60,72,12
+Nueva Zelanda,14,Sarpreet Singh,MED,60,56,68,12
+Nueva Zelanda,15,Marko Stamenic,MED,64,60,72,12
+Nueva Zelanda,16,Matthew Garbett,MED,60,56,68,12
+Nueva Zelanda,17,Ryan Thomas,MED,60,56,68,12
+Nueva Zelanda,18,Alex Rufer,MED,58,54,66,12
+Nueva Zelanda,19,Clayton Lewis,MED,58,54,66,12
+Nueva Zelanda,20,,MED,,,,
+Nueva Zelanda,21,Chris Wood,DEL,78,38,66,10
+Nueva Zelanda,22,Elijah Just,DEL,70,30,58,10
+Nueva Zelanda,23,Kosta Barbarouses,DEL,68,28,56,10
+Nueva Zelanda,24,Ben Waine,DEL,70,30,58,10
+Nueva Zelanda,25,Callum McCowatt,DEL,66,26,54,10
+Nueva Zelanda,26,,DEL,,,,
+Austria,1,Patrick Pentz,POR,12,20,39,74
+Austria,2,Alexander Schlager,POR,12,20,39,74
+Austria,3,Niklas Hedl,POR,12,20,33,68
+Austria,4,David Alaba,DEF,58,82,70,12
+Austria,5,Kevin Danso,DEF,55,79,67,12
+Austria,6,Philipp Lienhart,DEF,52,76,64,12
+Austria,7,Stefan Posch,DEF,53,77,65,12
+Austria,8,Phillipp Mwene,DEF,51,75,63,12
+Austria,9,Marco Friedl,DEF,50,74,62,12
+Austria,10,Gernot Trauner,DEF,50,74,62,12
+Austria,11,Max Wöber,DEF,52,76,64,12
+Austria,12,Stefan Lainer,DEF,50,74,62,12
+Austria,13,Marcel Sabitzer,MED,74,70,82,12
+Austria,14,Konrad Laimer,MED,73,69,81,12
+Austria,15,Nicolas Seiwald,MED,72,68,80,12
+Austria,16,Christoph Baumgartner,MED,72,68,80,12
+Austria,17,Florian Grillitsch,MED,66,62,74,12
+Austria,18,Alexander Prass,MED,67,63,75,12
+Austria,19,Patrick Wimmer,MED,68,64,76,12
+Austria,20,Romano Schmid,MED,68,64,76,12
+Austria,21,Marko Arnautović,DEL,78,38,66,10
+Austria,22,Michael Gregoritsch,DEL,76,36,64,10
+Austria,23,Sasa Kalajdzic,DEL,74,34,62,10
+Austria,24,Junior Adamu,DEL,72,32,60,10
+Austria,25,Maximilian Entrup,DEL,68,28,56,10
+Austria,26,Matthias Seidl,DEL,70,30,58,10
+Bélgica,1,Thibaut Courtois,POR,12,20,54,89
+Bélgica,2,Koen Casteels,POR,12,20,42,77
+Bélgica,3,Matz Sels,POR,12,20,42,77
+Bélgica,4,Zeno Debast,DEF,55,79,67,12
+Bélgica,5,Wout Faes,DEF,52,76,64,12
+Bélgica,6,Arthur Theate,DEF,54,78,66,12
+Bélgica,7,Timothy Castagne,DEF,54,78,66,12
+Bélgica,8,Maxim De Cuyper,DEF,52,76,64,12
+Bélgica,9,Brandon Mechele,DEF,52,76,64,12
+Bélgica,10,Koni De Winter,DEF,52,76,64,12
+Bélgica,11,Thomas Meunier,DEF,51,75,63,12
+Bélgica,12,Joaquín Seys,DEF,48,72,60,12
+Bélgica,13,Kevin De Bruyne,MED,81,77,89,12
+Bélgica,14,Youri Tielemans,MED,76,72,84,12
+Bélgica,15,Amadou Onana,MED,75,71,83,12
+Bélgica,16,Axel Witsel,MED,70,66,78,12
+Bélgica,17,Charles De Ketelaere,MED,74,70,82,12
+Bélgica,18,Hans Vanaken,MED,70,66,78,12
+Bélgica,19,Orel Mangala,MED,68,64,76,12
+Bélgica,20,Alexis Saelemaekers,MED,70,66,78,12
+Bélgica,21,Romelu Lukaku,DEL,84,44,72,10
+Bélgica,22,Jérémy Doku,DEL,85,45,73,10
+Bélgica,23,Leandro Trossard,DEL,82,42,70,10
+Bélgica,24,Loïs Openda,DEL,82,42,70,10
+Bélgica,25,Dodi Lukébakio,DEL,79,39,67,10
+Bélgica,26,Michy Batshuayi,DEL,74,34,62,10
+Croacia,1,Dominik Livaković,POR,12,20,45,80
+Croacia,2,Ivica Ivušić,POR,12,20,39,74
+Croacia,3,Nediljko Labrović,POR,12,20,37,72
+Croacia,4,Joško Gvardiol,DEF,63,87,75,12
+Croacia,5,Josip Šutalo,DEF,55,79,67,12
+Croacia,6,Josip Stanišić,DEF,55,79,67,12
+Croacia,7,Borna Sosa,DEF,52,76,64,12
+Croacia,8,Marin Pongračić,DEF,55,79,67,12
+Croacia,9,Duje Ćaleta-Car,DEF,54,78,66,12
+Croacia,10,Martin Erlić,DEF,50,74,62,12
+Croacia,11,Josip Juranović,DEF,51,75,63,12
+Croacia,12,Kristijan Jakić,DEF,50,74,62,12
+Croacia,13,Luka Modrić,MED,79,75,87,12
+Croacia,14,Mateo Kovačić,MED,76,72,84,12
+Croacia,15,Marcelo Brozović,MED,74,70,82,12
+Croacia,16,Lovro Majer,MED,71,67,79,12
+Croacia,17,Mario Pašalić,MED,73,69,81,12
+Croacia,18,Luka Sučić,MED,68,64,76,12
+Croacia,19,Nikola Vlašić,MED,70,66,78,12
+Croacia,20,Petar Sučić,MED,68,64,76,12
+Croacia,21,Andrej Kramarić,DEL,80,40,68,10
+Croacia,22,Ivan Perišić,DEL,78,38,66,10
+Croacia,23,Ante Budimir,DEL,78,38,66,10
+Croacia,24,Bruno Petković,DEL,76,36,64,10
+Croacia,25,Igor Matanović,DEL,74,34,62,10
+Croacia,26,Franjo Ivanović,DEL,72,32,60,10
+Inglaterra,1,Jordan Pickford,POR,12,20,48,83
+Inglaterra,2,Dean Henderson,POR,12,20,43,78
+Inglaterra,3,Aaron Ramsdale,POR,12,20,41,76
+Inglaterra,4,Trent Alexander-Arnold,DEF,63,87,75,12
+Inglaterra,5,John Stones,DEF,61,85,73,12
+Inglaterra,6,Marc Guéhi,DEF,60,84,72,12
+Inglaterra,7,Reece James,DEF,60,84,72,12
+Inglaterra,8,Ezri Konsa,DEF,58,82,70,12
+Inglaterra,9,Kyle Walker,DEF,58,82,70,12
+Inglaterra,10,Dan Burn,DEF,54,78,66,12
+Inglaterra,11,Tino Livramento,DEF,57,81,69,12
+Inglaterra,12,Nico O'Reilly,DEF,56,80,68,12
+Inglaterra,13,Jude Bellingham,MED,84,80,92,12
+Inglaterra,14,Declan Rice,MED,82,78,90,12
+Inglaterra,15,Cole Palmer,MED,81,77,89,12
+Inglaterra,16,Phil Foden,MED,80,76,88,12
+Inglaterra,17,Morgan Rogers,MED,76,72,84,12
+Inglaterra,18,Eberechi Eze,MED,76,72,84,12
+Inglaterra,19,Elliot Anderson,MED,74,70,82,12
+Inglaterra,20,Kobbie Mainoo,MED,74,70,82,12
+Inglaterra,21,Harry Kane,DEL,92,52,80,10
+Inglaterra,22,Bukayo Saka,DEL,90,50,78,10
+Inglaterra,23,Anthony Gordon,DEL,84,44,72,10
+Inglaterra,24,Ollie Watkins,DEL,84,44,72,10
+Inglaterra,25,Marcus Rashford,DEL,84,44,72,10
+Inglaterra,26,Ivan Toney,DEL,81,41,69,10
+Francia,1,Mike Maignan,POR,12,20,52,87
+Francia,2,Brice Samba,POR,12,20,43,78
+Francia,3,Robin Risser,POR,12,20,41,76
+Francia,4,William Saliba,DEF,65,89,77,12
+Francia,5,Theo Hernández,DEF,63,87,75,12
+Francia,6,Jules Koundé,DEF,62,86,74,12
+Francia,7,Dayot Upamecano,DEF,61,85,73,12
+Francia,8,Ibrahima Konaté,DEF,61,85,73,12
+Francia,9,Lucas Hernández,DEF,57,81,69,12
+Francia,10,Maxence Lacroix,DEF,57,81,69,12
+Francia,11,Lucas Digne,DEF,56,80,68,12
+Francia,12,Malo Gusto,DEF,56,80,68,12
+Francia,13,Aurélien Tchouaméni,MED,79,75,87,12
+Francia,14,Eduardo Camavinga,MED,77,73,85,12
+Francia,15,Adrien Rabiot,MED,76,72,84,12
+Francia,16,Michael Olise,MED,79,75,87,12
+Francia,17,Rayan Cherki,MED,76,72,84,12
+Francia,18,N'Golo Kanté,MED,74,70,82,12
+Francia,19,Warren Zaïre-Emery,MED,74,70,82,12
+Francia,20,Manu Koné,MED,73,69,81,12
+Francia,21,Kylian Mbappé,DEL,93,53,81,10
+Francia,22,Ousmane Dembélé,DEL,92,52,80,10
+Francia,23,Désiré Doué,DEL,86,46,74,10
+Francia,24,Marcus Thuram,DEL,85,45,73,10
+Francia,25,Bradley Barcola,DEL,84,44,72,10
+Francia,26,Hugo Ekitiké,DEL,84,44,72,10
+Alemania,1,Manuel Neuer,POR,12,20,50,85
+Alemania,2,Marc-André ter Stegen,POR,12,20,50,85
+Alemania,3,Oliver Baumann,POR,12,20,45,80
+Alemania,4,Joshua Kimmich,DEF,65,89,77,12
+Alemania,5,Antonio Rüdiger,DEF,63,87,75,12
+Alemania,6,Jonathan Tah,DEF,62,86,74,12
+Alemania,7,Nico Schlotterbeck,DEF,60,84,72,12
+Alemania,8,Malick Thiaw,DEF,58,82,70,12
+Alemania,9,Waldemar Anton,DEF,58,82,70,12
+Alemania,10,David Raum,DEF,56,80,68,12
+Alemania,11,Maximilian Mittelstädt,DEF,54,78,66,12
+Alemania,12,Nathaniel Brown,DEF,52,76,64,12
+Alemania,13,Jamal Musiala,MED,83,79,91,12
+Alemania,14,Florian Wirtz,MED,83,79,91,12
+Alemania,15,Leroy Sané,MED,78,74,86,12
+Alemania,16,Leon Goretzka,MED,76,72,84,12
+Alemania,17,Angelo Stiller,MED,74,70,82,12
+Alemania,18,Pascal Groß,MED,73,69,81,12
+Alemania,19,Aleksandar Pavlović,MED,73,69,81,12
+Alemania,20,Felix Nmecha,MED,71,67,79,12
+Alemania,21,Kai Havertz,DEL,85,45,73,10
+Alemania,22,Serge Gnabry,DEL,85,45,73,10
+Alemania,23,Nick Woltemade,DEL,82,42,70,10
+Alemania,24,Deniz Undav,DEL,82,42,70,10
+Alemania,25,Karim Adeyemi,DEL,80,40,68,10
+Alemania,26,Maximilian Beier,DEL,80,40,68,10
+Países Bajos,1,Bart Verbruggen,POR,12,20,44,79
+Países Bajos,2,Mark Flekken,POR,12,20,41,76
+Países Bajos,3,Justin Bijlow,POR,12,20,39,74
+Países Bajos,4,Virgil van Dijk,DEF,67,91,79,12
+Países Bajos,5,Micky van de Ven,DEF,61,85,73,12
+Países Bajos,6,Jurriën Timber,DEF,61,85,73,12
+Países Bajos,7,Jeremie Frimpong,DEF,61,85,73,12
+Países Bajos,8,Denzel Dumfries,DEF,60,84,72,12
+Países Bajos,9,Matthijs de Ligt,DEF,60,84,72,12
+Países Bajos,10,Nathan Aké,DEF,59,83,71,12
+Países Bajos,11,Stefan de Vrij,DEF,58,82,70,12
+Países Bajos,12,Lutsharel Geertruida,DEF,57,81,69,12
+Países Bajos,13,Frenkie de Jong,MED,80,76,88,12
+Países Bajos,14,Ryan Gravenberch,MED,80,76,88,12
+Países Bajos,15,Tijjani Reijnders,MED,78,74,86,12
+Países Bajos,16,Xavi Simons,MED,77,73,85,12
+Países Bajos,17,Teun Koopmeiners,MED,76,72,84,12
+Países Bajos,18,Joey Veerman,MED,72,68,80,12
+Países Bajos,19,Jerdy Schouten,MED,71,67,79,12
+Países Bajos,20,Quinten Timber,MED,70,66,78,12
+Países Bajos,21,Cody Gakpo,DEL,86,46,74,10
+Países Bajos,22,Brian Brobbey,DEL,83,43,71,10
+Países Bajos,23,Donyell Malen,DEL,82,42,70,10
+Países Bajos,24,Crysencio Summerville,DEL,81,41,69,10
+Países Bajos,25,Memphis Depay,DEL,79,39,67,10
+Países Bajos,26,Wout Weghorst,DEL,76,36,64,10
+Noruega,1,Ørjan Nyland,POR,12,20,37,72
+Noruega,2,Egil Selvik,POR,12,20,31,66
+Noruega,3,Sander Tangvik,POR,12,20,31,66
+Noruega,4,Leo Østigård,DEF,53,77,65,12
+Noruega,5,Kristoffer Ajer,DEF,54,78,66,12
+Noruega,6,Marcus Holmgren Pedersen,DEF,52,76,64,12
+Noruega,7,Julian Ryerson,DEF,55,79,67,12
+Noruega,8,David Møller Wolfe,DEF,52,76,64,12
+Noruega,9,Torbjørn Heggem,DEF,50,74,62,12
+Noruega,10,Fredrik Bjørkan,DEF,48,72,60,12
+Noruega,11,Birger Meling,DEF,48,72,60,12
+Noruega,12,Stefan Strandberg,DEF,50,74,62,12
+Noruega,13,Martin Ødegaard,MED,81,77,89,12
+Noruega,14,Sander Berge,MED,72,68,80,12
+Noruega,15,Patrick Berg,MED,70,66,78,12
+Noruega,16,Fredrik Aursnes,MED,70,66,78,12
+Noruega,17,Morten Thorsby,MED,68,64,76,12
+Noruega,18,Thelo Aasgaard,MED,68,64,76,12
+Noruega,19,Oscar Bobb,MED,73,69,81,12
+Noruega,20,Antonio Nusa,MED,70,66,78,12
+Noruega,21,Erling Haaland,DEL,93,53,81,10
+Noruega,22,Alexander Sørloth,DEL,82,42,70,10
+Noruega,23,Jørgen Strand Larsen,DEL,80,40,68,10
+Noruega,24,Andreas Schjelderup,DEL,76,36,64,10
+Noruega,25,Mohamed Elyounoussi,DEL,74,34,62,10
+Noruega,26,Jens Petter Hauge,DEL,73,33,61,10
+Portugal,1,Diogo Costa,POR,12,20,50,85
+Portugal,2,José Sá,POR,12,20,43,78
+Portugal,3,Rui Silva,POR,12,20,43,78
+Portugal,4,Rúben Dias,DEF,66,90,78,12
+Portugal,5,Nuno Mendes,DEF,63,87,75,12
+Portugal,6,João Cancelo,DEF,60,84,72,12
+Portugal,7,Gonçalo Inácio,DEF,60,84,72,12
+Portugal,8,António Silva,DEF,59,83,71,12
+Portugal,9,Diogo Dalot,DEF,58,82,70,12
+Portugal,10,Nélson Semedo,DEF,57,81,69,12
+Portugal,11,Renato Veiga,DEF,55,79,67,12
+Portugal,12,Tomás Araújo,DEF,54,78,66,12
+Portugal,13,Bruno Fernandes,MED,82,78,90,12
+Portugal,14,Vitinha,MED,81,77,89,12
+Portugal,15,Bernardo Silva,MED,81,77,89,12
+Portugal,16,João Neves,MED,80,76,88,12
+Portugal,17,Rúben Neves,MED,74,70,82,12
+Portugal,18,João Palhinha,MED,74,70,82,12
+Portugal,19,Matheus Nunes,MED,74,70,82,12
+Portugal,20,Francisco Conceição,MED,73,69,81,12
+Portugal,21,Cristiano Ronaldo,DEL,88,48,76,10
+Portugal,22,Rafael Leão,DEL,88,48,76,10
+Portugal,23,Pedro Neto,DEL,83,43,71,10
+Portugal,24,Gonçalo Ramos,DEL,82,42,70,10
+Portugal,25,João Félix,DEL,81,41,69,10
+Portugal,26,Francisco Trincão,DEL,81,41,69,10
+Escocia,1,Angus Gunn,POR,12,20,39,74
+Escocia,2,Craig Gordon,POR,12,20,37,72
+Escocia,3,Liam Kelly,POR,12,20,35,70
+Escocia,4,Andrew Robertson,DEF,60,84,72,12
+Escocia,5,Kieran Tierney,DEF,55,79,67,12
+Escocia,6,Scott McKenna,DEF,52,76,64,12
+Escocia,7,Jack Hendry,DEF,52,76,64,12
+Escocia,8,Grant Hanley,DEF,48,72,60,12
+Escocia,9,Anthony Ralston,DEF,50,74,62,12
+Escocia,10,Nathan Patterson,DEF,50,74,62,12
+Escocia,11,Ross McCrorie,DEF,44,68,56,12
+Escocia,12,Aaron Hickey,DEF,52,76,64,12
+Escocia,13,Scott McTominay,MED,78,74,86,12
+Escocia,14,John McGinn,MED,71,67,79,12
+Escocia,15,Billy Gilmour,MED,70,66,78,12
+Escocia,16,Callum McGregor,MED,70,66,78,12
+Escocia,17,Lewis Ferguson,MED,70,66,78,12
+Escocia,18,Ryan Christie,MED,68,64,76,12
+Escocia,19,Kenny McLean,MED,64,60,72,12
+Escocia,20,Ben Gannon-Doak,MED,64,60,72,12
+Escocia,21,Che Adams,DEL,76,36,64,10
+Escocia,22,Lawrence Shankland,DEL,74,34,62,10
+Escocia,23,Ben Doak,DEL,74,34,62,10
+Escocia,24,Lyndon Dykes,DEL,72,32,60,10
+Escocia,25,Ross Stewart,DEL,72,32,60,10
+Escocia,26,Tommy Conway,DEL,72,32,60,10
+España,1,Unai Simón,POR,12,20,49,84
+España,2,David Raya,POR,12,20,49,84
+España,3,Joan García,POR,12,20,43,78
+España,4,Dani Carvajal,DEF,62,86,74,12
+España,5,Alejandro Grimaldo,DEF,61,85,73,12
+España,6,Pedro Porro,DEF,61,85,73,12
+España,7,Robin Le Normand,DEF,60,84,72,12
+España,8,Aymeric Laporte,DEF,60,84,72,12
+España,9,Pau Cubarsí,DEF,60,84,72,12
+España,10,Marc Cucurella,DEF,60,84,72,12
+España,11,Dean Huijsen,DEF,59,83,71,12
+España,12,Dani Vivian,DEF,57,81,69,12
+España,13,Rodri,MED,84,80,92,12
+España,14,Pedri,MED,81,77,89,12
+España,15,Fabián Ruiz,MED,78,74,86,12
+España,16,Martín Zubimendi,MED,78,74,86,12
+España,17,Dani Olmo,MED,78,74,86,12
+España,18,Mikel Merino,MED,77,73,85,12
+España,19,Gavi,MED,76,72,84,12
+España,20,Álex Baena,MED,76,72,84,12
+España,21,Lamine Yamal,DEL,92,52,80,10
+España,22,Nico Williams,DEL,87,47,75,10
+España,23,Mikel Oyarzabal,DEL,86,46,74,10
+España,24,Ferran Torres,DEL,83,43,71,10
+España,25,Yeremy Pino,DEL,82,42,70,10
+España,26,Samu Aghehowa,DEL,80,40,68,10
+Suiza,1,Gregor Kobel,POR,12,20,51,86
+Suiza,2,Yvon Mvogo,POR,12,20,41,76
+Suiza,3,Marvin Keller,POR,12,20,31,66
+Suiza,4,Manuel Akanji,DEF,62,86,74,12
+Suiza,5,Nico Elvedi,DEF,56,80,68,12
+Suiza,6,Fabian Schär,DEF,55,79,67,12
+Suiza,7,Ricardo Rodríguez,DEF,54,78,66,12
+Suiza,8,Silvan Widmer,DEF,52,76,64,12
+Suiza,9,Ulisses Garcia,DEF,50,74,62,12
+Suiza,10,Eray Cömert,DEF,50,74,62,12
+Suiza,11,Aurèle Amenda,DEF,50,74,62,12
+Suiza,12,Miro Muheim,DEF,50,74,62,12
+Suiza,13,Granit Xhaka,MED,79,75,87,12
+Suiza,14,Remo Freuler,MED,72,68,80,12
+Suiza,15,Denis Zakaria,MED,72,68,80,12
+Suiza,16,Michel Aebischer,MED,70,66,78,12
+Suiza,17,Ardon Jashari,MED,70,66,78,12
+Suiza,18,Fabian Rieder,MED,69,65,77,12
+Suiza,19,Djibril Sow,MED,68,64,76,12
+Suiza,20,Johan Manzambi,MED,66,62,74,12
+Suiza,21,Breel Embolo,DEL,79,39,67,10
+Suiza,22,Dan Ndoye,DEL,79,39,67,10
+Suiza,23,Ruben Vargas,DEL,79,39,67,10
+Suiza,24,Noah Okafor,DEL,78,38,66,10
+Suiza,25,Zeki Amdouni,DEL,76,36,64,10
+Suiza,26,Cedric Itten,DEL,72,32,60,10
+Bosnia y Herzegovina,1,Nikola Vasilj,POR,12,20,39,74
+Bosnia y Herzegovina,2,Martin Zlomislić,POR,12,20,31,66
+Bosnia y Herzegovina,3,Kenan Pirić,POR,12,20,29,64
+Bosnia y Herzegovina,4,Sead Kolašinac,DEF,54,78,66,12
+Bosnia y Herzegovina,5,Amar Dedić,DEF,52,76,64,12
+Bosnia y Herzegovina,6,Tarik Muharemović,DEF,50,74,62,12
+Bosnia y Herzegovina,7,Nikola Katić,DEF,50,74,62,12
+Bosnia y Herzegovina,8,Dennis Hadžikadunić,DEF,50,74,62,12
+Bosnia y Herzegovina,9,Anel Ahmedhodžić,DEF,50,74,62,12
+Bosnia y Herzegovina,10,Stjepan Radeljić,DEF,48,72,60,12
+Bosnia y Herzegovina,11,Nidal Čelik,DEF,48,72,60,12
+Bosnia y Herzegovina,12,Nihad Mujakić,DEF,46,70,58,12
+Bosnia y Herzegovina,13,Ermedin Demirović,MED,70,66,78,12
+Bosnia y Herzegovina,14,Benjamin Tahirović,MED,66,62,74,12
+Bosnia y Herzegovina,15,Amar Memić,MED,66,62,74,12
+Bosnia y Herzegovina,16,Ivan Šunjić,MED,66,62,74,12
+Bosnia y Herzegovina,17,Esmir Bajraktarević,MED,66,62,74,12
+Bosnia y Herzegovina,18,Armin Gigović,MED,64,60,72,12
+Bosnia y Herzegovina,19,Ivan Bašić,MED,64,60,72,12
+Bosnia y Herzegovina,20,Kerim Alajbegović,MED,64,60,72,12
+Bosnia y Herzegovina,21,Edin Džeko,DEL,78,38,66,10
+Bosnia y Herzegovina,22,Haris Tabaković,DEL,72,32,60,10
+Bosnia y Herzegovina,23,Samed Baždar,DEL,70,30,58,10
+Bosnia y Herzegovina,24,,DEL,,,,
+Bosnia y Herzegovina,25,,DEL,,,,
+Bosnia y Herzegovina,26,,DEL,,,,
+Chequia,1,Matěj Kovář,POR,12,20,40,75
+Chequia,2,Jindřich Staněk,POR,12,20,37,72
+Chequia,3,Lukáš Horníček,POR,12,20,35,70
+Chequia,4,Vladimír Coufal,DEF,55,79,67,12
+Chequia,5,Ladislav Krejčí,DEF,54,78,66,12
+Chequia,6,David Jurásek,DEF,52,76,64,12
+Chequia,7,Robin Hranáč,DEF,50,74,62,12
+Chequia,8,David Zima,DEF,50,74,62,12
+Chequia,9,Štěpán Chaloupek,DEF,48,72,60,12
+Chequia,10,Martin Vitík,DEF,48,72,60,12
+Chequia,11,Jaroslav Zelený,DEF,48,72,60,12
+Chequia,12,,DEF,,,,
+Chequia,13,Tomáš Souček,MED,74,70,82,12
+Chequia,14,Tomáš Holeš,MED,70,66,78,12
+Chequia,15,Pavel Šulc,MED,70,66,78,12
+Chequia,16,Lukáš Provod,MED,68,64,76,12
+Chequia,17,Michal Sadílek,MED,66,62,74,12
+Chequia,18,Lukáš Červ,MED,66,62,74,12
+Chequia,19,Alexandr Sojka,MED,64,60,72,12
+Chequia,20,Vladimír Darida,MED,64,60,72,12
+Chequia,21,Patrik Schick,DEL,84,44,72,10
+Chequia,22,Adam Hložek,DEL,78,38,66,10
+Chequia,23,Tomáš Chorý,DEL,74,34,62,10
+Chequia,24,Mojmír Chytil,DEL,74,34,62,10
+Chequia,25,Matěj Vydra,DEL,72,32,60,10
+Chequia,26,Vasil Kušej,DEL,72,32,60,10
+Turquía,1,Uğurcan Çakır,POR,12,20,44,79
+Turquía,2,Mert Günok,POR,12,20,41,76
+Turquía,3,Altay Bayındır,POR,12,20,41,76
+Turquía,4,Ferdi Kadıoğlu,DEF,58,82,70,12
+Turquía,5,Merih Demiral,DEF,55,79,67,12
+Turquía,6,Abdülkerim Bardakcı,DEF,54,78,66,12
+Turquía,7,Zeki Çelik,DEF,54,78,66,12
+Turquía,8,Çağlar Söyüncü,DEF,52,76,64,12
+Turquía,9,Mert Müldür,DEF,52,76,64,12
+Turquía,10,Ozan Kabak,DEF,52,76,64,12
+Turquía,11,Eren Elmalı,DEF,50,74,62,12
+Turquía,12,Samet Akaydin,DEF,48,72,60,12
+Turquía,13,Hakan Çalhanoğlu,MED,78,74,86,12
+Turquía,14,Arda Güler,MED,76,72,84,12
+Turquía,15,Orkun Kökçü,MED,73,69,81,12
+Turquía,16,Kerem Aktürkoğlu,MED,73,69,81,12
+Turquía,17,Kaan Ayhan,MED,68,64,76,12
+Turquía,18,İsmail Yüksek,MED,68,64,76,12
+Turquía,19,Salih Özcan,MED,68,64,76,12
+Turquía,20,İrfan Can Kahveci,MED,68,64,76,12
+Turquía,21,Kenan Yıldız,DEL,85,45,73,10
+Turquía,22,Barış Alper Yılmaz,DEL,80,40,68,10
+Turquía,23,Yusuf Yazıcı,DEL,76,36,64,10
+Turquía,24,Cenk Tosun,DEL,74,34,62,10
+Turquía,25,Semih Kılıçsoy,DEL,74,34,62,10
+Turquía,26,Can Uzun,DEL,74,34,62,10
+Suecia,1,Viktor Johansson,POR,12,20,39,74
+Suecia,2,Robin Olsen,POR,12,20,39,74
+Suecia,3,Jacob Widell Zetterström,POR,12,20,35,70
+Suecia,4,Victor Lindelöf,DEF,56,80,68,12
+Suecia,5,Isak Hien,DEF,54,78,66,12
+Suecia,6,Gabriel Gudmundsson,DEF,54,78,66,12
+Suecia,7,Emil Holm,DEF,53,77,65,12
+Suecia,8,Daniel Svensson,DEF,52,76,64,12
+Suecia,9,Carl Starfelt,DEF,52,76,64,12
+Suecia,10,Gustaf Lagerbielke,DEF,50,74,62,12
+Suecia,11,Hjalmar Ekdal,DEF,48,72,60,12
+Suecia,12,Ludwig Augustinsson,DEF,50,74,62,12
+Suecia,13,Dejan Kulusevski,MED,76,72,84,12
+Suecia,14,Lucas Bergvall,MED,71,67,79,12
+Suecia,15,Yasin Ayari,MED,71,67,79,12
+Suecia,16,Hugo Larsson,MED,70,66,78,12
+Suecia,17,Mattias Svanberg,MED,68,64,76,12
+Suecia,18,Anthony Elanga,MED,68,64,76,12
+Suecia,19,Jesper Karlström,MED,66,62,74,12
+Suecia,20,Emil Forsberg,MED,66,62,74,12
+Suecia,21,Alexander Isak,DEL,89,49,77,10
+Suecia,22,Viktor Gyökeres,DEL,88,48,76,10
+Suecia,23,Benjamin Nygren,DEL,78,38,66,10
+Suecia,24,Jesper Karlsson,DEL,74,34,62,10
+Suecia,25,Roony Bardghji,DEL,74,34,62,10
+Suecia,26,Anthony Elanga,DEL,76,36,64,10

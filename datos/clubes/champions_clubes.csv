@@ -1,0 +1,626 @@
+equipo,numero,jugador,posicion,calidad
+París Saint-Germain,,Lucas Chevalier,POR,80
+París Saint-Germain,,Matvey Safonov,POR,76
+París Saint-Germain,,Achraf Hakimi,DEF,88
+París Saint-Germain,,Marquinhos,DEF,86
+París Saint-Germain,,Willian Pacho,DEF,84
+París Saint-Germain,,Nuno Mendes,DEF,87
+París Saint-Germain,,Illia Zabarnyi,DEF,77
+París Saint-Germain,,Lucas Hernández,DEF,79
+París Saint-Germain,,Vitinha,MED,88
+París Saint-Germain,,João Neves,MED,86
+París Saint-Germain,,Fabián Ruiz,MED,85
+París Saint-Germain,,Warren Zaïre-Emery,MED,82
+París Saint-Germain,,Lee Kang-in,MED,80
+París Saint-Germain,,Ousmane Dembélé,DEL,90
+París Saint-Germain,,Khvicha Kvaratskhelia,DEL,87
+París Saint-Germain,,Désiré Doué,DEL,87
+París Saint-Germain,,Bradley Barcola,DEL,84
+París Saint-Germain,,Gonçalo Ramos,DEL,80
+Aston Villa,,Emiliano Martínez,POR,86
+Aston Villa,,Marco Bizot,POR,72
+Aston Villa,,Matty Cash,DEF,79
+Aston Villa,,Pau Torres,DEF,80
+Aston Villa,,Ezri Konsa,DEF,80
+Aston Villa,,Tyrone Mings,DEF,76
+Aston Villa,,Lucas Digne,DEF,77
+Aston Villa,,Ian Maatsen,DEF,76
+Aston Villa,,Youri Tielemans,MED,82
+Aston Villa,,Boubacar Kamara,MED,82
+Aston Villa,,Amadou Onana,MED,80
+Aston Villa,,John McGinn,MED,79
+Aston Villa,,Lamare Bogarde,MED,70
+Aston Villa,,Morgan Rogers,DEL,83
+Aston Villa,,Ollie Watkins,DEL,82
+Aston Villa,,Leon Bailey,DEL,77
+Aston Villa,,Jadon Sancho,DEL,76
+Aston Villa,,Evann Guessand,DEL,75
+Arsenal,,David Raya,POR,87
+Arsenal,,Kepa Arrizabalaga,POR,78
+Arsenal,,William Saliba,DEF,89
+Arsenal,,Gabriel Magalhães,DEF,87
+Arsenal,,Ben White,DEF,82
+Arsenal,,Jurriën Timber,DEF,83
+Arsenal,,Riccardo Calafiori,DEF,82
+Arsenal,,Piero Hincapié,DEF,80
+Arsenal,,Declan Rice,MED,89
+Arsenal,,Martin Ødegaard,MED,87
+Arsenal,,Martín Zubimendi,MED,84
+Arsenal,,Mikel Merino,MED,80
+Arsenal,,Eberechi Eze,MED,82
+Arsenal,,Bukayo Saka,DEL,89
+Arsenal,,Viktor Gyökeres,DEL,85
+Arsenal,,Kai Havertz,DEL,83
+Arsenal,,Gabriel Martinelli,DEL,82
+Arsenal,,Leandro Trossard,DEL,80
+Manchester City,,Gianluigi Donnarumma,POR,89
+Manchester City,,James Trafford,POR,78
+Manchester City,,Rúben Dias,DEF,87
+Manchester City,,Joško Gvardiol,DEF,85
+Manchester City,,Manuel Akanji,DEF,82
+Manchester City,,Nathan Aké,DEF,80
+Manchester City,,Matheus Nunes,DEF,79
+Manchester City,,Abdukodir Khusanov,DEF,77
+Manchester City,,Rodri,MED,91
+Manchester City,,Bernardo Silva,MED,87
+Manchester City,,Tijjani Reijnders,MED,82
+Manchester City,,Mateo Kovačić,MED,80
+Manchester City,,Nico González,MED,80
+Manchester City,,Erling Haaland,DEL,92
+Manchester City,,Phil Foden,DEL,85
+Manchester City,,Jérémy Doku,DEL,84
+Manchester City,,Rayan Cherki,DEL,82
+Manchester City,,Savinho,DEL,80
+Manchester United,,Senne Lammens,POR,77
+Manchester United,,André Onana,POR,79
+Manchester United,,Lisandro Martínez,DEF,82
+Manchester United,,Matthijs de Ligt,DEF,80
+Manchester United,,Diogo Dalot,DEF,79
+Manchester United,,Harry Maguire,DEF,78
+Manchester United,,Luke Shaw,DEF,78
+Manchester United,,Leny Yoro,DEF,76
+Manchester United,,Bruno Fernandes,MED,87
+Manchester United,,Casemiro,MED,80
+Manchester United,,Kobbie Mainoo,MED,79
+Manchester United,,Manuel Ugarte,MED,76
+Manchester United,,Mason Mount,MED,77
+Manchester United,,Matheus Cunha,DEL,83
+Manchester United,,Bryan Mbeumo,DEL,83
+Manchester United,,Benjamin Šeško,DEL,80
+Manchester United,,Amad Diallo,DEL,80
+Manchester United,,Joshua Zirkzee,DEL,75
+Liverpool,,Alisson Becker,POR,88
+Liverpool,,Giorgi Mamardashvili,POR,80
+Liverpool,,Virgil van Dijk,DEF,88
+Liverpool,,Ibrahima Konaté,DEF,84
+Liverpool,,Andy Robertson,DEF,82
+Liverpool,,Milos Kerkez,DEF,80
+Liverpool,,Jeremie Frimpong,DEF,80
+Liverpool,,Conor Bradley,DEF,79
+Liverpool,,Joe Gomez,DEF,78
+Liverpool,,Florian Wirtz,MED,87
+Liverpool,,Alexis Mac Allister,MED,86
+Liverpool,,Dominik Szoboszlai,MED,86
+Liverpool,,Ryan Gravenberch,MED,86
+Liverpool,,Curtis Jones,MED,79
+Liverpool,,Mohamed Salah,DEL,89
+Liverpool,,Alexander Isak,DEL,86
+Liverpool,,Cody Gakpo,DEL,83
+Liverpool,,Hugo Ekitiké,DEL,82
+Liverpool,,Federico Chiesa,DEL,76
+Inter de Milán,,Yann Sommer,POR,82
+Inter de Milán,,Josep Martínez,POR,74
+Inter de Milán,,Alessandro Bastoni,DEF,87
+Inter de Milán,,Federico Dimarco,DEF,83
+Inter de Milán,,Denzel Dumfries,DEF,81
+Inter de Milán,,Benjamin Pavard,DEF,80
+Inter de Milán,,Francesco Acerbi,DEF,80
+Inter de Milán,,Yann Bisseck,DEF,78
+Inter de Milán,,Carlos Augusto,DEF,77
+Inter de Milán,,Nicolò Barella,MED,87
+Inter de Milán,,Hakan Çalhanoğlu,MED,86
+Inter de Milán,,Piotr Zieliński,MED,82
+Inter de Milán,,Henrikh Mkhitaryan,MED,79
+Inter de Milán,,Davide Frattesi,MED,79
+Inter de Milán,,Petar Sučić,MED,76
+Inter de Milán,,Lautaro Martínez,DEL,89
+Inter de Milán,,Marcus Thuram,DEL,85
+Inter de Milán,,Ange-Yoan Bonny,DEL,75
+Inter de Milán,,Francesco Pio Esposito,DEL,74
+Napoli,,Alex Meret,POR,80
+Napoli,,Vanja Milinković-Savić,POR,76
+Napoli,,Alessandro Buongiorno,DEF,82
+Napoli,,Amir Rrahmani,DEF,81
+Napoli,,Sam Beukema,DEF,80
+Napoli,,Giovanni Di Lorenzo,DEF,80
+Napoli,,Leonardo Spinazzola,DEF,77
+Napoli,,Miguel Gutiérrez,DEF,76
+Napoli,,Kevin De Bruyne,MED,86
+Napoli,,Scott McTominay,MED,84
+Napoli,,Stanislav Lobotka,MED,82
+Napoli,,André-Frank Zambo Anguissa,MED,80
+Napoli,,Billy Gilmour,MED,77
+Napoli,,Romelu Lukaku,DEL,80
+Napoli,,David Neres,DEL,79
+Napoli,,Noa Lang,DEL,79
+Napoli,,Rasmus Højlund,DEL,77
+Napoli,,Matteo Politano,DEL,77
+Roma,,Mile Svilar,POR,83
+Roma,,Devis Vásquez,POR,68
+Roma,,Gianluca Mancini,DEF,80
+Roma,,Evan Ndicka,DEF,80
+Roma,,Mario Hermoso,DEF,79
+Roma,,Zeki Çelik,DEF,77
+Roma,,Angeliño,DEF,77
+Roma,,Wesley França,DEF,74
+Roma,,Manu Koné,MED,79
+Roma,,Bryan Cristante,MED,78
+Roma,,Lorenzo Pellegrini,MED,78
+Roma,,Neil El Aynaoui,MED,76
+Roma,,Niccolò Pisilli,MED,72
+Roma,,Paulo Dybala,DEL,82
+Roma,,Artem Dovbyk,DEL,78
+Roma,,Matías Soulé,DEL,78
+Roma,,Stephan El Shaarawy,DEL,75
+Roma,,Evan Ferguson,DEL,74
+Como,,Jean Butez,POR,73
+Como,,Mauro Vigorito,POR,68
+Como,,Marc-Oliver Kempf,DEF,76
+Como,,Álex Valle,DEF,75
+Como,,Alberto Moreno,DEF,74
+Como,,Jacobo Ramón,DEF,72
+Como,,Ignace Van der Brempt,DEF,72
+Como,,Edoardo Goldaniga,DEF,72
+Como,,Nico Paz,MED,80
+Como,,Maxence Caqueret,MED,77
+Como,,Lucas da Cunha,MED,75
+Como,,Sergi Roberto,MED,74
+Como,,Máximo Perrone,MED,73
+Como,,Assane Diao,DEL,77
+Como,,Álvaro Morata,DEL,76
+Como,,Anastasios Douvikas,DEL,75
+Como,,Jesús Rodríguez,DEL,72
+Como,,Andrea Belotti,DEL,70
+Barcelona,,Joan García,POR,80
+Barcelona,,Wojciech Szczęsny,POR,78
+Barcelona,,Jules Koundé,DEF,86
+Barcelona,,Pau Cubarsí,DEF,85
+Barcelona,,Ronald Araújo,DEF,84
+Barcelona,,Alejandro Balde,DEF,83
+Barcelona,,Andreas Christensen,DEF,79
+Barcelona,,Eric García,DEF,77
+Barcelona,,Gerard Martín,DEF,76
+Barcelona,,Pedri,MED,88
+Barcelona,,Frenkie de Jong,MED,85
+Barcelona,,Dani Olmo,MED,83
+Barcelona,,Gavi,MED,82
+Barcelona,,Fermín López,MED,80
+Barcelona,,Marc Casadó,MED,77
+Barcelona,,Lamine Yamal,DEL,91
+Barcelona,,Raphinha,DEL,88
+Barcelona,,Robert Lewandowski,DEL,87
+Barcelona,,Marcus Rashford,DEL,82
+Barcelona,,Ferran Torres,DEL,80
+Real Madrid,,Thibaut Courtois,POR,90
+Real Madrid,,Andriy Lunin,POR,78
+Real Madrid,,Antonio Rüdiger,DEF,85
+Real Madrid,,Trent Alexander-Arnold,DEF,85
+Real Madrid,,Dani Carvajal,DEF,84
+Real Madrid,,Éder Militão,DEF,84
+Real Madrid,,Dean Huijsen,DEF,81
+Real Madrid,,Álvaro Carreras,DEF,80
+Real Madrid,,Ferland Mendy,DEF,80
+Real Madrid,,David Alaba,DEF,80
+Real Madrid,,Jude Bellingham,MED,90
+Real Madrid,,Federico Valverde,MED,88
+Real Madrid,,Aurélien Tchouaméni,MED,85
+Real Madrid,,Eduardo Camavinga,MED,83
+Real Madrid,,Arda Güler,MED,83
+Real Madrid,,Franco Mastantuono,MED,78
+Real Madrid,,Kylian Mbappé,DEL,92
+Real Madrid,,Vinícius Júnior,DEL,90
+Real Madrid,,Rodrygo,DEL,85
+Real Madrid,,Endrick,DEL,78
+Villarreal,,Luiz Júnior,POR,75
+Villarreal,,Diego Conde,POR,72
+Villarreal,,Juan Foyth,DEF,77
+Villarreal,,Rafa Marín,DEF,76
+Villarreal,,Alfonso Pedraza,DEF,76
+Villarreal,,Willy Kambwala,DEF,75
+Villarreal,,Sergi Cardona,DEF,75
+Villarreal,,Santiago Mouriño,DEF,75
+Villarreal,,Thomas Partey,MED,79
+Villarreal,,Alberto Moleiro,MED,79
+Villarreal,,Pape Gueye,MED,77
+Villarreal,,Santi Comesaña,MED,77
+Villarreal,,Dani Parejo,MED,76
+Villarreal,,Georges Mikautadze,DEL,79
+Villarreal,,Gerard Moreno,DEL,78
+Villarreal,,Ayoze Pérez,DEL,76
+Villarreal,,Tajon Buchanan,DEL,74
+Villarreal,,Nicolas Pépé,DEL,74
+Atlético de Madrid,,Jan Oblak,POR,88
+Atlético de Madrid,,Juan Musso,POR,76
+Atlético de Madrid,,Marcos Llorente,DEF,82
+Atlético de Madrid,,Robin Le Normand,DEF,82
+Atlético de Madrid,,José María Giménez,DEF,80
+Atlético de Madrid,,David Hancko,DEF,80
+Atlético de Madrid,,Nahuel Molina,DEF,79
+Atlético de Madrid,,Clément Lenglet,DEF,76
+Atlético de Madrid,,Matteo Ruggeri,DEF,76
+Atlético de Madrid,,Rodrigo De Paul,MED,83
+Atlético de Madrid,,Koke,MED,82
+Atlético de Madrid,,Álex Baena,MED,82
+Atlético de Madrid,,Pablo Barrios,MED,80
+Atlético de Madrid,,Conor Gallagher,MED,80
+Atlético de Madrid,,Johnny Cardoso,MED,78
+Atlético de Madrid,,Julián Álvarez,DEL,87
+Atlético de Madrid,,Antoine Griezmann,DEL,86
+Atlético de Madrid,,Alexander Sørloth,DEL,80
+Atlético de Madrid,,Giuliano Simeone,DEL,78
+Atlético de Madrid,,Thiago Almada,DEL,78
+Real Betis,,Álvaro Valles,POR,76
+Real Betis,,Pau López,POR,74
+Real Betis,,Natan,DEF,77
+Real Betis,,Marc Bartra,DEF,76
+Real Betis,,Diego Llorente,DEF,76
+Real Betis,,Héctor Bellerín,DEF,75
+Real Betis,,Ricardo Rodríguez,DEF,75
+Real Betis,,Junior Firpo,DEF,74
+Real Betis,,Aitor Ruibal,DEF,73
+Real Betis,,Isco,MED,80
+Real Betis,,Giovani Lo Celso,MED,79
+Real Betis,,Pablo Fornals,MED,77
+Real Betis,,Sofyan Amrabat,MED,77
+Real Betis,,Marc Roca,MED,75
+Real Betis,,Nelson Deossa,MED,74
+Real Betis,,Antony,DEL,80
+Real Betis,,Cucho Hernández,DEL,78
+Real Betis,,Abde Ezzalzouli,DEL,78
+Real Betis,,Chimy Ávila,DEL,74
+Real Betis,,Cédric Bakambu,DEL,72
+Bayern de Múnich,,Manuel Neuer,POR,85
+Bayern de Múnich,,Jonas Urbig,POR,74
+Bayern de Múnich,,Dayot Upamecano,DEF,84
+Bayern de Múnich,,Jonathan Tah,DEF,84
+Bayern de Múnich,,Kim Min-jae,DEF,83
+Bayern de Múnich,,Alphonso Davies,DEF,83
+Bayern de Múnich,,Josip Stanišić,DEF,80
+Bayern de Múnich,,Konrad Laimer,DEF,80
+Bayern de Múnich,,Hiroki Ito,DEF,78
+Bayern de Múnich,,Joshua Kimmich,MED,88
+Bayern de Múnich,,Jamal Musiala,MED,88
+Bayern de Múnich,,Leon Goretzka,MED,81
+Bayern de Múnich,,Aleksandar Pavlović,MED,80
+Bayern de Múnich,,Raphaël Guerreiro,MED,77
+Bayern de Múnich,,Harry Kane,DEL,91
+Bayern de Múnich,,Michael Olise,DEL,87
+Bayern de Múnich,,Luis Díaz,DEL,85
+Bayern de Múnich,,Serge Gnabry,DEL,82
+Bayern de Múnich,,Nicolas Jackson,DEL,77
+Borussia Dortmund,,Gregor Kobel,POR,87
+Borussia Dortmund,,Alexander Meyer,POR,74
+Borussia Dortmund,,Nico Schlotterbeck,DEF,84
+Borussia Dortmund,,Waldemar Anton,DEF,82
+Borussia Dortmund,,Niklas Süle,DEF,79
+Borussia Dortmund,,Ramy Bensebaini,DEF,79
+Borussia Dortmund,,Julian Ryerson,DEF,79
+Borussia Dortmund,,Yan Couto,DEF,78
+Borussia Dortmund,,Daniel Svensson,DEF,76
+Borussia Dortmund,,Julian Brandt,MED,83
+Borussia Dortmund,,Felix Nmecha,MED,80
+Borussia Dortmund,,Marcel Sabitzer,MED,80
+Borussia Dortmund,,Pascal Groß,MED,79
+Borussia Dortmund,,Jobe Bellingham,MED,76
+Borussia Dortmund,,Serhou Guirassy,DEL,85
+Borussia Dortmund,,Karim Adeyemi,DEL,79
+Borussia Dortmund,,Maximilian Beier,DEL,79
+Borussia Dortmund,,Fábio Silva,DEL,76
+RB Leipzig,,Péter Gulácsi,POR,80
+RB Leipzig,,Maarten Vandevoordt,POR,78
+RB Leipzig,,Castello Lukeba,DEF,82
+RB Leipzig,,David Raum,DEF,80
+RB Leipzig,,Lutsharel Geertruida,DEF,80
+RB Leipzig,,Willi Orbán,DEF,79
+RB Leipzig,,Ridle Baku,DEF,77
+RB Leipzig,,Xaver Schlager,MED,80
+RB Leipzig,,Christoph Baumgartner,MED,80
+RB Leipzig,,Nicolas Seiwald,MED,79
+RB Leipzig,,Arthur Vermeeren,MED,77
+RB Leipzig,,Kevin Kampl,MED,72
+RB Leipzig,,Yan Diomande,DEL,80
+RB Leipzig,,Antonio Nusa,DEL,78
+RB Leipzig,,Johan Bakayoko,DEL,76
+RB Leipzig,,Rômulo,DEL,74
+RB Leipzig,,Conrad Harder,DEL,74
+Stuttgart,,Alexander Nübel,POR,80
+Stuttgart,,Fabian Bredlow,POR,70
+Stuttgart,,Maximilian Mittelstädt,DEF,78
+Stuttgart,,Jeff Chabot,DEF,77
+Stuttgart,,Ramon Hendriks,DEF,76
+Stuttgart,,Josha Vagnoman,DEF,76
+Stuttgart,,Finn Jeltsch,DEF,73
+Stuttgart,,Angelo Stiller,MED,82
+Stuttgart,,Chris Führich,MED,79
+Stuttgart,,Bilal El Khannouss,MED,78
+Stuttgart,,Jamie Leweling,MED,77
+Stuttgart,,Atakan Karazor,MED,77
+Stuttgart,,Deniz Undav,DEL,80
+Stuttgart,,Ermedin Demirović,DEL,79
+Stuttgart,,Tiago Tomás,DEL,75
+Stuttgart,,Badredine Bouanani,DEL,74
+Lens,,Robin Risser,POR,76
+Lens,,Hervé Koffi,POR,68
+Lens,,Facundo Medina,DEF,77
+Lens,,Jonathan Gradit,DEF,76
+Lens,,Malang Sarr,DEF,76
+Lens,,Ruben Aguilar,DEF,74
+Lens,,Przemysław Frankowski,DEF,74
+Lens,,Salis Abdul Samed,MED,77
+Lens,,Adrien Thomasson,MED,74
+Lens,,Angelo Fulgini,MED,74
+Lens,,Nampalys Mendy,MED,73
+Lens,,Florian Sotoca,DEL,76
+Lens,,Wesley Saïd,DEL,74
+Lille,,Berke Özer,POR,76
+Lille,,Aïssa Mandi,DEF,77
+Lille,,Bafodé Diakité,DEF,77
+Lille,,Gabriel Gudmundsson,DEF,76
+Lille,,Tiago Santos,DEF,75
+Lille,,Nathan Ngoy,DEF,74
+Lille,,Thomas Meunier,DEF,74
+Lille,,Benjamin André,MED,78
+Lille,,Ayyoub Bouaddi,MED,77
+Lille,,Ngal'ayel Mukau,MED,74
+Lille,,Hákon Haraldsson,MED,74
+Lille,,Nabil Bentaleb,MED,72
+Lille,,Osame Sahraoui,DEL,75
+Lille,,Hamza Igamane,DEL,74
+Lille,,Félix Correia,DEL,74
+Lille,,Ethan Mbappé,DEL,73
+PSV Eindhoven,,Walter Benítez,POR,79
+PSV Eindhoven,,Matěj Kovář,POR,72
+PSV Eindhoven,,Olivier Boscagli,DEF,77
+PSV Eindhoven,,Jordan Teze,DEF,77
+PSV Eindhoven,,Sergiño Dest,DEF,76
+PSV Eindhoven,,Mauro Júnior,DEF,75
+PSV Eindhoven,,Ryan Flamingo,DEF,74
+PSV Eindhoven,,Joey Veerman,MED,80
+PSV Eindhoven,,Ismael Saibari,MED,79
+PSV Eindhoven,,Jerdy Schouten,MED,78
+PSV Eindhoven,,Malik Tillman,MED,78
+PSV Eindhoven,,Guus Til,MED,74
+PSV Eindhoven,,Ricardo Pepi,DEL,75
+PSV Eindhoven,,Luuk de Jong,DEL,74
+PSV Eindhoven,,Couhaib Driouech,DEL,74
+PSV Eindhoven,,Dennis Man,DEL,74
+Feyenoord,,Timon Wellenreuther,POR,74
+Feyenoord,,Justin Bijlow,POR,74
+Feyenoord,,Gernot Trauner,DEF,77
+Feyenoord,,Hugo Bueno,DEF,75
+Feyenoord,,Givairo Read,DEF,74
+Feyenoord,,Jordan Lotomba,DEF,73
+Feyenoord,,Thomas van den Belt,DEF,72
+Feyenoord,,Quinten Timber,MED,80
+Feyenoord,,Hwang In-beom,MED,78
+Feyenoord,,Antoni Milambo,MED,76
+Feyenoord,,Gjivai Zechiël,MED,72
+Feyenoord,,Igor Paixão,DEL,78
+Feyenoord,,Anis Hadj Moussa,DEL,77
+Feyenoord,,Ayase Ueda,DEL,76
+Feyenoord,,Julián Carranza,DEL,74
+Oporto,,Diogo Costa,POR,85
+Oporto,,Cláudio Ramos,POR,72
+Oporto,,Jakub Kiwior,DEF,78
+Oporto,,Nehuén Pérez,DEF,77
+Oporto,,Alberto Costa,DEF,77
+Oporto,,Jan Bednarek,DEF,76
+Oporto,,Martim Fernandes,DEF,75
+Oporto,,Francisco Moura,DEF,75
+Oporto,,Alan Varela,MED,78
+Oporto,,Gabri Veiga,MED,77
+Oporto,,Rodrigo Mora,MED,77
+Oporto,,Pablo Rosario,MED,74
+Oporto,,Vasco Sousa,MED,72
+Oporto,,Samu Aghehowa,DEL,80
+Oporto,,Pepê,DEL,78
+Oporto,,Borja Sainz,DEL,77
+Oporto,,William Gomes,DEL,76
+Oporto,,Deniz Gül,DEL,73
+Sporting de Portugal,,Rui Silva,POR,82
+Sporting de Portugal,,Diego Callai,POR,68
+Sporting de Portugal,,Gonçalo Inácio,DEF,82
+Sporting de Portugal,,Ousmane Diomande,DEF,80
+Sporting de Portugal,,Maximiliano Araújo,DEF,79
+Sporting de Portugal,,Zeno Debast,DEF,78
+Sporting de Portugal,,Matheus Reis,DEF,76
+Sporting de Portugal,,Ricardo Mangas,DEF,74
+Sporting de Portugal,,Pedro Gonçalves,MED,83
+Sporting de Portugal,,Morten Hjulmand,MED,82
+Sporting de Portugal,,Hidemasa Morita,MED,78
+Sporting de Portugal,,Daniel Bragança,MED,77
+Sporting de Portugal,,Geovany Quenda,MED,76
+Sporting de Portugal,,Francisco Trincão,DEL,80
+Sporting de Portugal,,Luis Suárez,DEL,79
+Sporting de Portugal,,Geny Catamo,DEL,76
+Sporting de Portugal,,Fotis Ioannidis,DEL,75
+Brujas,,Nordin Jackers,POR,76
+Brujas,,Simon Mignolet,POR,74
+Brujas,,Brandon Mechele,DEF,76
+Brujas,,Joel Ordóñez,DEF,76
+Brujas,,Zaid Romero,DEF,75
+Brujas,,Bjorn Meijer,DEF,74
+Brujas,,Kyriani Sabbe,DEF,73
+Brujas,,Hans Vanaken,MED,79
+Brujas,,Raphael Onyedika,MED,77
+Brujas,,Ludovit Reis,MED,74
+Brujas,,Christos Tzolis,DEL,78
+Brujas,,Chemsdine Talbi,DEL,77
+Brujas,,Ferran Jutglà,DEL,76
+Brujas,,Romeo Vermant,DEL,74
+Slavia de Praga,,Jindřich Staněk,POR,76
+Slavia de Praga,,David Douděra,DEF,76
+Slavia de Praga,,David Zima,DEF,75
+Slavia de Praga,,Igoh Ogbu,DEF,75
+Slavia de Praga,,Jan Bořil,DEF,73
+Slavia de Praga,,Tomáš Holeš,MED,77
+Slavia de Praga,,Lukáš Provod,MED,76
+Slavia de Praga,,Oscar Dorley,MED,73
+Slavia de Praga,,Christos Zafeiris,MED,72
+Slavia de Praga,,Mojmír Chytil,DEL,74
+Slavia de Praga,,Ivan Schranz,DEL,74
+Slavia de Praga,,Tomáš Chorý,DEL,73
+Slavia de Praga,,Vasil Kušej,DEL,73
+Galatasaray,,Uğurcan Çakır,POR,78
+Galatasaray,,Günay Güvenç,POR,74
+Galatasaray,,Wilfried Singo,DEF,78
+Galatasaray,,Davinson Sánchez,DEF,77
+Galatasaray,,Abdülkerim Bardakcı,DEF,77
+Galatasaray,,Eren Elmalı,DEF,75
+Galatasaray,,Kaan Ayhan,DEF,74
+Galatasaray,,İlkay Gündoğan,MED,82
+Galatasaray,,Gabriel Sara,MED,79
+Galatasaray,,Lucas Torreira,MED,78
+Galatasaray,,Mario Lemina,MED,76
+Galatasaray,,Victor Osimhen,DEL,86
+Galatasaray,,Leroy Sané,DEL,80
+Galatasaray,,Mauro Icardi,DEL,79
+Galatasaray,,Barış Alper Yılmaz,DEL,78
+Galatasaray,,Yunus Akgün,DEL,76
+Fenerbahçe,,Dominik Livaković,POR,78
+Fenerbahçe,,İrfan Can Eğribayat,POR,72
+Fenerbahçe,,Milan Škriniar,DEF,82
+Fenerbahçe,,Nélson Semedo,DEF,77
+Fenerbahçe,,Jayden Oosterwolde,DEF,76
+Fenerbahçe,,Çağlar Söyüncü,DEF,75
+Fenerbahçe,,Archie Brown,DEF,73
+Fenerbahçe,,Levent Mercan,DEF,73
+Fenerbahçe,,Marco Asensio,MED,79
+Fenerbahçe,,Sebastian Szymański,MED,79
+Fenerbahçe,,Fred,MED,77
+Fenerbahçe,,İsmail Yüksek,MED,76
+Fenerbahçe,,Mert Hakan Yandaş,MED,74
+Fenerbahçe,,Anderson Talisca,DEL,80
+Fenerbahçe,,Youssef En-Nesyri,DEL,78
+Fenerbahçe,,Dušan Tadić,DEL,74
+Fenerbahçe,,Cengiz Ünder,DEL,74
+Bodø Glimt,,Nikita Haikin,POR,74
+Bodø Glimt,,Julian Faye Lund,POR,70
+Bodø Glimt,,Haitam Aleesami,DEF,74
+Bodø Glimt,,Odd Karsten Tveit,DEF,72
+Bodø Glimt,,Brice Wembangomo,DEF,72
+Bodø Glimt,,Fredrik Sjøvold,DEF,72
+Bodø Glimt,,Patrick Berg,MED,76
+Bodø Glimt,,Ulrik Saltnes,MED,74
+Bodø Glimt,,Sondre Brunstad Fet,MED,74
+Bodø Glimt,,Hugo Vetlesen,MED,74
+Bodø Glimt,,Jens Petter Hauge,DEL,76
+Bodø Glimt,,Kasper Høgh,DEL,76
+Bodø Glimt,,Ole Blomberg,DEL,74
+Bodø Glimt,,Amahl Pellegrino,DEL,74
+Shakhtar Donetsk,,Dmytro Riznyk,POR,74
+Shakhtar Donetsk,,Kiril Fesyun,POR,69
+Shakhtar Donetsk,,Mykola Matviyenko,DEF,75
+Shakhtar Donetsk,,Valeriy Bondar,DEF,74
+Shakhtar Donetsk,,Irakli Azarovi,DEF,73
+Shakhtar Donetsk,,Pedro Henrique,DEF,72
+Shakhtar Donetsk,,Yaroslav Rakitskyi,DEF,71
+Shakhtar Donetsk,,Dmytro Kryskiv,DEF,71
+Shakhtar Donetsk,,Vinícius Tobias,DEF,71
+Shakhtar Donetsk,,Georgiy Sudakov,MED,79
+Shakhtar Donetsk,,Oleksandr Zubkov,MED,75
+Shakhtar Donetsk,,Oleh Ocheretko,MED,73
+Shakhtar Donetsk,,Newerton,MED,73
+Shakhtar Donetsk,,Marlon Gomes,MED,72
+Shakhtar Donetsk,,Taras Stepanenko,MED,72
+Shakhtar Donetsk,,Artem Bondarenko,MED,71
+Shakhtar Donetsk,,Kevin,DEL,75
+Shakhtar Donetsk,,Kauã Elias,DEL,74
+Shakhtar Donetsk,,Danylo Sikan,DEL,74
+Shakhtar Donetsk,,Eguinaldo,DEL,73
+Shakhtar Donetsk,,Alisson Santana,DEL,73
+Viking,,Lubomír Belko,POR,71
+Viking,,Arild Østbø,POR,70
+Viking,,Magnus Rugland Ree,POR,66
+Viking,,Henrik Falchener,DEF,71
+Viking,,Kristoffer Haugen,DEF,71
+Viking,,Daniel Karlsbakk,DEF,70
+Viking,,Axel Kryger,DEF,70
+Viking,,Gabriel Pereira,DEF,69
+Viking,,Kristoffer Askildsen,MED,74
+Viking,,Joe Bell,MED,72
+Viking,,Ola Visted,MED,71
+Viking,,Simen Kvia-Egeskog,MED,71
+Viking,,Tobias Moi,MED,70
+Viking,,Jakob Segadal Hansen,MED,69
+Viking,,Veton Berisha,DEL,72
+Viking,,Nicholas D'Agostino,DEL,71
+Viking,,Lars-Jørgen Salvesen,DEL,71
+Viking,,Martin Ove Roseth,DEL,69
+AEK Atenas,,Alexandros Paschalakis,POR,73
+AEK Atenas,,Panagiotis Tsintotas,POR,68
+AEK Atenas,,Lazaros Rota,DEF,72
+AEK Atenas,,Harold Moukoudi,DEF,72
+AEK Atenas,,Filip Mladenović,DEF,73
+AEK Atenas,,Stavros Pilios,DEF,70
+AEK Atenas,,Domagoj Vida,DEF,71
+AEK Atenas,,Georgios Tzavellas,DEF,70
+AEK Atenas,,Orbelín Pineda,MED,75
+AEK Atenas,,Mijat Gaćinović,MED,74
+AEK Atenas,,Răzvan Marin,MED,74
+AEK Atenas,,Jens Jønsson,MED,73
+AEK Atenas,,Pierre Kunde,MED,72
+AEK Atenas,,Petros Mantalos,MED,72
+AEK Atenas,,Marios Vrousai,MED,71
+AEK Atenas,,Luka Jović,DEL,75
+AEK Atenas,,Ezequiel Ponce,DEL,74
+AEK Atenas,,Levi García,DEL,73
+AEK Atenas,,Sergio Araujo,DEL,72
+LASK,,Tobias Lawal,POR,72
+LASK,,Jörg Siebenhandl,POR,66
+LASK,,Andrés Andrade,DEF,73
+LASK,,Maximilian Ullmann,DEF,72
+LASK,,Filip Stojković,DEF,71
+LASK,,Melayro Bogarde,DEF,71
+LASK,,Philipp Ziereis,DEF,70
+LASK,,Sascha Horvath,MED,72
+LASK,,Robert Žulj,MED,73
+LASK,,Valon Berisha,MED,72
+LASK,,Florian Flecker,MED,71
+LASK,,Adam Daghim,MED,70
+LASK,,Moussa Kounfolo Yeo,DEL,71
+LASK,,Marin Ljubičić,DEL,72
+LASK,,Samuel Adeniran,DEL,71
+LASK,,Mamoudou Karamoko,DEL,70
+Slovan Bratislava,,Dominik Takáč,POR,69
+Slovan Bratislava,,Martin Trnovský,POR,65
+Slovan Bratislava,,Guram Kashia,DEF,71
+Slovan Bratislava,,Kevin Wimmer,DEF,70
+Slovan Bratislava,,Jurij Medvedev,DEF,69
+Slovan Bratislava,,Vasil Bozhikov,DEF,69
+Slovan Bratislava,,Siemen Voet,DEF,68
+Slovan Bratislava,,Kenan Bajrić,MED,70
+Slovan Bratislava,,Juraj Kucka,MED,71
+Slovan Bratislava,,Tigran Barseghyan,MED,70
+Slovan Bratislava,,Aleksandar Čavrić,MED,70
+Slovan Bratislava,,Žan Medved,MED,69
+Slovan Bratislava,,Cesar Blackman,MED,69
+Slovan Bratislava,,Kyriakos Savvidis,DEL,70
+Slovan Bratislava,,Marko Tolić,DEL,70
+Slovan Bratislava,,Andrija Balić,MED,69
+Sabah,,Salahat Aghayev,POR,66
+Sabah,,Elvin Jamalov,POR,63
+Sabah,,Mickaël Pote,DEF,67
+Sabah,,Ricardo Kishna,DEF,65
+Sabah,,Bahlul Mustafazade,DEF,66
+Sabah,,Ibrahim Bangoura,DEF,65
+Sabah,,Joel Bopesu,DEF,64
+Sabah,,Joni Montiel,MED,68
+Sabah,,Ramil Sheydayev,DEL,67
+Sabah,,Mahir Emreli,DEL,69
+Sabah,,Khalil Lembi,MED,65
+Sabah,,Pedro Bicalho,MED,66
+Sabah,,Christian Bonilla,MED,65
+Sabah,,Tural Bayramov,MED,64
+Sabah,,Taras Pshenichnyi,DEL,65
+Sabah,,Eduard Mamedov,DEF,64

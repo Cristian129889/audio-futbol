@@ -1,0 +1,332 @@
+{
+ "id": "sudamericana_2026",
+ "nombre": "Copa Sudamericana con equipos mexicanos",
+ "version_datos": "2026-11-19",
+ "nota": "32 clubes en 8 grupos de 4: 28 sudamericanos y 4 mexicanos (Chivas, Toluca, Pumas UNAM y Pachuca), los siguientes de la Liga MX después de los que juegan la Libertadores. Mismo formato que la Libertadores. Los clubes sudamericanos usan plantilla de ejemplo hasta que agregues sus jugadores en datos\\clubes.",
+ "sede_final": [
+  "Estadio Defensores del Chaco",
+  "Asunción"
+ ],
+ "equipos": [
+  {
+   "id": "botafogo",
+   "nombre": "Botafogo",
+   "pais": "Brasil",
+   "plantilla": [],
+   "nivel": 76,
+   "estadio": "Estadio Nilton Santos",
+   "ciudad": "Río de Janeiro",
+   "grupo": "A"
+  },
+  {
+   "id": "independiente",
+   "nombre": "Independiente",
+   "pais": "Argentina",
+   "plantilla": [],
+   "nivel": 72,
+   "estadio": "Estadio Libertadores de América",
+   "ciudad": "Avellaneda",
+   "grupo": "A"
+  },
+  {
+   "id": "millonarios",
+   "nombre": "Millonarios",
+   "pais": "Colombia",
+   "plantilla": [],
+   "nivel": 70,
+   "estadio": "Estadio El Campín",
+   "ciudad": "Bogotá",
+   "grupo": "A"
+  },
+  {
+   "id": "the_strongest",
+   "nombre": "The Strongest",
+   "pais": "Bolivia",
+   "plantilla": [],
+   "nivel": 65,
+   "estadio": "Estadio Rafael Mendoza Castellón",
+   "ciudad": "La Paz",
+   "grupo": "A"
+  },
+  {
+   "id": "pumas",
+   "nombre": "Pumas UNAM",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 76,
+   "estadio": "Estadio Olímpico Universitario",
+   "ciudad": "Ciudad de México",
+   "grupo": "B"
+  },
+  {
+   "id": "vasco",
+   "nombre": "Vasco da Gama",
+   "pais": "Brasil",
+   "plantilla": [],
+   "nivel": 72,
+   "estadio": "Estadio São Januário",
+   "ciudad": "Río de Janeiro",
+   "grupo": "B"
+  },
+  {
+   "id": "argentinos",
+   "nombre": "Argentinos Juniors",
+   "pais": "Argentina",
+   "plantilla": [],
+   "nivel": 71,
+   "estadio": "Estadio Diego Armando Maradona",
+   "ciudad": "Buenos Aires",
+   "grupo": "B"
+  },
+  {
+   "id": "melgar",
+   "nombre": "Melgar",
+   "pais": "Perú",
+   "plantilla": [],
+   "nivel": 65,
+   "estadio": "Estadio Monumental de la UNSA",
+   "ciudad": "Arequipa",
+   "grupo": "B"
+  },
+  {
+   "id": "pachuca",
+   "nombre": "Pachuca",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 76,
+   "estadio": "Estadio Hidalgo",
+   "ciudad": "Pachuca",
+   "grupo": "C"
+  },
+  {
+   "id": "gremio",
+   "nombre": "Grêmio",
+   "pais": "Brasil",
+   "plantilla": [],
+   "nivel": 74,
+   "estadio": "Arena do Grêmio",
+   "ciudad": "Porto Alegre",
+   "grupo": "C"
+  },
+  {
+   "id": "defensor_sporting",
+   "nombre": "Defensor Sporting",
+   "pais": "Uruguay",
+   "plantilla": [],
+   "nivel": 66,
+   "estadio": "Estadio Luis Franzini",
+   "ciudad": "Montevideo",
+   "grupo": "C"
+  },
+  {
+   "id": "guarani",
+   "nombre": "Guaraní",
+   "pais": "Paraguay",
+   "plantilla": [],
+   "nivel": 65,
+   "estadio": "Estadio Rogelio Livieres",
+   "ciudad": "Asunción",
+   "grupo": "C"
+  },
+  {
+   "id": "toluca",
+   "nombre": "Toluca",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 78,
+   "estadio": "Estadio Nemesio Díez",
+   "ciudad": "Toluca",
+   "grupo": "D"
+  },
+  {
+   "id": "racing",
+   "nombre": "Racing Club",
+   "pais": "Argentina",
+   "plantilla": [],
+   "nivel": 74,
+   "estadio": "Estadio Presidente Perón",
+   "ciudad": "Avellaneda",
+   "grupo": "D"
+  },
+  {
+   "id": "universidad_de_chile",
+   "nombre": "Universidad de Chile",
+   "pais": "Chile",
+   "plantilla": [],
+   "nivel": 69,
+   "estadio": "Estadio Nacional",
+   "ciudad": "Santiago",
+   "grupo": "D"
+  },
+  {
+   "id": "carabobo",
+   "nombre": "Carabobo",
+   "pais": "Venezuela",
+   "plantilla": [],
+   "nivel": 62,
+   "estadio": "Estadio Misael Delgado",
+   "ciudad": "Valencia",
+   "grupo": "D"
+  },
+  {
+   "id": "chivas",
+   "nombre": "Chivas",
+   "pais": "México",
+   "plantilla": [],
+   "nivel": 77,
+   "estadio": "Estadio Akron",
+   "ciudad": "Zapopan",
+   "grupo": "E"
+  },
+  {
+   "id": "bahia",
+   "nombre": "Bahia",
+   "pais": "Brasil",
+   "plantilla": [],
+   "nivel": 73,
+   "estadio": "Arena Fonte Nova",
+   "ciudad": "Salvador",
+   "grupo": "E"
+  },
+  {
+   "id": "america_de_cali",
+   "nombre": "América de Cali",
+   "pais": "Colombia",
+   "plantilla": [],
+   "nivel": 66,
+   "estadio": "Estadio Pascual Guerrero",
+   "ciudad": "Cali",
+   "grupo": "E"
+  },
+  {
+   "id": "huachipato",
+   "nombre": "Huachipato",
+   "pais": "Chile",
+   "plantilla": [],
+   "nivel": 64,
+   "estadio": "Estadio CAP",
+   "ciudad": "Talcahuano",
+   "grupo": "E"
+  },
+  {
+   "id": "internacional",
+   "nombre": "Internacional",
+   "pais": "Brasil",
+   "plantilla": [],
+   "nivel": 75,
+   "estadio": "Estadio Beira-Rio",
+   "ciudad": "Porto Alegre",
+   "grupo": "F"
+  },
+  {
+   "id": "talleres",
+   "nombre": "Talleres",
+   "pais": "Argentina",
+   "plantilla": [],
+   "nivel": 72,
+   "estadio": "Estadio Mario Alberto Kempes",
+   "ciudad": "Córdoba",
+   "grupo": "F"
+  },
+  {
+   "id": "alianza_lima",
+   "nombre": "Alianza Lima",
+   "pais": "Perú",
+   "plantilla": [],
+   "nivel": 68,
+   "estadio": "Estadio Alejandro Villanueva",
+   "ciudad": "Lima",
+   "grupo": "F"
+  },
+  {
+   "id": "emelec",
+   "nombre": "Emelec",
+   "pais": "Ecuador",
+   "plantilla": [],
+   "nivel": 66,
+   "estadio": "Estadio George Capwell",
+   "ciudad": "Guayaquil",
+   "grupo": "F"
+  },
+  {
+   "id": "sao_paulo",
+   "nombre": "São Paulo",
+   "pais": "Brasil",
+   "plantilla": [],
+   "nivel": 75,
+   "estadio": "Estadio Morumbi",
+   "ciudad": "São Paulo",
+   "grupo": "G"
+  },
+  {
+   "id": "velez",
+   "nombre": "Vélez Sarsfield",
+   "pais": "Argentina",
+   "plantilla": [],
+   "nivel": 73,
+   "estadio": "Estadio José Amalfitani",
+   "ciudad": "Buenos Aires",
+   "grupo": "G"
+  },
+  {
+   "id": "olimpia",
+   "nombre": "Olimpia",
+   "pais": "Paraguay",
+   "plantilla": [],
+   "nivel": 70,
+   "estadio": "Estadio Manuel Ferreira",
+   "ciudad": "Asunción",
+   "grupo": "G"
+  },
+  {
+   "id": "danubio",
+   "nombre": "Danubio",
+   "pais": "Uruguay",
+   "plantilla": [],
+   "nivel": 65,
+   "estadio": "Estadio Jardines del Hipódromo",
+   "ciudad": "Montevideo",
+   "grupo": "G"
+  },
+  {
+   "id": "atletico_mineiro",
+   "nombre": "Atlético Mineiro",
+   "pais": "Brasil",
+   "plantilla": [],
+   "nivel": 76,
+   "estadio": "Arena MRV",
+   "ciudad": "Belo Horizonte",
+   "grupo": "H"
+  },
+  {
+   "id": "atletico_nacional",
+   "nombre": "Atlético Nacional",
+   "pais": "Colombia",
+   "plantilla": [],
+   "nivel": 72,
+   "estadio": "Estadio Atanasio Girardot",
+   "ciudad": "Medellín",
+   "grupo": "H"
+  },
+  {
+   "id": "colo_colo",
+   "nombre": "Colo-Colo",
+   "pais": "Chile",
+   "plantilla": [],
+   "nivel": 70,
+   "estadio": "Estadio Monumental David Arellano",
+   "ciudad": "Santiago",
+   "grupo": "H"
+  },
+  {
+   "id": "aucas",
+   "nombre": "Aucas",
+   "pais": "Ecuador",
+   "plantilla": [],
+   "nivel": 65,
+   "estadio": "Estadio Gonzalo Pozo Ripalda",
+   "ciudad": "Quito",
+   "grupo": "H"
+  }
+ ]
+}

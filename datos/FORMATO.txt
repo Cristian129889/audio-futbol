@@ -1,0 +1,26 @@
+BASES DE DATOS DE JUGADORES
+
+Pon aqui uno o varios archivos .csv (o .tsv). El juego los lee todos.
+Admite separadores coma, punto y coma, tabulador o barra vertical.
+
+Columnas que reconoce (en espanol o ingles, en cualquier orden):
+- Equipo o seleccion: equipo, seleccion, pais, team, country, nationality, nationality_name
+- Jugador: jugador, nombre, name, player, short_name
+- Posicion: posicion, pos, position, player_positions
+  (portero, defensa, medio, delantero, o GK, CB, CM, ST, etc.)
+- Calidad de 1 a 99: calidad, media, overall, ovr, rating
+- Numero de camiseta (opcional): numero, dorsal, number
+- Si no hay columna de calidad, el juego la calcula con las columnas ataque, defensa, pase y porteria
+  (valoraciones de 1 a 99), segun la posicion de cada jugador.
+- Las filas sin nombre se ignoran.
+
+Ejemplo:
+equipo;jugador;posicion;calidad;numero
+Brasil;Nombre Apellido;delantero;88;9
+
+Si el archivo no tiene columna de equipo, se usa el nombre del archivo como equipo.
+Cada equipo necesita al menos 11 jugadores y, para el Mundial, hacen falta
+al menos 8 equipos (48 para el Mundial completo de 2026, 32, 16 u 8 si hay menos).
+Si la carpeta esta vacia o hay menos de 8 equipos, el juego usa 32 selecciones de ejemplo.
+
+Si tu base de datos tiene otro formato, mandame las primeras lineas y lo adapto.
