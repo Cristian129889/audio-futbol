@@ -19,6 +19,7 @@ $targets = @(
     "AudioFutbol_Portable.zip",
     "AudioFutbol.spec",
     "logs",
+    "_update_staging",
     "error.log",
     ".pytest_cache"
 )

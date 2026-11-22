@@ -1,8 +1,8 @@
 {
   "id": "liga1_peru_2026",
   "nombre": "Liga 1 de Perú 2026",
-  "version_datos": "2026-11-21",
-  "nota": "18 clubes. Torneo Apertura (17 fechas) y Torneo Clausura (17 fechas, localías invertidas), tabla acumulada y playoffs por el título. Los dos últimos del acumulado descienden. Solo Universitario y Alianza Lima traen plantilla real; el resto usa plantilla de ejemplo hasta que agregues jugadores en datos/clubes/liga1_clubes.csv.",
+  "version_datos": "2026-11-22",
+  "nota": "18 clubes. Torneo Apertura (17 fechas) y Torneo Clausura (17 fechas, localías invertidas), tabla acumulada y playoffs por el título. Los dos últimos del acumulado descienden. Universitario, Alianza Lima, Sporting Cristal, Melgar y Cusco traen plantilla real; el resto usa plantilla de ejemplo hasta que agregues jugadores en datos/clubes/liga1_clubes.csv.",
   "equipos": [
     {
       "id": "universitario",

@@ -11,6 +11,7 @@ from audiofutbol.scenes.league_hub import (
     start_new_nations_league,
 )
 from audiofutbol.scenes.options import run_options_menu
+from audiofutbol.scenes.updater_scene import check_updates_on_startup_if_ready
 from audiofutbol.scenes.world_cup_hub import continue_world_cup, start_new_world_cup
 from audiofutbol.version import APP_NAME, VERSION
 
@@ -25,6 +26,7 @@ class MainMenuScene:
             "desde tu base de datos" if ctx.loaded_from_csv else "de ejemplo"
         )
         ctx.ui.speak(f"Se han cargado {len(ctx.national_teams)} selecciones {source_txt}.")
+        check_updates_on_startup_if_ready(ctx)
 
         new_game_entries = [
             ("Mundial", lambda: start_new_world_cup(ctx)),

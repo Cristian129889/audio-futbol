@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from audiofutbol.scenes.base import GameContext
+from audiofutbol.scenes.updater_scene import run_manual_update_check
 from audiofutbol.ui.rules_text import REGLAS
 
 
@@ -39,6 +40,10 @@ def _shot_notice_text(enabled: bool) -> str:
 
 def _braille_text(enabled: bool) -> str:
     return f"Salida a línea Braille con NVDA: {'activada' if enabled else 'desactivada'}"
+
+
+def _auto_update_text(enabled: bool) -> str:
+    return f"Buscar actualizaciones al iniciar el juego: {'activado' if enabled else 'desactivado'}"
 
 
 def run_options_menu(ctx: GameContext) -> None:
@@ -89,6 +94,9 @@ def run_options_menu(ctx: GameContext) -> None:
             cfg.braille = not cfg.braille
             ctx.speech.braille_enabled = cfg.braille
             return _braille_text(cfg.braille)
+        if idx == 10:
+            cfg.buscar_actualizaciones_al_iniciar = not cfg.buscar_actualizaciones_al_iniciar
+            return _auto_update_text(cfg.buscar_actualizaciones_al_iniciar)
         return None
 
     pos = 0
@@ -104,6 +112,8 @@ def run_options_menu(ctx: GameContext) -> None:
             _var_text(cfg.var),
             _shot_notice_text(cfg.aviso_tiros),
             _braille_text(cfg.braille),
+            _auto_update_text(cfg.buscar_actualizaciones_al_iniciar),
+            "Buscar actualizaciones ahora",
             "Probar voz y estado de NVDA",
             "Revisar qué sonidos se han encontrado",
             "Crear lista de archivos de sonido",
@@ -116,19 +126,21 @@ def run_options_menu(ctx: GameContext) -> None:
             initial_index=pos,
             adjust=adjust,
         )
-        if pos_sel is None or pos_sel == 14:
+        if pos_sel is None or pos_sel == 16:
             ctx.save_config()
             return
         pos = pos_sel
-        if pos in (1, 5, 6, 7, 8, 9):
+        if pos in (1, 5, 6, 7, 8, 9, 10):
             res = adjust(pos, 1)
             if res:
                 ctx.ui.speak(res, interrupt=True)
-        elif pos == 10:
-            ctx.ui.speak(ctx.speech.nvda_status_summary(), interrupt=True)
         elif pos == 11:
-            ctx.ui.reader("Sonidos encontrados", ctx.audio.summary_lines())
+            run_manual_update_check(ctx)
         elif pos == 12:
+            ctx.ui.speak(ctx.speech.nvda_status_summary(), interrupt=True)
+        elif pos == 13:
+            ctx.ui.reader("Sonidos encontrados", ctx.audio.summary_lines())
+        elif pos == 14:
             exported = ctx.audio.export_sound_list()
             msg = (
                 f"Lista creada en {exported}"
@@ -136,5 +148,5 @@ def run_options_menu(ctx: GameContext) -> None:
                 else "No se pudo crear la lista."
             )
             ctx.ui.speak(msg)
-        elif pos == 13:
+        elif pos == 15:
             ctx.ui.reader("Reglas del juego", list(REGLAS))

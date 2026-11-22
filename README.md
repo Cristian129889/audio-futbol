@@ -26,6 +26,7 @@ Audiojuego de fútbol accesible para personas ciegas y con baja visión, con sal
   - Partido amistoso o eliminatoria rápida (incluyendo selecciones adicionales en `datos/otras_selecciones/`)
 - **Personalizar torneos**: al iniciar cualquier competición de clubes puedes elegir *Personalizar participantes* para reemplazar cualquier club por otro del pool global de 183 clubes con filtro por país conservando el calendario oficial. Para agregar un club propio basta con escribir al menos 11 jugadores en cualquier CSV de `datos/clubes/`. Consulta [COLABORAR.md](COLABORAR.md) para ver la guía completa de creación de plantillas y competiciones.
 - **Partidas guardadas seguras en JSON + compatibilidad con `.sav`**: guardadas en `saves/` de forma portable y resistente a actualizaciones, con detección y migración automática de partidas `.sav` de versiones anteriores (v0.2–v0.14) ubicadas en la carpeta raíz o en `saves/`.
+- **Actualizador integrado con lector de cambios (GitHub Releases)**: verifica actualizaciones en segundo plano al iniciar el juego (configurable) o manualmente desde *Opciones -> Buscar actualizaciones ahora*, te permite leer el *changelog* completo antes de decidir, valida la integridad del paquete por suma **SHA-256** y actualiza automáticamente en caliente conservando intactas tus partidas guardadas (`saves/`, `.sav`) y tu configuración (`config.json`, `sonidos.txt`).
 
 ## Arquitectura del proyecto
 
@@ -41,12 +42,13 @@ src/audiofutbol/
 ├── engine/                    # Infraestructura
 │   ├── tts/                   # SpeechService (Chain of Responsibility): NvdaDllBackend -> Sapi5Backend
 │   ├── audio.py               # AudioEngine con paneo estéreo, ambiente y música
+│   ├── updater.py             # Actualizador seguro vía API de GitHub Releases + verificación SHA-256
 │   ├── window.py              # Ventana Pygame accesible (HUD alto contraste)
 │   ├── config.py              # Persistencia de config.json
 │   └── paths.py               # Resolución de rutas en código fuente y .exe portable
 ├── data/                      # Carga de CSV, JSON de competiciones y SaveManager JSON
 ├── ui/                        # Widgets accesibles (menú, lector, confirmación, recuento) y reglas
-└── scenes/                    # Máquina de escenas (menú principal, hubs, opciones, partido)
+└── scenes/                    # Máquina de escenas (menú principal, hubs, opciones, actualizador, partido)
 ```
 
 ## Instalación y ejecución (entorno Conda `futbol`)

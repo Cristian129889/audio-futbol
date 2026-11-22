@@ -22,6 +22,8 @@ class GameConfig:
     var: bool = True
     aviso_tiros: bool = True
     braille: bool = True
+    buscar_actualizaciones_al_iniciar: bool = True
+    version_omitida: str = ""
 
     def clamp(self) -> None:
         self.vol_maestro = max(0.0, min(1.0, round(float(self.vol_maestro), 2)))
@@ -30,6 +32,10 @@ class GameConfig:
         self.vol_ambiente = max(0.0, min(1.0, round(float(self.vol_ambiente), 2)))
         if self.turno_seg not in (120, 60, 30):
             self.turno_seg = 60
+        self.buscar_actualizaciones_al_iniciar = bool(
+            self.buscar_actualizaciones_al_iniciar
+        )
+        self.version_omitida = str(self.version_omitida or "").strip()
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -43,6 +49,8 @@ class GameConfig:
             "var": self.var,
             "aviso_tiros": self.aviso_tiros,
             "braille": self.braille,
+            "buscar_actualizaciones_al_iniciar": self.buscar_actualizaciones_al_iniciar,
+            "version_omitida": self.version_omitida,
         }
 
     @classmethod

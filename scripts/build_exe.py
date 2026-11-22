@@ -50,7 +50,13 @@ def main() -> None:
         if src.is_dir():
             shutil.copytree(src, portable_dir / folder_name)
 
-    for file_name in ("config.json", "sonidos.txt", "README.md", "CHANGELOG.md"):
+    for file_name in (
+        "config.json",
+        "sonidos.txt",
+        "README.md",
+        "CHANGELOG.md",
+        "COLABORAR.md",
+    ):
         src = root / file_name
         if src.is_file():
             shutil.copy2(src, portable_dir / file_name)

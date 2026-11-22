@@ -13,6 +13,7 @@ from audiofutbol.engine.audio import AudioEngine
 from audiofutbol.engine.config import GameConfig
 from audiofutbol.engine.paths import AppPaths
 from audiofutbol.engine.tts.service import create_default_speech_service
+from audiofutbol.engine.updater import UpdateService
 from audiofutbol.engine.window import GameWindow, QuitRequested
 from audiofutbol.scenes.base import GameContext, SceneManager
 from audiofutbol.scenes.main_menu import MainMenuScene
@@ -54,11 +55,15 @@ class AudioFutbolApp:
         self.ui = AudioUI(self.speech, self.audio, self.window)
         self.saves = SaveManager(self.paths)
         self.stadiums = StadiumDirectory(self.paths)
+        self.updater = UpdateService(self.paths)
+        self.updater.clean_stale_staging()
 
     def run(self) -> int:
         self.logger.info("Starting AudioFutbol from %s", self.paths.base_dir)
         self.logger.info("TTS status: %s", self.speech.nvda_status_summary())
         try:
+            if not self.window.headless and self.config.buscar_actualizaciones_al_iniciar:
+                self.updater.start_background_check()
             self.window.open()
             teams, from_csv = load_national_teams(self.paths)
             extra_teams = load_extra_national_teams(self.paths)
@@ -74,6 +79,7 @@ class AudioFutbolApp:
                 national_teams=teams,
                 loaded_from_csv=from_csv,
                 extra_national_teams=extra_teams,
+                updater=self.updater,
             )
             manager = SceneManager(ctx, MainMenuScene())
             manager.run()

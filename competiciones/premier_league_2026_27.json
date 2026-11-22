@@ -1,8 +1,8 @@
 {
   "id": "premier_league_2026_27",
   "nombre": "Premier League 2026-27",
-  "version_datos": "2026-11-21",
-  "nota": "20 clubes, 38 jornadas a ida y vuelta, sin playoffs. Suben Coventry City, Ipswich Town y Hull City; bajaron West Ham, Wolverhampton y Burnley. Hull City usa plantilla de ejemplo hasta que agregues sus jugadores en datos/clubes/premier_clubes.csv.",
+  "version_datos": "2026-11-22",
+  "nota": "20 clubes con plantillas reales completas, 38 jornadas a ida y vuelta, sin playoffs. Suben Coventry City, Ipswich Town y Hull City; bajaron West Ham, Wolverhampton y Burnley.",
   "equipos": [
     {
       "id": "arsenal",

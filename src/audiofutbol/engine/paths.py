@@ -90,6 +90,10 @@ class AppPaths:
     def error_log_file(self) -> Path:
         return self.base_dir / "error.log"
 
+    @property
+    def update_staging_dir(self) -> Path:
+        return self.base_dir / "_update_staging"
+
     def dll_search_dirs(self) -> list[Path]:
         """Directories searched for the NVDA Controller Client DLL."""
         dirs = [self.lib_dir, self.base_dir, self.base_dir / "dll"]

@@ -23,6 +23,7 @@ htmlcov/
 # Runtime artifacts & local saves
 saves/
 logs/
+_update_staging/
 *.sav
 error.log
 lista_sonidos.txt

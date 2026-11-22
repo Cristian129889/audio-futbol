@@ -13,6 +13,7 @@ from audiofutbol.engine.audio import AudioEngine
 from audiofutbol.engine.config import GameConfig
 from audiofutbol.engine.paths import AppPaths
 from audiofutbol.engine.tts.service import SpeechService
+from audiofutbol.engine.updater import UpdateService
 from audiofutbol.engine.window import GameWindow
 from audiofutbol.ui.widgets import AudioUI
 
@@ -32,6 +33,7 @@ class GameContext:
     national_teams: list[Team]
     loaded_from_csv: bool
     extra_national_teams: list[Team] = field(default_factory=list)
+    updater: UpdateService | None = None
 
     def match_settings(self) -> MatchSettings:
         return MatchSettings(

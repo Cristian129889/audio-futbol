@@ -2,6 +2,10 @@
 
 ## v0.16.0
 
+- **Actualizador integrado y seguro vía API de GitHub Releases**:
+  - **Verificación al arrancar y bajo demanda**: comprobación asíncrona en segundo plano al iniciar el juego (sin bloquear el arranque si no hay internet) y opción *Buscar actualizaciones ahora* + interruptor *Buscar actualizaciones al iniciar el juego* dentro del menú de *Opciones*.
+  - **Lector de novedades (changelog) y decisión del usuario**: antes de actualizar, presenta un resumen hablado y un lector interactivo línea por línea con todas las novedades de la versión publicada (limpiando el formato Markdown para NVDA/SAPI5), permitiendo elegir entre actualizar ahora, abrir la versión en el navegador, omitir esa versión específica o posponer.
+  - **Seguridad e instalación automática sin perder datos**: validación criptográfica **SHA-256** del paquete oficial `AudioFutbol_Portable.zip`, extracción protegida contra *Zip-Slip*, preservación garantizada de `saves/`, archivos `.sav`, `config.json` y `sonidos.txt`, y reemplazo/reinicio automático del ejecutable portable en Windows.
 - **Nuevas competiciones (aporte de Erling-Haaland)**:
   - **Premier League 2026-27**: 20 clubes con plantillas reales completas, 38 jornadas a ida y vuelta sin playoffs y zonas de Liga de Campeones, Europa/Conference y descenso.
   - **Liga 1 de Perú 2026**: 18 clubes, Torneo Apertura y Torneo Clausura de 17 fechas (localías invertidas), tabla acumulada, playoffs por el título (campeón directo si repite ganador, pase directo a la final o semifinales) y zonas de Libertadores, Sudamericana y descenso. Plantillas reales en Universitario, Alianza Lima, Sporting Cristal, Melgar y Cusco.
@@ -14,6 +18,7 @@
   - **Sonido de gol y aplausos**: separados los efectos reactivos (`gol`, `ovacion`, `abucheo`, `casi`) del loop de ambiente (`tribuna`) para que suenen claros aunque el ambiente esté al 5%; ahora los goles propios reproducen `gol` + `ovacion` (aplausos) y los goles rivales reproducen `abucheo`.
   - **Música en arranque, descanso y podios**: reforzada la reproducción de `play_menu_music`/`play_theme`, añadida música de fondo durante el resumen y menú del entretiempo, y corregido el podio final de Mundial y torneos para que `musica_fanfarria` + `ovacion` suenen solo cuando el usuario sale campeón (`musica_derrota` si es subcampeón).
   - **Salida corta del portero y balance goleador**: el saque de meta en corto ahora inicia en `en tu área` (`zone = 0`) con receptor defensivo, y se recalibraron las probabilidades base de tiro en el área, ventaja de equipo, cabezazos tras centro, despejes aéreos, rebotes y `goal_factor` en partidos de 60s y 30s.
+- **Auditoría de datos y reglas**: corregidos dorsales duplicados en `FC Cincinnati`, `Alajuelense` y `Bahia` (100% de dorsales únicos en las 50 selecciones y 170 clubes reales), actualizadas las reglas integradas (`REGLAS`) con Premier League, Liga 1 de Perú, Copa personalizada y actualizador, e incluido `COLABORAR.md` en el paquete portable.
 
 ## v0.15.2
 
