@@ -24,7 +24,7 @@ Audiojuego de fútbol accesible para personas ciegas y con baja visión, con sal
   - Liga 1 de Perú 2026 (18 clubes, Apertura + Clausura de 17 fechas, tabla acumulada y playoffs por el título)
   - Copa de clubes personalizada (8, 16, 32 o 64 clubes elegidos libremente de cualquier liga)
   - Partido amistoso o eliminatoria rápida (incluyendo selecciones adicionales en `datos/otras_selecciones/`)
-- **Personalizar torneos**: al iniciar cualquier competición de clubes puedes elegir *Personalizar participantes* para reemplazar cualquier club por otro del pool global de 183 clubes con filtro por país conservando el calendario oficial. Para agregar un club propio basta con escribir al menos 11 jugadores en cualquier CSV de `datos/clubes/`.
+- **Personalizar torneos**: al iniciar cualquier competición de clubes puedes elegir *Personalizar participantes* para reemplazar cualquier club por otro del pool global de 183 clubes con filtro por país conservando el calendario oficial. Para agregar un club propio basta con escribir al menos 11 jugadores en cualquier CSV de `datos/clubes/`. Consulta [COLABORAR.md](COLABORAR.md) para ver la guía completa de creación de plantillas y competiciones.
 - **Partidas guardadas seguras en JSON + compatibilidad con `.sav`**: guardadas en `saves/` de forma portable y resistente a actualizaciones, con detección y migración automática de partidas `.sav` de versiones anteriores (v0.2–v0.14) ubicadas en la carpeta raíz o en `saves/`.
 
 ## Arquitectura del proyecto
