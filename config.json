@@ -1,7 +1,7 @@
 {
   "vol_maestro": 0.65,
   "vol_musica": 1.0,
-  "vol_efectos": 0.55,
+  "vol_efectos": 0.4,
   "musica": true,
   "turno_seg": 60,
   "vol_ambiente": 0.05,

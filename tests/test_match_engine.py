@@ -207,3 +207,32 @@ def test_two_legged_tie_away_goals_and_table_advantage() -> None:
     engine.state.goals = [1, 1]
     assert engine.state.aggregate() == [2, 2]
     assert engine.state.decided_winner() == 0
+
+
+def test_substituting_active_ball_carrier_updates_carrier_and_removes_subbed_off_player() -> None:
+    team_a = create_generic_team("Argentina", 86)
+    team_b = create_generic_team("Uruguay", 82)
+    io = HeadlessMatchIO(rng=random.Random(42))
+    engine = MatchEngine(team_a, team_b, io=io, auto=False, rng=random.Random(42))
+
+    out_player = next(p for p in engine.state.xi[0] if p.position == "DEF")
+    in_player = next(
+        p for p in engine.subs.eligible_replacements(0, out_player) if p.position == "MED"
+    )
+    engine.state.set_possession(0, 1, lane=0, carrier=out_player)
+    assert engine.state.ball_carrier is out_player
+
+    # Simulate user pressing 'C' during attack turn and subbing out the active ball carrier
+    engine.subs.apply_substitution(0, out_player, in_player, play_as_position="DEF")
+
+    assert out_player not in engine.state.xi[0]
+    assert in_player in engine.state.xi[0]
+    assert engine.state.ball_carrier is in_player
+
+    # Execute a pass right after the substitution: out_player must never be mentioned
+    io.messages.clear()
+    carrier = engine.state.ensure_ball_carrier(0)
+    assert carrier is in_player
+    engine._short_pass(1, carrier, 0.25)
+    assert all(out_player.name not in msg for msg in io.messages)
+

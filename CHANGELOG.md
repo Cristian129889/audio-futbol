@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.15.1
+
+- **Corrección crítica en semifinales del Mundial**: al ganar la semifinal del Mundial, el juego pasaba a la fase de *Partido por el tercer lugar* y marcaba por error al ganador como eliminado (`user_eliminated = user_team not in semi_losers`), impidiéndole jugar *La gran final*. Ahora el finalista permanece clasificado, el hub anuncia que ya está en la gran final mientras se disputa el tercer puesto y, tras simularse ese partido, juega la final normalmente.
+- **Corrección de jugador sustituido que seguía participando en la jugada (`C`)**: cuando se realizaba un cambio con la tecla `C` durante una jugada de ataque o a balón parado, la variable local del portador del balón (`carrier`) o del cobrador (`taker`) en el turno activo conservaba la referencia al jugador que acababa de salir, provocando que el jugador saliente y el entrante aparecieran jugando juntos en esa acción. Ahora `apply_substitution()` transfiere de inmediato la posesión al jugador entrante y todos los turnos ofensivos y jugadas a balón parado re-sincronizan el portador/cobrador activo tras abrir el menú.
+- **Compatibilidad y migración automática de partidas guardadas `.sav` (v0.2–v0.14)**: `SaveManager` ahora detecta y carga automáticamente archivos clásicos `partida_<torneo>.sav` (pickle de versiones `0.2` a `0.14`) tanto en la carpeta raíz del juego como en `saves/`, utilizando un deserializador seguro restringido a las clases del dominio original (`Mundial`, `LigaNaciones`, `LigaDeCampeones`, `CopaLibertadores`, `CopaSudamericana`, `CopaInteramericana`, `LigaMX`, `Equipo`, `Jugador`) y migrando la partida automáticamente al nuevo formato JSON en `saves/`.
+- **Historial global de voz navegable**: atajos `,` (mensaje anterior), `.` (siguiente), `Shift + ,` (primero) y `Shift + .` (último) disponibles en cualquier pantalla sin contaminar el historial al navegar.
+- **Ajuste de audio en goles y ambiente**: evitada la triple superposición de efectos de tribuna en goles y enrutados los efectos de hinchada (`ovacion`, `abucheo`, `casi`) a través del control de volumen de ambiente de tribuna.
+
 ## v0.15.0
 
 - **Arquitectura modular**: refactorización completa del monolito original (`audiofutbol.py`) en capas separadas (`domain/`, `engine/`, `data/`, `ui/`, `scenes/`) usando puertos hexagonales (`MatchIO`), estrategia/cadena de responsabilidad para TTS (`SpeechService`), subsistemas de partido y máquina de escenas.

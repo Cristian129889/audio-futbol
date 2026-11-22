@@ -21,7 +21,7 @@ Audiojuego de fútbol accesible para personas ciegas y con baja visión, con sal
   - Copa Interamericana 2026 (64 clubes en 16 grupos)
   - Liga MX Apertura 2026 (18 clubes y liguilla de 8 equipos)
   - Partido amistoso o eliminatoria rápida
-- **Partidas guardadas seguras en JSON**: guardadas en `saves/` de forma portable y resistente a actualizaciones.
+- **Partidas guardadas seguras en JSON + compatibilidad con `.sav`**: guardadas en `saves/` de forma portable y resistente a actualizaciones, con detección y migración automática de partidas `.sav` de versiones anteriores (v0.2–v0.14) ubicadas en la carpeta raíz o en `saves/`.
 
 ## Arquitectura del proyecto
 

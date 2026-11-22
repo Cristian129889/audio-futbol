@@ -84,6 +84,8 @@ def run_world_cup_hub(ctx: GameContext, wc: WorldCup) -> None:
         status = f"Mundial. {phase}. Tu selección es {wc.user_team.name}."
         if wc.user_eliminated:
             status += " Estás eliminado."
+        elif wc.phases[wc.phase_idx][1] == "k3" and wc.user_team in wc.semi_winners:
+            status += " Ya estás clasificado a la gran final."
         choice = ctx.ui.menu(status, ops)
         if choice is None:
             if ctx.ui.confirm("¿Volver al menú sin guardar?"):

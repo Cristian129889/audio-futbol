@@ -79,7 +79,7 @@ class SetPieceResolver:
             )
             if self.state.suspended_match:
                 return True, 1.0
-            self.state.possession, self.state.zone = att_idx, 3
+            self.state.set_possession(att_idx, 3)
             self.var.review_penalty(def_idx, att_idx, self.free_kick, self.penalty)
             return True, 1.0
 
@@ -99,7 +99,7 @@ class SetPieceResolver:
                     self.state.add_highlight(
                         f"El portero {gk.name}, de {self.state.team_name(def_idx)}, sale lejos del área y corta el pase de peligro."
                     )
-                self.state.possession, self.state.zone = def_idx, 1
+                self.state.set_possession(def_idx, 1, carrier=gk)
                 return True, 1.0
             self._speak(f"¡Llega tarde y {striker.name} lo supera! El arco queda vacío.")
             return False, 3.0
@@ -139,7 +139,7 @@ class SetPieceResolver:
             self._speak("El despeje sale por la línea de fondo.")
             self.corner(att_idx, consecutive=from_corner)
         else:
-            self.state.possession, self.state.zone = def_idx, 1
+            self.state.set_possession(def_idx, 1, carrier=defender)
 
     def aerial_defense(
         self, att_idx: int, label: str, from_corner: bool = False
@@ -183,7 +183,7 @@ class SetPieceResolver:
                     ]
                 )
                 self._speak(phrase % gk.name)
-                self.state.possession, self.state.zone = def_idx, 1
+                self.state.set_possession(def_idx, 1, carrier=gk)
                 return "portero", 1.0
             if self.state.roll(0.30):
                 self._speak(
@@ -237,7 +237,7 @@ class SetPieceResolver:
                 self._speak("El despeje sale por la línea de fondo.")
                 self.corner(att_idx, consecutive=from_corner)
             else:
-                self.state.possession, self.state.zone = def_idx, 1
+                self.state.set_possession(def_idx, 1, carrier=defender)
             return
 
         shooter = self.state.pick_player(
@@ -292,7 +292,7 @@ class SetPieceResolver:
             if self.state.roll(0.20):
                 self.rebound(att_idx, 1, False)
             else:
-                self.state.possession, self.state.zone = def_idx, 1
+                self.state.set_possession(def_idx, 1)
         elif roll < 0.42:
             self._sfx("poste")
             self._speak("¡Poste! El balón da en el poste, por centímetros.")
@@ -303,7 +303,7 @@ class SetPieceResolver:
             if self.state.roll(0.35):
                 self.rebound(att_idx, 1, False)
             else:
-                self.state.possession, self.state.zone = def_idx, 1
+                self.state.set_possession(def_idx, 1)
         elif roll < 0.60:
             self._sfx("casi")
             self._speak("El balón se cuela rozando el travesaño y sale por encima.")
@@ -636,6 +636,10 @@ class SetPieceResolver:
             )
             if self.state.abandoned:
                 return
+            if taker not in self.state.xi[0]:
+                taker = self.state.pick_player(
+                    0, {"MED": 4.0, "DEL": 2.0, "DEF": 0.5, "POR": 0.0}
+                )
         else:
             choice = self.state.rng.choice((0, 1, 1, 2))
             if self.state.roll(0.006):
@@ -648,7 +652,7 @@ class SetPieceResolver:
             self._speak(
                 f"Saque corto, {self.state.team_name(att_idx)} mantiene la posesión."
             )
-            self.state.possession, self.state.zone = att_idx, 2
+            self.state.set_possession(att_idx, 2, carrier=taker)
             return
 
         self._sfx("balon")
@@ -676,7 +680,7 @@ class SetPieceResolver:
             f"El balón sale por la banda {wing}. Saque de banda para "
             f"{self.state.team_name(team_idx)}, lo saca {taker.name}."
         )
-        self.state.possession, self.state.zone = team_idx, zone
+        self.state.set_possession(team_idx, zone, lane=side, carrier=taker)
         if team_idx == 0:
             choice = self._choose(
                 "¿Cómo sacas de banda?",
@@ -689,13 +693,19 @@ class SetPieceResolver:
             )
             if self.state.abandoned:
                 return
+            if taker not in self.state.xi[0]:
+                taker = self.state.pick_player(
+                    0, {"DEF": 3.0, "MED": 3.0, "DEL": 1.0, "POR": 0.0}
+                )
             if choice == 0:
-                rec = self.state.pick_receiver(0, "corto")
+                rec = self.state.pick_receiver(0, "corto", exclude=taker)
+                self.state.ball_carrier = rec
                 self._sfx("balon")
                 self._speak(f"Saque corto para {rec.name}, mantienes la posesión.")
             elif self.state.roll(0.45):
                 self.state.zone = min(3, zone + 1)
-                rec = self.state.pick_receiver(0, "corto")
+                rec = self.state.pick_receiver(0, "corto", exclude=taker)
+                self.state.ball_carrier = rec
                 self._sfx("balon")
                 self._speak(
                     f"El saque largo llega a {rec.name}. Ahora {ZONES_OWN[self.state.zone]}."
@@ -703,18 +713,14 @@ class SetPieceResolver:
             else:
                 self._sfx("balon")
                 self._speak("El rival despeja el saque largo.")
-                self.state.possession, self.state.zone = 1, 1
+                self.state.set_possession(1, 1)
         else:
             self._speak(
                 f"Saque corto y {self.state.team_name(1)} conserva el balón."
             )
 
     def goal_kick(self, team_idx: int) -> None:
-        gk = (
-            self.state.xi[team_idx][0]
-            if self.state.xi[team_idx] and self.state.xi[team_idx][0].position == "POR"
-            else None
-        )
+        gk = self.state.goalkeeper(team_idx)
         who = gk.name if gk else "el portero"
         self._sfx("balon")
         self._speak(f"Saque de meta para {self.state.team_name(team_idx)}.")
@@ -726,16 +732,20 @@ class SetPieceResolver:
                 None,
             )
             if self.state.abandoned:
-                self.state.possession, self.state.zone = 0, 1
+                self.state.set_possession(0, 1)
                 return
+            gk = self.state.goalkeeper(0)
+            who = gk.name if gk else "el portero"
             if choice == 0:
-                self.state.possession, self.state.zone = 0, 0
-                rec = self.state.pick_receiver(0, "corto")
+                self.state.set_possession(0, 0, carrier=gk)
+                rec = self.state.pick_receiver(0, "corto", exclude=gk)
                 self._speak(f"{who} saca de meta y juega corto con {rec.name}.")
                 self.state.zone = 1
+                self.state.ball_carrier = rec
             elif self.state.roll(0.5):
-                self.state.possession, self.state.zone = 0, 2
-                rec = self.state.pick_receiver(0, "filtrado")
+                self.state.set_possession(0, 2)
+                rec = self.state.pick_receiver(0, "filtrado", exclude=gk)
+                self.state.ball_carrier = rec
                 self._speak(
                     f"{who} saca largo y {rec.name} controla el balón en campo rival."
                 )
@@ -743,9 +753,9 @@ class SetPieceResolver:
                 self._speak(
                     f"{who} saca largo, pero la defensa rival gana el balón."
                 )
-                self.state.possession, self.state.zone = 1, 1
+                self.state.set_possession(1, 1)
         else:
-            self.state.possession, self.state.zone = 1, 1
+            self.state.set_possession(1, 1)
             name = self.state.team_name(1)
             self._speak(f"{name} saca de meta y {name} se queda con el balón.")
 
@@ -804,6 +814,10 @@ class SetPieceResolver:
             )
             if self.state.abandoned:
                 return
+            if taker not in self.state.xi[0]:
+                taker = self.state.pick_player(
+                    0, {"MED": 3.0, "DEL": 3.0, "DEF": 0.5, "POR": 0.0}
+                )
         else:
             choice = self.state.rng.choices((0, 1, 2, 3), weights=[16, 9, 45, 30])[0]
 
@@ -812,8 +826,9 @@ class SetPieceResolver:
         elif choice == 2:
             self.cross(att_idx, crosser=taker)
         else:
+            rec = self.state.pick_receiver(att_idx, "corto", exclude=taker)
             self._speak("Pase corto, se mantiene la posesión.")
-            self.state.possession, self.state.zone = att_idx, 2
+            self.state.set_possession(att_idx, 2, carrier=rec)
 
     def _direct_free_kick(
         self, att_idx: int, taker: Player, style: int, wall_size: int, dist: int = 8
@@ -840,7 +855,7 @@ class SetPieceResolver:
             elif self.state.roll(0.22) and self.state.can_chain_corner(att_idx, False):
                 self.corner(att_idx)
             else:
-                self.state.possession, self.state.zone = def_idx, 1
+                self.state.set_possession(def_idx, 1)
             return
 
         mult = (
@@ -879,7 +894,7 @@ class SetPieceResolver:
             self.state.add_highlight(
                 f"Penal fallado por {taker.name}, de {self.state.team_name(att_idx)}: {reason}."
             )
-            self.state.possession, self.state.zone = 1 - att_idx, 1
+            self.state.set_possession(1 - att_idx, 1)
 
     def take_penalty_kick(self, att_idx: int) -> str:
         if att_idx == 0:
@@ -1034,7 +1049,7 @@ class SetPieceResolver:
         elif roll < prob_r + prob_y:
             self.give_card(offender_team, offender, "amarilla")
 
-        self.state.possession, self.state.zone = receiver_team, zone_receiver
+        self.state.set_possession(receiver_team, zone_receiver)
         if self.state.suspended_match:
             return
         if zone_receiver >= 3:
@@ -1100,14 +1115,18 @@ class SetPieceResolver:
         self._sfx("abucheo" if team_idx == 1 else "casi")
         player.suspended_matches = max(player.suspended_matches, 1)
         self.state.subbed_off[team_idx].add(id(player))
+        self.state.position_overrides.pop(id(player), None)
         if player in self.state.xi[team_idx]:
             self.state.xi[team_idx].remove(player)
+        if self.state.ball_carrier is player:
+            self.state.ball_carrier = None
         self.state.red_cards[team_idx] += 1
         if player.position == "POR":
             self.state.gk_penalty[team_idx] = -25
             self._speak(
                 "El portero se va expulsado, un jugador de campo se pone los guantes."
             )
+        self.state.ratings[team_idx] = self.state.compute_ratings(team_idx)
         self._speak(
             f"{self.state.team_name(team_idx)} se queda con {11 - self.state.red_cards[team_idx]} jugadores."
         )

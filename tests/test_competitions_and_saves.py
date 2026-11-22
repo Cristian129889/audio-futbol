@@ -17,6 +17,7 @@ from audiofutbol.domain.competitions.club_tournaments import (
 )
 from audiofutbol.domain.competitions.nations_league import NationsLeague
 from audiofutbol.domain.competitions.world_cup import WorldCup
+from audiofutbol.domain.models import MatchResult
 from audiofutbol.engine.paths import AppPaths
 
 
@@ -105,3 +106,128 @@ def test_all_club_competitions_simulate_and_serialize(tmp_path: Path) -> None:
         assert restored.champion is not None
         assert restored.runner_up is not None
         assert len(restored.table_lines()) >= len(eqs)
+
+
+def test_world_cup_semifinal_winner_is_not_marked_eliminated() -> None:
+    teams = [create_generic_team(f"Sel {i}", 80) for i in range(8)]
+    user_team = teams[0]
+    wc = WorldCup(teams, user_team)
+
+    # Group stage (3 rounds): make user_team win every match 4-0
+    for _ in range(3):
+        idx = wc.user_match_index()
+        assert idx is not None
+        wc.register_result(idx, user_team, MatchResult(goals=(4, 0)))
+        wc.simulate_remaining()
+        wc.close_phase()
+        assert wc.user_eliminated is False
+
+    # Semifinal (with 8 teams, first KO round is Semifinales, data == 4)
+    assert wc.phase_name() == "Semifinales"
+    semi_idx = wc.user_match_index()
+    assert semi_idx is not None
+    wc.register_result(semi_idx, user_team, MatchResult(goals=(4, 0)))
+    wc.simulate_remaining()
+    notice = wc.close_phase()
+
+    # User won 4-0 in semifinals -> advancing to Final, must NOT be marked eliminated during 3rd-place phase!
+    assert "final" in notice.lower()
+    assert wc.phase_name() == "Partido por el tercer lugar"
+    assert user_team in wc.semi_winners
+    assert wc.user_eliminated is False
+    assert wc.user_match_index() is None  # User doesn't play the 3rd-place match
+
+    # Simulate 3rd-place match -> advance to La gran final -> user plays final!
+    wc.simulate_remaining()
+    wc.close_phase()
+    assert wc.phase_name() == "La gran final"
+    assert wc.user_eliminated is False
+    final_idx = wc.user_match_index()
+    assert final_idx is not None
+    wc.register_result(final_idx, user_team, MatchResult(goals=(2, 1)))
+    wc.close_phase()
+    assert wc.champion is user_team
+
+
+class Jugador:
+    pass
+
+
+class Equipo:
+    pass
+
+
+class LigaNaciones:
+    pass
+
+
+def test_legacy_sav_pickle_migration_from_root_dir(tmp_path: Path) -> None:
+    import pickle
+
+    def make_legacy_team(name: str) -> Equipo:
+        eq = Equipo()
+        eq.nombre = name
+        eq.jugadores = []
+        for idx, pos in enumerate(
+            ("POR", "DEF", "DEF", "DEF", "DEF", "MED", "MED", "MED", "DEL", "DEL", "DEL"),
+            start=1,
+        ):
+            j = Jugador()
+            j.nombre = f"{name} Jug {idx}"
+            j.pos = pos
+            j.ovr = 78
+            j.numero = idx
+            j.amarillas = 0
+            j.suspendido = 0
+            j.goles = 1 if idx == 11 else 0
+            eq.jugadores.append(j)
+        return eq
+
+    t1 = make_legacy_team("Argentina")
+    t2 = make_legacy_team("Uruguay")
+    legacy = LigaNaciones()
+    legacy.equipos = [t1, t2]
+    legacy.mi = t1
+    legacy.visitante = True
+    legacy.jornadas = 1
+    legacy.pasan = 2
+    legacy.mi_eliminado = False
+    legacy.rnd = {"Argentina": 0.1, "Uruguay": 0.2}
+    legacy.tabla = {
+        "Argentina": {"pj": 0, "g": 0, "e": 0, "p": 0, "gf": 0, "gc": 0, "pts": 0, "fp": 0},
+        "Uruguay": {"pj": 0, "g": 0, "e": 0, "p": 0, "gf": 0, "gc": 0, "pts": 0, "fp": 0},
+    }
+    legacy.hist = []
+    legacy.calendario = [[(t1, t2)]]
+    legacy.pasos = [("liga", 0), ("unico", 2)]
+    legacy.paso = 0
+    legacy.cruces = []
+    legacy.ranking = {}
+    legacy.clasificados = []
+    legacy.pares = [(t1, t2)]
+    legacy.hechos = {}
+    legacy.campeon = None
+    legacy.subcampeon = None
+
+    # Write a legacy .sav file in the root directory using __main__ module references
+    import sys
+
+    main_mod = sys.modules["__main__"]
+    for cls in (Jugador, Equipo, LigaNaciones):
+        cls.__module__ = "__main__"
+        setattr(main_mod, cls.__name__, cls)
+    raw_bytes = pickle.dumps(legacy, protocol=4)
+    sav_path = tmp_path / "partida_liga.sav"
+    sav_path.write_bytes(raw_bytes)
+
+    saves = SaveManager(AppPaths(tmp_path))
+    assert saves.exists("liga") is True
+    slots = saves.list_saved_slots()
+    assert ("liga", "Liga de Naciones") in slots
+
+    loaded = saves.load("liga")
+    assert isinstance(loaded, NationsLeague)
+    assert loaded.user_team.name == "Argentina"
+    assert len(loaded.teams) == 2
+    assert saves.slot_path("liga").is_file()
+

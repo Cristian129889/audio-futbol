@@ -80,8 +80,7 @@ class VarSystem:
                 f"El VAR confirma el gol de {scorer.name}, de "
                 f"{self.state.team_name(team_idx)}. El gol es válido."
             )
-        self.state.possession = 1 - team_idx
-        self.state.zone = 1
+        self.state.set_possession(1 - team_idx, 1, lane=0)
 
     def review_red_card(self, offender_team: int, player: Player) -> str:
         if not self.state.settings.var_enabled or not self.state.roll(0.35):
@@ -122,8 +121,7 @@ class VarSystem:
                         "Penal anulado por el VAR: no hubo contacto. "
                         f"Se reanuda con balón a tierra para {self.state.team_name(offender_team)}."
                     )
-                    self.state.possession = offender_team
-                    self.state.zone = 1
+                    self.state.set_possession(offender_team, 1)
                 return
             self._finish_review("El VAR confirma el penal.")
         on_penalty(taker_team)
@@ -138,13 +136,11 @@ class VarSystem:
             f"una posible mano dentro del área de {self.state.team_name(defending_team)}"
         )
         if self.state.roll(0.70):
-            self.state.possession = attacking_team
-            self.state.zone = 3
+            self.state.set_possession(attacking_team, 3)
             self._finish_review(
                 f"El VAR detecta mano en el área. ¡Penal para {self.state.team_name(attacking_team)}!"
             )
             on_penalty(attacking_team)
         else:
             self._finish_review("El VAR no encuentra infracción. Sigue el juego.")
-            self.state.possession = defending_team
-            self.state.zone = 1
+            self.state.set_possession(defending_team, 1)

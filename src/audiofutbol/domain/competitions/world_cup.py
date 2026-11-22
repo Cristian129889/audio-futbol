@@ -273,7 +273,10 @@ class WorldCup:
                     self.user_eliminated = True
                     notice = f"{self.user_team.name} queda eliminada."
             else:
-                notice = f"{self.user_team.name} pasa a la siguiente ronda."
+                if data == 4:
+                    notice = f"¡{self.user_team.name} pasa a la gran final!"
+                else:
+                    notice = f"{self.user_team.name} pasa a la siguiente ronda."
         elif kind == "k3":
             self.third_place = self.match_winner(0)
             self.user_eliminated = self.user_team not in self.semi_winners
@@ -287,11 +290,14 @@ class WorldCup:
 
         self.phase_idx += 1
         self._prepare_phase()
-        if self.is_knockout() and self.phases[self.phase_idx][1] == "kf":
-            if self.user_team not in self.semi_winners:
-                self.user_eliminated = True
-        if self.phases[self.phase_idx][1] == "k3":
-            self.user_eliminated = self.user_team not in self.semi_losers
+        next_kind = self.phases[self.phase_idx][1]
+        if next_kind == "k3":
+            self.user_eliminated = (
+                self.user_team not in self.semi_losers
+                and self.user_team not in self.semi_winners
+            )
+        elif next_kind == "kf":
+            self.user_eliminated = self.user_team not in self.semi_winners
         return notice
 
     def table_lines(self, group: list[Team]) -> list[str]:

@@ -610,6 +610,14 @@ class MatchEngine:
         if self.state.abandoned:
             return
         action = keys[choice]
+        # Re-sync ball carrier in case the active player was substituted via 'C' during menu
+        carrier = self.state.ensure_ball_carrier(0)
+        if lone_striker is not None and (
+            lone_striker not in self.state.xi[0] or lone_striker is carrier
+        ):
+            lone_striker = self.state.pick_player(
+                0, {"DEL": 6.0, "MED": 1.5, "DEF": 0.0, "POR": 0.0}, exclude=carrier
+            )
 
         if self.state.roll(0.004 / self.state.factor):
             self.set_pieces.foul(0, 3 - z, "mano")

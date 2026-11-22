@@ -109,6 +109,8 @@ class SubstitutionManager:
         self.state.substitutions_used[team_idx] += 1
         self.state.lost_seconds += 25
         self.state.fatigue.setdefault(id(in_player), 0.0)
+        if self.state.ball_carrier is out_player:
+            self.state.ball_carrier = in_player
 
         assigned = self.state.player_role(in_player)
         if assigned == "POR" and self.state.player_role(self.state.xi[team_idx][0]) != "POR":
