@@ -123,10 +123,12 @@ EVENT_DISPLAY_NAMES_ES: dict[str, str] = {
 }
 
 
-MASTER_SFX_HEADROOM = 0.42
+MASTER_SFX_HEADROOM = 0.40
 MASTER_MUSIC_HEADROOM = 0.34
-MASTER_CROWD_HEADROOM = 0.28
+MASTER_CROWD_HEADROOM = 0.20
 VOLUME_CURVE_EXPONENT = 2.2
+
+CROWD_EVENTS: frozenset[str] = frozenset({"tribuna", "ovacion", "abucheo"})
 
 
 def perceptual_gain(level: float, master: float = 1.0, headroom: float = 1.0) -> float:
@@ -260,11 +262,31 @@ class AudioEngine:
         try:
             channel = sound.play(loops=-1 if loop else 0)
             if channel is not None:
-                base_gain = perceptual_gain(
-                    self.config.vol_efectos,
-                    master=self.config.vol_maestro,
-                    headroom=MASTER_SFX_HEADROOM,
-                )
+                if event in CROWD_EVENTS:
+                    base_gain = perceptual_gain(
+                        self.config.vol_ambiente,
+                        master=self.config.vol_maestro,
+                        headroom=MASTER_CROWD_HEADROOM,
+                    )
+                elif event == "gol":
+                    # Goal crowd roar scales gently with both effects and crowd ambience
+                    eff_gain = perceptual_gain(
+                        self.config.vol_efectos,
+                        master=self.config.vol_maestro,
+                        headroom=MASTER_SFX_HEADROOM * 0.42,
+                    )
+                    crowd_gain = perceptual_gain(
+                        self.config.vol_ambiente,
+                        master=self.config.vol_maestro,
+                        headroom=MASTER_CROWD_HEADROOM * 0.90,
+                    )
+                    base_gain = min(eff_gain, crowd_gain + eff_gain * 0.35)
+                else:
+                    base_gain = perceptual_gain(
+                        self.config.vol_efectos,
+                        master=self.config.vol_maestro,
+                        headroom=MASTER_SFX_HEADROOM,
+                    )
                 vol = max(0.0, min(1.0, base_gain * max(0.0, float(volume))))
                 left = vol if pan is None else vol * min(1.0, max(0.0, 1.0 - pan))
                 right = vol if pan is None else vol * min(1.0, max(0.0, 1.0 + pan))

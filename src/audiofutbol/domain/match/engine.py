@@ -76,25 +76,23 @@ class MatchEngine:
         if not self.state.muted:
             self.io.play_sfx(event, pan=pan)
 
-    def _crowd_react(self, event: str, boost: float = 1.5) -> None:
-        amb = self.state.settings.crowd_volume
-        if self.state.muted or amb <= 0:
+    def _crowd_react(self, event: str, boost: float = 1.0) -> None:
+        if self.state.muted or self.state.settings.crowd_volume <= 0:
             return
         self.io.play_sfx(
             event,
             pan=self.state.rng.uniform(-0.5, 0.5),
-            volume=min(1.0, amb * boost),
+            volume=min(1.15, max(0.35, boost * 0.65)),
         )
 
     def _crowd_boo_rival(self, zone: int) -> None:
-        amb = self.state.settings.crowd_volume
-        if self.state.muted or amb <= 0:
+        if self.state.muted or self.state.settings.crowd_volume <= 0:
             return
         if self.state.roll((0.75 if zone >= 2 else 0.40) / self.state.factor):
             self.io.play_sfx(
                 "abucheo",
                 pan=self.state.stereo_pan(0.25),
-                volume=min(1.0, amb * 1.15),
+                volume=0.75,
             )
 
     def _rival_aggression(self) -> float:

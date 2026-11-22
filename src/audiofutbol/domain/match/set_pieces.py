@@ -536,19 +536,18 @@ class SetPieceResolver:
             f"{self.state.team_name(1)} {self.state.goals[1]}."
         )
         self._sfx("gol")
-        self._sfx("ovacion" if team_idx == 0 else "abucheo")
         if wonder_goal and goal_type == "gol olímpico":
             self._speak(
                 f"¡Goooool! ¡GOL OLÍMPICO de {scorer.name}, de {self.state.team_name(team_idx)}! "
                 f"El balón entra directo desde el saque de esquina. Minuto {self.state.minute()}."
             )
-            self._crowd_react("ovacion" if team_idx == 0 else "abucheo", 2.5)
+            self._crowd_react("ovacion" if team_idx == 0 else "abucheo", 1.1)
         elif wonder_goal:
             self._speak(
                 f"¡Goooool! ¡Qué golazo de {scorer.name}, de {self.state.team_name(team_idx)}{suffix}! "
                 f"Minuto {self.state.minute()}."
             )
-            self._crowd_react("ovacion" if team_idx == 0 else "abucheo", 2.0)
+            self._crowd_react("ovacion" if team_idx == 0 else "abucheo", 0.95)
         else:
             self._speak(
                 f"¡Goooool! {scorer.name}, de {self.state.team_name(team_idx)}{suffix}. "
