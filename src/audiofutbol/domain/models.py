@@ -92,7 +92,7 @@ class Team:
         if missing > 0:
             extras = sorted(
                 (p for p in available if id(p) not in used),
-                key=lambda p: -p.overall,
+                key=lambda p: (p.position == "POR", -p.overall),
             )[:missing]
             xi.extend(extras)
 

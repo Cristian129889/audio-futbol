@@ -1,0 +1,188 @@
+{
+  "id": "premier_league_2026_27",
+  "nombre": "Premier League 2026-27",
+  "version_datos": "2026-11-21",
+  "nota": "20 clubes, 38 jornadas a ida y vuelta, sin playoffs. Suben Coventry City, Ipswich Town y Hull City; bajaron West Ham, Wolverhampton y Burnley. Hull City usa plantilla de ejemplo hasta que agregues sus jugadores en datos/clubes/premier_clubes.csv.",
+  "equipos": [
+    {
+      "id": "arsenal",
+      "nombre": "Arsenal",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 86,
+      "estadio": "Emirates Stadium",
+      "ciudad": "Londres"
+    },
+    {
+      "id": "aston_villa",
+      "nombre": "Aston Villa",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 78,
+      "estadio": "Villa Park",
+      "ciudad": "Birmingham"
+    },
+    {
+      "id": "bournemouth",
+      "nombre": "Bournemouth",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 76,
+      "estadio": "Vitality Stadium",
+      "ciudad": "Bournemouth"
+    },
+    {
+      "id": "brentford",
+      "nombre": "Brentford",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 77,
+      "estadio": "Gtech Community Stadium",
+      "ciudad": "Londres"
+    },
+    {
+      "id": "brighton",
+      "nombre": "Brighton",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 77,
+      "estadio": "Amex Stadium",
+      "ciudad": "Brighton"
+    },
+    {
+      "id": "chelsea",
+      "nombre": "Chelsea",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 83,
+      "estadio": "Stamford Bridge",
+      "ciudad": "Londres"
+    },
+    {
+      "id": "coventry",
+      "nombre": "Coventry City",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 71,
+      "estadio": "Coventry Building Society Arena",
+      "ciudad": "Coventry"
+    },
+    {
+      "id": "crystal_palace",
+      "nombre": "Crystal Palace",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 78,
+      "estadio": "Selhurst Park",
+      "ciudad": "Londres"
+    },
+    {
+      "id": "everton",
+      "nombre": "Everton",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 77,
+      "estadio": "Hill Dickinson Stadium",
+      "ciudad": "Liverpool"
+    },
+    {
+      "id": "fulham",
+      "nombre": "Fulham",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 77,
+      "estadio": "Craven Cottage",
+      "ciudad": "Londres"
+    },
+    {
+      "id": "hull",
+      "nombre": "Hull City",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 67,
+      "estadio": "MKM Stadium",
+      "ciudad": "Kingston upon Hull"
+    },
+    {
+      "id": "ipswich",
+      "nombre": "Ipswich Town",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 72,
+      "estadio": "Portman Road",
+      "ciudad": "Ipswich"
+    },
+    {
+      "id": "leeds",
+      "nombre": "Leeds United",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 75,
+      "estadio": "Elland Road",
+      "ciudad": "Leeds"
+    },
+    {
+      "id": "liverpool",
+      "nombre": "Liverpool",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 84,
+      "estadio": "Anfield",
+      "ciudad": "Liverpool"
+    },
+    {
+      "id": "man_city",
+      "nombre": "Manchester City",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 85,
+      "estadio": "Etihad Stadium",
+      "ciudad": "Mánchester"
+    },
+    {
+      "id": "man_united",
+      "nombre": "Manchester United",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 81,
+      "estadio": "Old Trafford",
+      "ciudad": "Mánchester"
+    },
+    {
+      "id": "newcastle",
+      "nombre": "Newcastle United",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 78,
+      "estadio": "St James' Park",
+      "ciudad": "Newcastle"
+    },
+    {
+      "id": "forest",
+      "nombre": "Nottingham Forest",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 77,
+      "estadio": "City Ground",
+      "ciudad": "Nottingham"
+    },
+    {
+      "id": "sunderland",
+      "nombre": "Sunderland",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 76,
+      "estadio": "Stadium of Light",
+      "ciudad": "Sunderland"
+    },
+    {
+      "id": "tottenham",
+      "nombre": "Tottenham Hotspur",
+      "pais": "Inglaterra",
+      "plantilla": [],
+      "nivel": 80,
+      "estadio": "Tottenham Hotspur Stadium",
+      "ciudad": "Londres"
+    }
+  ]
+}

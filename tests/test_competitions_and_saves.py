@@ -12,8 +12,11 @@ from audiofutbol.domain.competitions.club_tournaments import (
     ChampionsLeague,
     CopaInteramericana,
     CopaLibertadores,
+    CopaPersonalizada,
     CopaSudamericana,
+    Liga1Peru,
     LigaMX,
+    PremierLeague,
 )
 from audiofutbol.domain.competitions.nations_league import NationsLeague
 from audiofutbol.domain.competitions.world_cup import WorldCup
@@ -84,6 +87,8 @@ def test_all_club_competitions_simulate_and_serialize(tmp_path: Path) -> None:
         ("sudamericana_2026.json", CopaSudamericana),
         ("interamericana_2026.json", CopaInteramericana),
         ("ligamx_apertura_2026.json", LigaMX),
+        ("premier_league_2026_27.json", PremierLeague),
+        ("liga1_peru_2026.json", Liga1Peru),
     ]
     for json_file, cls in cases:
         data, eqs = load_competition_data(paths, json_file)
@@ -230,4 +235,34 @@ def test_legacy_sav_pickle_migration_from_root_dir(tmp_path: Path) -> None:
     assert loaded.user_team.name == "Argentina"
     assert len(loaded.teams) == 2
     assert saves.slot_path("liga").is_file()
+
+
+def test_custom_club_cup_full_simulation_and_save_roundtrip(tmp_path: Path) -> None:
+    from audiofutbol.data.club_pool import build_club_pool, fresh_copy
+
+    paths = AppPaths.detect()
+    pool = build_club_pool(paths)
+    chosen = [fresh_copy(t) for t in pool[:8]]
+    teams_by_id = {}
+    for k, team in enumerate(chosen):
+        team.team_id = f"custom_{k}"
+        team.group = None
+        teams_by_id[team.team_id] = team
+
+    cup = CopaPersonalizada(None, teams_by_id, chosen[0])
+    cup.simulate_remaining()
+    cup.close_step()
+
+    saves = SaveManager(AppPaths(tmp_path))
+    assert saves.save(CopaPersonalizada.KEY, cup) is True
+    loaded = saves.load(CopaPersonalizada.KEY)
+    assert isinstance(loaded, CopaPersonalizada)
+    assert loaded.step_idx == cup.step_idx
+
+    while loaded.champion is None:
+        loaded.simulate_remaining()
+        loaded.close_step()
+    assert loaded.champion is not None
+    assert loaded.runner_up is not None
+
 

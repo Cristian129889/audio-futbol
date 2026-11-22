@@ -1,0 +1,57 @@
+equipo,numero,jugador,posicion,calidad
+Universitario,1,Diego Romero,POR,72
+Universitario,13,Miguel Vargas,POR,66
+Universitario,23,Jhefferson Rodríguez,POR,60
+Universitario,12,Edison Gutiérrez,POR,58
+Universitario,2,Aldo Corzo,DEF,70
+Universitario,3,Caín Fara,DEF,72
+Universitario,4,Williams Riveros,DEF,72
+Universitario,5,Matías Di Benedetto,DEF,71
+Universitario,6,Anderson Santamaría,DEF,71
+Universitario,15,César Inga,DEF,70
+Universitario,18,Jorge Gutiérrez,DEF,68
+Universitario,22,Andy Polo,DEF,70
+Universitario,24,Rafael Guzmán,DEF,62
+Universitario,7,Paolo Reyna,DEF,66
+Universitario,8,Jorge Murrugarra,MED,66
+Universitario,10,Horacio Calcaterra,MED,72
+Universitario,14,Jairo Concha,MED,70
+Universitario,16,Adrián Quiroz,MED,69
+Universitario,20,Piero Quispe,MED,74
+Universitario,21,Héctor Fértoli,MED,70
+Universitario,26,Juan Manuel Requena,MED,68
+Universitario,27,Jordan Guivin,MED,67
+Universitario,9,Alex Valera,DEL,75
+Universitario,11,Gianluca Lapadula,DEL,75
+Universitario,17,Edison Flores,DEL,74
+Universitario,19,Lisandro Alzugaray,DEL,70
+Universitario,29,José Rivera,DEL,68
+Alianza Lima,1,Alejandro Duarte,POR,72
+Alianza Lima,13,Guillermo Viscarra,POR,71
+Alianza Lima,23,Ángel De la Cruz,POR,62
+Alianza Lima,12,Fabrisio Mesías,POR,58
+Alianza Lima,2,Renzo Garcés,DEF,70
+Alianza Lima,3,Josué Estrada,DEF,66
+Alianza Lima,4,Marco Huamán,DEF,66
+Alianza Lima,5,Luis Advíncula,DEF,73
+Alianza Lima,6,Cristian Carbajal,DEF,66
+Alianza Lima,15,Gianfranco Chávez,DEF,71
+Alianza Lima,18,Carlos Zambrano,DEF,72
+Alianza Lima,22,Miguel Trauco,DEF,71
+Alianza Lima,8,Alan Cantero,MED,68
+Alianza Lima,10,Gaspar Gentile,MED,69
+Alianza Lima,14,Eryc Castillo,MED,76
+Alianza Lima,16,Jairo Vélez,MED,70
+Alianza Lima,20,Jesús Castillo,MED,72
+Alianza Lima,21,Cristian Neira,MED,70
+Alianza Lima,26,Esteban Pavez,MED,70
+Alianza Lima,27,Fernando Gaibor,MED,71
+Alianza Lima,28,Jean Pierre Archimbaud,MED,68
+Alianza Lima,7,Alessandro Burlamaqui,MED,68
+Alianza Lima,9,Pedro Aquino,MED,71
+Alianza Lima,11,Jussepi García,MED,60
+Alianza Lima,17,Paolo Guerrero,DEL,72
+Alianza Lima,19,Kevin Quevedo,DEL,70
+Alianza Lima,29,Federico Girotti,DEL,73
+Alianza Lima,30,Luis Ramos,DEL,69
+Alianza Lima,24,Nicolás Díaz,DEL,68

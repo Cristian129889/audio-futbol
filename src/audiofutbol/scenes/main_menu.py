@@ -6,6 +6,7 @@ from audiofutbol.scenes.base import GameContext, Scene
 from audiofutbol.scenes.friendly import run_friendly_match
 from audiofutbol.scenes.league_hub import (
     continue_saved_league,
+    start_custom_cup,
     start_new_club_competition,
     start_new_nations_league,
 )
@@ -33,6 +34,9 @@ class MainMenuScene:
             ("Copa Sudamericana", lambda: start_new_club_competition(ctx, "sudamericana")),
             ("Copa Interamericana", lambda: start_new_club_competition(ctx, "interamericana")),
             ("Liga MX", lambda: start_new_club_competition(ctx, "ligamx")),
+            ("Premier League", lambda: start_new_club_competition(ctx, "premier")),
+            ("Liga 1 de Perú", lambda: start_new_club_competition(ctx, "liga1")),
+            ("Copa de clubes personalizada", lambda: start_custom_cup(ctx)),
             ("Partido amistoso", lambda: run_friendly_match(ctx)),
         ]
 

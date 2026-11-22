@@ -55,6 +55,10 @@ class AppPaths:
         return self.data_dir / "clubes"
 
     @property
+    def extra_nations_dir(self) -> Path:
+        return self.data_dir / "otras_selecciones"
+
+    @property
     def competitions_dir(self) -> Path:
         return self.base_dir / "competiciones"
 

@@ -9,3 +9,11 @@ Esta carpeta es aparte de datos para que los clubes no se mezclen con las selecc
 
 Liga MX: el archivo ligamx_clubes.csv trae los 18 clubes completos del Apertura 2026 (América, Chivas, Cruz Azul, Pumas UNAM, Tigres UANL, Monterrey, Toluca, Pachuca, León, Atlas, Necaxa, Querétaro, Tijuana, Santos Laguna, Puebla, Atlético San Luis, FC Juárez y Atlante).
 Sudamericana e Interamericana: los archivos sudamericana_clubes.csv e interamericana_clubes.csv completan todos los clubes de la Copa Sudamericana, MLS y Centroamérica para que las 6 competiciones de clubes usen plantillas reales (0 equipos genéricos).
+
+v0.16.0
+premier_clubes.csv: las 20 plantillas de la Premier 2026-27 (Newcastle, Nottingham Forest, Sunderland y Tottenham son estimadas).
+laliga_clubes.csv: 15 clubes de LaLiga 2026-27 (Real Madrid, Barcelona, Atletico, Betis y Villarreal estan en champions_clubes.csv).
+europa_clubes.csv: clubes europeos adicionales con calidades ESTIMADAS (Juventus, Milan, Bayern, Dortmund, etc.). Corrigelos libremente.
+liga1_clubes.csv: Universitario y Alianza Lima. Sporting Cristal, Melgar y Cusco estan en sudamericana_clubes.csv y libertadores_clubes.csv.
+IMPORTANTE: los CSV de esta carpeta se fusionan por club. Un club debe vivir en un solo archivo.
+Para agregar un club propio escribe al menos 11 jugadores en cualquier CSV y aparecera en todos los selectores de torneos personalizados.

@@ -6,9 +6,18 @@ import random
 from typing import Any
 
 from audiofutbol.data.competition_loader import load_competition_data
+from audiofutbol.domain.competitions.club_tournaments import CopaPersonalizada
 from audiofutbol.domain.competitions.factory import CLUB_COMPETITIONS
 from audiofutbol.domain.competitions.nations_league import NationsLeague
+from audiofutbol.domain.models import Team
 from audiofutbol.scenes.base import GameContext
+from audiofutbol.scenes.customize import (
+    choose_national_field,
+    choose_size,
+    customize_slots,
+    get_club_pool,
+    pick_participants,
+)
 from audiofutbol.scenes.match_scene import run_tournament_match
 from audiofutbol.ui.widgets import squad_lines
 
@@ -149,7 +158,7 @@ def run_league_hub(ctx: GameContext, tournament: NationsLeague) -> None:
         elif act == "sim_liga":
             ctx.ui.speak(f"Simulando {tournament.LEAGUE_PHASE_LABEL}.")
             notice = ""
-            while tournament.step_type() == "liga":
+            while tournament.champion is None and tournament.step_type() == "liga":
                 tournament.simulate_remaining(ctx.match_settings())
                 notice = tournament.close_step()
             if notice:
@@ -223,17 +232,11 @@ def _announce_first_match(ctx: GameContext, tournament: NationsLeague) -> None:
 
 
 def start_new_nations_league(ctx: GameContext) -> None:
-    teams = ctx.national_teams
-    n = 48 if len(teams) >= 48 else 32 if len(teams) >= 32 else 16 if len(teams) >= 16 else 8
-    user_team = ctx.ui.choose_team(
-        "Elige tu selección para la Liga de Naciones", teams
-    )
-    if user_team is None:
+    field = choose_national_field(ctx, "Liga de Naciones")
+    if field is None:
         return
-    top = sorted(teams, key=lambda t: -t.strength())[:n]
-    if user_team not in top:
-        top[-1] = user_team
-    random.shuffle(top)
+    top, user_team = field
+    n = len(top)
     ctx.ui.speak(f"Liga de Naciones con {n} selecciones. Se sortea el calendario.")
     ctx.audio.play_sfx("sorteo")
     league = NationsLeague(top, user_team, away_goals_rule=ctx.config.gol_visitante)
@@ -272,6 +275,14 @@ def start_new_club_competition(ctx: GameContext, key: str) -> None:
             f"No encontré el archivo {json_file} en la carpeta competiciones."
         )
         return
+    mode = ctx.ui.menu(
+        f"{spec.title}. Participantes",
+        ["Usar los participantes oficiales", "Personalizar participantes, meter cualquier club"],
+    )
+    if mode is None:
+        return
+    if mode == 1:
+        customize_slots(ctx, teams_by_id)
     ordered = sorted(teams_by_id.values(), key=lambda t: t.name)
     user_team = ctx.ui.choose_team(f"Elige tu equipo para la {spec.title}", ordered)
     if user_team is None:
@@ -301,3 +312,28 @@ def continue_saved_league(ctx: GameContext, key: str) -> None:
         ctx.ui.speak("No se pudo cargar la partida guardada.")
         return
     run_league_hub(ctx, loaded)
+
+
+def start_custom_cup(ctx: GameContext) -> None:
+    """Copa de clubes con participantes libres: cualquier club de cualquier liga."""
+    pool = get_club_pool(ctx)
+    sizes = [n for n in (8, 16, 32, 64) if n <= len(pool)]
+    size = choose_size(ctx, sizes, "clubes")
+    if size is None:
+        return
+    chosen = pick_participants(ctx, pool, size, "un club", use_country=True)
+    if chosen is None:
+        return
+    user_team = ctx.ui.choose_team("Elige tu club para la copa personalizada", chosen)
+    if user_team is None:
+        return
+    teams_by_id: dict[str, Team] = {}
+    for k, team in enumerate(chosen):
+        team.team_id = f"custom_{k}"
+        team.group = None
+        teams_by_id[team.team_id] = team
+    ctx.audio.play_sfx("sorteo")
+    ctx.ui.speak(f"Copa personalizada con {size} clubes. Se hace el sorteo de grupos.")
+    tournament = CopaPersonalizada(None, teams_by_id, user_team)
+    _announce_first_match(ctx, tournament)
+    run_league_hub(ctx, tournament)

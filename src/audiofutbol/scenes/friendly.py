@@ -9,11 +9,14 @@ from audiofutbol.scenes.match_scene import PygameMatchIO
 
 
 def run_friendly_match(ctx: GameContext) -> None:
-    user_team = ctx.ui.choose_team("Elige tu selección", ctx.national_teams)
+    pool = sorted(
+        ctx.national_teams + ctx.extra_national_teams, key=lambda t: -t.strength()
+    )
+    user_team = ctx.ui.choose_team("Elige tu selección", pool)
     if user_team is None:
         return
     rival = ctx.ui.choose_team(
-        "Elige a tu rival", ctx.national_teams, exclude=user_team
+        "Elige a tu rival", pool, exclude=user_team
     )
     if rival is None:
         return

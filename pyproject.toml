@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "audiofutbol"
-version = "0.15.2"
+version = "0.16.0"
 description = "Accessible football audio game for blind and visually impaired players (NVDA / TTS)"
 readme = "README.md"
 requires-python = ">=3.10"

@@ -9,8 +9,11 @@ from audiofutbol.domain.competitions.club_tournaments import (
     ChampionsLeague,
     CopaInteramericana,
     CopaLibertadores,
+    CopaPersonalizada,
     CopaSudamericana,
+    Liga1Peru,
     LigaMX,
+    PremierLeague,
 )
 from audiofutbol.domain.competitions.nations_league import NationsLeague
 from audiofutbol.domain.competitions.world_cup import WorldCup
@@ -86,6 +89,31 @@ CLUB_COMPETITIONS: dict[str, ClubCompetitionSpec] = {
             "Si el global se empata en cuartos o semifinales, pasa el mejor ubicado en la tabla."
         ),
     ),
+    "premier": ClubCompetitionSpec(
+        key="premier",
+        title="Premier League",
+        menu_label="Premier League",
+        json_filename="premier_league_2026_27.json",
+        cls=PremierLeague,
+        intro_text=(
+            "Premier League 2026-27 con 20 clubes. Son 38 jornadas, todos contra todos "
+            "a ida y vuelta. No hay playoffs: el que termina primero es el campeón. "
+            "Los tres últimos descienden."
+        ),
+    ),
+    "liga1": ClubCompetitionSpec(
+        key="liga1",
+        title="Liga 1 de Perú",
+        menu_label="Liga 1 de Perú",
+        json_filename="liga1_peru_2026.json",
+        cls=Liga1Peru,
+        intro_text=(
+            "Liga 1 de Perú 2026 con 18 clubes. Se juegan dos torneos cortos de 17 fechas, "
+            "el Apertura y el Clausura. Si un mismo club gana los dos, es campeón. "
+            "Si no, juegan playoffs a ida y vuelta los dos ganadores y los mejores de la "
+            "tabla acumulada. Los dos últimos del acumulado descienden."
+        ),
+    ),
 }
 
 SAVE_SLOTS: tuple[tuple[str, str], ...] = (
@@ -96,6 +124,9 @@ SAVE_SLOTS: tuple[tuple[str, str], ...] = (
     ("sudamericana", "Copa Sudamericana"),
     ("interamericana", "Copa Interamericana"),
     ("ligamx", "Liga MX"),
+    ("premier", "Premier League"),
+    ("liga1", "Liga 1 de Perú"),
+    ("copa_personalizada", "Copa personalizada"),
 )
 
 _CLASS_BY_TYPE: dict[str, type[Any]] = {
@@ -106,6 +137,9 @@ _CLASS_BY_TYPE: dict[str, type[Any]] = {
     "sudamericana": CopaSudamericana,
     "interamericana": CopaInteramericana,
     "ligamx": LigaMX,
+    "premier": PremierLeague,
+    "liga1": Liga1Peru,
+    "copa_personalizada": CopaPersonalizada,
 }
 
 

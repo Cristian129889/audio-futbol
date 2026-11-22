@@ -40,6 +40,35 @@ class StadiumDirectory:
         return self._national.get(normalize_text(team.name).strip())
 
 
+def team_from_entry(entry: dict[str, Any], real_clubs: dict[str, dict[str, Any]]) -> Team:
+    """Build a club `Team` from a competition JSON entry (real squad if the CSV has one)."""
+    squad_map = real_clubs.get(normalize_text(entry["nombre"]).strip()) or real_clubs.get(
+        normalize_text(entry["id"]).strip()
+    )
+    level = int(entry.get("nivel", 72))
+    if squad_map and len(squad_map) >= 11:
+        squad = sorted(squad_map.values(), key=lambda p: -p.overall)[:30]
+        return Team(
+            name=entry["nombre"],
+            players=squad,
+            team_id=entry["id"],
+            country=entry.get("pais", ""),
+            stadium=entry.get("estadio"),
+            city=entry.get("ciudad", ""),
+            group=entry.get("grupo"),
+            level=level,
+            is_real_squad=True,
+        )
+    team = create_generic_team(entry["nombre"], level)
+    team.team_id = entry["id"]
+    team.country = entry.get("pais", "")
+    team.stadium = entry.get("estadio")
+    team.city = entry.get("ciudad", "")
+    team.group = entry.get("grupo")
+    team.is_real_squad = False
+    return team
+
+
 def load_competition_data(
     paths: AppPaths, json_filename: str
 ) -> tuple[dict[str, Any] | None, dict[str, Team] | None]:
@@ -54,31 +83,6 @@ def load_competition_data(
     real_clubs = load_club_players(paths)
     teams_by_id: dict[str, Team] = {}
     for entry in data.get("equipos", []):
-        squad_map = real_clubs.get(normalize_text(entry["nombre"]).strip()) or real_clubs.get(
-            normalize_text(entry["id"]).strip()
-        )
-        level = int(entry.get("nivel", 72))
-        if squad_map and len(squad_map) >= 11:
-            squad = sorted(squad_map.values(), key=lambda p: -p.overall)[:30]
-            team = Team(
-                name=entry["nombre"],
-                players=squad,
-                team_id=entry["id"],
-                country=entry.get("pais", ""),
-                stadium=entry.get("estadio"),
-                city=entry.get("ciudad", ""),
-                group=entry.get("grupo"),
-                level=level,
-                is_real_squad=True,
-            )
-        else:
-            team = create_generic_team(entry["nombre"], level)
-            team.team_id = entry["id"]
-            team.country = entry.get("pais", "")
-            team.stadium = entry.get("estadio")
-            team.city = entry.get("ciudad", "")
-            team.group = entry.get("grupo")
-            team.is_real_squad = False
-        teams_by_id[entry["id"]] = team
+        teams_by_id[entry["id"]] = team_from_entry(entry, real_clubs)
 
     return data, teams_by_id

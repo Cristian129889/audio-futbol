@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.16.0
+
+- **Nuevas competiciones (aporte de Erling-Haaland)**:
+  - **Premier League 2026-27**: 20 clubes con plantillas reales completas, 38 jornadas a ida y vuelta sin playoffs y zonas de Liga de Campeones, Europa/Conference y descenso.
+  - **Liga 1 de Perú 2026**: 18 clubes, Torneo Apertura y Torneo Clausura de 17 fechas (localías invertidas), tabla acumulada, playoffs por el título (campeón directo si repite ganador, pase directo a la final o semifinales) y zonas de Libertadores, Sudamericana y descenso. Plantillas reales en Universitario, Alianza Lima, Sporting Cristal, Melgar y Cusco.
+  - **Copa de clubes personalizada**: torneo libre de 8, 16, 32 o 64 clubes elegidos uno por uno, completando con los mejores o al azar, con fase de grupos, eliminatorias y final.
+- **Personalización de torneos estilo PES/FIFA**:
+  - Opción *Personalizar participantes* al iniciar Champions, Libertadores, Sudamericana, Interamericana, Liga MX, Premier League o Liga 1 para reemplazar cualquier club por otro de cualquier liga con filtro por país conservando el calendario oficial.
+  - *Mundial* y *Liga de Naciones* con modo personalizado de 8, 16, 32 o 48 selecciones elegidas libremente, incluyendo selecciones adicionales (`datos/otras_selecciones/`: Perú e Italia).
+  - Pool global de **183 clubes seleccionables (170 con plantilla real completa y dorsales)**: sumados 15 clubes de LaLiga (`laliga_clubes.csv`), 20 de la Premier (`premier_clubes.csv`), clubes de Liga 1 (`liga1_clubes.csv`) y clubes europeos adicionales (`europa_clubes.csv`: Juventus, Milan, Lazio, Atalanta, Fiorentina, Bologna, Bayer Leverkusen, Eintracht Frankfurt, Olympique de Marsella, Mónaco, Benfica, Ajax, Bayern, Dortmund, Leipzig y Stuttgart), además de Alemania actualizada sin Manuel Neuer.
+- **Correcciones de audio, música y balance de partido**:
+  - **Sonido de gol y aplausos**: separados los efectos reactivos (`gol`, `ovacion`, `abucheo`, `casi`) del loop de ambiente (`tribuna`) para que suenen claros aunque el ambiente esté al 5%; ahora los goles propios reproducen `gol` + `ovacion` (aplausos) y los goles rivales reproducen `abucheo`.
+  - **Música en arranque, descanso y podios**: reforzada la reproducción de `play_menu_music`/`play_theme`, añadida música de fondo durante el resumen y menú del entretiempo, y corregido el podio final de Mundial y torneos para que `musica_fanfarria` + `ovacion` suenen solo cuando el usuario sale campeón (`musica_derrota` si es subcampeón).
+  - **Salida corta del portero y balance goleador**: el saque de meta en corto ahora inicia en `en tu área` (`zone = 0`) con receptor defensivo, y se recalibraron las probabilidades base de tiro en el área, ventaja de equipo, cabezazos tras centro, despejes aéreos, rebotes y `goal_factor` en partidos de 60s y 30s.
+
 ## v0.15.2
 
 - **Auditoría completa de plantillas y competiciones (temporada 2026-27)**:

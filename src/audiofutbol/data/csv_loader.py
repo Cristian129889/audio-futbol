@@ -217,6 +217,29 @@ def load_national_teams(paths: AppPaths) -> tuple[list[Team], bool]:
     return [create_generic_team(n, lvl) for n, lvl in FALLBACK_NATIONAL_TEAMS], False
 
 
+def load_extra_national_teams(paths: AppPaths) -> list[Team]:
+    """Load additional national teams from `datos/otras_selecciones/*.csv`.
+
+    These teams are NOT part of the 48-team World Cup / Nations League pool; they are
+    available for friendlies and custom national tournaments (e.g. Peru, Italy).
+    """
+    grouped: dict[str, dict[str, Player]] = {}
+    if paths.extra_nations_dir.is_dir():
+        for entry in sorted(paths.extra_nations_dir.iterdir()):
+            if entry.is_file() and entry.suffix.lower() in (".csv", ".tsv"):
+                try:
+                    for eq, nom, pos, ovr, num in read_squad_csv(entry):
+                        grouped.setdefault(eq, {})[nom] = Player(nom, pos, ovr, num)
+                except Exception:
+                    continue
+    teams: list[Team] = []
+    for name, player_map in grouped.items():
+        squad = sorted(player_map.values(), key=lambda p: -p.overall)[:30]
+        if len(squad) >= 11:
+            teams.append(Team(name=name, players=squad, is_real_squad=True))
+    return sorted(teams, key=lambda t: t.name)
+
+
 def load_club_players(paths: AppPaths) -> dict[str, dict[str, Player]]:
     """Load club squads from `datos/clubes/*.csv`, keyed by normalized club name."""
     clubs: dict[str, dict[str, Player]] = {}

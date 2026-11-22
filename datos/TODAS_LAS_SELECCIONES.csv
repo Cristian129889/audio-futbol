@@ -961,9 +961,9 @@ Francia,23,Désiré Doué,DEL,86,46,74,10
 Francia,24,Marcus Thuram,DEL,85,45,73,10
 Francia,25,Bradley Barcola,DEL,84,44,72,10
 Francia,26,Hugo Ekitiké,DEL,84,44,72,10
-Alemania,1,Manuel Neuer,POR,12,20,50,85
-Alemania,2,Marc-André ter Stegen,POR,12,20,50,85
-Alemania,3,Oliver Baumann,POR,12,20,45,80
+Alemania,1,Oliver Baumann,POR,12,20,45,80
+Alemania,2,Alexander Nübel,POR,12,20,45,80
+Alemania,3,Jonas Urbig,POR,12,20,42,77
 Alemania,4,Joshua Kimmich,DEF,65,89,77,12
 Alemania,5,Antonio Rüdiger,DEF,63,87,75,12
 Alemania,6,Jonathan Tah,DEF,62,86,74,12
@@ -971,22 +971,23 @@ Alemania,7,Nico Schlotterbeck,DEF,60,84,72,12
 Alemania,8,Malick Thiaw,DEF,58,82,70,12
 Alemania,9,Waldemar Anton,DEF,58,82,70,12
 Alemania,10,David Raum,DEF,56,80,68,12
-Alemania,11,Maximilian Mittelstädt,DEF,54,78,66,12
-Alemania,12,Nathaniel Brown,DEF,52,76,64,12
-Alemania,13,Jamal Musiala,MED,83,79,91,12
-Alemania,14,Florian Wirtz,MED,83,79,91,12
-Alemania,15,Leroy Sané,MED,78,74,86,12
-Alemania,16,Leon Goretzka,MED,76,72,84,12
-Alemania,17,Angelo Stiller,MED,74,70,82,12
-Alemania,18,Pascal Groß,MED,73,69,81,12
-Alemania,19,Aleksandar Pavlović,MED,73,69,81,12
-Alemania,20,Felix Nmecha,MED,71,67,79,12
-Alemania,21,Kai Havertz,DEL,85,45,73,10
-Alemania,22,Serge Gnabry,DEL,85,45,73,10
-Alemania,23,Nick Woltemade,DEL,82,42,70,10
-Alemania,24,Deniz Undav,DEL,82,42,70,10
-Alemania,25,Karim Adeyemi,DEL,80,40,68,10
-Alemania,26,Maximilian Beier,DEL,80,40,68,10
+Alemania,11,Nathaniel Brown,DEF,52,76,64,12
+Alemania,12,Jamal Musiala,MED,83,79,91,12
+Alemania,13,Florian Wirtz,MED,83,79,91,12
+Alemania,14,Leroy Sané,MED,78,74,86,12
+Alemania,15,Leon Goretzka,MED,76,72,84,12
+Alemania,16,Angelo Stiller,MED,74,70,82,12
+Alemania,17,Pascal Groß,MED,73,69,81,12
+Alemania,18,Aleksandar Pavlović,MED,73,69,81,12
+Alemania,19,Felix Nmecha,MED,71,67,79,12
+Alemania,20,Lennart Karl,MED,72,68,80,12
+Alemania,21,Jamie Leweling,MED,71,67,78,12
+Alemania,22,Nadiem Amiri,MED,70,66,77,12
+Alemania,23,Assan Ouédraogo,MED,69,66,76,12
+Alemania,24,Kai Havertz,DEL,85,45,73,10
+Alemania,25,Nick Woltemade,DEL,82,42,70,10
+Alemania,26,Deniz Undav,DEL,82,42,70,10
+Alemania,27,Maximilian Beier,DEL,80,40,68,10
 Países Bajos,1,Bart Verbruggen,POR,12,20,44,79
 Países Bajos,2,Mark Flekken,POR,12,20,41,76
 Países Bajos,3,Justin Bijlow,POR,12,20,39,74

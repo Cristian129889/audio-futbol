@@ -475,6 +475,12 @@ class CopaInteramericana(GroupCup):
     FINAL_VENUE = ("Hard Rock Stadium", "Miami")
 
 
+class CopaPersonalizada(GroupCup):
+    KEY = "copa_personalizada"
+    TITLE = "Copa personalizada"
+    FINAL_VENUE = ("Wembley Stadium", "Londres")
+
+
 class LigaMX(ClubTournament):
     """Liga MX Apertura 2026: 18 clubs, 17 rounds, 8-team Liguilla with table-seed advantage."""
 
@@ -648,4 +654,287 @@ class LigaMX(ClubTournament):
         by_name = {t.name: t for t in teams}
         inst = cls(None, {t.team_id or t.name: t for t in teams}, by_name[data["user_team"]], _skip_init=True)
         inst._restore_common(data, by_name)
+        return inst
+
+
+class PremierLeague(LigaMX):
+    """Premier League 2026-27: 20 clubs, double round-robin (38 matchdays), no playoffs."""
+
+    KEY = "premier"
+    TITLE = "Premier League"
+    LEAGUE_PHASE_LABEL = "la temporada"
+    ROUND_NAMES: dict[Any, str] = {}
+
+    def __init__(
+        self,
+        data: dict[str, Any] | None,
+        teams_by_id: dict[str, Team],
+        user_team: Team,
+        _skip_init: bool = False,
+    ) -> None:
+        self._init_club_base(list(teams_by_id.values()), user_team)
+        self.groups = [self.teams]
+        self.rounds_count = 2 * (len(self.teams) - 1)
+        self.qualify_count = 0
+        if not _skip_init:
+            first_half = self._build_mx_schedule()
+            second_half = [[(b, a) for a, b in rnd] for rnd in first_half]
+            self.schedule = first_half + second_half
+            self.steps = [("liga", k) for k in range(self.rounds_count)]
+            self._prepare_step()
+
+    def phase_name(self) -> str:
+        _, data = self.steps[self.step_idx]
+        return f"Jornada {data + 1} de {self.rounds_count}"
+
+    def zone_label(self, rank: int, finished: bool) -> str:
+        n = len(self.teams)
+        if rank <= 5:
+            return "Zona de Liga de Campeones"
+        if rank <= 7:
+            return "Zona de Liga Europa y Conference"
+        if rank > n - 3:
+            return "Zona de descenso"
+        return ""
+
+    def position_text(self) -> str:
+        rank, row = self.user_position()
+        zone = self.zone_label(rank, False)
+        zone_txt = f" {zone}." if zone else ""
+        return (
+            f"{self.user_team.name} va en el puesto {rank} de {len(self.teams)}, "
+            f"con {row['pts']} puntos en {row['pj']} partidos, "
+            f"diferencia de goles {row['gf'] - row['gc']:+d}.{zone_txt}"
+        )
+
+    def close_step(self) -> str:
+        _, data = self.steps[self.step_idx]
+        if data == self.rounds_count - 1:
+            order = self.standings()
+            self.ranking = {t.name: k + 1 for k, t in enumerate(order)}
+            self.champion, self.runner_up = order[0], order[1]
+            pos = self.ranking[self.user_team.name]
+            return (
+                f"Terminó la temporada. {self.user_team.name} termina en el puesto {pos}. "
+                f"{self.champion.name} es el campeón de la {self.TITLE}."
+            )
+        self.step_idx += 1
+        self._prepare_step()
+        return ""
+
+
+class Liga1Peru(LigaMX):
+    """Liga 1 de Perú 2026: 18 clubs, Apertura (17) + Clausura (17, local/visita invertidos),
+    tabla acumulada y playoffs por el título entre ganadores de torneo y mejores del acumulado."""
+
+    KEY = "liga1"
+    TITLE = "Liga 1 de Perú"
+    LEAGUE_PHASE_LABEL = "la fase regular"
+    ROUND_NAMES: dict[Any, str] = {
+        4: "Semifinales del playoff por el título",
+        2: "Final del campeonato",
+    }
+
+    def __init__(
+        self,
+        data: dict[str, Any] | None,
+        teams_by_id: dict[str, Team],
+        user_team: Team,
+        _skip_init: bool = False,
+    ) -> None:
+        self._init_club_base(list(teams_by_id.values()), user_team)
+        self.groups = [self.teams]
+        self.rounds_count = 2 * (len(self.teams) - 1)
+        self.qualify_count = 4
+        self.apertura_winner: str | None = None
+        self.clausura_winner: str | None = None
+        self.apertura_snapshot: dict[str, dict[str, int]] = {}
+        self.bye_team: str | None = None
+        if not _skip_init:
+            first_half = self._build_mx_schedule()
+            second_half = [[(b, a) for a, b in rnd] for rnd in first_half]
+            self.schedule = first_half + second_half
+            self.steps = [("liga", k) for k in range(self.rounds_count)]
+            self._prepare_step()
+
+    def phase_name(self) -> str:
+        kind, data = self.steps[self.step_idx]
+        if kind == "liga":
+            half = self.rounds_count // 2
+            if data < half:
+                return f"Torneo Apertura, fecha {data + 1} de {half}"
+            return f"Torneo Clausura, fecha {data - half + 1} de {half}"
+        name = self.ROUND_NAMES[data]
+        leg = "ida" if kind == "ida" else "vuelta"
+        return f"{name}, partido de {leg}"
+
+    def zone_label(self, rank: int, finished: bool) -> str:
+        n = len(self.teams)
+        if rank <= 2:
+            return "Zona de playoff y Copa Libertadores"
+        if rank <= 6:
+            return "Zona de Copa Sudamericana"
+        if rank > n - 2:
+            return "Zona de descenso"
+        return ""
+
+    def position_text(self) -> str:
+        rank, row = self.user_position()
+        zone = self.zone_label(rank, False)
+        zone_txt = f" {zone}." if zone else ""
+        return (
+            f"{self.user_team.name} va en el puesto {rank} de {len(self.teams)} "
+            f"en la tabla acumulada, con {row['pts']} puntos en {row['pj']} partidos, "
+            f"diferencia de goles {row['gf'] - row['gc']:+d}.{zone_txt}"
+        )
+
+    def _clausura_order(self) -> list[Team]:
+        snap = self.apertura_snapshot
+
+        def key(team: Team) -> tuple[int, int, int, int, float]:
+            row, base = self.table[team.name], snap[team.name]
+            pts = row["pts"] - base["pts"]
+            gf = row["gf"] - base["gf"]
+            gc = row["gc"] - base["gc"]
+            return (-pts, -(gf - gc), -gf, row.get("fp", 0), self.tiebreaker_rnd[team.name])
+
+        return sorted(self.teams, key=key)
+
+    def _by_name(self, name: str) -> Team:
+        return next(t for t in self.teams if t.name == name)
+
+    def _fin_tie(self, a: Team, b: Team) -> dict[str, Any]:
+        """Two-legged tie: better aggregate-table team plays the second leg at home."""
+        lower, higher = (a, b) if self.ranking[a.name] > self.ranking[b.name] else (b, a)
+        tie = self._make_tie(lower, higher)
+        tie["fin"] = True
+        return tie
+
+    def _begin_playoffs(self, agg: list[Team]) -> str:
+        """Decide the playoff bracket once the 34 matchdays are over."""
+        ap = self._by_name(self.apertura_winner or agg[0].name)
+        cl = self._by_name(self.clausura_winner or agg[0].name)
+        user = self.user_team
+
+        if ap.name == cl.name:
+            self.champion = ap
+            self.runner_up = agg[1] if agg[0].name == ap.name else agg[0]
+            return (
+                f"Terminó la fase regular. {ap.name} ganó el Apertura y el Clausura y es "
+                f"el campeón de la {self.TITLE} sin necesidad de playoffs."
+            )
+
+        winners = [w for w in (ap, cl) if self.ranking[w.name] <= 8]
+        top2 = {t.name for t in agg[:2]}
+        non_winners = [t for t in agg if t.name not in (ap.name, cl.name)]
+        bye = [w for w in winners if w.name in top2]
+        sizes: list[int]
+
+        if len(bye) == 2:
+            self.ties = [self._fin_tie(ap, cl)]
+            sizes = [2]
+            text = "Los dos ganadores de torneo también lideran el acumulado y van directo a la final."
+        elif len(bye) == 1:
+            bye_team = bye[0]
+            other = [w for w in winners if w.name != bye_team.name]
+            opp_pool = non_winners[:2]
+            first = opp_pool[0]
+            second = other[0] if other else opp_pool[1]
+            self.bye_team = bye_team.name
+            self.ties = [self._fin_tie(first, second)]
+            sizes = [4, 2]
+            text = f"{bye_team.name} pasa directo a la final. Hay una semifinal."
+        else:
+            qual = list(winners)
+            for t in non_winners:
+                if len(qual) >= 4:
+                    break
+                qual.append(t)
+            qual.sort(key=lambda t: self.ranking[t.name])
+            self.ties = [self._fin_tie(qual[3], qual[0]), self._fin_tie(qual[2], qual[1])]
+            sizes = [4, 2]
+            text = "Hay dos semifinales a ida y vuelta."
+
+        for size in sizes:
+            self.steps.append(("ida", size))
+            self.steps.append(("vuelta", size))
+
+        in_playoff = {t.name for tie in self.ties for t in (tie["x"], tie["y"])}
+        if self.bye_team:
+            in_playoff.add(self.bye_team)
+        if user.name not in in_playoff:
+            self.user_eliminated = True
+            tail = f"{user.name} queda fuera de los playoffs por el título."
+        else:
+            tail = f"{user.name} está en los playoffs por el título."
+        return (
+            f"Terminó la fase regular. {ap.name} ganó el Apertura y {cl.name} el Clausura. "
+            f"{text} {tail}"
+        )
+
+    def match_kwargs(self, idx: int, first_team: Team) -> dict[str, Any]:
+        kwargs = NationsLeague.match_kwargs(self, idx, first_team)
+        if kwargs:
+            kwargs["no_extra_time"] = False
+        return kwargs
+
+    def _next_round_ties(self, winners: list[Team]) -> list[dict[str, Any]]:
+        contenders = list(winners)
+        if self.bye_team:
+            contenders.append(self._by_name(self.bye_team))
+        a, b = contenders[0], contenders[1]
+        return [self._fin_tie(a, b)]
+
+    def close_step(self) -> str:
+        kind, data = self.steps[self.step_idx]
+        notice = ""
+        half = self.rounds_count // 2
+        if kind == "liga":
+            if data == half - 1:
+                order = self.standings()
+                self.apertura_winner = order[0].name
+                self.apertura_snapshot = {k: dict(v) for k, v in self.table.items()}
+                pos = order.index(self.user_team) + 1
+                notice = (
+                    f"Terminó el Torneo Apertura. {order[0].name} es el campeón del Apertura. "
+                    f"{self.user_team.name} lo termina en el puesto {pos}. "
+                    "Empieza el Clausura con los mismos rivales y las localías invertidas."
+                )
+            elif data == self.rounds_count - 1:
+                agg = self.standings()
+                self.ranking = {t.name: k + 1 for k, t in enumerate(agg)}
+                self.clausura_winner = self._clausura_order()[0].name
+                notice = self._begin_playoffs(agg)
+                if self.champion is not None:
+                    return notice
+        elif kind == "vuelta":
+            winners, losers = self._winners(), self._losers()
+            if data == 2:
+                return self._finish_final()
+            notice = self._round_notice(losers)
+            self.ties = self._next_round_ties(winners)
+            notice = f"{notice} Empieza la final a ida y vuelta.".strip()
+        self.step_idx += 1
+        self._prepare_step()
+        return notice
+
+    def to_dict(self) -> dict[str, Any]:
+        out = super().to_dict()
+        out.update(
+            {
+                "apertura_winner": self.apertura_winner,
+                "clausura_winner": self.clausura_winner,
+                "apertura_snapshot": self.apertura_snapshot,
+                "bye_team": self.bye_team,
+            }
+        )
+        return out
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> Liga1Peru:
+        inst = super().from_dict(data)
+        inst.apertura_winner = data.get("apertura_winner")
+        inst.clausura_winner = data.get("clausura_winner")
+        inst.apertura_snapshot = data.get("apertura_snapshot", {})
+        inst.bye_team = data.get("bye_team")
         return inst

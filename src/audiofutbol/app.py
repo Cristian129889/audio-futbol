@@ -7,7 +7,7 @@ from pathlib import Path
 import traceback
 
 from audiofutbol.data.competition_loader import StadiumDirectory
-from audiofutbol.data.csv_loader import load_national_teams
+from audiofutbol.data.csv_loader import load_extra_national_teams, load_national_teams
 from audiofutbol.data.save_manager import SaveManager
 from audiofutbol.engine.audio import AudioEngine
 from audiofutbol.engine.config import GameConfig
@@ -61,6 +61,7 @@ class AudioFutbolApp:
         try:
             self.window.open()
             teams, from_csv = load_national_teams(self.paths)
+            extra_teams = load_extra_national_teams(self.paths)
             ctx = GameContext(
                 paths=self.paths,
                 config=self.config,
@@ -72,6 +73,7 @@ class AudioFutbolApp:
                 stadiums=self.stadiums,
                 national_teams=teams,
                 loaded_from_csv=from_csv,
+                extra_national_teams=extra_teams,
             )
             manager = SceneManager(ctx, MainMenuScene())
             manager.run()

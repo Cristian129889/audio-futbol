@@ -1,0 +1,170 @@
+{
+  "id": "liga1_peru_2026",
+  "nombre": "Liga 1 de Perú 2026",
+  "version_datos": "2026-11-21",
+  "nota": "18 clubes. Torneo Apertura (17 fechas) y Torneo Clausura (17 fechas, localías invertidas), tabla acumulada y playoffs por el título. Los dos últimos del acumulado descienden. Solo Universitario y Alianza Lima traen plantilla real; el resto usa plantilla de ejemplo hasta que agregues jugadores en datos/clubes/liga1_clubes.csv.",
+  "equipos": [
+    {
+      "id": "universitario",
+      "nombre": "Universitario",
+      "pais": "Perú",
+      "plantilla": [],
+      "nivel": 73,
+      "estadio": "Estadio Monumental",
+      "ciudad": "Lima"
+    },
+    {
+      "id": "alianza_lima",
+      "nombre": "Alianza Lima",
+      "pais": "Perú",
+      "plantilla": [],
+      "nivel": 72,
+      "estadio": "Estadio Alejandro Villanueva",
+      "ciudad": "Lima"
+    },
+    {
+      "id": "sporting_cristal",
+      "nombre": "Sporting Cristal",
+      "pais": "Perú",
+      "plantilla": [],
+      "nivel": 70,
+      "estadio": "Estadio Alberto Gallardo",
+      "ciudad": "Lima"
+    },
+    {
+      "id": "melgar",
+      "nombre": "Melgar",
+      "pais": "Perú",
+      "plantilla": [],
+      "nivel": 70,
+      "estadio": "Estadio Virgen de Chapi",
+      "ciudad": "Arequipa"
+    },
+    {
+      "id": "cienciano",
+      "nombre": "Cienciano",
+      "pais": "Perú",
+      "plantilla": [],
+      "nivel": 70,
+      "estadio": "Estadio Garcilaso",
+      "ciudad": "Cusco"
+    },
+    {
+      "id": "cusco_fc",
+      "nombre": "Cusco",
+      "pais": "Perú",
+      "plantilla": [],
+      "nivel": 66,
+      "estadio": "Estadio Garcilaso",
+      "ciudad": "Cusco"
+    },
+    {
+      "id": "garcilaso",
+      "nombre": "Deportivo Garcilaso",
+      "pais": "Perú",
+      "plantilla": [],
+      "nivel": 69,
+      "estadio": "Estadio Garcilaso",
+      "ciudad": "Cusco"
+    },
+    {
+      "id": "los_chankas",
+      "nombre": "Los Chankas",
+      "pais": "Perú",
+      "plantilla": [],
+      "nivel": 68,
+      "estadio": "Estadio Los Chankas",
+      "ciudad": "Andahuaylas"
+    },
+    {
+      "id": "alianza_atletico",
+      "nombre": "Alianza Atlético",
+      "pais": "Perú",
+      "plantilla": [],
+      "nivel": 67,
+      "estadio": "Estadio Campeones del 36",
+      "ciudad": "Sullana"
+    },
+    {
+      "id": "sport_boys",
+      "nombre": "Sport Boys",
+      "pais": "Perú",
+      "plantilla": [],
+      "nivel": 67,
+      "estadio": "Estadio Miguel Grau",
+      "ciudad": "Callao"
+    },
+    {
+      "id": "atletico_grau",
+      "nombre": "Atlético Grau",
+      "pais": "Perú",
+      "plantilla": [],
+      "nivel": 66,
+      "estadio": "Estadio Campeones del 36",
+      "ciudad": "Sullana"
+    },
+    {
+      "id": "sport_huancayo",
+      "nombre": "Sport Huancayo",
+      "pais": "Perú",
+      "plantilla": [],
+      "nivel": 66,
+      "estadio": "Estadio Huancayo",
+      "ciudad": "Huancayo"
+    },
+    {
+      "id": "juan_pablo_ii",
+      "nombre": "Juan Pablo II College",
+      "pais": "Perú",
+      "plantilla": [],
+      "nivel": 64,
+      "estadio": "Complejo Juan Pablo II",
+      "ciudad": "Chongoyape"
+    },
+    {
+      "id": "comerciantes_unidos",
+      "nombre": "Comerciantes Unidos",
+      "pais": "Perú",
+      "plantilla": [],
+      "nivel": 62,
+      "estadio": "Estadio Juan Maldonado Gamarra",
+      "ciudad": "Cutervo"
+    },
+    {
+      "id": "cajamarca",
+      "nombre": "FC Cajamarca",
+      "pais": "Perú",
+      "plantilla": [],
+      "nivel": 63,
+      "estadio": "Estadio Héroes de San Ramón",
+      "ciudad": "Cajamarca"
+    },
+    {
+      "id": "moquegua",
+      "nombre": "Deportivo Moquegua",
+      "pais": "Perú",
+      "plantilla": [],
+      "nivel": 64,
+      "estadio": "Estadio 25 de Noviembre",
+      "ciudad": "Moquegua"
+    },
+    {
+      "id": "adt",
+      "nombre": "ADT",
+      "pais": "Perú",
+      "plantilla": [],
+      "nivel": 62,
+      "estadio": "Estadio Unión Tarma",
+      "ciudad": "Tarma"
+    },
+    {
+      "id": "utc",
+      "nombre": "UTC",
+      "pais": "Perú",
+      "plantilla": [],
+      "nivel": 60,
+      "estadio": "Estadio Héroes de San Ramón",
+      "ciudad": "Cajamarca"
+    }
+  ]
+}

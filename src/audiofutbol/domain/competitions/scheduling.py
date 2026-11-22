@@ -25,7 +25,7 @@ NATIONAL_COORDS: dict[str, tuple[float, float]] = {
     "Bélgica": (50.85, 4.35), "Croacia": (45.81, 15.98), "Inglaterra": (51.51, -0.13),
     "Francia": (48.94, 2.36), "Alemania": (52.52, 13.40), "Países Bajos": (52.37, 4.90),
     "Noruega": (59.91, 10.75), "Portugal": (38.72, -9.14), "Escocia": (55.86, -4.25),
-    "España": (37.39, -5.98), "Suiza": (47.56, 7.59), "Bosnia y Herzegovina": (44.20, 17.91),
+    "España": (37.39, -5.98), "Perú": (-12.05, -77.04), "Italia": (41.90, 12.50), "Suiza": (47.56, 7.59), "Bosnia y Herzegovina": (44.20, 17.91),
     "Chequia": (50.08, 14.44), "Turquía": (41.01, 28.98), "Suecia": (59.36, 18.00),
 }
 

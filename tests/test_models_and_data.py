@@ -4,10 +4,12 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from audiofutbol.data.club_pool import build_club_pool
 from audiofutbol.data.competition_loader import StadiumDirectory, load_competition_data
 from audiofutbol.data.csv_loader import (
     create_generic_team,
     load_club_players,
+    load_extra_national_teams,
     load_national_teams,
     parse_position,
 )
@@ -65,8 +67,28 @@ def test_load_all_competition_jsons() -> None:
         ("sudamericana_2026.json", 32),
         ("interamericana_2026.json", 64),
         ("ligamx_apertura_2026.json", 18),
+        ("premier_league_2026_27.json", 20),
+        ("liga1_peru_2026.json", 18),
+        ("clubes_europa_extra.json", 27),
     ):
         data, eqs = load_competition_data(paths, filename)
         assert data is not None
         assert eqs is not None
         assert len(eqs) == expected_min
+
+
+def test_club_pool_and_extra_national_teams() -> None:
+    paths = AppPaths.detect()
+    extra = load_extra_national_teams(paths)
+    extra_names = {t.name for t in extra}
+    assert {"Perú", "Italia"}.issubset(extra_names)
+
+    pool = build_club_pool(paths)
+    assert len(pool) >= 183
+    real_clubs = [t for t in pool if t.is_real_squad]
+    assert len(real_clubs) >= 170
+    for club in pool:
+        xi = club.starting_xi()
+        assert len(xi) == 11
+        assert sum(1 for p in xi if p.position == "POR") == 1
+

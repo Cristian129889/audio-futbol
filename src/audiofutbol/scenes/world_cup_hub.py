@@ -6,6 +6,7 @@ import random
 
 from audiofutbol.domain.competitions.world_cup import GROUP_LETTERS, WorldCup
 from audiofutbol.scenes.base import GameContext
+from audiofutbol.scenes.customize import choose_national_field
 from audiofutbol.scenes.match_scene import run_tournament_match
 from audiofutbol.ui.widgets import squad_lines
 
@@ -166,15 +167,11 @@ def run_world_cup_hub(ctx: GameContext, wc: WorldCup) -> None:
 
 
 def start_new_world_cup(ctx: GameContext) -> None:
-    teams = ctx.national_teams
-    n = 48 if len(teams) >= 48 else 32 if len(teams) >= 32 else 16 if len(teams) >= 16 else 8
-    user_team = ctx.ui.choose_team("Elige tu selección para el Mundial", teams)
-    if user_team is None:
+    field = choose_national_field(ctx, "Mundial")
+    if field is None:
         return
-    top = sorted(teams, key=lambda t: -t.strength())[:n]
-    if user_team not in top:
-        top[-1] = user_team
-    random.shuffle(top)
+    top, user_team = field
+    n = len(top)
     ctx.ui.speak(f"Mundial de {n} selecciones. Se hace el sorteo.")
     ctx.audio.play_sfx("sorteo")
     wc = WorldCup(top, user_team)

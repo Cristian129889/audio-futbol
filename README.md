@@ -12,15 +12,19 @@ Audiojuego de fútbol accesible para personas ciegas y con baja visión, con sal
 - **Audio normalizado y enriquecido**:
   - Todos los efectos (`sonidos/`), música (`musica/`) y temas (`temas/`) están normalizados bajo estándar **EBU R128** (`-16.5` a `-22.5 LUFS`) con limitación suave para evitar picos aturdidores y no tapar la voz de NVDA.
   - Incluye variaciones de silbatos (inicio, falta, penal, descanso, final triple), balón (pase, tiro, córner, cabezazo, barrera, barrida, regate, chilena), tarjetas amarilla y roja, avisos del VAR (revisión, confirmado, anulado), tablero de cambios/tiempo añadido y ambiente de tribuna.
-- **7 competiciones + amistosos**:
-  - Mundial (48 selecciones, 12 grupos y 8 mejores terceros)
-  - Liga de Naciones (48 selecciones, calendario local/visitante optimizado geográficamente)
+- **10 competiciones + amistosos y personalización estilo PES/FIFA**:
+  - Mundial (oficial de 48 selecciones o personalizado de 8, 16, 32 o 48 selecciones)
+  - Liga de Naciones (oficial de 48 selecciones o personalizado de 8, 16, 32 o 48 selecciones)
   - Liga de Campeones de la UEFA 2026-27 (36 clubes, fase de liga, play-off y eliminatorias)
   - Copa Libertadores 2026 (edición sudamericana o con 4 clubes mexicanos)
   - Copa Sudamericana 2026
   - Copa Interamericana 2026 (64 clubes en 16 grupos)
   - Liga MX Apertura 2026 (18 clubes y liguilla de 8 equipos)
-  - Partido amistoso o eliminatoria rápida
+  - Premier League 2026-27 (20 clubes, 38 jornadas a ida y vuelta sin playoffs)
+  - Liga 1 de Perú 2026 (18 clubes, Apertura + Clausura de 17 fechas, tabla acumulada y playoffs por el título)
+  - Copa de clubes personalizada (8, 16, 32 o 64 clubes elegidos libremente de cualquier liga)
+  - Partido amistoso o eliminatoria rápida (incluyendo selecciones adicionales en `datos/otras_selecciones/`)
+- **Personalizar torneos**: al iniciar cualquier competición de clubes puedes elegir *Personalizar participantes* para reemplazar cualquier club por otro del pool global de 183 clubes con filtro por país conservando el calendario oficial. Para agregar un club propio basta con escribir al menos 11 jugadores en cualquier CSV de `datos/clubes/`.
 - **Partidas guardadas seguras en JSON + compatibilidad con `.sav`**: guardadas en `saves/` de forma portable y resistente a actualizaciones, con detección y migración automática de partidas `.sav` de versiones anteriores (v0.2–v0.14) ubicadas en la carpeta raíz o en `saves/`.
 
 ## Arquitectura del proyecto

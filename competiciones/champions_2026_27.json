@@ -30,7 +30,7 @@
       "nombre_en": "Aston Villa",
       "pais": "Inglaterra",
       "plantilla": [],
-      "nivel": 81,
+      "nivel": 78,
       "estadio": "Villa Park",
       "ciudad": "Birmingham"
     },
@@ -50,7 +50,7 @@
       "nombre_en": "Manchester City",
       "pais": "Inglaterra",
       "plantilla": [],
-      "nivel": 86,
+      "nivel": 85,
       "estadio": "Etihad Stadium",
       "ciudad": "Mánchester"
     },
@@ -70,7 +70,7 @@
       "nombre_en": "Liverpool",
       "pais": "Inglaterra",
       "plantilla": [],
-      "nivel": 85,
+      "nivel": 84,
       "estadio": "Anfield",
       "ciudad": "Liverpool"
     },
@@ -180,7 +180,7 @@
       "nombre_en": "Borussia Dortmund",
       "pais": "Alemania",
       "plantilla": [],
-      "nivel": 82,
+      "nivel": 80,
       "estadio": "Signal Iduna Park",
       "ciudad": "Dortmund"
     },
@@ -190,7 +190,7 @@
       "nombre_en": "RB Leipzig",
       "pais": "Alemania",
       "plantilla": [],
-      "nivel": 79,
+      "nivel": 77,
       "estadio": "Red Bull Arena",
       "ciudad": "Leipzig"
     },
@@ -200,7 +200,7 @@
       "nombre_en": "VfB Stuttgart",
       "pais": "Alemania",
       "plantilla": [],
-      "nivel": 78,
+      "nivel": 77,
       "estadio": "MHPArena",
       "ciudad": "Stuttgart"
     },

@@ -1,197 +1,205 @@
 {
- "nota": "Estadio habitual de cada selección, usado cuando juega de local.",
- "selecciones": {
-  "Canadá": [
-   "BMO Field",
-   "Toronto"
-  ],
-  "México": [
-   "Estadio Azteca",
-   "Ciudad de México"
-  ],
-  "Estados Unidos": [
-   "Rose Bowl",
-   "Pasadena"
-  ],
-  "Australia": [
-   "Accor Stadium",
-   "Sídney"
-  ],
-  "Irán": [
-   "Estadio Azadi",
-   "Teherán"
-  ],
-  "Japón": [
-   "Estadio Nacional",
-   "Tokio"
-  ],
-  "Jordania": [
-   "Estadio Internacional Rey Abdalá",
-   "Amán"
-  ],
-  "Corea del Sur": [
-   "Estadio de la Copa del Mundo de Seúl",
-   "Seúl"
-  ],
-  "Catar": [
-   "Estadio Internacional Jalifa",
-   "Doha"
-  ],
-  "Arabia Saudita": [
-   "Estadio Internacional Rey Fahd",
-   "Riad"
-  ],
-  "Uzbekistán": [
-   "Estadio Bunyodkor",
-   "Taskent"
-  ],
-  "Irak": [
-   "Estadio Internacional de Basora",
-   "Basora"
-  ],
-  "Argelia": [
-   "Estadio Nelson Mandela",
-   "Argel"
-  ],
-  "Cabo Verde": [
-   "Estadio Nacional de Cabo Verde",
-   "Praia"
-  ],
-  "Costa de Marfil": [
-   "Estadio Alassane Ouattara",
-   "Abiyán"
-  ],
-  "Egipto": [
-   "Estadio Internacional de El Cairo",
-   "El Cairo"
-  ],
-  "Ghana": [
-   "Estadio Baba Yara",
-   "Kumasi"
-  ],
-  "Marruecos": [
-   "Complejo Príncipe Moulay Abdellah",
-   "Rabat"
-  ],
-  "Senegal": [
-   "Estadio Abdoulaye Wade",
-   "Diamniadio"
-  ],
-  "Sudáfrica": [
-   "Estadio FNB",
-   "Johannesburgo"
-  ],
-  "Túnez": [
-   "Estadio Olímpico de Radés",
-   "Radés"
-  ],
-  "RD Congo": [
-   "Estadio de los Mártires",
-   "Kinsasa"
-  ],
-  "Curazao": [
-   "Estadio Ergilio Hato",
-   "Willemstad"
-  ],
-  "Haití": [
-   "Estadio Sylvio Cator",
-   "Puerto Príncipe"
-  ],
-  "Panamá": [
-   "Estadio Rommel Fernández",
-   "Ciudad de Panamá"
-  ],
-  "Argentina": [
-   "Estadio Monumental",
-   "Buenos Aires"
-  ],
-  "Brasil": [
-   "Maracanã",
-   "Río de Janeiro"
-  ],
-  "Colombia": [
-   "Estadio Metropolitano Roberto Meléndez",
-   "Barranquilla"
-  ],
-  "Ecuador": [
-   "Estadio Rodrigo Paz Delgado",
-   "Quito"
-  ],
-  "Paraguay": [
-   "Estadio Defensores del Chaco",
-   "Asunción"
-  ],
-  "Uruguay": [
-   "Estadio Centenario",
-   "Montevideo"
-  ],
-  "Nueva Zelanda": [
-   "Eden Park",
-   "Auckland"
-  ],
-  "Austria": [
-   "Estadio Ernst Happel",
-   "Viena"
-  ],
-  "Bélgica": [
-   "Estadio Rey Balduino",
-   "Bruselas"
-  ],
-  "Croacia": [
-   "Estadio Maksimir",
-   "Zagreb"
-  ],
-  "Inglaterra": [
-   "Wembley",
-   "Londres"
-  ],
-  "Francia": [
-   "Stade de France",
-   "Saint-Denis"
-  ],
-  "Alemania": [
-   "Estadio Olímpico",
-   "Berlín"
-  ],
-  "Países Bajos": [
-   "Johan Cruyff Arena",
-   "Ámsterdam"
-  ],
-  "Noruega": [
-   "Estadio Ullevaal",
-   "Oslo"
-  ],
-  "Portugal": [
-   "Estadio da Luz",
-   "Lisboa"
-  ],
-  "Escocia": [
-   "Hampden Park",
-   "Glasgow"
-  ],
-  "España": [
-   "Estadio de La Cartuja",
-   "Sevilla"
-  ],
-  "Suiza": [
-   "St. Jakob-Park",
-   "Basilea"
-  ],
-  "Bosnia y Herzegovina": [
-   "Estadio Bilino Polje",
-   "Zenica"
-  ],
-  "Chequia": [
-   "Fortuna Arena",
-   "Praga"
-  ],
-  "Turquía": [
-   "Estadio Olímpico Atatürk",
-   "Estambul"
-  ],
-  "Suecia": [
-   "Friends Arena",
-   "Solna"
-  ]
- }
+  "nota": "Estadio habitual de cada selección, usado cuando juega de local.",
+  "selecciones": {
+    "Canadá": [
+      "BMO Field",
+      "Toronto"
+    ],
+    "México": [
+      "Estadio Azteca",
+      "Ciudad de México"
+    ],
+    "Estados Unidos": [
+      "Rose Bowl",
+      "Pasadena"
+    ],
+    "Australia": [
+      "Accor Stadium",
+      "Sídney"
+    ],
+    "Irán": [
+      "Estadio Azadi",
+      "Teherán"
+    ],
+    "Japón": [
+      "Estadio Nacional",
+      "Tokio"
+    ],
+    "Jordania": [
+      "Estadio Internacional Rey Abdalá",
+      "Amán"
+    ],
+    "Corea del Sur": [
+      "Estadio de la Copa del Mundo de Seúl",
+      "Seúl"
+    ],
+    "Catar": [
+      "Estadio Internacional Jalifa",
+      "Doha"
+    ],
+    "Arabia Saudita": [
+      "Estadio Internacional Rey Fahd",
+      "Riad"
+    ],
+    "Uzbekistán": [
+      "Estadio Bunyodkor",
+      "Taskent"
+    ],
+    "Irak": [
+      "Estadio Internacional de Basora",
+      "Basora"
+    ],
+    "Argelia": [
+      "Estadio Nelson Mandela",
+      "Argel"
+    ],
+    "Cabo Verde": [
+      "Estadio Nacional de Cabo Verde",
+      "Praia"
+    ],
+    "Costa de Marfil": [
+      "Estadio Alassane Ouattara",
+      "Abiyán"
+    ],
+    "Egipto": [
+      "Estadio Internacional de El Cairo",
+      "El Cairo"
+    ],
+    "Ghana": [
+      "Estadio Baba Yara",
+      "Kumasi"
+    ],
+    "Marruecos": [
+      "Complejo Príncipe Moulay Abdellah",
+      "Rabat"
+    ],
+    "Senegal": [
+      "Estadio Abdoulaye Wade",
+      "Diamniadio"
+    ],
+    "Sudáfrica": [
+      "Estadio FNB",
+      "Johannesburgo"
+    ],
+    "Túnez": [
+      "Estadio Olímpico de Radés",
+      "Radés"
+    ],
+    "RD Congo": [
+      "Estadio de los Mártires",
+      "Kinsasa"
+    ],
+    "Curazao": [
+      "Estadio Ergilio Hato",
+      "Willemstad"
+    ],
+    "Haití": [
+      "Estadio Sylvio Cator",
+      "Puerto Príncipe"
+    ],
+    "Panamá": [
+      "Estadio Rommel Fernández",
+      "Ciudad de Panamá"
+    ],
+    "Argentina": [
+      "Estadio Monumental",
+      "Buenos Aires"
+    ],
+    "Brasil": [
+      "Maracanã",
+      "Río de Janeiro"
+    ],
+    "Colombia": [
+      "Estadio Metropolitano Roberto Meléndez",
+      "Barranquilla"
+    ],
+    "Ecuador": [
+      "Estadio Rodrigo Paz Delgado",
+      "Quito"
+    ],
+    "Paraguay": [
+      "Estadio Defensores del Chaco",
+      "Asunción"
+    ],
+    "Uruguay": [
+      "Estadio Centenario",
+      "Montevideo"
+    ],
+    "Nueva Zelanda": [
+      "Eden Park",
+      "Auckland"
+    ],
+    "Austria": [
+      "Estadio Ernst Happel",
+      "Viena"
+    ],
+    "Bélgica": [
+      "Estadio Rey Balduino",
+      "Bruselas"
+    ],
+    "Croacia": [
+      "Estadio Maksimir",
+      "Zagreb"
+    ],
+    "Inglaterra": [
+      "Wembley",
+      "Londres"
+    ],
+    "Francia": [
+      "Stade de France",
+      "Saint-Denis"
+    ],
+    "Alemania": [
+      "Estadio Olímpico",
+      "Berlín"
+    ],
+    "Países Bajos": [
+      "Johan Cruyff Arena",
+      "Ámsterdam"
+    ],
+    "Noruega": [
+      "Estadio Ullevaal",
+      "Oslo"
+    ],
+    "Portugal": [
+      "Estadio da Luz",
+      "Lisboa"
+    ],
+    "Escocia": [
+      "Hampden Park",
+      "Glasgow"
+    ],
+    "España": [
+      "Estadio de La Cartuja",
+      "Sevilla"
+    ],
+    "Suiza": [
+      "St. Jakob-Park",
+      "Basilea"
+    ],
+    "Bosnia y Herzegovina": [
+      "Estadio Bilino Polje",
+      "Zenica"
+    ],
+    "Chequia": [
+      "Fortuna Arena",
+      "Praga"
+    ],
+    "Turquía": [
+      "Estadio Olímpico Atatürk",
+      "Estambul"
+    ],
+    "Suecia": [
+      "Friends Arena",
+      "Solna"
+    ],
+    "Perú": [
+      "Estadio Nacional",
+      "Lima"
+    ],
+    "Italia": [
+      "Stadio Olimpico",
+      "Roma"
+    ]
+  }
 }

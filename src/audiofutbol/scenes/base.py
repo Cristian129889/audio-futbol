@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Protocol
 
 from audiofutbol.data.competition_loader import StadiumDirectory
@@ -31,6 +31,7 @@ class GameContext:
     stadiums: StadiumDirectory
     national_teams: list[Team]
     loaded_from_csv: bool
+    extra_national_teams: list[Team] = field(default_factory=list)
 
     def match_settings(self) -> MatchSettings:
         return MatchSettings(
