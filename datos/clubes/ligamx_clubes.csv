@@ -1,181 +1,372 @@
 equipo,numero,jugador,posicion,calidad
-América,,Luis Ángel Malagón,POR,79
-América,,Rodolfo Cota,POR,72
-América,,Israel Reyes,DEF,77
-América,,Sebastián Cáceres,DEF,77
-América,,Cristian Borja,DEF,76
-América,,Ramón Juárez,DEF,75
-América,,Igor Lichnovsky,DEF,74
-América,,Kevin Álvarez,DEF,72
-América,,Álvaro Fidalgo,MED,80
-América,,Raphael Veiga,MED,79
-América,,Jonathan dos Santos,MED,76
-América,,Erick Sánchez,MED,75
-América,,Isaías Violante,MED,72
-América,,Brian Rodríguez,DEL,78
-América,,Henry Martín,DEL,77
-América,,Alejandro Zendejas,DEL,76
-América,,Víctor Dávila,DEL,74
-América,,Illian Hernández,DEL,72
-Chivas,,Raúl Rangel,POR,75
-Chivas,,Óscar Whalley,POR,70
-Chivas,,Gilberto Sepúlveda,DEF,74
-Chivas,,Luis Olivas,DEF,72
-Chivas,,Mateo Chávez,DEF,73
-Chivas,,Miguel Tapias,DEF,72
-Chivas,,Pável Pérez,DEF,70
-Chivas,,Roberto Alvarado,MED,79
-Chivas,,Luis Romo,MED,76
-Chivas,,Erick Gutiérrez,MED,76
-Chivas,,Omar Govea,MED,72
-Chivas,,Cade Cowell,DEL,72
-Chivas,,Armando González,DEL,77
-Chivas,,Alan Pulido,DEL,73
-Chivas,,Yael Padilla,DEL,70
-Cruz Azul,,Kevin Mier,POR,78
-Cruz Azul,,Andrés Gudiño,POR,72
-Cruz Azul,,Willer Ditta,DEF,76
-Cruz Azul,,Gonzalo Piovi,DEF,76
-Cruz Azul,,Jorge Sánchez,DEF,74
-Cruz Azul,,Omar Campos,DEF,72
-Cruz Azul,,Jesús Orozco,DEF,74
-Cruz Azul,,Carlos Rodríguez,MED,78
-Cruz Azul,,Carlos Rotondi,MED,76
-Cruz Azul,,Erik Lira,MED,76
-Cruz Azul,,Luka Romero,MED,74
-Cruz Azul,,Gabriel Fernández,DEL,75
-Cruz Azul,,Ángel Sepúlveda,DEL,74
-Cruz Azul,,Alan Montes,DEF,76
-Cruz Azul,,Agustín Palavecino,MED,77
-Cruz Azul,,José Paradela,MED,78
-Cruz Azul,,Jeremy Márquez,MED,72
-Cruz Azul,,Andrés Montaño,MED,73
-Cruz Azul,,Osinachi Ebere,DEL,74
-Cruz Azul,,Nicolás Ibáñez,DEL,76
-Pumas UNAM,,Keylor Navas,POR,78
-Pumas UNAM,,Julio González,POR,72
-Pumas UNAM,,Rubén Duarte,DEF,75
-Pumas UNAM,,Nathan Silva,DEF,74
-Pumas UNAM,,Adrián Aldrete,DEF,73
-Pumas UNAM,,Pablo Bennevendo,DEF,72
-Pumas UNAM,,Efraín Morales,DEF,72
-Pumas UNAM,,Piero Quispe,MED,77
-Pumas UNAM,,Jordan Carrillo,MED,73
-Pumas UNAM,,Ulises Rivas,MED,72
-Pumas UNAM,,Guillermo Martínez,DEL,76
-Pumas UNAM,,Juninho,DEL,75
-Pumas UNAM,,Robert Morales,DEL,73
-Tigres UANL,,Nahuel Guzmán,POR,76
-Tigres UANL,,Felipe Rodríguez,POR,70
-Tigres UANL,,Diego Reyes,DEF,74
-Tigres UANL,,Jesús Garza,DEF,71
-Tigres UANL,,Eduardo Tercero,DEF,72
-Tigres UANL,,Fernando Gorriarán,MED,77
-Tigres UANL,,Juan Brunetta,MED,77
-Tigres UANL,,Sebastián Córdova,MED,76
-Tigres UANL,,Rafael Carioca,MED,74
-Tigres UANL,,Ángel Correa,DEL,79
-Tigres UANL,,André-Pierre Gignac,DEL,78
-Tigres UANL,,Uriel Antuna,DEL,74
-Tigres UANL,,Marcelo Flores,DEL,73
-Tigres UANL,,Vladimir Loroña,DEF,73
-Tigres UANL,,Rômulo,MED,74
-Tigres UANL,,Henrique Simeone,MED,73
-Tigres UANL,,Juan Pablo Vigón,MED,74
-Tigres UANL,,Diego Sánchez,DEL,74
-Tigres UANL,,Ozziel Herrera,DEL,75
-Tigres UANL,,Rodrigo Aguirre,DEL,77
-Monterrey,,Esteban Andrada,POR,77
-Monterrey,,Luis Cárdenas,POR,70
-Monterrey,,Sergio Ramos,DEF,80
-Monterrey,,Stefan Medina,DEF,75
-Monterrey,,Jesús Gallardo,DEF,75
-Monterrey,,Erick Aguirre,DEF,74
-Monterrey,,Ricardo Chávez,DEF,72
-Monterrey,,Sergio Canales,MED,80
-Monterrey,,Óliver Torres,MED,76
-Monterrey,,Jorge Rodríguez,MED,73
-Monterrey,,Germán Berterame,DEL,79
-Monterrey,,Lucas Ocampos,DEL,77
-Monterrey,,Brandon Vázquez,DEL,76
-Toluca,,Tiago Volpi,POR,77
-Toluca,,Luis García,POR,74
-Toluca,,Antonio Briseño,DEF,73
-Toluca,,Federico Pereira,DEF,74
-Toluca,,Rodrigo Salinas,DEF,72
-Toluca,,Valber Huerta,DEF,72
-Toluca,,Jesús Angulo,DEF,74
-Toluca,,Marcel Ruiz,MED,76
-Toluca,,Claudio Baeza,MED,75
-Toluca,,Alexis Vega,MED,77
-Toluca,,Paulinho,DEL,79
-Toluca,,Helinho,DEL,76
-Toluca,,Leonel López,DEL,74
-Puebla,,Ricardo Gutiérrez,POR,72
-Puebla,,Jesús Iván Rodríguez,POR,68
-Puebla,,Yael Ortega,POR,60
-Puebla,,Juan Pablo Vargas,DEF,73
-Puebla,,Facundo Almada,DEF,71
-Puebla,,Ángel Leyva,DEF,70
-Puebla,,Fernando Monárrez,DEF,69
-Puebla,,Iker Moreno,DEF,68
-Puebla,,Eduardo Navarro,DEF,68
-Puebla,,Óscar Villa,DEF,68
-Puebla,,José Rodrigo Pachuca,DEF,66
-Puebla,,Álvaro de la Rosa,DEF,62
-Puebla,,Mathías Tomás,MED,72
-Puebla,,Sergio Sanabria,MED,71
-Puebla,,Lucas Azevedo,MED,70
-Puebla,,Alberto Herrera,MED,68
-Puebla,,Alonso Ramírez,MED,68
-Puebla,,Raúl Castillo,MED,67
-Puebla,,Carlos Baltazar,MED,66
-Puebla,,Alejandro Organista,MED,66
-Puebla,,Emiliano Gómez,DEL,73
-Puebla,,Ignacio Maestro Puch,DEL,71
-Puebla,,Brayan Garnica,DEL,68
-Puebla,,Luifer Hernández,DEL,69
-Puebla,,Omar Moreno,DEL,68
-Puebla,,Kevin Velasco,DEL,66
-Puebla,,Eduardo Mustre,DEL,64
-Tijuana,,Antonio Rodríguez,POR,73
-Tijuana,,José Rodríguez,POR,66
-Tijuana,,Jackson Porozo,DEF,74
-Tijuana,,Unai Bilbao,DEF,72
-Tijuana,,Rafael Fernández,DEF,71
-Tijuana,,Pablo Ortiz,DEF,70
-Tijuana,,Jesús Gómez,DEF,70
-Tijuana,,Alejandro Gómez,DEF,68
-Tijuana,,Gilberto Mora,MED,77
-Tijuana,,Ignacio Rivero,MED,74
-Tijuana,,Iván Tona,MED,71
-Tijuana,,Ramiro Árciga,MED,71
-Tijuana,,Christian Rivera,MED,69
-Tijuana,,Ángel Zapata,MED,69
-Tijuana,,Yael Padilla,MED,69
-Tijuana,,Frank Boya,MED,69
-Tijuana,,Diego Abreu,DEL,73
-Tijuana,,Shamar Nicholson,DEL,73
-Tijuana,,Adonis Preciado,DEL,72
-Tijuana,,Mourad El Daoudi,DEL,72
-Tijuana,,Elías Manoel,DEL,72
-Tijuana,,Ezequiel Bullaude,DEL,71
-León,,Óscar García,POR,72
-León,,Alfonso Blanco,POR,70
-León,,Jhohan Romaña,DEF,73
-León,,Salvador Reyes,DEF,72
-León,,Paul Bellón,DEF,71
-León,,Juan Guevara,DEF,70
-León,,Bryan Colula,DEF,70
-León,,Jaine Barreiro,DEF,70
-León,,José Ramírez,DEF,70
-León,,Jordi Cortizo,MED,76
-León,,Fernando Beltrán,MED,76
-León,,Rodrigo Echeverría,MED,74
-León,,Daniel Arcila,MED,71
-León,,José Rodríguez,MED,71
-León,,Nicolás Fonseca,MED,71
-León,,Sebastián Santos,MED,70
-León,,Ismael Díaz,DEL,75
-León,,Diber Cambindo,DEL,73
-León,,José Alvarado,DEL,71
+América,1,Luis Ángel Malagón,POR,80
+América,30,Rodolfo Cota,POR,72
+América,12,Fernando Tapia,POR,71
+América,3,Israel Reyes,DEF,78
+América,5,Kevin Álvarez,DEF,74
+América,23,Emilio Lara,DEF,72
+América,29,Ramón Juárez,DEF,76
+América,4,Santiago Ramos Mingo,DEF,76
+América,14,Santiago Bueno,DEF,77
+América,26,Cristian Borja,DEF,75
+América,18,Miguel Vázquez,DEF,70
+América,28,Érick Sánchez,MED,77
+América,13,Alan Cervantes,MED,74
+América,10,Raphael Veiga,MED,80
+América,17,Alejandro Zendejas,MED,78
+América,8,Carlos Álvarez,MED,77
+América,6,Edwin Cerrillo,MED,74
+América,7,Brian Rodríguez,DEL,79
+América,20,Alexis Gutiérrez,MED,74
+América,16,Isaías Violante,MED,72
+América,34,Dagoberto Espinoza,MED,71
+América,21,Henry Martín,DEL,78
+América,9,Miguel Borja,DEL,78
+América,11,Óscar Perea,DEL,75
+América,27,Raúl Zúñiga,DEL,74
+Chivas,1,Raúl Rangel,POR,78
+Chivas,30,Oscar Whalley,POR,71
+Chivas,24,Sebastián Liceaga,POR,68
+Chivas,21,José Castillo,DEF,75
+Chivas,33,Diego Campillo,DEF,74
+Chivas,4,Miguel Tapias,DEF,74
+Chivas,5,Bryan González,DEF,75
+Chivas,13,Luis Rey,DEF,71
+Chivas,2,Miguel Gómez,DEF,71
+Chivas,18,Leonardo Sepúlveda,DEF,72
+Chivas,7,Omar Govea,MED,73
+Chivas,15,Luis Romo,MED,77
+Chivas,10,Efraín Álvarez,MED,75
+Chivas,16,Brian Gutiérrez,MED,76
+Chivas,26,Hugo Camberos,MED,74
+Chivas,11,Kevin Castañeda,MED,73
+Chivas,23,Daniel Aguirre,MED,72
+Chivas,28,Rubén González,MED,73
+Chivas,19,Jordan Carrillo,MED,74
+Chivas,17,Richard Ledezma,MED,74
+Chivas,9,Ángel Sepúlveda,DEL,75
+Chivas,14,Ricardo Marín,DEL,73
+Chivas,25,Roberto Alvarado,DEL,78
+Chivas,34,Armando González,DEL,76
+Chivas,20,Jonathan Pérez,DEL,71
+Cruz Azul,23,Kevin Mier,POR,80
+Cruz Azul,1,Andrés Gudiño,POR,73
+Cruz Azul,30,Emmanuel Ochoa,POR,69
+Cruz Azul,4,Willer Ditta,DEF,78
+Cruz Azul,33,Gonzalo Piovi,DEF,78
+Cruz Azul,5,Jesús Orozco,DEF,77
+Cruz Azul,2,Alan Montes,DEF,74
+Cruz Azul,3,Omar Campos,DEF,74
+Cruz Azul,16,Alan Mozo,DEF,75
+Cruz Azul,24,Jorge Rodarte,DEF,70
+Cruz Azul,6,Érik Lira,MED,78
+Cruz Azul,19,Carlos Rodríguez,MED,78
+Cruz Azul,8,Agustín Palavecino,MED,76
+Cruz Azul,10,Andrés Montaño,MED,74
+Cruz Azul,14,Jeremy Márquez,MED,75
+Cruz Azul,20,José Paradela,MED,77
+Cruz Azul,29,Rodolfo Rotondi,MED,78
+Cruz Azul,18,Luka Romero,MED,75
+Cruz Azul,27,Amaury García,MED,71
+Cruz Azul,21,Gabriel Fernández,DEL,77
+Cruz Azul,9,Nicolás Ibáñez,DEL,76
+Cruz Azul,11,Christian Ebere,DEL,74
+Cruz Azul,7,Juan José Calero,DEL,72
+Cruz Azul,28,Mateo Levy,DEL,71
+Pumas UNAM,1,Keylor Navas,POR,79
+Pumas UNAM,35,Pablo Lara,POR,70
+Pumas UNAM,24,Paul,POR,68
+Pumas UNAM,6,Nathan Silva,DEF,76
+Pumas UNAM,5,Rubén Duarte,DEF,75
+Pumas UNAM,2,Pablo Bennevendo,DEF,73
+Pumas UNAM,13,Alfonso Monroy,DEF,72
+Pumas UNAM,8,José Luis Caicedo,DEF,74
+Pumas UNAM,3,Álvaro Angulo,DEF,75
+Pumas UNAM,4,Ángel Azuaje,DEF,71
+Pumas UNAM,10,César Huerta,MED,79
+Pumas UNAM,28,Adalberto Carrasquilla,MED,77
+Pumas UNAM,16,Pedro Vite,MED,76
+Pumas UNAM,7,Rodrigo López,MED,74
+Pumas UNAM,14,Santiago Trigos,MED,72
+Pumas UNAM,18,Ángel Rico,MED,71
+Pumas UNAM,20,Alan Medina,MED,73
+Pumas UNAM,15,Jesús Rivas,MED,72
+Pumas UNAM,11,Robert Morales,DEL,75
+Pumas UNAM,19,Juninho Vieira,DEL,74
+Pumas UNAM,9,Guillermo Martínez,DEL,76
+Pumas UNAM,21,Carlos Antuna,DEL,73
+Pumas UNAM,27,Santiago López,DEL,71
+Tigres UANL,1,Nahuel Guzmán,POR,79
+Tigres UANL,25,Carlos Rodríguez,POR,71
+Tigres UANL,30,Antonio Carrera,POR,69
+Tigres UANL,2,Joaquim Pereira,DEF,77
+Tigres UANL,4,Alan Franco,DEF,76
+Tigres UANL,14,Jesús Garza,DEF,74
+Tigres UANL,27,Jesús Angulo,DEF,76
+Tigres UANL,3,Marco Farfan,DEF,73
+Tigres UANL,15,Eduardo Tercero,DEF,71
+Tigres UANL,28,Vladimir Loroña,DEF,72
+Tigres UANL,19,Guido Pizarro,MED,75
+Tigres UANL,8,Fernando Gorriarán,MED,78
+Tigres UANL,11,Juan Brunetta,MED,80
+Tigres UANL,24,Marcelo Flores,MED,75
+Tigres UANL,16,Diego Lainez,MED,76
+Tigres UANL,5,Rafael Carioca,MED,74
+Tigres UANL,6,Sebastián Fierro,MED,71
+Tigres UANL,23,Rómulo Zwarg,MED,75
+Tigres UANL,7,Ozziel Herrera,DEL,75
+Tigres UANL,9,Henrique Simeone,DEL,75
+Tigres UANL,10,André-Pierre Gignac,DEL,76
+Tigres UANL,20,Uriel Antuna,DEL,75
+Monterrey,1,Esteban Andrada,POR,78
+Monterrey,22,Luis Cárdenas,POR,73
+Monterrey,33,Stefan Medina,DEF,76
+Monterrey,4,Víctor Guzmán,DEF,77
+Monterrey,15,Héctor Moreno,DEF,73
+Monterrey,3,Gerardo Arteaga,DEF,76
+Monterrey,14,Érick Aguirre,DEF,75
+Monterrey,20,Sebastián Vegas,DEF,74
+Monterrey,6,Edson Gutiérrez,DEF,71
+Monterrey,8,Óliver Torres,MED,78
+Monterrey,10,Sergio Canales,MED,81
+Monterrey,30,Jorge Rodríguez,MED,76
+Monterrey,35,Iker Fimbres,MED,73
+Monterrey,17,Johan Rojas,MED,74
+Monterrey,29,Lucas Ocampos,DEL,79
+Monterrey,9,Diego Rossi,DEL,78
+Monterrey,11,Luca Orellano,DEL,76
+Monterrey,19,Hugo Cuypers,DEL,77
+Monterrey,7,Germán Berterame,DEL,78
+Monterrey,27,Roberto de la Rosa,DEL,72
+Toluca,1,Tiago Volpi,POR,78
+Toluca,22,Luis García,POR,73
+Toluca,12,Hugo González,POR,72
+Toluca,20,Jesús Gallardo,DEF,77
+Toluca,4,Federico Pereira,DEF,77
+Toluca,5,Bruno Méndez,DEF,76
+Toluca,6,Luan García,DEF,76
+Toluca,17,Brian García,DEF,74
+Toluca,2,Diego Barbosa,DEF,73
+Toluca,14,Marcel Ruiz,MED,79
+Toluca,23,Claudio Baeza,MED,74
+Toluca,11,Maximiliano Araújo,MED,78
+Toluca,10,Jesús Angulo,MED,76
+Toluca,15,Helinho,MED,77
+Toluca,8,Frankie Amaya,MED,73
+Toluca,26,Paulinho,DEL,81
+Toluca,9,Alexis Vega,DEL,79
+Toluca,19,Federico Viñas,DEL,76
+Toluca,29,Édgar López,DEL,73
+Pachuca,25,Carlos Moreno,POR,76
+Pachuca,1,José Eulogio,POR,69
+Pachuca,12,David Shrem,POR,67
+Pachuca,4,Eduardo Bauermann,DEF,75
+Pachuca,2,Sergio Barreto,DEF,75
+Pachuca,3,Francisco Venegas,DEF,71
+Pachuca,24,Carlos Sánchez,DEF,72
+Pachuca,32,Jorge Berlanga,DEF,71
+Pachuca,14,Mauricio Isais,DEF,73
+Pachuca,28,Elías Montiel,MED,76
+Pachuca,26,Alan Bautista,MED,74
+Pachuca,7,Nicolás Vallejo,MED,73
+Pachuca,10,Rodolfo Pizarro,MED,73
+Pachuca,16,Pedro Budib,MED,70
+Pachuca,18,Gael Álvarez,MED,71
+Pachuca,23,Salomón Rondón,DEL,77
+Pachuca,11,Oussama Idrissi,DEL,78
+Pachuca,9,Robert Kenedy,DEL,75
+Pachuca,19,Adrián Alcaraz,DEL,71
+León,1,Óscar García,POR,72
+León,23,Julio González,POR,74
+León,30,Irving Martínez,POR,68
+León,3,Iván Moreno,DEF,72
+León,21,Jhohan Romaña,DEF,74
+León,5,Sebastián Vegas,DEF,74
+León,26,Salvador Reyes,DEF,73
+León,4,Paul Bellón,DEF,72
+León,2,Bryan Colula,DEF,71
+León,15,Sebastián Santos,DEF,70
+León,10,Fernando Beltrán,MED,76
+León,20,Rodrigo Echeverría,MED,76
+León,8,José Iván Rodríguez,MED,73
+León,16,Jesús Aldair Lara,MED,70
+León,14,Luis Valadez,MED,69
+León,11,Daniel Arcila,DEL,72
+León,9,Díber Cambindo,DEL,76
+León,7,Alfonso Alvarado,DEL,73
+León,19,Ismael Díaz,DEL,74
+León,27,Jordi Cortizo,DEL,75
+León,17,Edgar Guerra,DEL,73
+Atlas,12,Camilo Vargas,POR,79
+Atlas,1,Antonio Sánchez,POR,70
+Atlas,2,Hugo Nervo,DEF,73
+Atlas,5,Matheus Dória,DEF,75
+Atlas,6,Manuel Capasso,DEF,74
+Atlas,4,Adonis Frías,DEF,75
+Atlas,13,Gaddi Aguirre,DEF,72
+Atlas,3,Milton Valenzuela,DEF,73
+Atlas,17,Carlos Orrantía,DEF,72
+Atlas,20,José Lozano,DEF,71
+Atlas,26,Aldo Rocha,MED,75
+Atlas,18,Jeremy Márquez,MED,74
+Atlas,8,Mateo García,MED,73
+Atlas,10,Gustavo del Prete,MED,74
+Atlas,7,Raymundo Fulgencio,MED,73
+Atlas,11,Jhon Murillo,DEL,73
+Atlas,9,Eduardo Aguirre,DEL,74
+Atlas,19,Uros Djurdjevic,DEL,74
+Necaxa,1,Luis Jiménez,POR,73
+Necaxa,22,Javier Orantes,POR,69
+Necaxa,4,Alexis Peña,DEF,74
+Necaxa,3,Agustín Oliveros,DEF,74
+Necaxa,5,Kaiky Naves,DEF,73
+Necaxa,2,Raúl Martínez,DEF,71
+Necaxa,14,Mauro Zaleta,DEF,70
+Necaxa,16,Carlos Vargas,DEF,71
+Necaxa,26,Emilio Martínez,DEF,72
+Necaxa,8,Lorenzo Faravelli,MED,74
+Necaxa,6,Pedro Pedraza,MED,73
+Necaxa,10,José Paradela,MED,73
+Necaxa,15,Kevin Ante,MED,70
+Necaxa,19,Owen González,MED,71
+Necaxa,11,Emilio Rodríguez,MED,72
+Necaxa,7,Daniel Leyva,MED,71
+Necaxa,9,Julián Carranza,DEL,75
+Necaxa,21,Javier Ruíz,DEL,72
+Necaxa,18,Miguel Pedroza,DEL,70
+Querétaro,25,Guillermo Allison,POR,73
+Querétaro,1,José Hernández,POR,70
+Querétaro,4,Lucas Abascia,DEF,72
+Querétaro,3,Daniel Reyes,DEF,70
+Querétaro,6,Bernardo Parra,DEF,71
+Querétaro,2,Bayron Duarte,DEF,71
+Querétaro,5,Carlos Villanueva,DEF,71
+Querétaro,14,Federico Lértora,MED,73
+Querétaro,8,Kevin Escamilla,MED,72
+Querétaro,10,Samuel Sosa,MED,73
+Querétaro,11,Enzo Giménez,MED,72
+Querétaro,15,Paulo Víctor,MED,72
+Querétaro,7,Alan Bautista,MED,71
+Querétaro,9,Ettson Ayón,DEL,73
+Querétaro,19,Ronaldo Cisneros,DEL,72
+Querétaro,18,Santiago Homenchenko,DEL,71
+Tijuana,2,Antonio Rodríguez,POR,74
+Tijuana,30,Jorge Hernández,POR,69
+Tijuana,4,Unai Bilbao,DEF,75
+Tijuana,3,Rafael Fernández,DEF,72
+Tijuana,5,Jesús Gómez,DEF,72
+Tijuana,16,Jose Antonio Porozo,DEF,73
+Tijuana,15,Aarón Mejía,DEF,72
+Tijuana,22,Pablo Ortíz,DEF,71
+Tijuana,18,Ramiro Árciga,DEF,71
+Tijuana,19,Gilberto Mora,MED,76
+Tijuana,8,Fernando Madrigal,MED,73
+Tijuana,6,Iván Tona,MED,72
+Tijuana,10,Ignacio Rivero,MED,75
+Tijuana,14,Alejandro Gómez,MED,73
+Tijuana,23,Christian Rivera,MED,74
+Tijuana,11,Adonis Preciado,DEL,74
+Tijuana,9,Mourad El Ghezouani,DEL,74
+Tijuana,17,Diego Abreu,DEL,72
+Tijuana,7,Raúl Zúñiga,DEL,73
+Santos Laguna,1,Carlos Acevedo,POR,77
+Santos Laguna,33,Héctor Holguín,POR,70
+Santos Laguna,2,Bruno Amione,DEF,74
+Santos Laguna,3,Mauricio Cuevas,DEF,71
+Santos Laguna,4,Javier Abella,DEF,72
+Santos Laguna,14,Efraín Orona,DEF,71
+Santos Laguna,17,Emmanuel Echeverría,DEF,71
+Santos Laguna,18,Franco Pardo,DEF,73
+Santos Laguna,22,Kevin Picón,DEF,70
+Santos Laguna,5,Aldo López,MED,73
+Santos Laguna,6,Javier Güemez,MED,72
+Santos Laguna,7,Diego González,MED,73
+Santos Laguna,8,Salvador Mariscal,MED,72
+Santos Laguna,10,Ezequiel Bullaude,MED,74
+Santos Laguna,21,Fran Villalba,MED,74
+Santos Laguna,24,Diego Medina,MED,73
+Santos Laguna,26,Ramiro Sordo,MED,74
+Santos Laguna,9,Lucas Di Yorio,DEL,75
+Santos Laguna,19,Eduardo Aguirre,DEL,74
+Santos Laguna,20,Esteban Lozano,DEL,71
+Santos Laguna,29,Tahiel Jiménez,DEL,70
+Puebla,1,Ricardo Daniel Gutiérrez,POR,72
+Puebla,30,Jesús Iván Rodríguez,POR,71
+Puebla,2,Facundo Almada,DEF,72
+Puebla,4,Juan Pablo Vargas,DEF,74
+Puebla,5,Ángel Leyva,DEF,70
+Puebla,6,Fernando Monárrez,DEF,71
+Puebla,14,Iker Moreno,DEF,71
+Puebla,3,Óscar Villa,DEF,71
+Puebla,18,José Rodrigo Pachuca,DEF,70
+Puebla,8,Alberto Herrera,MED,72
+Puebla,10,Mathías Tomás,MED,74
+Puebla,15,Alonso Ramírez,MED,70
+Puebla,16,Raúl Castillo,MED,72
+Puebla,20,Sergio Sanabria,MED,71
+Puebla,21,Carlos Baltazar,MED,72
+Puebla,7,Alejandro Organista,MED,71
+Puebla,11,Brayan Garnica,MED,72
+Puebla,9,Luifer Hernández,DEL,73
+Puebla,19,Omar Moreno,DEL,71
+Atlético San Luis,1,Andrés Sánchez,POR,75
+Atlético San Luis,23,César López,POR,69
+Atlético San Luis,2,Román Torres,DEF,72
+Atlético San Luis,3,Robson Bambu,DEF,74
+Atlético San Luis,6,Juanpe Ramírez,DEF,74
+Atlético San Luis,16,Lucas Esteves,DEF,73
+Atlético San Luis,18,Aldo Cruz,DEF,72
+Atlético San Luis,31,Eduardo Águila,DEF,73
+Atlético San Luis,5,Roberto Meraz,MED,72
+Atlético San Luis,7,Benjamín Galdames,MED,73
+Atlético San Luis,8,Ronaldo Nájera,MED,71
+Atlético San Luis,10,Sébastien Salles-Lamonge,MED,76
+Atlético San Luis,13,Johan Caicedo,MED,72
+Atlético San Luis,21,Óscar Macías,MED,72
+Atlético San Luis,28,Jesús Medina,MED,74
+Atlético San Luis,9,João Pedro,DEL,75
+Atlético San Luis,11,David Rodríguez,DEL,72
+Atlético San Luis,17,Anderson Duarte,DEL,74
+Atlético San Luis,19,Santiago Muñóz,DEL,73
+Atlético San Luis,22,Rafael Llorente,DEL,73
+Atlético San Luis,99,Felipe Mora,DEL,74
+FC Juárez,1,Sebastián Jurado,POR,74
+FC Juárez,24,Benny Díaz,POR,70
+FC Juárez,2,Gilberto Sepúlveda,DEF,74
+FC Juárez,3,Jesús Murillo,DEF,73
+FC Juárez,4,Alejandro Mayorga,DEF,73
+FC Juárez,20,Javier Aquino,DEF,72
+FC Juárez,23,Haret Ortega,DEF,72
+FC Juárez,26,Daniel Piña,DEF,71
+FC Juárez,33,Francisco Nevárez,DEF,71
+FC Juárez,5,Denzell García,MED,73
+FC Juárez,6,Monchu,MED,75
+FC Juárez,8,Guilherme Castilho,MED,74
+FC Juárez,13,Rodrigo Dourado,MED,75
+FC Juárez,15,Lucas Romero,MED,75
+FC Juárez,7,Raymundo Fulgencio,DEL,73
+FC Juárez,9,Madson,DEL,73
+FC Juárez,10,Jairo Torres,DEL,73
+FC Juárez,11,José Luis Rodríguez,DEL,74
+FC Juárez,17,Luca Martínez Dupuy,DEL,72
+FC Juárez,19,Óscar Estupiñán,DEL,75
+FC Juárez,21,Ricardinho,DEL,73
+Atlante,1,Óscar Jiménez,POR,72
+Atlante,23,Roberto Barragán,POR,68
+Atlante,2,Eduardo Tercero,DEF,71
+Atlante,3,Diogo Bagüí,DEF,70
+Atlante,4,Nicolás Carrera,DEF,70
+Atlante,5,Walter Clar,DEF,71
+Atlante,14,Gustavo Sánchez,DEF,70
+Atlante,15,Aarón Quirós,DEF,70
+Atlante,22,Armando Escobar,DEF,70
+Atlante,6,Eugenio Pizzuto,MED,71
+Atlante,18,Christian Bermúdez,MED,71
+Atlante,10,Jhojan Julio,MED,73
+Atlante,8,Martín Fernández,MED,71
+Atlante,16,Octavio Vázquez,MED,69
+Atlante,20,Javier Ibarra,MED,70
+Atlante,9,Luis Puente,DEL,71
+Atlante,11,Martín Sarrafiore,DEL,71
+Atlante,19,Jairón Charcopa,DEL,71
+Atlante,21,Joaquín Moxica,DEL,69

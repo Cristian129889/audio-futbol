@@ -1,350 +1,350 @@
 {
- "id": "libertadores_mx_2026",
- "nombre": "Copa Libertadores 2026 con equipos mexicanos",
- "version_datos": "2026-11-14",
- "nota": "Misma Copa Libertadores de 32 clubes y 8 grupos, pero América, Cruz Azul, Monterrey y Tigres UANL ocupan el lugar de los cuatro clubes de menor nivel (Cusco, Always Ready, Deportivo La Guaira y Universidad Central). Cambia los clubes y los grupos a mano si quieres otra mezcla.",
- "formato": {
-  "fase_grupos": "32 equipos en 8 grupos de 4, todos contra todos ida y vuelta",
-  "clasificacion": "1.º y 2.º de cada grupo pasan a octavos; 3.º va a la Copa Sudamericana",
-  "desempate_grupos": [
-   "puntos",
-   "puntos entre los empatados",
-   "diferencia de goles entre los empatados",
-   "goles a favor entre los empatados",
-   "diferencia de goles general",
-   "goles a favor general",
-   "tarjetas rojas",
-   "tarjetas amarillas",
-   "sorteo"
+  "id": "libertadores_mx_2026",
+  "nombre": "Copa Libertadores 2026 con equipos mexicanos",
+  "version_datos": "2026-11-14",
+  "nota": "Misma Copa Libertadores de 32 clubes y 8 grupos, pero América, Cruz Azul, Monterrey y Tigres UANL ocupan el lugar de los cuatro clubes de menor nivel (Cusco, Always Ready, Deportivo La Guaira y Universidad Central). Cambia los clubes y los grupos a mano si quieres otra mezcla.",
+  "formato": {
+    "fase_grupos": "32 equipos en 8 grupos de 4, todos contra todos ida y vuelta",
+    "clasificacion": "1.º y 2.º de cada grupo pasan a octavos; 3.º va a la Copa Sudamericana",
+    "desempate_grupos": [
+      "puntos",
+      "puntos entre los empatados",
+      "diferencia de goles entre los empatados",
+      "goles a favor entre los empatados",
+      "diferencia de goles general",
+      "goles a favor general",
+      "tarjetas rojas",
+      "tarjetas amarillas",
+      "sorteo"
+    ],
+    "eliminatorias": "octavos, cuartos y semifinales a ida y vuelta, sin tiempo extra: si hay empate global se define por penales; la final es a partido único con 30 minutos de prórroga y luego penales",
+    "sin_gol_de_visitante": true
+  },
+  "equipos": [
+    {
+      "id": "flamengo",
+      "nombre": "Flamengo",
+      "pais": "Brasil",
+      "grupo": "A",
+      "plantilla": [],
+      "nivel": 79,
+      "estadio": "Maracanã",
+      "ciudad": "Río de Janeiro"
+    },
+    {
+      "id": "estudiantes_de_la_plata",
+      "nombre": "Estudiantes de La Plata",
+      "pais": "Argentina",
+      "grupo": "A",
+      "plantilla": [],
+      "nivel": 74,
+      "estadio": "Estadio Jorge Luis Hirschi",
+      "ciudad": "La Plata"
+    },
+    {
+      "id": "independiente_medellin",
+      "nombre": "Independiente Medellín",
+      "pais": "Colombia",
+      "grupo": "A",
+      "plantilla": [],
+      "nivel": 70,
+      "estadio": "Estadio Atanasio Girardot",
+      "ciudad": "Medellín"
+    },
+    {
+      "id": "america",
+      "nombre": "América",
+      "pais": "México",
+      "grupo": "A",
+      "plantilla": [],
+      "nivel": 78,
+      "estadio": "Estadio Azteca",
+      "ciudad": "Ciudad de México"
+    },
+    {
+      "id": "coquimbo_unido",
+      "nombre": "Coquimbo Unido",
+      "pais": "Chile",
+      "grupo": "B",
+      "plantilla": [],
+      "nivel": 68,
+      "estadio": "Estadio Francisco Sánchez Rumoroso",
+      "ciudad": "Coquimbo"
+    },
+    {
+      "id": "deportes_tolima",
+      "nombre": "Deportes Tolima",
+      "pais": "Colombia",
+      "grupo": "B",
+      "plantilla": [],
+      "nivel": 69,
+      "estadio": "Estadio Manuel Murillo Toro",
+      "ciudad": "Ibagué"
+    },
+    {
+      "id": "nacional",
+      "nombre": "Nacional",
+      "pais": "Uruguay",
+      "grupo": "B",
+      "plantilla": [],
+      "nivel": 72,
+      "estadio": "Gran Parque Central",
+      "ciudad": "Montevideo"
+    },
+    {
+      "id": "universitario",
+      "nombre": "Universitario",
+      "pais": "Perú",
+      "grupo": "B",
+      "plantilla": [],
+      "nivel": 71,
+      "estadio": "Estadio Monumental",
+      "ciudad": "Lima"
+    },
+    {
+      "id": "independiente_rivadavia",
+      "nombre": "Independiente Rivadavia",
+      "pais": "Argentina",
+      "grupo": "C",
+      "plantilla": [],
+      "nivel": 70,
+      "estadio": "Estadio Bautista Gargantini",
+      "ciudad": "Mendoza"
+    },
+    {
+      "id": "fluminense",
+      "nombre": "Fluminense",
+      "pais": "Brasil",
+      "grupo": "C",
+      "plantilla": [],
+      "nivel": 76,
+      "estadio": "Maracanã",
+      "ciudad": "Río de Janeiro"
+    },
+    {
+      "id": "bolivar",
+      "nombre": "Bolívar",
+      "pais": "Bolivia",
+      "grupo": "C",
+      "plantilla": [],
+      "nivel": 69,
+      "estadio": "Estadio Hernando Siles",
+      "ciudad": "La Paz"
+    },
+    {
+      "id": "cruz_azul",
+      "nombre": "Cruz Azul",
+      "pais": "México",
+      "grupo": "C",
+      "plantilla": [],
+      "nivel": 77,
+      "estadio": "Estadio Azteca",
+      "ciudad": "Ciudad de México"
+    },
+    {
+      "id": "universidad_catolica",
+      "nombre": "Universidad Católica",
+      "pais": "Chile",
+      "grupo": "D",
+      "plantilla": [],
+      "nivel": 71,
+      "estadio": "Estadio San Carlos de Apoquindo",
+      "ciudad": "Santiago"
+    },
+    {
+      "id": "cruzeiro",
+      "nombre": "Cruzeiro",
+      "pais": "Brasil",
+      "grupo": "D",
+      "plantilla": [],
+      "nivel": 75,
+      "estadio": "Mineirão",
+      "ciudad": "Belo Horizonte"
+    },
+    {
+      "id": "boca_juniors",
+      "nombre": "Boca Juniors",
+      "pais": "Argentina",
+      "grupo": "D",
+      "plantilla": [],
+      "nivel": 75,
+      "estadio": "La Bombonera",
+      "ciudad": "Buenos Aires"
+    },
+    {
+      "id": "barcelona_de_guayaquil",
+      "nombre": "Barcelona de Guayaquil",
+      "pais": "Ecuador",
+      "grupo": "D",
+      "plantilla": [],
+      "nivel": 71,
+      "estadio": "Estadio Monumental Banco Pichincha",
+      "ciudad": "Guayaquil"
+    },
+    {
+      "id": "corinthians",
+      "nombre": "Corinthians",
+      "pais": "Brasil",
+      "grupo": "E",
+      "plantilla": [],
+      "nivel": 76,
+      "estadio": "Neo Química Arena",
+      "ciudad": "São Paulo"
+    },
+    {
+      "id": "platense",
+      "nombre": "Platense",
+      "pais": "Argentina",
+      "grupo": "E",
+      "plantilla": [],
+      "nivel": 70,
+      "estadio": "Estadio Ciudad de Vicente López",
+      "ciudad": "Vicente López"
+    },
+    {
+      "id": "santa_fe",
+      "nombre": "Santa Fe",
+      "pais": "Colombia",
+      "grupo": "E",
+      "plantilla": [],
+      "nivel": 70,
+      "estadio": "Estadio El Campín",
+      "ciudad": "Bogotá"
+    },
+    {
+      "id": "penarol",
+      "nombre": "Peñarol",
+      "pais": "Uruguay",
+      "grupo": "E",
+      "plantilla": [],
+      "nivel": 72,
+      "estadio": "Estadio Campeón del Siglo",
+      "ciudad": "Montevideo"
+    },
+    {
+      "id": "cerro_porteno",
+      "nombre": "Cerro Porteño",
+      "pais": "Paraguay",
+      "grupo": "F",
+      "plantilla": [],
+      "nivel": 72,
+      "estadio": "La Nueva Olla",
+      "ciudad": "Asunción"
+    },
+    {
+      "id": "palmeiras",
+      "nombre": "Palmeiras",
+      "pais": "Brasil",
+      "grupo": "F",
+      "plantilla": [],
+      "nivel": 78,
+      "estadio": "Allianz Parque",
+      "ciudad": "São Paulo"
+    },
+    {
+      "id": "sporting_cristal",
+      "nombre": "Sporting Cristal",
+      "pais": "Perú",
+      "grupo": "F",
+      "plantilla": [],
+      "nivel": 70,
+      "estadio": "Estadio Alberto Gallardo",
+      "ciudad": "Lima"
+    },
+    {
+      "id": "junior_de_barranquilla",
+      "nombre": "Junior de Barranquilla",
+      "pais": "Colombia",
+      "grupo": "F",
+      "plantilla": [],
+      "nivel": 72,
+      "estadio": "Estadio Metropolitano Roberto Meléndez",
+      "ciudad": "Barranquilla"
+    },
+    {
+      "id": "ldu_quito",
+      "nombre": "LDU Quito",
+      "pais": "Ecuador",
+      "grupo": "G",
+      "plantilla": [],
+      "nivel": 73,
+      "estadio": "Estadio Rodrigo Paz Delgado",
+      "ciudad": "Quito"
+    },
+    {
+      "id": "mirassol",
+      "nombre": "Mirassol",
+      "pais": "Brasil",
+      "grupo": "G",
+      "plantilla": [],
+      "nivel": 71,
+      "estadio": "Estadio José Maria de Campos Maia",
+      "ciudad": "Mirassol"
+    },
+    {
+      "id": "lanus",
+      "nombre": "Lanús",
+      "pais": "Argentina",
+      "grupo": "G",
+      "plantilla": [],
+      "nivel": 73,
+      "estadio": "Estadio Ciudad de Lanús",
+      "ciudad": "Lanús"
+    },
+    {
+      "id": "monterrey",
+      "nombre": "Monterrey",
+      "pais": "México",
+      "grupo": "G",
+      "plantilla": [],
+      "nivel": 77,
+      "estadio": "Estadio BBVA",
+      "ciudad": "Guadalupe"
+    },
+    {
+      "id": "independiente_del_valle",
+      "nombre": "Independiente del Valle",
+      "pais": "Ecuador",
+      "grupo": "H",
+      "plantilla": [],
+      "nivel": 72,
+      "estadio": "Estadio Banco Guayaquil",
+      "ciudad": "Quito"
+    },
+    {
+      "id": "rosario_central",
+      "nombre": "Rosario Central",
+      "pais": "Argentina",
+      "grupo": "H",
+      "plantilla": [],
+      "nivel": 74,
+      "estadio": "Gigante de Arroyito",
+      "ciudad": "Rosario"
+    },
+    {
+      "id": "tigres",
+      "nombre": "Tigres UANL",
+      "pais": "México",
+      "grupo": "H",
+      "plantilla": [],
+      "nivel": 77,
+      "estadio": "Estadio Universitario",
+      "ciudad": "San Nicolás de los Garza"
+    },
+    {
+      "id": "libertad",
+      "nombre": "Libertad",
+      "pais": "Paraguay",
+      "grupo": "H",
+      "plantilla": [],
+      "nivel": 71,
+      "estadio": "Estadio Doctor Nicolás Leoz",
+      "ciudad": "Asunción"
+    }
   ],
-  "eliminatorias": "octavos, cuartos y semifinales a ida y vuelta, sin tiempo extra: si hay empate global se define por penales; la final es a partido único con 30 minutos de prórroga y luego penales",
-  "sin_gol_de_visitante": true
- },
- "equipos": [
-  {
-   "id": "flamengo",
-   "nombre": "Flamengo",
-   "pais": "Brasil",
-   "grupo": "A",
-   "plantilla": [],
-   "nivel": 82,
-   "estadio": "Maracanã",
-   "ciudad": "Río de Janeiro"
-  },
-  {
-   "id": "estudiantes_de_la_plata",
-   "nombre": "Estudiantes de La Plata",
-   "pais": "Argentina",
-   "grupo": "A",
-   "plantilla": [],
-   "nivel": 74,
-   "estadio": "Estadio Jorge Luis Hirschi",
-   "ciudad": "La Plata"
-  },
-  {
-   "id": "independiente_medellin",
-   "nombre": "Independiente Medellín",
-   "pais": "Colombia",
-   "grupo": "A",
-   "plantilla": [],
-   "nivel": 67,
-   "estadio": "Estadio Atanasio Girardot",
-   "ciudad": "Medellín"
-  },
-  {
-   "id": "america",
-   "nombre": "América",
-   "pais": "México",
-   "grupo": "A",
-   "plantilla": [],
-   "nivel": 80,
-   "estadio": "Estadio Azteca",
-   "ciudad": "Ciudad de México"
-  },
-  {
-   "id": "coquimbo_unido",
-   "nombre": "Coquimbo Unido",
-   "pais": "Chile",
-   "grupo": "B",
-   "plantilla": [],
-   "nivel": 68,
-   "estadio": "Estadio Francisco Sánchez Rumoroso",
-   "ciudad": "Coquimbo"
-  },
-  {
-   "id": "deportes_tolima",
-   "nombre": "Deportes Tolima",
-   "pais": "Colombia",
-   "grupo": "B",
-   "plantilla": [],
-   "nivel": 68,
-   "estadio": "Estadio Manuel Murillo Toro",
-   "ciudad": "Ibagué"
-  },
-  {
-   "id": "nacional",
-   "nombre": "Nacional",
-   "pais": "Uruguay",
-   "grupo": "B",
-   "plantilla": [],
-   "nivel": 72,
-   "estadio": "Gran Parque Central",
-   "ciudad": "Montevideo"
-  },
-  {
-   "id": "universitario",
-   "nombre": "Universitario",
-   "pais": "Perú",
-   "grupo": "B",
-   "plantilla": [],
-   "nivel": 71,
-   "estadio": "Estadio Monumental",
-   "ciudad": "Lima"
-  },
-  {
-   "id": "independiente_rivadavia",
-   "nombre": "Independiente Rivadavia",
-   "pais": "Argentina",
-   "grupo": "C",
-   "plantilla": [],
-   "nivel": 70,
-   "estadio": "Estadio Bautista Gargantini",
-   "ciudad": "Mendoza"
-  },
-  {
-   "id": "fluminense",
-   "nombre": "Fluminense",
-   "pais": "Brasil",
-   "grupo": "C",
-   "plantilla": [],
-   "nivel": 77,
-   "estadio": "Maracanã",
-   "ciudad": "Río de Janeiro"
-  },
-  {
-   "id": "bolivar",
-   "nombre": "Bolívar",
-   "pais": "Bolivia",
-   "grupo": "C",
-   "plantilla": [],
-   "nivel": 68,
-   "estadio": "Estadio Hernando Siles",
-   "ciudad": "La Paz"
-  },
-  {
-   "id": "cruz_azul",
-   "nombre": "Cruz Azul",
-   "pais": "México",
-   "grupo": "C",
-   "plantilla": [],
-   "nivel": 79,
-   "estadio": "Estadio Azteca",
-   "ciudad": "Ciudad de México"
-  },
-  {
-   "id": "universidad_catolica",
-   "nombre": "Universidad Católica",
-   "pais": "Chile",
-   "grupo": "D",
-   "plantilla": [],
-   "nivel": 70,
-   "estadio": "Estadio San Carlos de Apoquindo",
-   "ciudad": "Santiago"
-  },
-  {
-   "id": "cruzeiro",
-   "nombre": "Cruzeiro",
-   "pais": "Brasil",
-   "grupo": "D",
-   "plantilla": [],
-   "nivel": 76,
-   "estadio": "Mineirão",
-   "ciudad": "Belo Horizonte"
-  },
-  {
-   "id": "boca_juniors",
-   "nombre": "Boca Juniors",
-   "pais": "Argentina",
-   "grupo": "D",
-   "plantilla": [],
-   "nivel": 76,
-   "estadio": "La Bombonera",
-   "ciudad": "Buenos Aires"
-  },
-  {
-   "id": "barcelona_de_guayaquil",
-   "nombre": "Barcelona de Guayaquil",
-   "pais": "Ecuador",
-   "grupo": "D",
-   "plantilla": [],
-   "nivel": 70,
-   "estadio": "Estadio Monumental Banco Pichincha",
-   "ciudad": "Guayaquil"
-  },
-  {
-   "id": "corinthians",
-   "nombre": "Corinthians",
-   "pais": "Brasil",
-   "grupo": "E",
-   "plantilla": [],
-   "nivel": 77,
-   "estadio": "Neo Química Arena",
-   "ciudad": "São Paulo"
-  },
-  {
-   "id": "platense",
-   "nombre": "Platense",
-   "pais": "Argentina",
-   "grupo": "E",
-   "plantilla": [],
-   "nivel": 70,
-   "estadio": "Estadio Ciudad de Vicente López",
-   "ciudad": "Vicente López"
-  },
-  {
-   "id": "santa_fe",
-   "nombre": "Santa Fe",
-   "pais": "Colombia",
-   "grupo": "E",
-   "plantilla": [],
-   "nivel": 67,
-   "estadio": "Estadio El Campín",
-   "ciudad": "Bogotá"
-  },
-  {
-   "id": "penarol",
-   "nombre": "Peñarol",
-   "pais": "Uruguay",
-   "grupo": "E",
-   "plantilla": [],
-   "nivel": 72,
-   "estadio": "Estadio Campeón del Siglo",
-   "ciudad": "Montevideo"
-  },
-  {
-   "id": "cerro_porteno",
-   "nombre": "Cerro Porteño",
-   "pais": "Paraguay",
-   "grupo": "F",
-   "plantilla": [],
-   "nivel": 72,
-   "estadio": "La Nueva Olla",
-   "ciudad": "Asunción"
-  },
-  {
-   "id": "palmeiras",
-   "nombre": "Palmeiras",
-   "pais": "Brasil",
-   "grupo": "F",
-   "plantilla": [],
-   "nivel": 82,
-   "estadio": "Allianz Parque",
-   "ciudad": "São Paulo"
-  },
-  {
-   "id": "sporting_cristal",
-   "nombre": "Sporting Cristal",
-   "pais": "Perú",
-   "grupo": "F",
-   "plantilla": [],
-   "nivel": 68,
-   "estadio": "Estadio Alberto Gallardo",
-   "ciudad": "Lima"
-  },
-  {
-   "id": "junior_de_barranquilla",
-   "nombre": "Junior de Barranquilla",
-   "pais": "Colombia",
-   "grupo": "F",
-   "plantilla": [],
-   "nivel": 68,
-   "estadio": "Estadio Metropolitano Roberto Meléndez",
-   "ciudad": "Barranquilla"
-  },
-  {
-   "id": "ldu_quito",
-   "nombre": "LDU Quito",
-   "pais": "Ecuador",
-   "grupo": "G",
-   "plantilla": [],
-   "nivel": 73,
-   "estadio": "Estadio Rodrigo Paz Delgado",
-   "ciudad": "Quito"
-  },
-  {
-   "id": "mirassol",
-   "nombre": "Mirassol",
-   "pais": "Brasil",
-   "grupo": "G",
-   "plantilla": [],
-   "nivel": 72,
-   "estadio": "Estadio José Maria de Campos Maia",
-   "ciudad": "Mirassol"
-  },
-  {
-   "id": "lanus",
-   "nombre": "Lanús",
-   "pais": "Argentina",
-   "grupo": "G",
-   "plantilla": [],
-   "nivel": 73,
-   "estadio": "Estadio Ciudad de Lanús",
-   "ciudad": "Lanús"
-  },
-  {
-   "id": "monterrey",
-   "nombre": "Monterrey",
-   "pais": "México",
-   "grupo": "G",
-   "plantilla": [],
-   "nivel": 79,
-   "estadio": "Estadio BBVA",
-   "ciudad": "Guadalupe"
-  },
-  {
-   "id": "independiente_del_valle",
-   "nombre": "Independiente del Valle",
-   "pais": "Ecuador",
-   "grupo": "H",
-   "plantilla": [],
-   "nivel": 73,
-   "estadio": "Estadio Banco Guayaquil",
-   "ciudad": "Quito"
-  },
-  {
-   "id": "rosario_central",
-   "nombre": "Rosario Central",
-   "pais": "Argentina",
-   "grupo": "H",
-   "plantilla": [],
-   "nivel": 73,
-   "estadio": "Gigante de Arroyito",
-   "ciudad": "Rosario"
-  },
-  {
-   "id": "tigres",
-   "nombre": "Tigres UANL",
-   "pais": "México",
-   "grupo": "H",
-   "plantilla": [],
-   "nivel": 78,
-   "estadio": "Estadio Universitario",
-   "ciudad": "San Nicolás de los Garza"
-  },
-  {
-   "id": "libertad",
-   "nombre": "Libertad",
-   "pais": "Paraguay",
-   "grupo": "H",
-   "plantilla": [],
-   "nivel": 70,
-   "estadio": "Estadio Doctor Nicolás Leoz",
-   "ciudad": "Asunción"
-  }
- ],
- "nota_nivel": "El campo nivel de cada club es una estimación orientativa para crear plantillas de ejemplo. Se puede cambiar a mano. Si pones jugadores reales en datos/clubes, se usan esos jugadores.",
- "sede_final": [
-  "Estadio Centenario",
-  "Montevideo"
- ]
+  "nota_nivel": "El campo nivel de cada club es una estimación orientativa para crear plantillas de ejemplo. Se puede cambiar a mano. Si pones jugadores reales en datos/clubes, se usan esos jugadores.",
+  "sede_final": [
+    "Estadio Centenario",
+    "Montevideo"
+  ]
 }

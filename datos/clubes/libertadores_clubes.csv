@@ -1,526 +1,526 @@
 equipo,numero,jugador,posicion,calidad
-Flamengo,,Agustín Rossi,POR,80
-Flamengo,,Dyogo Alves,POR,68
-Flamengo,,Léo Pereira,DEF,79
-Flamengo,,Léo Ortiz,DEF,78
-Flamengo,,Danilo,DEF,77
-Flamengo,,Alex Sandro,DEF,77
-Flamengo,,Ayrton Lucas,DEF,77
-Flamengo,,Guillermo Varela,DEF,76
-Flamengo,,Giorgian De Arrascaeta,MED,84
-Flamengo,,Gerson,MED,82
-Flamengo,,Nicolás de la Cruz,MED,79
-Flamengo,,Erick Pulgar,MED,78
-Flamengo,,Jorginho,MED,76
-Flamengo,,Pedro,DEL,80
-Flamengo,,Bruno Henrique,DEL,77
-Flamengo,,Samuel Lino,DEL,77
-Flamengo,,Luiz Araújo,DEL,76
-Flamengo,,Gonzalo Plata,DEL,76
-Palmeiras,,Weverton,POR,80
-Palmeiras,,Carlos Miguel,POR,72
-Palmeiras,,Gustavo Gómez,DEF,80
-Palmeiras,,Joaquín Piquerez,DEF,78
-Palmeiras,,Murilo,DEF,77
-Palmeiras,,Khellven,DEF,75
-Palmeiras,,Vitor Reis,DEF,74
-Palmeiras,,Marcos Rocha,DEF,74
-Palmeiras,,Bruno Fuchs,DEF,74
-Palmeiras,,Raphael Veiga,MED,79
-Palmeiras,,Richard Ríos,MED,78
-Palmeiras,,Aníbal Moreno,MED,77
-Palmeiras,,Mauricio,MED,76
-Palmeiras,,Andreas Pereira,MED,76
-Palmeiras,,Flaco López,DEL,78
-Palmeiras,,Vitor Roque,DEL,77
-Palmeiras,,Paulinho,DEL,77
-Palmeiras,,Felipe Anderson,DEL,77
-Palmeiras,,Facundo Torres,DEL,76
-Fluminense,,Fábio,POR,78
-Fluminense,,Vinícius Silvestre,POR,68
-Fluminense,,Thiago Silva,DEF,79
-Fluminense,,Manoel,DEF,74
-Fluminense,,Samuel Xavier,DEF,74
-Fluminense,,Renê,DEF,74
-Fluminense,,Gabriel Fuentes,DEF,74
-Fluminense,,Juan Freytes,DEF,72
-Fluminense,,André,MED,78
-Fluminense,,Martinelli,MED,76
-Fluminense,,Paulo Henrique Ganso,MED,75
-Fluminense,,Hércules,MED,74
-Fluminense,,Jhon Arias,DEL,79
-Fluminense,,Germán Cano,DEL,77
-Fluminense,,John Kennedy,DEL,75
-Fluminense,,Kauã Elias,DEL,74
-Fluminense,,Agustín Canobbio,DEL,74
-Cruzeiro,,Cássio,POR,76
-Cruzeiro,,Otávio,POR,70
-Cruzeiro,,Fabrício Bruno,DEF,77
-Cruzeiro,,Lucas Villalba,DEF,74
-Cruzeiro,,William,DEF,73
-Cruzeiro,,Kaiki Bruno,DEF,72
-Cruzeiro,,Matheus Pereira,MED,78
-Cruzeiro,,Lucas Romero,MED,74
-Cruzeiro,,Christian,MED,72
-Cruzeiro,,Lucas Silva,MED,72
-Cruzeiro,,Gabriel Barbosa,DEL,77
-Cruzeiro,,Kaio Jorge,DEL,76
-Cruzeiro,,Wanderson,DEL,74
-Cruzeiro,,Bruno Rodrigues,DEL,74
-Corinthians,,Hugo Souza,POR,76
-Corinthians,,Matheus Donelli,POR,70
-Corinthians,,Félix Torres,DEF,76
-Corinthians,,Gustavo Henrique,DEF,75
-Corinthians,,André Ramalho,DEF,75
-Corinthians,,Matheuzinho,DEF,74
-Corinthians,,Hugo,DEF,73
-Corinthians,,Fagner,DEF,72
-Corinthians,,Rodrigo Garro,MED,78
-Corinthians,,Raniele,MED,74
-Corinthians,,Maycon,MED,74
-Corinthians,,Breno Bidon,MED,72
-Corinthians,,Alex Santana,MED,72
-Corinthians,,Memphis Depay,DEL,79
-Corinthians,,Yuri Alberto,DEL,79
-Corinthians,,Talles Magno,DEL,75
-Corinthians,,André Carrillo,DEL,74
-Estudiantes de La Plata,,Fernando Muslera,POR,76
-Estudiantes de La Plata,,Fabricio Iacovich,POR,72
-Estudiantes de La Plata,,Rodrigo Borzone,POR,68
-Estudiantes de La Plata,,Marcos Rojo,DEF,73
-Estudiantes de La Plata,,Tomás Palacios,DEF,75
-Estudiantes de La Plata,,Leandro González Pírez,DEF,74
-Estudiantes de La Plata,,Santiago Núñez,DEF,73
-Estudiantes de La Plata,,Ramiro Funes Mori,DEF,72
-Estudiantes de La Plata,,Eros Mancuso,DEF,72
-Estudiantes de La Plata,,Santiago Arzamendia,DEF,72
-Estudiantes de La Plata,,Gastón Benedetti,DEF,71
-Estudiantes de La Plata,,Eric Meza,DEF,71
-Estudiantes de La Plata,,José Sosa,MED,74
-Estudiantes de La Plata,,Gabriel Neves,MED,74
-Estudiantes de La Plata,,Alexis Castro,MED,72
-Estudiantes de La Plata,,Miguel Monsalve,MED,72
-Estudiantes de La Plata,,Jalil Elías,MED,71
-Estudiantes de La Plata,,Ezequiel Piovi,MED,70
-Estudiantes de La Plata,,Baltasar Rodríguez,MED,70
-Estudiantes de La Plata,,Tiago Palacios,DEL,76
-Estudiantes de La Plata,,Lucas Alario,DEL,76
-Estudiantes de La Plata,,Joaquín Correa,DEL,76
-Estudiantes de La Plata,,Edwin Cetré,DEL,74
-Estudiantes de La Plata,,Guido Carrillo,DEL,73
-Estudiantes de La Plata,,Adolfo Gaich,DEL,73
-Estudiantes de La Plata,,Joaquín Tobio Burgos,DEL,70
-Estudiantes de La Plata,,Fabricio Pérez,DEL,68
-Boca Juniors,,Agustín Marchesín,POR,77
-Boca Juniors,,Álvaro Montero,POR,75
-Boca Juniors,,Leandro Brey,POR,70
-Boca Juniors,,Javier García,POR,68
-Boca Juniors,,Lautaro Di Lollo,DEF,73
-Boca Juniors,,Lautaro Blanco,DEF,73
-Boca Juniors,,Ayrton Costa,DEF,73
-Boca Juniors,,Nicolás Figal,DEF,73
-Boca Juniors,,Marco Pellegrino,DEF,73
-Boca Juniors,,Leandro Lozano,DEF,70
-Boca Juniors,,Facundo Herrera,DEF,68
-Boca Juniors,,Dylan Gorosito,DEF,68
-Boca Juniors,,Leandro Paredes,MED,80
-Boca Juniors,,Santiago Ascacíbar,MED,75
-Boca Juniors,,Carlos Palacios,MED,74
-Boca Juniors,,Alan Velasco,MED,74
-Boca Juniors,,Rodrigo Battaglia,MED,74
-Boca Juniors,,William Alarcón,MED,73
-Boca Juniors,,Milton Delgado,MED,72
-Boca Juniors,,Tomás Belmonte,MED,72
-Boca Juniors,,Tomás Aranda,MED,70
-Boca Juniors,,Malcom Braida,MED,70
-Boca Juniors,,Enner Valencia,DEL,77
-Boca Juniors,,Miguel Merentiel,DEL,77
-Boca Juniors,,Sebastián Villa,DEL,75
-Boca Juniors,,Adam Bareiro,DEL,74
-Boca Juniors,,Ángel Romero,DEL,74
-Boca Juniors,,Milton Giménez,DEL,72
-Boca Juniors,,Leonel Flores,DEL,70
-Nacional,,Luis Mejía,POR,72
-Nacional,,Washington Aguerre,POR,70
-Nacional,,Sebastián Coates,DEF,74
-Nacional,,Matías Zunino,DEF,72
-Nacional,,Camilo Cándido,DEF,71
-Nacional,,Emiliano Ancheta,DEF,71
-Nacional,,Mathías Laborda,DEF,71
-Nacional,,Marcelo Tabárez,DEF,70
-Nacional,,Diego Zabala,MED,72
-Nacional,,Franco Fagúndez,MED,72
-Nacional,,Ignacio Laquintana,MED,72
-Nacional,,Luciano Boggio,MED,72
-Nacional,,Nicolás López,DEL,74
-Nacional,,Brian Ocampo,DEL,73
-Nacional,,Gonzalo Carneiro,DEL,71
-Nacional,,Gabriel Báez,DEL,70
-Peñarol,,Guillermo de Amores,POR,71
-Peñarol,,Washington Aguerre,POR,69
-Peñarol,,Maximiliano Olivera,DEF,72
-Peñarol,,Javier Cabrera,DEF,71
-Peñarol,,Lucas Hernández,DEF,71
-Peñarol,,Eduardo Trasante,DEF,71
-Peñarol,,Joaquín Piquerez,DEF,73
-Peñarol,,Leonardo Fernández,MED,73
-Peñarol,,Jesús Trindade,MED,72
-Peñarol,,Emanuel Gularte,MED,71
-Peñarol,,Ignacio Laquintana,MED,71
-Peñarol,,Maximiliano Silvera,DEL,72
-Peñarol,,Javier Méndez,DEL,72
-Peñarol,,Leo Sequeira,DEL,71
-Peñarol,,Facundo Batista,DEL,70
-Universitario,,Sebastián Britos,POR,70
-Universitario,,Diego Romero,POR,68
-Universitario,,Williams Riveros,DEF,71
-Universitario,,José Carabalí,DEF,71
-Universitario,,Aldo Corzo,DEF,70
-Universitario,,Matías Di Benedetto,DEF,70
-Universitario,,Anderson Santamaría,DEF,70
-Universitario,,Rodrigo Ureña,MED,71
-Universitario,,Jairo Concha,MED,70
-Universitario,,Edison Flores,MED,72
-Universitario,,Martín Pérez Guedes,MED,70
-Universitario,,Alex Valera,DEL,72
-Universitario,,Andy Polo,DEL,70
-Universitario,,Álvaro Barco,DEL,69
-Universitario,,Jorge Rodríguez,DEL,68
-Universidad Católica,,Vicente Bernedo,POR,70
-Universidad Católica,,Matías Dituro,POR,69
-Universidad Católica,,Daniel González,DEF,71
-Universidad Católica,,Branco Ampuero,DEF,70
-Universidad Católica,,Raimundo Rebolledo,DEF,70
-Universidad Católica,,Gonzalo Tapia,DEL,71
-Universidad Católica,,Fernando Zampedri,DEL,73
-Universidad Católica,,Alexander Aravena,DEL,72
-Universidad Católica,,Clemente Montes,MED,72
-Universidad Católica,,Fernando Zuqui,MED,72
-Universidad Católica,,Cristián Cuevas,MED,71
-Universidad Católica,,Gonzalo Jara,DEF,70
-Universidad Católica,,Branco Provoste,DEF,70
-Universidad Católica,,Jhojan Valencia,MED,70
-Universidad Católica,,Eugenio Mena,DEF,70
-Universidad Católica,,Juan Cornejo,MED,69
-Barcelona de Guayaquil,,Javier Burrai,POR,71
-Barcelona de Guayaquil,,Wilder Cartagena,POR,68
-Barcelona de Guayaquil,,Gabriel Cortez,DEF,71
-Barcelona de Guayaquil,,Leonai Souza,DEF,71
-Barcelona de Guayaquil,,Ronald Champang,DEF,70
-Barcelona de Guayaquil,,Fernando León,DEF,70
-Barcelona de Guayaquil,,Damián Díaz,MED,73
-Barcelona de Guayaquil,,Carlos Gruezo,MED,72
-Barcelona de Guayaquil,,Jhon Cifuentes,MED,71
-Barcelona de Guayaquil,,Ariel Nahuelpan,DEL,72
-Barcelona de Guayaquil,,Janner Corozo,DEL,70
-Barcelona de Guayaquil,,Gabriel Cortez Jr,DEF,69
-Barcelona de Guayaquil,,Octávio Dos Santos,MED,70
-Barcelona de Guayaquil,,Adrián Ramírez,DEL,71
-Barcelona de Guayaquil,,Agustín Rodríguez,DEL,70
-LDU Quito,,Alexander Domínguez,POR,74
-LDU Quito,,Gonzalo Valle,POR,71
-LDU Quito,,Ricardo Adé,DEF,73
-LDU Quito,,Richard Schunke,DEF,72
-LDU Quito,,Luis Ayala,DEF,71
-LDU Quito,,Hugo Salazar,DEF,71
-LDU Quito,,Moisés Caicedo,MED,73
-LDU Quito,,Alexander Alvarado,MED,73
-LDU Quito,,Álex Arce,DEL,74
-LDU Quito,,Paolo Guerrero,DEL,73
-LDU Quito,,Michael Hoyos,DEL,72
-LDU Quito,,Alejandro Cabeza,MED,72
-LDU Quito,,Jhon Cifuentes,MED,71
-LDU Quito,,Jhojan Julio,DEL,71
-LDU Quito,,Bryan Ramírez,MED,70
-Independiente del Valle,,Moisés Ramírez,POR,73
-Independiente del Valle,,Luis Segovia,POR,70
-Independiente del Valle,,Luis Fernando León,DEF,72
-Independiente del Valle,,Juan Cruz,DEF,71
-Independiente del Valle,,Anderson Julio,DEF,71
-Independiente del Valle,,Luis Segovia Jr,DEF,70
-Independiente del Valle,,Matías Fernández,MED,73
-Independiente del Valle,,Jhon Cifuentes,MED,72
-Independiente del Valle,,Lorenzo Faravelli,MED,72
-Independiente del Valle,,Alan Franco,MED,72
-Independiente del Valle,,Kendry Páez,MED,74
-Independiente del Valle,,Michael Hoyos,DEL,72
-Independiente del Valle,,Jonathan Bauman,DEL,72
-Independiente del Valle,,Tomás Chancalay,DEL,72
-Independiente del Valle,,Santiago Rodríguez,DEL,71
-Cerro Porteño,,Roberto Fernández,POR,72
-Cerro Porteño,,Alexander Domínguez,POR,68
-Cerro Porteño,,Juan Patiño,DEF,72
-Cerro Porteño,,Alexis Duarte,DEF,71
-Cerro Porteño,,Fernando Román,DEF,71
-Cerro Porteño,,Rodrigo Rojas,DEF,70
-Cerro Porteño,,Matías Fernández,MED,73
-Cerro Porteño,,Fernando Cardozo,MED,72
-Cerro Porteño,,Marcelo Cardozo,MED,72
-Cerro Porteño,,Diego Churín,MED,72
-Cerro Porteño,,Alan Rodríguez,DEL,72
-Cerro Porteño,,Diego Churín Jr,DEL,71
-Cerro Porteño,,Jorge Recalde,DEL,71
-Cerro Porteño,,Federico Santander,DEL,73
-Cerro Porteño,,Giovanni Gómez,DEL,70
-Libertad,,Rodrigo Muniz,POR,71
-Libertad,,Aldo Gómez,POR,68
-Libertad,,Alexis Duarte,DEF,71
-Libertad,,Bruno Valdez,DEF,72
-Libertad,,Fernando Román,DEF,71
-Libertad,,Gustavo Velázquez,DEF,70
-Libertad,,Juan Cáceres,DEF,70
-Libertad,,Fernando Cardozo,MED,72
-Libertad,,Édgar Benítez,MED,73
-Libertad,,Ángel Cardozo Lucena,MED,72
-Libertad,,Santiago Arzamendia,DEF,70
-Libertad,,Rodrigo Morínigo,MED,70
-Libertad,,Luis Cabral,DEL,71
-Libertad,,Santiago Anselmi,DEL,70
-Libertad,,Sergio Díaz,DEL,72
-Libertad,,Marcelo Estigarribia,DEL,70
-Junior de Barranquilla,,Mauro Silveira,POR,70
-Junior de Barranquilla,,Sebastián Viera,POR,71
-Junior de Barranquilla,,Carlos Cuesta,DEF,72
-Junior de Barranquilla,,Jorge Arias,DEF,71
-Junior de Barranquilla,,Rafael Pérez,DEF,70
-Junior de Barranquilla,,Jermein Peña,DEF,70
-Junior de Barranquilla,,Yimmi Chará,MED,73
-Junior de Barranquilla,,Fabián Ruíz,MED,72
-Junior de Barranquilla,,Léiner Escalante,MED,71
-Junior de Barranquilla,,Jhon Duque,MED,70
-Junior de Barranquilla,,Carlos Bacca,DEL,74
-Junior de Barranquilla,,Teófilo Gutiérrez,DEL,73
-Junior de Barranquilla,,Luis Díaz Jr,DEL,71
-Junior de Barranquilla,,Jhon Narváez,DEL,71
-Junior de Barranquilla,,Jhonatan Barrios,MED,71
-Santa Fe,,Andrés Mosquera,POR,69
-Santa Fe,,Sebastián Fuentes,POR,66
-Santa Fe,,Daniel Torres,DEF,70
-Santa Fe,,Juan Pablo Vargas,DEF,70
-Santa Fe,,Jhon Córdoba,DEF,69
-Santa Fe,,Yeison Gordillo,MED,71
-Santa Fe,,Omar Pérez,MED,70
-Santa Fe,,Hugo Rodallega,DEL,71
-Santa Fe,,Jhon Pajoy,MED,70
-Santa Fe,,Carlos Arboleda,DEL,70
-Santa Fe,,Wilfrido De la Rosa,MED,69
-Santa Fe,,Elvis Perlaza,DEL,69
-Santa Fe,,Sebastián Palma,DEL,69
-Santa Fe,,Hernán Hechalar,DEF,68
-Santa Fe,,Jeison Medina,DEL,68
-Lanús,,Nahuel Losada,POR,73
-Lanús,,Fabricio Pedrozo,POR,68
-Lanús,,Carlos Izquierdoz,DEF,74
-Lanús,,Gustavo Gómez,DEF,74
-Lanús,,Ezequiel Muñoz,DEF,73
-Lanús,,Matías Pérez Acuña,DEF,72
-Lanús,,Alexis Pérez,DEF,72
-Lanús,,Raúl Loaiza,DEF,71
-Lanús,,Marcelino Moreno,MED,74
-Lanús,,Agustín Medina,MED,73
-Lanús,,Lautaro Acosta,MED,74
-Lanús,,Rodrigo Aliendro,MED,73
-Lanús,,Carlos Izquierdoz Jr,DEF,70
-Lanús,,José Sand,DEL,73
-Lanús,,Walter Bou,DEL,73
-Lanús,,Ignacio Malcorra,MED,72
-Rosario Central,,Jorge Broun,POR,73
-Rosario Central,,Gaspar Servio,POR,69
-Rosario Central,,Facundo Mallo,DEF,73
-Rosario Central,,Carlos Quintana,DEF,73
-Rosario Central,,Agustín Sandez,DEF,72
-Rosario Central,,Matías Pellegrini,DEF,72
-Rosario Central,,Ángel Di María,MED,82
-Rosario Central,,Jaminton Campaz,MED,74
-Rosario Central,,Ignacio Malcorra,MED,74
-Rosario Central,,Enzo Copetti,DEL,74
-Rosario Central,,Kevin Ortiz,MED,72
-Rosario Central,,Alejo Véliz,DEL,73
-Rosario Central,,Fabricio Domínguez,MED,72
-Rosario Central,,Franco Ibarra,MED,71
-Rosario Central,,Agustín Obando,MED,70
-Platense,,Matías Budiño,POR,70
-Platense,,Ignacio Arce,POR,66
-Platense,,Gonzalo Morales,DEF,71
-Platense,,Gonzalo Moreno,DEF,70
-Platense,,Agustín Giay,DEF,71
-Platense,,Ramiro Cáceres,DEF,70
-Platense,,Nicolás Garayalde,DEF,69
-Platense,,Ignacio Vázquez,MED,71
-Platense,,Kevin Ortiz,MED,70
-Platense,,Jorge Ortiz,MED,70
-Platense,,Nicolás Servetto,MED,70
-Platense,,Ramiro Benítez,MED,69
-Platense,,Franco Baldassarra,MED,70
-Platense,,Pablo Ceppelini,DEL,70
-Platense,,Ramón Ábila,DEL,71
-Platense,,Nicolás Larralde,DEL,69
-Independiente Rivadavia,,Álvaro Montero,POR,71
-Independiente Rivadavia,,Jorge Ríos,POR,66
-Independiente Rivadavia,,Cristian Barrera,DEF,71
-Independiente Rivadavia,,Kevin Cortez,DEF,70
-Independiente Rivadavia,,Federico Lértora,DEF,70
-Independiente Rivadavia,,Rodrigo Vallejos,DEF,70
-Independiente Rivadavia,,Ezequiel Ham,DEF,69
-Independiente Rivadavia,,Cristian Pavón,MED,71
-Independiente Rivadavia,,Luciano Gondou,DEL,71
-Independiente Rivadavia,,Fabrizio Sartori,DEL,70
-Independiente Rivadavia,,Diego Paz,MED,71
-Independiente Rivadavia,,Enzo Díaz,DEF,70
-Independiente Rivadavia,,Gonzalo Sosa,MED,70
-Independiente Rivadavia,,Gastón Ávila,DEL,69
-Independiente Rivadavia,,Matías Fernández,MED,69
-Mirassol,,Walter,POR,72
-Mirassol,,Alex Muralha,POR,69
-Mirassol,,Daniel Borges,DEF,71
-Mirassol,,Fábio Matheus,DEF,70
-Mirassol,,Rodrigo Ferreira,DEF,70
-Mirassol,,Rafael Guerra,DEF,70
-Mirassol,,João Victor,DEF,70
-Mirassol,,Neto Moura,MED,71
-Mirassol,,Chico Kim,MED,71
-Mirassol,,Cristian Fabrício,MED,70
-Mirassol,,Yago Felipe,MED,70
-Mirassol,,Gabriel Mantuan,MED,70
-Mirassol,,Reinaldo,DEL,72
-Mirassol,,Chico Da Costa,DEL,71
-Mirassol,,Carlos Eduardo,DEL,71
-Mirassol,,Neto Pessoa,DEL,71
-Sporting Cristal,,Diego Enríquez,POR,70
-Sporting Cristal,,Renato Solís,POR,66
-Sporting Cristal,,Gianfranco Chávez,DEF,70
-Sporting Cristal,,Nicolás Pasquini,DEF,70
-Sporting Cristal,,Rafael Lutiger,DEF,70
-Sporting Cristal,,Alejandro Hohberg,DEL,70
-Sporting Cristal,,Christian Ortiz,DEF,69
-Sporting Cristal,,Yoshimar Yotún,MED,71
-Sporting Cristal,,Gustavo Gómez,MED,69
-Sporting Cristal,,Ignacio Barrios,MED,69
-Sporting Cristal,,Jhilmar Lora,DEL,70
-Sporting Cristal,,Cristian Palacios,DEL,70
-Sporting Cristal,,Martín Cauteruccio,DEL,71
-Sporting Cristal,,Irven Ávila,DEL,70
-Sporting Cristal,,Gabriel Costa,MED,70
-Independiente Medellín,,Éder Chaux,POR,72
-Independiente Medellín,,Santiago Londoño,POR,65
-Independiente Medellín,,Emanuel Olivera,DEF,71
-Independiente Medellín,,Daniel Torres,DEF,70
-Independiente Medellín,,Juan Camilo Saiz,DEF,69
-Independiente Medellín,,Cristian Barrios,DEF,69
-Independiente Medellín,,Francisco Chaverra,MED,71
-Independiente Medellín,,Adrián Parra,MED,70
-Independiente Medellín,,Brayan Cortés,MED,69
-Independiente Medellín,,Juan Pablo Ramírez,MED,69
-Independiente Medellín,,Yony González,DEL,72
-Independiente Medellín,,Edwin Mosquera,DEL,71
-Independiente Medellín,,Andrés Ricaurte,MED,68
-Independiente Medellín,,Leonardo Castro,DEL,70
-Independiente Medellín,,Jhon Jaider Arias,MED,68
-Cusco,,Juan Bayona,POR,66
-Cusco,,Diego Cuéllar,POR,62
-Cusco,,Ángel Gamarra,DEF,67
-Cusco,,Renzo Garcés,DEF,66
-Cusco,,Hugo Ángeles,DEF,67
-Cusco,,Gianfranco Chávez,DEF,65
-Cusco,,Jesús Barco,MED,66
-Cusco,,Anthony Landauro,MED,66
-Cusco,,Luis Iberico,DEL,68
-Cusco,,Alonso Rojas,MED,65
-Cusco,,Sergio Peña,MED,66
-Cusco,,Cristian Neira,DEL,66
-Cusco,,Marcio Valverde,DEL,65
-Cusco,,Kevin Quevedo,DEL,66
-Coquimbo Unido,,Diego Sánchez,POR,69
-Coquimbo Unido,,Cristóbal Campos,POR,63
-Coquimbo Unido,,Matías Cano,DEF,68
-Coquimbo Unido,,Bruno Gutiérrez,DEF,69
-Coquimbo Unido,,Camilo Rodríguez,DEF,68
-Coquimbo Unido,,Benjamín Gazzolo,DEF,68
-Coquimbo Unido,,Cristian Zavala,MED,69
-Coquimbo Unido,,Leandro Benegas,DEL,69
-Coquimbo Unido,,Lucas Passerini,DEL,69
-Coquimbo Unido,,Jaime Carreño,MED,68
-Coquimbo Unido,,Martín Sarrafiore,MED,68
-Coquimbo Unido,,Nicolás Johnson,MED,67
-Coquimbo Unido,,Luis Jiménez,DEL,68
-Coquimbo Unido,,Juan Cuevas,DEF,67
-Deportes Tolima,,Neto Volpi,POR,70
-Deportes Tolima,,Alexis Zapata,POR,63
-Deportes Tolima,,Danovis Banguero,DEF,70
-Deportes Tolima,,Ánderson Angulo,DEF,69
-Deportes Tolima,,Jhon Narváez,DEF,68
-Deportes Tolima,,Julián Quiñones,DEF,68
-Deportes Tolima,,Juan Pablo Torres,MED,71
-Deportes Tolima,,Yeison Guzmán,MED,70
-Deportes Tolima,,Alexis Henríquez,MED,68
-Deportes Tolima,,Andrés Colorado,MED,68
-Deportes Tolima,,Jorge Fernández,MED,67
-Deportes Tolima,,Luis Fernando Mosquera,DEL,68
-Deportes Tolima,,Anderson Plata,DEL,69
-Deportes Tolima,,Julián Gómez,DEL,68
-Deportes Tolima,,Michael Barrios,MED,69
-Deportes Tolima,,Dayro Moreno,DEL,70
-Bolívar,,Carlos Lampe,POR,70
-Bolívar,,Guillermo Viscarra,POR,66
-Bolívar,,Marcelo Suárez,DEF,69
-Bolívar,,Adrián Jusino,DEF,69
-Bolívar,,Luis Haquin,DEF,68
-Bolívar,,Yomar Rocha,DEF,68
-Bolívar,,Leonel Justiniano,MED,71
-Bolívar,,Ramiro Vaca,MED,70
-Bolívar,,Lucas Chávez,MED,68
-Bolívar,,Henry Vaca,MED,68
-Bolívar,,Erwin Saavedra,MED,69
-Bolívar,,Robson Matheus,MED,68
-Bolívar,,Martín Cauteruccio,DEL,70
-Bolívar,,Ricardo Zerda,MED,67
-Bolívar,,Bruno Savio,DEL,68
-Bolívar,,Carmelo Algarañaz,DEL,69
-Deportivo La Guaira,,Wuilker Faríñez,POR,70
-Deportivo La Guaira,,Rafael Mejías,POR,62
-Deportivo La Guaira,,Jesús Vargas,DEF,66
-Deportivo La Guaira,,Edgar Pérez Greco,DEF,66
-Deportivo La Guaira,,Ronald Hernández,DEF,68
-Deportivo La Guaira,,Jhonder Cádiz,DEL,68
-Deportivo La Guaira,,Jhon Chancellor,DEF,67
-Deportivo La Guaira,,Yohan Cumana,DEF,65
-Deportivo La Guaira,,Luis Mago,MED,66
-Deportivo La Guaira,,Jesús Quintero,MED,66
-Deportivo La Guaira,,Edson Tortolero,MED,66
-Deportivo La Guaira,,Daniel Saggiomo,MED,66
-Deportivo La Guaira,,Cristian Cásseres,MED,66
-Deportivo La Guaira,,Pablo Camacho,MED,65
-Deportivo La Guaira,,Fernando Aristeguieta,DEL,68
-Deportivo La Guaira,,Yonathan Del Valle,DEL,65
-Always Ready,,Guillermo Viscarra,POR,66
-Always Ready,,Hugo Suárez,POR,62
-Always Ready,,Gilbert Álvarez,DEF,66
-Always Ready,,Luis Carlos Ribeiro,DEF,65
-Always Ready,,Jair Reinoso,DEF,66
-Always Ready,,Paul Cuéllar,DEF,65
-Always Ready,,Carlos Villanueva,DEF,65
-Always Ready,,Sebastián Rodríguez,MED,66
-Always Ready,,Ramiro Vaca,MED,67
-Always Ready,,Diego Bejarano,MED,66
-Always Ready,,Jaime Arrascaita,MED,66
-Always Ready,,Ricardo Zerda,MED,65
-Always Ready,,Carlos Antelo,DEL,67
-Always Ready,,Gustavo Peredo,DEL,66
-Always Ready,,Danilo Ayala,MED,65
-Always Ready,,Brian Vaca,DEL,65
-Universidad Central,,Rafael Mejías,POR,63
-Universidad Central,,Jean Pestaña,POR,60
-Universidad Central,,Jesús Hernández,DEF,65
-Universidad Central,,Gabriel Paz,DEF,65
-Universidad Central,,Emerson Lanza,DEF,64
-Universidad Central,,Kevin Rincón,DEF,64
-Universidad Central,,Jefferson Savarino,MED,69
-Universidad Central,,Edder Farías,MED,65
-Universidad Central,,Ronaldo Peña,MED,64
-Universidad Central,,Alejandro Marqués,MED,64
-Universidad Central,,Jhoan Peña,MED,64
-Universidad Central,,Alexander González,MED,65
-Universidad Central,,Jan Hurtado,DEL,68
-Universidad Central,,Ronald Hernández,DEF,65
-Universidad Central,,Jhonny Cádiz,DEL,64
-Universidad Central,,Luis Mago,MED,64
+Flamengo,1,Agustín Rossi,POR,80
+Flamengo,13,Dyogo Alves,POR,68
+Flamengo,2,Léo Pereira,DEF,79
+Flamengo,3,Léo Ortiz,DEF,78
+Flamengo,4,Danilo,DEF,77
+Flamengo,5,Alex Sandro,DEF,77
+Flamengo,6,Ayrton Lucas,DEF,77
+Flamengo,12,Guillermo Varela,DEF,76
+Flamengo,8,Giorgian De Arrascaeta,MED,84
+Flamengo,10,Gerson,MED,82
+Flamengo,14,Nicolás de la Cruz,MED,79
+Flamengo,16,Erick Pulgar,MED,78
+Flamengo,17,Jorginho,MED,76
+Flamengo,9,Pedro,DEL,80
+Flamengo,7,Bruno Henrique,DEL,77
+Flamengo,11,Samuel Lino,DEL,77
+Flamengo,19,Luiz Araújo,DEL,76
+Flamengo,20,Gonzalo Plata,DEL,76
+Palmeiras,1,Weverton,POR,80
+Palmeiras,13,Carlos Miguel,POR,72
+Palmeiras,2,Gustavo Gómez,DEF,80
+Palmeiras,3,Joaquín Piquerez,DEF,78
+Palmeiras,4,Murilo,DEF,77
+Palmeiras,5,Khellven,DEF,75
+Palmeiras,6,Vitor Reis,DEF,74
+Palmeiras,12,Marcos Rocha,DEF,74
+Palmeiras,15,Bruno Fuchs,DEF,74
+Palmeiras,8,Raphael Veiga,MED,79
+Palmeiras,10,Richard Ríos,MED,78
+Palmeiras,14,Aníbal Moreno,MED,77
+Palmeiras,16,Mauricio,MED,76
+Palmeiras,17,Andreas Pereira,MED,76
+Palmeiras,9,Flaco López,DEL,78
+Palmeiras,7,Vitor Roque,DEL,77
+Palmeiras,11,Paulinho,DEL,77
+Palmeiras,19,Felipe Anderson,DEL,77
+Palmeiras,20,Facundo Torres,DEL,76
+Fluminense,1,Fábio,POR,78
+Fluminense,13,Vinícius Silvestre,POR,68
+Fluminense,2,Thiago Silva,DEF,79
+Fluminense,3,Manoel,DEF,74
+Fluminense,4,Samuel Xavier,DEF,74
+Fluminense,5,Renê,DEF,74
+Fluminense,6,Gabriel Fuentes,DEF,74
+Fluminense,12,Juan Freytes,DEF,72
+Fluminense,8,André,MED,78
+Fluminense,10,Martinelli,MED,76
+Fluminense,14,Paulo Henrique Ganso,MED,75
+Fluminense,16,Hércules,MED,74
+Fluminense,9,Jhon Arias,DEL,79
+Fluminense,7,Germán Cano,DEL,77
+Fluminense,11,John Kennedy,DEL,75
+Fluminense,17,Kauã Elias,DEL,74
+Fluminense,19,Agustín Canobbio,DEL,74
+Cruzeiro,1,Cássio,POR,76
+Cruzeiro,13,Otávio,POR,70
+Cruzeiro,2,Fabrício Bruno,DEF,77
+Cruzeiro,3,Lucas Villalba,DEF,74
+Cruzeiro,4,William,DEF,73
+Cruzeiro,5,Kaiki Bruno,DEF,72
+Cruzeiro,8,Matheus Pereira,MED,78
+Cruzeiro,10,Lucas Romero,MED,74
+Cruzeiro,6,Christian,MED,72
+Cruzeiro,14,Lucas Silva,MED,72
+Cruzeiro,9,Gabriel Barbosa,DEL,77
+Cruzeiro,7,Kaio Jorge,DEL,76
+Cruzeiro,11,Wanderson,DEL,74
+Cruzeiro,17,Bruno Rodrigues,DEL,74
+Corinthians,1,Hugo Souza,POR,76
+Corinthians,13,Matheus Donelli,POR,70
+Corinthians,2,Félix Torres,DEF,76
+Corinthians,3,Gustavo Henrique,DEF,75
+Corinthians,4,André Ramalho,DEF,75
+Corinthians,5,Matheuzinho,DEF,74
+Corinthians,6,Hugo,DEF,73
+Corinthians,12,Fagner,DEF,72
+Corinthians,8,Rodrigo Garro,MED,78
+Corinthians,10,Raniele,MED,74
+Corinthians,14,Maycon,MED,74
+Corinthians,16,Breno Bidon,MED,72
+Corinthians,17,Alex Santana,MED,72
+Corinthians,9,Memphis Depay,DEL,79
+Corinthians,7,Yuri Alberto,DEL,79
+Corinthians,11,Talles Magno,DEL,75
+Corinthians,19,André Carrillo,DEL,74
+Estudiantes de La Plata,1,Fernando Muslera,POR,76
+Estudiantes de La Plata,13,Fabricio Iacovich,POR,72
+Estudiantes de La Plata,12,Rodrigo Borzone,POR,68
+Estudiantes de La Plata,2,Marcos Rojo,DEF,73
+Estudiantes de La Plata,3,Tomás Palacios,DEF,75
+Estudiantes de La Plata,4,Leandro González Pírez,DEF,74
+Estudiantes de La Plata,5,Santiago Núñez,DEF,73
+Estudiantes de La Plata,6,Ramiro Funes Mori,DEF,72
+Estudiantes de La Plata,15,Eros Mancuso,DEF,72
+Estudiantes de La Plata,18,Santiago Arzamendia,DEF,72
+Estudiantes de La Plata,22,Gastón Benedetti,DEF,71
+Estudiantes de La Plata,23,Eric Meza,DEF,71
+Estudiantes de La Plata,8,José Sosa,MED,74
+Estudiantes de La Plata,10,Gabriel Neves,MED,74
+Estudiantes de La Plata,14,Alexis Castro,MED,72
+Estudiantes de La Plata,16,Miguel Monsalve,MED,72
+Estudiantes de La Plata,17,Jalil Elías,MED,71
+Estudiantes de La Plata,20,Ezequiel Piovi,MED,70
+Estudiantes de La Plata,21,Baltasar Rodríguez,MED,70
+Estudiantes de La Plata,9,Tiago Palacios,DEL,76
+Estudiantes de La Plata,7,Lucas Alario,DEL,76
+Estudiantes de La Plata,11,Joaquín Correa,DEL,76
+Estudiantes de La Plata,19,Edwin Cetré,DEL,74
+Estudiantes de La Plata,27,Guido Carrillo,DEL,73
+Estudiantes de La Plata,29,Adolfo Gaich,DEL,73
+Estudiantes de La Plata,30,Joaquín Tobio Burgos,DEL,70
+Estudiantes de La Plata,24,Fabricio Pérez,DEL,68
+Boca Juniors,1,Agustín Marchesín,POR,77
+Boca Juniors,13,Álvaro Montero,POR,75
+Boca Juniors,12,Leandro Brey,POR,70
+Boca Juniors,25,Javier García,POR,68
+Boca Juniors,2,Lautaro Di Lollo,DEF,73
+Boca Juniors,3,Lautaro Blanco,DEF,73
+Boca Juniors,4,Ayrton Costa,DEF,73
+Boca Juniors,5,Nicolás Figal,DEF,73
+Boca Juniors,6,Marco Pellegrino,DEF,73
+Boca Juniors,15,Leandro Lozano,DEF,70
+Boca Juniors,18,Facundo Herrera,DEF,68
+Boca Juniors,22,Dylan Gorosito,DEF,68
+Boca Juniors,8,Leandro Paredes,MED,80
+Boca Juniors,10,Santiago Ascacíbar,MED,75
+Boca Juniors,14,Carlos Palacios,MED,74
+Boca Juniors,16,Alan Velasco,MED,74
+Boca Juniors,17,Rodrigo Battaglia,MED,74
+Boca Juniors,20,William Alarcón,MED,73
+Boca Juniors,21,Milton Delgado,MED,72
+Boca Juniors,23,Tomás Belmonte,MED,72
+Boca Juniors,24,Tomás Aranda,MED,70
+Boca Juniors,27,Malcom Braida,MED,70
+Boca Juniors,9,Enner Valencia,DEL,77
+Boca Juniors,7,Miguel Merentiel,DEL,77
+Boca Juniors,11,Sebastián Villa,DEL,75
+Boca Juniors,19,Adam Bareiro,DEL,74
+Boca Juniors,29,Ángel Romero,DEL,74
+Boca Juniors,30,Milton Giménez,DEL,72
+Boca Juniors,26,Leonel Flores,DEL,70
+Nacional,1,Luis Mejía,POR,72
+Nacional,13,Washington Aguerre,POR,70
+Nacional,2,Sebastián Coates,DEF,74
+Nacional,3,Matías Zunino,DEF,72
+Nacional,4,Camilo Cándido,DEF,71
+Nacional,5,Emiliano Ancheta,DEF,71
+Nacional,6,Mathías Laborda,DEF,71
+Nacional,12,Marcelo Tabárez,DEF,70
+Nacional,8,Diego Zabala,MED,72
+Nacional,10,Franco Fagúndez,MED,72
+Nacional,14,Ignacio Laquintana,MED,72
+Nacional,16,Luciano Boggio,MED,72
+Nacional,9,Nicolás López,DEL,74
+Nacional,7,Brian Ocampo,DEL,73
+Nacional,11,Gonzalo Carneiro,DEL,71
+Nacional,17,Gabriel Báez,DEL,70
+Peñarol,1,Guillermo de Amores,POR,71
+Peñarol,13,Washington Aguerre,POR,69
+Peñarol,2,Maximiliano Olivera,DEF,72
+Peñarol,3,Javier Cabrera,DEF,71
+Peñarol,4,Lucas Hernández,DEF,71
+Peñarol,5,Eduardo Trasante,DEF,71
+Peñarol,6,Joaquín Piquerez,DEF,73
+Peñarol,8,Leonardo Fernández,MED,73
+Peñarol,10,Jesús Trindade,MED,72
+Peñarol,14,Emanuel Gularte,MED,71
+Peñarol,16,Ignacio Laquintana,MED,71
+Peñarol,9,Maximiliano Silvera,DEL,72
+Peñarol,7,Javier Méndez,DEL,72
+Peñarol,11,Leo Sequeira,DEL,71
+Peñarol,17,Facundo Batista,DEL,70
+Universitario,1,Sebastián Britos,POR,70
+Universitario,13,Diego Romero,POR,68
+Universitario,2,Williams Riveros,DEF,71
+Universitario,3,José Carabalí,DEF,71
+Universitario,4,Aldo Corzo,DEF,70
+Universitario,5,Matías Di Benedetto,DEF,70
+Universitario,6,Anderson Santamaría,DEF,70
+Universitario,8,Rodrigo Ureña,MED,71
+Universitario,10,Jairo Concha,MED,70
+Universitario,14,Edison Flores,MED,72
+Universitario,16,Martín Pérez Guedes,MED,70
+Universitario,9,Alex Valera,DEL,72
+Universitario,7,Andy Polo,DEL,70
+Universitario,11,Álvaro Barco,DEL,69
+Universitario,17,Jorge Rodríguez,DEL,68
+Universidad Católica,1,Vicente Bernedo,POR,70
+Universidad Católica,13,Matías Dituro,POR,69
+Universidad Católica,2,Daniel González,DEF,71
+Universidad Católica,3,Branco Ampuero,DEF,70
+Universidad Católica,4,Raimundo Rebolledo,DEF,70
+Universidad Católica,9,Gonzalo Tapia,DEL,71
+Universidad Católica,7,Fernando Zampedri,DEL,73
+Universidad Católica,11,Alexander Aravena,DEL,72
+Universidad Católica,8,Clemente Montes,MED,72
+Universidad Católica,10,Fernando Zuqui,MED,72
+Universidad Católica,6,Cristián Cuevas,MED,71
+Universidad Católica,5,Gonzalo Jara,DEF,70
+Universidad Católica,12,Branco Provoste,DEF,70
+Universidad Católica,14,Jhojan Valencia,MED,70
+Universidad Católica,15,Eugenio Mena,DEF,70
+Universidad Católica,16,Juan Cornejo,MED,69
+Barcelona de Guayaquil,1,Javier Burrai,POR,71
+Barcelona de Guayaquil,13,Wilder Cartagena,POR,68
+Barcelona de Guayaquil,2,Gabriel Cortez,DEF,71
+Barcelona de Guayaquil,3,Leonai Souza,DEF,71
+Barcelona de Guayaquil,4,Ronald Champang,DEF,70
+Barcelona de Guayaquil,5,Fernando León,DEF,70
+Barcelona de Guayaquil,8,Damián Díaz,MED,73
+Barcelona de Guayaquil,10,Carlos Gruezo,MED,72
+Barcelona de Guayaquil,6,Jhon Cifuentes,MED,71
+Barcelona de Guayaquil,9,Ariel Nahuelpan,DEL,72
+Barcelona de Guayaquil,7,Janner Corozo,DEL,70
+Barcelona de Guayaquil,12,Gabriel Cortez Jr,DEF,69
+Barcelona de Guayaquil,14,Octávio Dos Santos,MED,70
+Barcelona de Guayaquil,11,Adrián Ramírez,DEL,71
+Barcelona de Guayaquil,17,Agustín Rodríguez,DEL,70
+LDU Quito,1,Alexander Domínguez,POR,74
+LDU Quito,13,Gonzalo Valle,POR,71
+LDU Quito,2,Ricardo Adé,DEF,73
+LDU Quito,3,Richard Schunke,DEF,72
+LDU Quito,4,Luis Ayala,DEF,71
+LDU Quito,5,Hugo Salazar,DEF,71
+LDU Quito,8,Moisés Caicedo,MED,73
+LDU Quito,10,Alexander Alvarado,MED,73
+LDU Quito,9,Álex Arce,DEL,74
+LDU Quito,7,Paolo Guerrero,DEL,73
+LDU Quito,11,Michael Hoyos,DEL,72
+LDU Quito,6,Alejandro Cabeza,MED,72
+LDU Quito,14,Jhon Cifuentes,MED,71
+LDU Quito,17,Jhojan Julio,DEL,71
+LDU Quito,16,Bryan Ramírez,MED,70
+Independiente del Valle,1,Moisés Ramírez,POR,73
+Independiente del Valle,13,Luis Segovia,POR,70
+Independiente del Valle,2,Luis Fernando León,DEF,72
+Independiente del Valle,3,Juan Cruz,DEF,71
+Independiente del Valle,4,Anderson Julio,DEF,71
+Independiente del Valle,5,Luis Segovia Jr,DEF,70
+Independiente del Valle,8,Matías Fernández,MED,73
+Independiente del Valle,10,Jhon Cifuentes,MED,72
+Independiente del Valle,6,Lorenzo Faravelli,MED,72
+Independiente del Valle,14,Alan Franco,MED,72
+Independiente del Valle,16,Kendry Páez,MED,74
+Independiente del Valle,9,Michael Hoyos,DEL,72
+Independiente del Valle,7,Jonathan Bauman,DEL,72
+Independiente del Valle,11,Tomás Chancalay,DEL,72
+Independiente del Valle,17,Santiago Rodríguez,DEL,71
+Cerro Porteño,1,Roberto Fernández,POR,72
+Cerro Porteño,13,Alexander Domínguez,POR,68
+Cerro Porteño,2,Juan Patiño,DEF,72
+Cerro Porteño,3,Alexis Duarte,DEF,71
+Cerro Porteño,4,Fernando Román,DEF,71
+Cerro Porteño,5,Rodrigo Rojas,DEF,70
+Cerro Porteño,8,Matías Fernández,MED,73
+Cerro Porteño,10,Fernando Cardozo,MED,72
+Cerro Porteño,6,Marcelo Cardozo,MED,72
+Cerro Porteño,14,Diego Churín,MED,72
+Cerro Porteño,9,Alan Rodríguez,DEL,72
+Cerro Porteño,7,Diego Churín Jr,DEL,71
+Cerro Porteño,11,Jorge Recalde,DEL,71
+Cerro Porteño,17,Federico Santander,DEL,73
+Cerro Porteño,19,Giovanni Gómez,DEL,70
+Libertad,1,Rodrigo Muniz,POR,71
+Libertad,13,Aldo Gómez,POR,68
+Libertad,2,Alexis Duarte,DEF,71
+Libertad,3,Bruno Valdez,DEF,72
+Libertad,4,Fernando Román,DEF,71
+Libertad,5,Gustavo Velázquez,DEF,70
+Libertad,6,Juan Cáceres,DEF,70
+Libertad,8,Fernando Cardozo,MED,72
+Libertad,10,Édgar Benítez,MED,73
+Libertad,14,Ángel Cardozo Lucena,MED,72
+Libertad,12,Santiago Arzamendia,DEF,70
+Libertad,16,Rodrigo Morínigo,MED,70
+Libertad,9,Luis Cabral,DEL,71
+Libertad,7,Santiago Anselmi,DEL,70
+Libertad,11,Sergio Díaz,DEL,72
+Libertad,17,Marcelo Estigarribia,DEL,70
+Junior de Barranquilla,1,Mauro Silveira,POR,70
+Junior de Barranquilla,13,Sebastián Viera,POR,71
+Junior de Barranquilla,2,Carlos Cuesta,DEF,72
+Junior de Barranquilla,3,Jorge Arias,DEF,71
+Junior de Barranquilla,4,Rafael Pérez,DEF,70
+Junior de Barranquilla,5,Jermein Peña,DEF,70
+Junior de Barranquilla,8,Yimmi Chará,MED,73
+Junior de Barranquilla,10,Fabián Ruíz,MED,72
+Junior de Barranquilla,6,Léiner Escalante,MED,71
+Junior de Barranquilla,14,Jhon Duque,MED,70
+Junior de Barranquilla,9,Carlos Bacca,DEL,74
+Junior de Barranquilla,7,Teófilo Gutiérrez,DEL,73
+Junior de Barranquilla,11,Luis Díaz Jr,DEL,71
+Junior de Barranquilla,17,Jhon Narváez,DEL,71
+Junior de Barranquilla,16,Jhonatan Barrios,MED,71
+Santa Fe,1,Andrés Mosquera,POR,69
+Santa Fe,13,Sebastián Fuentes,POR,66
+Santa Fe,2,Daniel Torres,DEF,70
+Santa Fe,3,Juan Pablo Vargas,DEF,70
+Santa Fe,4,Jhon Córdoba,DEF,69
+Santa Fe,8,Yeison Gordillo,MED,71
+Santa Fe,10,Omar Pérez,MED,70
+Santa Fe,9,Hugo Rodallega,DEL,71
+Santa Fe,6,Jhon Pajoy,MED,70
+Santa Fe,7,Carlos Arboleda,DEL,70
+Santa Fe,5,Wilfrido De la Rosa,MED,69
+Santa Fe,11,Elvis Perlaza,DEL,69
+Santa Fe,17,Sebastián Palma,DEL,69
+Santa Fe,12,Hernán Hechalar,DEF,68
+Santa Fe,19,Jeison Medina,DEL,68
+Lanús,1,Nahuel Losada,POR,73
+Lanús,13,Fabricio Pedrozo,POR,68
+Lanús,2,Carlos Izquierdoz,DEF,74
+Lanús,3,Gustavo Gómez,DEF,74
+Lanús,4,Ezequiel Muñoz,DEF,73
+Lanús,5,Matías Pérez Acuña,DEF,72
+Lanús,6,Alexis Pérez,DEF,72
+Lanús,12,Raúl Loaiza,DEF,71
+Lanús,8,Marcelino Moreno,MED,74
+Lanús,10,Agustín Medina,MED,73
+Lanús,14,Lautaro Acosta,MED,74
+Lanús,16,Rodrigo Aliendro,MED,73
+Lanús,15,Carlos Izquierdoz Jr,DEF,70
+Lanús,9,José Sand,DEL,73
+Lanús,7,Walter Bou,DEL,73
+Lanús,17,Ignacio Malcorra,MED,72
+Rosario Central,1,Jorge Broun,POR,73
+Rosario Central,13,Gaspar Servio,POR,69
+Rosario Central,2,Facundo Mallo,DEF,73
+Rosario Central,3,Carlos Quintana,DEF,73
+Rosario Central,4,Agustín Sandez,DEF,72
+Rosario Central,5,Matías Pellegrini,DEF,72
+Rosario Central,8,Ángel Di María,MED,82
+Rosario Central,10,Jaminton Campaz,MED,74
+Rosario Central,6,Ignacio Malcorra,MED,74
+Rosario Central,9,Enzo Copetti,DEL,74
+Rosario Central,14,Kevin Ortiz,MED,72
+Rosario Central,7,Alejo Véliz,DEL,73
+Rosario Central,16,Fabricio Domínguez,MED,72
+Rosario Central,17,Franco Ibarra,MED,71
+Rosario Central,18,Agustín Obando,MED,70
+Platense,1,Matías Budiño,POR,70
+Platense,13,Ignacio Arce,POR,66
+Platense,2,Gonzalo Morales,DEF,71
+Platense,3,Gonzalo Moreno,DEF,70
+Platense,4,Agustín Giay,DEF,71
+Platense,5,Ramiro Cáceres,DEF,70
+Platense,6,Nicolás Garayalde,DEF,69
+Platense,8,Ignacio Vázquez,MED,71
+Platense,10,Kevin Ortiz,MED,70
+Platense,14,Jorge Ortiz,MED,70
+Platense,16,Nicolás Servetto,MED,70
+Platense,17,Ramiro Benítez,MED,69
+Platense,18,Franco Baldassarra,MED,70
+Platense,9,Pablo Ceppelini,DEL,70
+Platense,7,Ramón Ábila,DEL,71
+Platense,11,Nicolás Larralde,DEL,69
+Independiente Rivadavia,1,Álvaro Montero,POR,71
+Independiente Rivadavia,13,Jorge Ríos,POR,66
+Independiente Rivadavia,2,Cristian Barrera,DEF,71
+Independiente Rivadavia,3,Kevin Cortez,DEF,70
+Independiente Rivadavia,4,Federico Lértora,DEF,70
+Independiente Rivadavia,5,Rodrigo Vallejos,DEF,70
+Independiente Rivadavia,6,Ezequiel Ham,DEF,69
+Independiente Rivadavia,8,Cristian Pavón,MED,71
+Independiente Rivadavia,9,Luciano Gondou,DEL,71
+Independiente Rivadavia,7,Fabrizio Sartori,DEL,70
+Independiente Rivadavia,10,Diego Paz,MED,71
+Independiente Rivadavia,12,Enzo Díaz,DEF,70
+Independiente Rivadavia,14,Gonzalo Sosa,MED,70
+Independiente Rivadavia,11,Gastón Ávila,DEL,69
+Independiente Rivadavia,16,Matías Fernández,MED,69
+Mirassol,1,Walter,POR,72
+Mirassol,13,Alex Muralha,POR,69
+Mirassol,2,Daniel Borges,DEF,71
+Mirassol,3,Fábio Matheus,DEF,70
+Mirassol,4,Rodrigo Ferreira,DEF,70
+Mirassol,5,Rafael Guerra,DEF,70
+Mirassol,6,João Victor,DEF,70
+Mirassol,8,Neto Moura,MED,71
+Mirassol,10,Chico Kim,MED,71
+Mirassol,14,Cristian Fabrício,MED,70
+Mirassol,16,Yago Felipe,MED,70
+Mirassol,17,Gabriel Mantuan,MED,70
+Mirassol,9,Reinaldo,DEL,72
+Mirassol,7,Chico Da Costa,DEL,71
+Mirassol,11,Carlos Eduardo,DEL,71
+Mirassol,19,Neto Pessoa,DEL,71
+Sporting Cristal,1,Diego Enríquez,POR,70
+Sporting Cristal,13,Renato Solís,POR,66
+Sporting Cristal,2,Gianfranco Chávez,DEF,70
+Sporting Cristal,3,Nicolás Pasquini,DEF,70
+Sporting Cristal,4,Rafael Lutiger,DEF,70
+Sporting Cristal,9,Alejandro Hohberg,DEL,70
+Sporting Cristal,5,Christian Ortiz,DEF,69
+Sporting Cristal,8,Yoshimar Yotún,MED,71
+Sporting Cristal,10,Gustavo Gómez,MED,69
+Sporting Cristal,6,Ignacio Barrios,MED,69
+Sporting Cristal,7,Jhilmar Lora,DEL,70
+Sporting Cristal,11,Cristian Palacios,DEL,70
+Sporting Cristal,17,Martín Cauteruccio,DEL,71
+Sporting Cristal,19,Irven Ávila,DEL,70
+Sporting Cristal,14,Gabriel Costa,MED,70
+Independiente Medellín,1,Éder Chaux,POR,72
+Independiente Medellín,13,Santiago Londoño,POR,65
+Independiente Medellín,2,Emanuel Olivera,DEF,71
+Independiente Medellín,3,Daniel Torres,DEF,70
+Independiente Medellín,4,Juan Camilo Saiz,DEF,69
+Independiente Medellín,5,Cristian Barrios,DEF,69
+Independiente Medellín,8,Francisco Chaverra,MED,71
+Independiente Medellín,10,Adrián Parra,MED,70
+Independiente Medellín,6,Brayan Cortés,MED,69
+Independiente Medellín,14,Juan Pablo Ramírez,MED,69
+Independiente Medellín,9,Yony González,DEL,72
+Independiente Medellín,7,Edwin Mosquera,DEL,71
+Independiente Medellín,16,Andrés Ricaurte,MED,68
+Independiente Medellín,11,Leonardo Castro,DEL,70
+Independiente Medellín,17,Jhon Jaider Arias,MED,68
+Cusco,1,Juan Bayona,POR,66
+Cusco,13,Diego Cuéllar,POR,62
+Cusco,2,Ángel Gamarra,DEF,67
+Cusco,3,Renzo Garcés,DEF,66
+Cusco,4,Hugo Ángeles,DEF,67
+Cusco,5,Gianfranco Chávez,DEF,65
+Cusco,8,Jesús Barco,MED,66
+Cusco,10,Anthony Landauro,MED,66
+Cusco,9,Luis Iberico,DEL,68
+Cusco,6,Alonso Rojas,MED,65
+Cusco,14,Sergio Peña,MED,66
+Cusco,7,Cristian Neira,DEL,66
+Cusco,11,Marcio Valverde,DEL,65
+Cusco,17,Kevin Quevedo,DEL,66
+Coquimbo Unido,1,Diego Sánchez,POR,69
+Coquimbo Unido,13,Cristóbal Campos,POR,63
+Coquimbo Unido,2,Matías Cano,DEF,68
+Coquimbo Unido,3,Bruno Gutiérrez,DEF,69
+Coquimbo Unido,4,Camilo Rodríguez,DEF,68
+Coquimbo Unido,5,Benjamín Gazzolo,DEF,68
+Coquimbo Unido,8,Cristian Zavala,MED,69
+Coquimbo Unido,9,Leandro Benegas,DEL,69
+Coquimbo Unido,7,Lucas Passerini,DEL,69
+Coquimbo Unido,10,Jaime Carreño,MED,68
+Coquimbo Unido,6,Martín Sarrafiore,MED,68
+Coquimbo Unido,14,Nicolás Johnson,MED,67
+Coquimbo Unido,11,Luis Jiménez,DEL,68
+Coquimbo Unido,12,Juan Cuevas,DEF,67
+Deportes Tolima,1,Neto Volpi,POR,70
+Deportes Tolima,13,Alexis Zapata,POR,63
+Deportes Tolima,2,Danovis Banguero,DEF,70
+Deportes Tolima,3,Ánderson Angulo,DEF,69
+Deportes Tolima,4,Jhon Narváez,DEF,68
+Deportes Tolima,5,Julián Quiñones,DEF,68
+Deportes Tolima,8,Juan Pablo Torres,MED,71
+Deportes Tolima,10,Yeison Guzmán,MED,70
+Deportes Tolima,6,Alexis Henríquez,MED,68
+Deportes Tolima,14,Andrés Colorado,MED,68
+Deportes Tolima,16,Jorge Fernández,MED,67
+Deportes Tolima,9,Luis Fernando Mosquera,DEL,68
+Deportes Tolima,7,Anderson Plata,DEL,69
+Deportes Tolima,11,Julián Gómez,DEL,68
+Deportes Tolima,17,Michael Barrios,MED,69
+Deportes Tolima,19,Dayro Moreno,DEL,70
+Bolívar,1,Carlos Lampe,POR,70
+Bolívar,13,Guillermo Viscarra,POR,66
+Bolívar,2,Marcelo Suárez,DEF,69
+Bolívar,3,Adrián Jusino,DEF,69
+Bolívar,4,Luis Haquin,DEF,68
+Bolívar,5,Yomar Rocha,DEF,68
+Bolívar,8,Leonel Justiniano,MED,71
+Bolívar,10,Ramiro Vaca,MED,70
+Bolívar,6,Lucas Chávez,MED,68
+Bolívar,14,Henry Vaca,MED,68
+Bolívar,16,Erwin Saavedra,MED,69
+Bolívar,17,Robson Matheus,MED,68
+Bolívar,9,Martín Cauteruccio,DEL,70
+Bolívar,18,Ricardo Zerda,MED,67
+Bolívar,7,Bruno Savio,DEL,68
+Bolívar,11,Carmelo Algarañaz,DEL,69
+Deportivo La Guaira,1,Wuilker Faríñez,POR,70
+Deportivo La Guaira,13,Rafael Mejías,POR,62
+Deportivo La Guaira,2,Jesús Vargas,DEF,66
+Deportivo La Guaira,3,Edgar Pérez Greco,DEF,66
+Deportivo La Guaira,4,Ronald Hernández,DEF,68
+Deportivo La Guaira,9,Jhonder Cádiz,DEL,68
+Deportivo La Guaira,5,Jhon Chancellor,DEF,67
+Deportivo La Guaira,6,Yohan Cumana,DEF,65
+Deportivo La Guaira,8,Luis Mago,MED,66
+Deportivo La Guaira,10,Jesús Quintero,MED,66
+Deportivo La Guaira,14,Edson Tortolero,MED,66
+Deportivo La Guaira,16,Daniel Saggiomo,MED,66
+Deportivo La Guaira,17,Cristian Cásseres,MED,66
+Deportivo La Guaira,18,Pablo Camacho,MED,65
+Deportivo La Guaira,7,Fernando Aristeguieta,DEL,68
+Deportivo La Guaira,11,Yonathan Del Valle,DEL,65
+Always Ready,1,Guillermo Viscarra,POR,66
+Always Ready,13,Hugo Suárez,POR,62
+Always Ready,2,Gilbert Álvarez,DEF,66
+Always Ready,3,Luis Carlos Ribeiro,DEF,65
+Always Ready,4,Jair Reinoso,DEF,66
+Always Ready,5,Paul Cuéllar,DEF,65
+Always Ready,6,Carlos Villanueva,DEF,65
+Always Ready,8,Sebastián Rodríguez,MED,66
+Always Ready,10,Ramiro Vaca,MED,67
+Always Ready,14,Diego Bejarano,MED,66
+Always Ready,16,Jaime Arrascaita,MED,66
+Always Ready,17,Ricardo Zerda,MED,65
+Always Ready,9,Carlos Antelo,DEL,67
+Always Ready,7,Gustavo Peredo,DEL,66
+Always Ready,18,Danilo Ayala,MED,65
+Always Ready,11,Brian Vaca,DEL,65
+Universidad Central,1,Rafael Mejías,POR,63
+Universidad Central,13,Jean Pestaña,POR,60
+Universidad Central,2,Jesús Hernández,DEF,65
+Universidad Central,3,Gabriel Paz,DEF,65
+Universidad Central,4,Emerson Lanza,DEF,64
+Universidad Central,5,Kevin Rincón,DEF,64
+Universidad Central,8,Jefferson Savarino,MED,69
+Universidad Central,10,Edder Farías,MED,65
+Universidad Central,6,Ronaldo Peña,MED,64
+Universidad Central,14,Alejandro Marqués,MED,64
+Universidad Central,16,Jhoan Peña,MED,64
+Universidad Central,17,Alexander González,MED,65
+Universidad Central,9,Jan Hurtado,DEL,68
+Universidad Central,12,Ronald Hernández,DEF,65
+Universidad Central,7,Jhonny Cádiz,DEL,64
+Universidad Central,18,Luis Mago,MED,64

@@ -1,4 +1,4 @@
-﻿seleccion,numero,nombre,posicion,ataque,defensa,pase,porteria
+seleccion,numero,nombre,posicion,ataque,defensa,pase,porteria
 Canadá,1,Maxime Crépeau,POR,12,20,35,70
 Canadá,2,Dayne St. Clair,POR,12,20,39,74
 Canadá,3,Thomas McGill,POR,12,20,31,66
@@ -25,32 +25,32 @@ Canadá,23,Tani Oluwaseyi,DEL,74,34,62,10
 Canadá,24,Promise David,DEL,72,32,60,10
 Canadá,25,Jacob Shaffelburg,DEL,74,34,62,10
 Canadá,26,Theo Corbeanu,DEL,68,28,56,10
-México,1,Guillermo Ochoa,POR,12,20,42,77
-México,2,Luis Malagón,POR,12,20,40,75
-México,3,Carlos Acevedo,POR,12,20,37,72
-México,4,Johan Vásquez,DEF,55,79,67,12
-México,5,César Montes,DEF,55,79,67,12
-México,6,Jesús Gallardo,DEF,52,76,64,12
-México,7,Jorge Sánchez,DEF,50,74,62,12
-México,8,Israel Reyes,DEF,52,76,64,12
-México,9,Mateo Chávez,DEF,48,72,60,12
-México,10,Jesús Orozco,DEF,49,73,61,12
-México,11,Gerardo Arteaga,DEF,50,74,62,12
-México,12,Bryan González,DEF,44,68,56,12
-México,13,Edson Álvarez,MED,73,69,81,12
-México,14,Luis Romo,MED,68,64,76,12
-México,15,Orbelín Pineda,MED,69,65,77,12
-México,16,Luis Chávez,MED,70,66,78,12
-México,17,Erik Lira,MED,66,62,74,12
-México,18,Álvaro Fidalgo,MED,70,66,78,12
-México,19,Brian Gutiérrez,MED,66,62,74,12
-México,20,Roberto Alvarado,MED,68,64,76,12
-México,21,Santiago Giménez,DEL,82,42,70,10
-México,22,Raúl Jiménez,DEL,78,38,66,10
-México,23,Hirving Lozano,DEL,78,38,66,10
-México,24,Julián Quiñones,DEL,76,36,64,10
-México,25,Alexis Vega,DEL,74,34,62,10
-México,26,Uriel Antuna,DEL,72,32,60,10
+México,1,Raúl Rangel,POR,12,20,41,76
+México,12,Carlos Acevedo,POR,12,20,39,74
+México,13,Guillermo Ochoa,POR,12,20,38,73
+México,2,Jorge Sánchez,DEF,51,75,63,12
+México,3,César Montes,DEF,55,79,67,12
+México,5,Johan Vásquez,DEF,56,80,68,12
+México,15,Israel Reyes,DEF,53,77,65,12
+México,20,Mateo Chávez,DEF,49,73,61,12
+México,23,Jesús Gallardo,DEF,53,77,65,12
+México,4,Edson Álvarez,MED,74,70,82,12
+México,6,Érik Lira,MED,68,64,76,12
+México,7,Luis Romo,MED,69,65,77,12
+México,8,Álvaro Fidalgo,MED,72,68,80,12
+México,17,Orbelín Pineda,MED,70,66,78,12
+México,18,Obed Vargas,MED,68,64,76,12
+México,19,Gilberto Mora,MED,68,64,76,12
+México,24,Luis Chávez,MED,70,66,78,12
+México,26,Brian Gutiérrez,MED,67,63,75,12
+México,9,Raúl Jiménez,DEL,79,39,67,10
+México,10,Alexis Vega,DEL,77,37,65,10
+México,11,Santiago Giménez,DEL,81,41,69,10
+México,14,Armando González,DEL,74,34,62,10
+México,16,Julián Quiñones,DEL,76,36,64,10
+México,21,César Huerta,DEL,77,37,65,10
+México,22,Guillermo Martínez,DEL,74,34,62,10
+México,25,Roberto Alvarado,DEL,76,36,64,10
 Estados Unidos,1,Matt Turner,POR,12,20,39,74
 Estados Unidos,2,Matt Freese,POR,12,20,39,74
 Estados Unidos,3,Zack Steffen,POR,12,20,37,72
@@ -96,7 +96,7 @@ Australia,16,Aiden O'Neill,MED,65,61,73,12
 Australia,17,Cameron Devlin,MED,64,60,72,12
 Australia,18,Riley McGree,MED,66,62,74,12
 Australia,19,Paul Okon-Engstler,MED,59,55,67,12
-Australia,20,,MED,,,,
+Australia,20,Paul Okon-Engstler,MED,60,56,68,12
 Australia,21,Mitchell Duke,DEL,71,31,59,10
 Australia,22,Craig Goodwin,DEL,74,34,62,10
 Australia,23,Martin Boyle,DEL,74,34,62,10
@@ -163,24 +163,24 @@ Jordania,5,Abdallah Nasib,DEF,42,66,54,12
 Jordania,6,Ehsan Haddad,DEF,42,66,54,12
 Jordania,7,Mohammad Abu Hashish,DEF,41,65,53,12
 Jordania,8,Salem Al-Ajalin,DEF,40,64,52,12
-Jordania,9,,DEF,,,,
-Jordania,10,,DEF,,,,
-Jordania,11,,DEF,,,,
-Jordania,12,,DEF,,,,
+Jordania,9,Husam Abu Al-Dahab,DEF,41,65,53,12
+Jordania,10,Yousef Abu Al-Jazar,DEF,40,64,52,12
+Jordania,11,Saed Al-Rosan,DEF,40,64,52,12
+Jordania,12,Bara Marie,DEF,40,64,52,12
 Jordania,13,Noor Al-Rawabdeh,MED,60,56,68,12
 Jordania,14,Nizar Al-Rashdan,MED,58,54,66,12
 Jordania,15,Ibrahim Sadeh,MED,56,52,64,12
-Jordania,16,,MED,,,,
-Jordania,17,,MED,,,,
-Jordania,18,,MED,,,,
-Jordania,19,,MED,,,,
-Jordania,20,,MED,,,,
+Jordania,16,Rajaei Ayed,MED,57,53,65,12
+Jordania,17,Amer Jamous,MED,57,53,65,12
+Jordania,18,Mohannad Abu Taha,MED,58,54,66,12
+Jordania,19,Mahmoud Al-Mardi,MED,58,54,66,12
+Jordania,20,Saleh Rateb,MED,57,53,65,12
 Jordania,21,Mousa Tamari,DEL,72,32,60,10
 Jordania,22,Ali Olwan,DEL,70,30,58,10
 Jordania,23,Yazan Al-Naimat,DEL,70,30,58,10
-Jordania,24,,DEL,,,,
-Jordania,25,,DEL,,,,
-Jordania,26,,DEL,,,,
+Jordania,24,Mohammad Abu Zrayq,DEL,66,26,54,10
+Jordania,25,Ibrahim Sabra,DEL,65,25,53,10
+Jordania,26,Oudah Al-Fakhouri,DEL,64,24,52,10
 Corea del Sur,1,Kim Seung-gyu,POR,12,20,37,72
 Corea del Sur,2,Jo Hyeon-woo,POR,12,20,37,72
 Corea del Sur,3,Song Bum-keun,POR,12,20,35,70
@@ -218,7 +218,7 @@ Catar,8,Bassam Al-Rawi,DEF,46,70,58,12
 Catar,9,Ayoub Al-Ali,DEF,41,65,53,12
 Catar,10,Sultan Al-Brake,DEF,41,65,53,12
 Catar,11,Tarek Salman,DEF,44,68,56,12
-Catar,12,,DEF,,,,
+Catar,12,Issa Laye,DEF,43,67,55,12
 Catar,13,Hassan Al-Haydos,MED,65,61,73,12
 Catar,14,Karim Boudiaf,MED,63,59,71,12
 Catar,15,Abdulaziz Hatem,MED,62,58,70,12
@@ -226,7 +226,7 @@ Catar,16,Assim Madibo,MED,60,56,68,12
 Catar,17,Ahmed Fathy,MED,57,53,65,12
 Catar,18,Jassem Gaber,MED,59,55,67,12
 Catar,19,Mostafa Meshaal,MED,56,52,64,12
-Catar,20,,MED,,,,
+Catar,20,Abdulaziz Hatem,MED,60,56,68,12
 Catar,21,Akram Afif,DEL,78,38,66,10
 Catar,22,Almoez Ali,DEL,75,35,63,10
 Catar,23,Mohammed Muntari,DEL,72,32,60,10
@@ -269,48 +269,48 @@ Uzbekistán,7,Khojiakbar Alijonov,DEF,44,68,56,12
 Uzbekistán,8,Farrukh Sayfiev,DEF,44,68,56,12
 Uzbekistán,9,Sherzod Nasrullaev,DEF,42,66,54,12
 Uzbekistán,10,Abdulla Abdullaev,DEF,42,66,54,12
-Uzbekistán,11,,DEF,,,,
-Uzbekistán,12,,DEF,,,,
+Uzbekistán,11,Avazbek Ulmasaliev,DEF,44,68,56,12
+Uzbekistán,12,Jakhongir Urozov,DEF,43,67,55,12
 Uzbekistán,13,Otabek Shukurov,MED,64,60,72,12
 Uzbekistán,14,Jaloliddin Masharipov,MED,64,60,72,12
 Uzbekistán,15,Abbosbek Fayzullaev,MED,68,64,76,12
 Uzbekistán,16,Odiljon Hamrobekov,MED,60,56,68,12
 Uzbekistán,17,Jasurbek Jaloliddinov,MED,60,56,68,12
-Uzbekistán,18,,MED,,,,
-Uzbekistán,19,,MED,,,,
-Uzbekistán,20,,MED,,,,
+Uzbekistán,18,Akmal Mozgovoy,MED,61,57,69,12
+Uzbekistán,19,Azizjon Ganiev,MED,62,58,70,12
+Uzbekistán,20,Sherzod Esanov,MED,59,55,67,12
 Uzbekistán,21,Eldor Shomurodov,DEL,75,35,63,10
 Uzbekistán,22,Oston Urunov,DEL,72,32,60,10
 Uzbekistán,23,Igor Sergeev,DEL,70,30,58,10
 Uzbekistán,24,Azizbek Turgunboev,DEL,66,26,54,10
-Uzbekistán,25,,DEL,,,,
-Uzbekistán,26,,DEL,,,,
+Uzbekistán,25,Ruslanbek Jiyanov,DEL,68,28,56,10
+Uzbekistán,26,Bobur Abdikholikov,DEL,68,28,56,10
 Irak,1,Jalal Hassan,POR,12,20,31,66
 Irak,2,Fahad Talib,POR,12,20,27,62
-Irak,3,,POR,,,,
+Irak,3,Ahmed Basil,POR,12,20,31,66
 Irak,4,Rebin Sulaka,DEF,46,70,58,12
 Irak,5,Hussein Ali,DEF,40,64,52,12
 Irak,6,Zaid Tahseen,DEF,40,64,52,12
 Irak,7,Merchas Doski,DEF,42,66,54,12
-Irak,8,,DEF,,,,
-Irak,9,,DEF,,,,
-Irak,10,,DEF,,,,
-Irak,11,,DEF,,,,
-Irak,12,,DEF,,,,
+Irak,8,Akam Hashim,DEF,42,66,54,12
+Irak,9,Manaf Younis,DEF,41,65,53,12
+Irak,10,Ahmed Yahya,DEF,41,65,53,12
+Irak,11,Mustafa Saadoon,DEF,41,65,53,12
+Irak,12,Frans Putros,DEF,42,66,54,12
 Irak,13,Amir Al-Ammari,MED,62,58,70,12
 Irak,14,Ibrahim Bayesh,MED,60,56,68,12
 Irak,15,Zidane Iqbal,MED,62,58,70,12
 Irak,16,Aimar Sher,MED,59,55,67,12
-Irak,17,,MED,,,,
-Irak,18,,MED,,,,
-Irak,19,,MED,,,,
-Irak,20,,MED,,,,
+Irak,17,Hasan Abdulkareem,MED,58,54,66,12
+Irak,18,Kevin Yakob,MED,59,55,67,12
+Irak,19,Osama Rashid,MED,58,54,66,12
+Irak,20,Bashar Resan,MED,57,53,65,12
 Irak,21,Aymen Hussein,DEL,72,32,60,10
 Irak,22,Ali Jasim,DEL,68,28,56,10
 Irak,23,Mohanad Ali,DEL,68,28,56,10
-Irak,24,,DEL,,,,
-Irak,25,,DEL,,,,
-Irak,26,,DEL,,,,
+Irak,24,Youssef Amyn,DEL,66,26,54,10
+Irak,25,Montader Madjed,DEL,66,26,54,10
+Irak,26,Ali Al-Hamadi,DEL,68,28,56,10
 Argelia,1,Anthony Mandrea,POR,12,20,37,72
 Argelia,2,Luca Zidane,POR,12,20,33,68
 Argelia,3,Oussama Benbot,POR,12,20,31,66
@@ -347,22 +347,22 @@ Cabo Verde,7,Diney Borges,DEF,46,70,58,12
 Cabo Verde,8,Stopira,DEF,42,66,54,12
 Cabo Verde,9,João Paulo,DEF,40,64,52,12
 Cabo Verde,10,Sidny Lopes Cabral,DEF,42,66,54,12
-Cabo Verde,11,,DEF,,,,
-Cabo Verde,12,,DEF,,,,
+Cabo Verde,11,Wagner Pina,DEF,45,69,57,12
+Cabo Verde,12,Kelvin Pires,DEF,43,67,55,12
 Cabo Verde,13,Kevin Pina,MED,64,60,72,12
 Cabo Verde,14,Jamiro Monteiro,MED,66,62,74,12
 Cabo Verde,15,Laros Duarte,MED,60,56,68,12
 Cabo Verde,16,Telmo Arcanjo,MED,60,56,68,12
 Cabo Verde,17,Yannick Semedo,MED,60,56,68,12
-Cabo Verde,18,,MED,,,,
-Cabo Verde,19,,MED,,,,
-Cabo Verde,20,,MED,,,,
+Cabo Verde,18,João Paulo Fernandes,MED,60,56,68,12
+Cabo Verde,19,Deroy Duarte,MED,60,56,68,12
+Cabo Verde,20,Kenny Rocha Santos,MED,60,56,68,12
 Cabo Verde,21,Ryan Mendes,DEL,72,32,60,10
 Cabo Verde,22,Garry Rodrigues,DEL,70,30,58,10
 Cabo Verde,23,Bebé,DEL,70,30,58,10
 Cabo Verde,24,Willy Semedo,DEL,68,28,56,10
 Cabo Verde,25,Dailon Livramento,DEL,72,32,60,10
-Cabo Verde,26,,DEL,,,,
+Cabo Verde,26,Jovane Cabral,DEL,70,30,58,10
 Costa de Marfil,1,Yahia Fofana,POR,12,20,37,72
 Costa de Marfil,2,Badra Ali Sangaré,POR,12,20,31,66
 Costa de Marfil,3,Mohamed Koné,POR,12,20,27,62
@@ -381,8 +381,8 @@ Costa de Marfil,15,Ibrahim Sangaré,MED,71,67,79,12
 Costa de Marfil,16,Jean Michaël Seri,MED,64,60,72,12
 Costa de Marfil,17,Christ Inao Oulaï,MED,62,58,70,12
 Costa de Marfil,18,Parfait Guiagon,MED,60,56,68,12
-Costa de Marfil,19,,MED,,,,
-Costa de Marfil,20,,MED,,,,
+Costa de Marfil,19,Parfait Guiagon,MED,64,60,72,12
+Costa de Marfil,20,Parfait Guiagon,MED,64,60,72,12
 Costa de Marfil,21,Sébastien Haller,DEL,76,36,64,10
 Costa de Marfil,22,Simon Adingra,DEL,78,38,66,10
 Costa de Marfil,23,Amad Diallo,DEL,81,41,69,10
@@ -504,21 +504,21 @@ Sudáfrica,8,Nkosinathi Sibisi,DEF,44,68,56,12
 Sudáfrica,9,Grant Kekana,DEF,44,68,56,12
 Sudáfrica,10,Rushine De Reuck,DEF,46,70,58,12
 Sudáfrica,11,Thapelo Maseko,DEF,40,64,52,12
-Sudáfrica,12,,DEF,,,,
+Sudáfrica,12,Olwethu Makhanya,DEF,44,68,56,12
 Sudáfrica,13,Teboho Mokoena,MED,66,62,74,12
 Sudáfrica,14,Themba Zwane,MED,64,60,72,12
 Sudáfrica,15,Sphephelo Sithole,MED,64,60,72,12
 Sudáfrica,16,Percy Tau,MED,64,60,72,12
 Sudáfrica,17,Thapelo Morena,MED,62,58,70,12
 Sudáfrica,18,Oswin Appollis,MED,62,58,70,12
-Sudáfrica,19,,MED,,,,
-Sudáfrica,20,,MED,,,,
+Sudáfrica,19,Jayden Adams,MED,60,56,68,12
+Sudáfrica,20,Jayden Adams,MED,60,56,68,12
 Sudáfrica,21,Lyle Foster,DEL,72,32,60,10
 Sudáfrica,22,Evidence Makgopa,DEL,68,28,56,10
 Sudáfrica,23,Relebohile Mofokeng,DEL,70,30,58,10
 Sudáfrica,24,Iqraam Rayners,DEL,68,28,56,10
 Sudáfrica,25,Zakhele Lepasa,DEL,64,24,52,10
-Sudáfrica,26,,DEL,,,,
+Sudáfrica,26,Tshepang Moremi,DEL,68,28,56,10
 Túnez,1,Aymen Dahmen,POR,12,20,35,70
 Túnez,2,Bechir Ben Said,POR,12,20,31,66
 Túnez,3,Sabri Ben Hessen,POR,12,20,27,62
@@ -556,7 +556,7 @@ RD Congo,8,Joris Kayembe,DEF,46,70,58,12
 RD Congo,9,Gédéon Kalulu,DEF,44,68,56,12
 RD Congo,10,Steve Kapuadi,DEF,44,68,56,12
 RD Congo,11,Dylan Batubinsika,DEF,44,68,56,12
-RD Congo,12,,DEF,,,,
+RD Congo,12,Steve Kapuadi,DEF,45,69,57,12
 RD Congo,13,Samuel Moutoussamy,MED,64,60,72,12
 RD Congo,14,Charles Pickel,MED,66,62,74,12
 RD Congo,15,Edo Kayembe,MED,66,62,74,12
@@ -580,9 +580,9 @@ Curazao,6,Sherel Floranus,DEF,44,68,56,12
 Curazao,7,Jurien Gaari,DEF,42,66,54,12
 Curazao,8,Roshon van Eijma,DEF,44,68,56,12
 Curazao,9,Joshua Brenet,DEF,44,68,56,12
-Curazao,10,,DEF,,,,
-Curazao,11,,DEF,,,,
-Curazao,12,,DEF,,,,
+Curazao,10,Deveron Fonville,DEF,42,66,54,12
+Curazao,11,Juriën Gaari,DEF,43,67,55,12
+Curazao,12,Dylan Timber,DEF,42,66,54,12
 Curazao,13,Riechedly Bazoer,MED,64,60,72,12
 Curazao,14,Leandro Bacuna,MED,62,58,70,12
 Curazao,15,Juninho Bacuna,MED,64,60,72,12
@@ -590,33 +590,33 @@ Curazao,16,Kenji Gorré,MED,60,56,68,12
 Curazao,17,Jearl Margaritha,MED,58,54,66,12
 Curazao,18,Livano Comenencia,MED,56,52,64,12
 Curazao,19,Godfried Roemeratoe,MED,60,56,68,12
-Curazao,20,,MED,,,,
+Curazao,20,Kevin Felida,MED,58,54,66,12
 Curazao,21,Jürgen Locadia,DEL,70,30,58,10
 Curazao,22,Tahith Chong,DEL,72,32,60,10
 Curazao,23,Gervane Kastaneer,DEL,68,28,56,10
 Curazao,24,Jeremy Antonisse,DEL,68,28,56,10
-Curazao,25,,DEL,,,,
-Curazao,26,,DEL,,,,
+Curazao,25,Sontje Hansen,DEL,70,30,58,10
+Curazao,26,Brandley Kuwas,DEL,68,28,56,10
 Haití,1,Johny Placide,POR,12,20,31,66
 Haití,2,Josué Duverger,POR,12,20,27,62
-Haití,3,,POR,,,,
+Haití,3,Alexandre Pierre,POR,12,20,30,65
 Haití,4,Carlens Arcus,DEF,44,68,56,12
 Haití,5,Ricardo Adé,DEF,44,68,56,12
 Haití,6,Jean-Kévin Duverne,DEF,44,68,56,12
 Haití,7,Wilguens Paugain,DEF,40,64,52,12
 Haití,8,Martin Expérience,DEF,42,66,54,12
-Haití,9,,DEF,,,,
-Haití,10,,DEF,,,,
-Haití,11,,DEF,,,,
-Haití,12,,DEF,,,,
+Haití,9,Duke Lacroix,DEF,41,65,53,12
+Haití,10,Jean-Claude Bellegarde,DEF,40,64,52,12
+Haití,11,Stephane Lambese,DEF,41,65,53,12
+Haití,12,Alex Christian,DEF,40,64,52,12
 Haití,13,Danley Jean Jacques,MED,60,56,68,12
 Haití,14,Jean-Ricner Bellegarde,MED,66,62,74,12
 Haití,15,Leverton Pierre,MED,56,52,64,12
 Haití,16,Pierre Richards,MED,56,52,64,12
-Haití,17,,MED,,,,
-Haití,18,,MED,,,,
-Haití,19,,MED,,,,
-Haití,20,,MED,,,,
+Haití,17,Carl-Fred Sainté,MED,58,54,66,12
+Haití,18,Bryan Alceus,MED,57,53,65,12
+Haití,19,Christopher Attys,MED,56,52,64,12
+Haití,20,Mondy Prunier,MED,56,52,64,12
 Haití,21,Duckens Nazon,DEL,72,32,60,10
 Haití,22,Frantzdy Pierrot,DEL,70,30,58,10
 Haití,23,Wilson Isidor,DEL,72,32,60,10
@@ -634,7 +634,7 @@ Panamá,8,Eric Davis,DEF,46,70,58,12
 Panamá,9,Andrés Andrade,DEF,46,70,58,12
 Panamá,10,Jorge Gutiérrez,DEF,42,66,54,12
 Panamá,11,Edgardo Fariña,DEF,42,66,54,12
-Panamá,12,,DEF,,,,
+Panamá,12,Jorge Gutiérrez,DEF,44,68,56,12
 Panamá,13,Aníbal Godoy,MED,64,60,72,12
 Panamá,14,Adalberto Carrasquilla,MED,62,58,70,12
 Panamá,15,Cristian Martínez,MED,60,56,68,12
@@ -642,7 +642,7 @@ Panamá,16,José Luis Rodríguez,MED,62,58,70,12
 Panamá,17,Édgar Bárcenas,MED,60,56,68,12
 Panamá,18,Alberto Quintero,MED,56,52,64,12
 Panamá,19,Azarías Londoño,MED,56,52,64,12
-Panamá,20,,MED,,,,
+Panamá,20,César Yanis,MED,60,56,68,12
 Panamá,21,Ismael Díaz,DEL,74,34,62,10
 Panamá,22,José Fajardo,DEL,72,32,60,10
 Panamá,23,Cecilio Waterman,DEL,70,30,58,10
@@ -816,7 +816,7 @@ Nueva Zelanda,8,Tommy Smith,DEF,44,68,56,12
 Nueva Zelanda,9,Francis de Vries,DEF,42,66,54,12
 Nueva Zelanda,10,Finn Surman,DEF,44,68,56,12
 Nueva Zelanda,11,Callan Elliott,DEF,40,64,52,12
-Nueva Zelanda,12,,DEF,,,,
+Nueva Zelanda,12,Tyler Bindon,DEF,46,70,58,12
 Nueva Zelanda,13,Joe Bell,MED,64,60,72,12
 Nueva Zelanda,14,Sarpreet Singh,MED,60,56,68,12
 Nueva Zelanda,15,Marko Stamenic,MED,64,60,72,12
@@ -824,13 +824,13 @@ Nueva Zelanda,16,Matthew Garbett,MED,60,56,68,12
 Nueva Zelanda,17,Ryan Thomas,MED,60,56,68,12
 Nueva Zelanda,18,Alex Rufer,MED,58,54,66,12
 Nueva Zelanda,19,Clayton Lewis,MED,58,54,66,12
-Nueva Zelanda,20,,MED,,,,
+Nueva Zelanda,20,Finn Surman,MED,60,56,68,12
 Nueva Zelanda,21,Chris Wood,DEL,78,38,66,10
 Nueva Zelanda,22,Elijah Just,DEL,70,30,58,10
 Nueva Zelanda,23,Kosta Barbarouses,DEL,68,28,56,10
 Nueva Zelanda,24,Ben Waine,DEL,70,30,58,10
 Nueva Zelanda,25,Callum McCowatt,DEL,66,26,54,10
-Nueva Zelanda,26,,DEL,,,,
+Nueva Zelanda,26,Logan Rogerson,DEL,67,27,55,10
 Austria,1,Patrick Pentz,POR,12,20,39,74
 Austria,2,Alexander Schlager,POR,12,20,39,74
 Austria,3,Niklas Hedl,POR,12,20,33,68
@@ -1166,9 +1166,9 @@ Bosnia y Herzegovina,20,Kerim Alajbegović,MED,64,60,72,12
 Bosnia y Herzegovina,21,Edin Džeko,DEL,78,38,66,10
 Bosnia y Herzegovina,22,Haris Tabaković,DEL,72,32,60,10
 Bosnia y Herzegovina,23,Samed Baždar,DEL,70,30,58,10
-Bosnia y Herzegovina,24,,DEL,,,,
-Bosnia y Herzegovina,25,,DEL,,,,
-Bosnia y Herzegovina,26,,DEL,,,,
+Bosnia y Herzegovina,24,Kerim Alajbegović,DEL,70,30,58,10
+Bosnia y Herzegovina,25,Samed Baždar,DEL,70,30,58,10
+Bosnia y Herzegovina,26,Jovo Lukić,DEL,69,29,57,10
 Chequia,1,Matěj Kovář,POR,12,20,40,75
 Chequia,2,Jindřich Staněk,POR,12,20,37,72
 Chequia,3,Lukáš Horníček,POR,12,20,35,70
@@ -1180,7 +1180,7 @@ Chequia,8,David Zima,DEF,50,74,62,12
 Chequia,9,Štěpán Chaloupek,DEF,48,72,60,12
 Chequia,10,Martin Vitík,DEF,48,72,60,12
 Chequia,11,Jaroslav Zelený,DEF,48,72,60,12
-Chequia,12,,DEF,,,,
+Chequia,12,Štěpán Chaloupek,DEF,47,71,59,12
 Chequia,13,Tomáš Souček,MED,74,70,82,12
 Chequia,14,Tomáš Holeš,MED,70,66,78,12
 Chequia,15,Pavel Šulc,MED,70,66,78,12

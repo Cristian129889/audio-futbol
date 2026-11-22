@@ -1,933 +1,933 @@
 {
- "id": "libertadores_2026",
- "nombre": "Copa Libertadores 2026",
- "version_datos": "2026-11-14",
- "nota": "Fase de grupos con tablas finales, y eliminatorias hasta las semifinales. La final se juega el 28 de noviembre de 2026. En las eliminatorias los marcadores de ida y vuelta están escritos en el orden equipo1-equipo2. Plantillas vacías.",
- "formato": {
-  "fase_grupos": "32 equipos en 8 grupos de 4, todos contra todos ida y vuelta",
-  "clasificacion": "1.º y 2.º de cada grupo pasan a octavos; 3.º va a la Copa Sudamericana",
-  "desempate_grupos": [
-   "puntos",
-   "puntos entre los empatados",
-   "diferencia de goles entre los empatados",
-   "goles a favor entre los empatados",
-   "diferencia de goles general",
-   "goles a favor general",
-   "tarjetas rojas",
-   "tarjetas amarillas",
-   "sorteo"
+  "id": "libertadores_2026",
+  "nombre": "Copa Libertadores 2026",
+  "version_datos": "2026-11-14",
+  "nota": "Fase de grupos con tablas finales, y eliminatorias hasta las semifinales. La final se juega el 28 de noviembre de 2026. En las eliminatorias los marcadores de ida y vuelta están escritos en el orden equipo1-equipo2. Plantillas vacías.",
+  "formato": {
+    "fase_grupos": "32 equipos en 8 grupos de 4, todos contra todos ida y vuelta",
+    "clasificacion": "1.º y 2.º de cada grupo pasan a octavos; 3.º va a la Copa Sudamericana",
+    "desempate_grupos": [
+      "puntos",
+      "puntos entre los empatados",
+      "diferencia de goles entre los empatados",
+      "goles a favor entre los empatados",
+      "diferencia de goles general",
+      "goles a favor general",
+      "tarjetas rojas",
+      "tarjetas amarillas",
+      "sorteo"
+    ],
+    "eliminatorias": "octavos, cuartos y semifinales a ida y vuelta, sin tiempo extra: si hay empate global se define por penales; la final es a partido único con 30 minutos de prórroga y luego penales",
+    "sin_gol_de_visitante": true
+  },
+  "equipos": [
+    {
+      "id": "flamengo",
+      "nombre": "Flamengo",
+      "pais": "Brasil",
+      "grupo": "A",
+      "plantilla": [],
+      "nivel": 79,
+      "estadio": "Maracanã",
+      "ciudad": "Río de Janeiro"
+    },
+    {
+      "id": "estudiantes_de_la_plata",
+      "nombre": "Estudiantes de La Plata",
+      "pais": "Argentina",
+      "grupo": "A",
+      "plantilla": [],
+      "nivel": 74,
+      "estadio": "Estadio Jorge Luis Hirschi",
+      "ciudad": "La Plata"
+    },
+    {
+      "id": "independiente_medellin",
+      "nombre": "Independiente Medellín",
+      "pais": "Colombia",
+      "grupo": "A",
+      "plantilla": [],
+      "nivel": 70,
+      "estadio": "Estadio Atanasio Girardot",
+      "ciudad": "Medellín"
+    },
+    {
+      "id": "cusco",
+      "nombre": "Cusco",
+      "pais": "Perú",
+      "grupo": "A",
+      "plantilla": [],
+      "nivel": 66,
+      "estadio": "Estadio Garcilaso de la Vega",
+      "ciudad": "Cusco"
+    },
+    {
+      "id": "coquimbo_unido",
+      "nombre": "Coquimbo Unido",
+      "pais": "Chile",
+      "grupo": "B",
+      "plantilla": [],
+      "nivel": 68,
+      "estadio": "Estadio Francisco Sánchez Rumoroso",
+      "ciudad": "Coquimbo"
+    },
+    {
+      "id": "deportes_tolima",
+      "nombre": "Deportes Tolima",
+      "pais": "Colombia",
+      "grupo": "B",
+      "plantilla": [],
+      "nivel": 69,
+      "estadio": "Estadio Manuel Murillo Toro",
+      "ciudad": "Ibagué"
+    },
+    {
+      "id": "nacional",
+      "nombre": "Nacional",
+      "pais": "Uruguay",
+      "grupo": "B",
+      "plantilla": [],
+      "nivel": 72,
+      "estadio": "Gran Parque Central",
+      "ciudad": "Montevideo"
+    },
+    {
+      "id": "universitario",
+      "nombre": "Universitario",
+      "pais": "Perú",
+      "grupo": "B",
+      "plantilla": [],
+      "nivel": 71,
+      "estadio": "Estadio Monumental",
+      "ciudad": "Lima"
+    },
+    {
+      "id": "independiente_rivadavia",
+      "nombre": "Independiente Rivadavia",
+      "pais": "Argentina",
+      "grupo": "C",
+      "plantilla": [],
+      "nivel": 70,
+      "estadio": "Estadio Bautista Gargantini",
+      "ciudad": "Mendoza"
+    },
+    {
+      "id": "fluminense",
+      "nombre": "Fluminense",
+      "pais": "Brasil",
+      "grupo": "C",
+      "plantilla": [],
+      "nivel": 76,
+      "estadio": "Maracanã",
+      "ciudad": "Río de Janeiro"
+    },
+    {
+      "id": "bolivar",
+      "nombre": "Bolívar",
+      "pais": "Bolivia",
+      "grupo": "C",
+      "plantilla": [],
+      "nivel": 69,
+      "estadio": "Estadio Hernando Siles",
+      "ciudad": "La Paz"
+    },
+    {
+      "id": "deportivo_la_guaira",
+      "nombre": "Deportivo La Guaira",
+      "pais": "Venezuela",
+      "grupo": "C",
+      "plantilla": [],
+      "nivel": 67,
+      "estadio": "Estadio Olímpico de la UCV",
+      "ciudad": "Caracas"
+    },
+    {
+      "id": "universidad_catolica",
+      "nombre": "Universidad Católica",
+      "pais": "Chile",
+      "grupo": "D",
+      "plantilla": [],
+      "nivel": 71,
+      "estadio": "Estadio San Carlos de Apoquindo",
+      "ciudad": "Santiago"
+    },
+    {
+      "id": "cruzeiro",
+      "nombre": "Cruzeiro",
+      "pais": "Brasil",
+      "grupo": "D",
+      "plantilla": [],
+      "nivel": 75,
+      "estadio": "Mineirão",
+      "ciudad": "Belo Horizonte"
+    },
+    {
+      "id": "boca_juniors",
+      "nombre": "Boca Juniors",
+      "pais": "Argentina",
+      "grupo": "D",
+      "plantilla": [],
+      "nivel": 75,
+      "estadio": "La Bombonera",
+      "ciudad": "Buenos Aires"
+    },
+    {
+      "id": "barcelona_de_guayaquil",
+      "nombre": "Barcelona de Guayaquil",
+      "pais": "Ecuador",
+      "grupo": "D",
+      "plantilla": [],
+      "nivel": 71,
+      "estadio": "Estadio Monumental Banco Pichincha",
+      "ciudad": "Guayaquil"
+    },
+    {
+      "id": "corinthians",
+      "nombre": "Corinthians",
+      "pais": "Brasil",
+      "grupo": "E",
+      "plantilla": [],
+      "nivel": 76,
+      "estadio": "Neo Química Arena",
+      "ciudad": "São Paulo"
+    },
+    {
+      "id": "platense",
+      "nombre": "Platense",
+      "pais": "Argentina",
+      "grupo": "E",
+      "plantilla": [],
+      "nivel": 70,
+      "estadio": "Estadio Ciudad de Vicente López",
+      "ciudad": "Vicente López"
+    },
+    {
+      "id": "santa_fe",
+      "nombre": "Santa Fe",
+      "pais": "Colombia",
+      "grupo": "E",
+      "plantilla": [],
+      "nivel": 70,
+      "estadio": "Estadio El Campín",
+      "ciudad": "Bogotá"
+    },
+    {
+      "id": "penarol",
+      "nombre": "Peñarol",
+      "pais": "Uruguay",
+      "grupo": "E",
+      "plantilla": [],
+      "nivel": 72,
+      "estadio": "Estadio Campeón del Siglo",
+      "ciudad": "Montevideo"
+    },
+    {
+      "id": "cerro_porteno",
+      "nombre": "Cerro Porteño",
+      "pais": "Paraguay",
+      "grupo": "F",
+      "plantilla": [],
+      "nivel": 72,
+      "estadio": "La Nueva Olla",
+      "ciudad": "Asunción"
+    },
+    {
+      "id": "palmeiras",
+      "nombre": "Palmeiras",
+      "pais": "Brasil",
+      "grupo": "F",
+      "plantilla": [],
+      "nivel": 78,
+      "estadio": "Allianz Parque",
+      "ciudad": "São Paulo"
+    },
+    {
+      "id": "sporting_cristal",
+      "nombre": "Sporting Cristal",
+      "pais": "Perú",
+      "grupo": "F",
+      "plantilla": [],
+      "nivel": 70,
+      "estadio": "Estadio Alberto Gallardo",
+      "ciudad": "Lima"
+    },
+    {
+      "id": "junior_de_barranquilla",
+      "nombre": "Junior de Barranquilla",
+      "pais": "Colombia",
+      "grupo": "F",
+      "plantilla": [],
+      "nivel": 72,
+      "estadio": "Estadio Metropolitano Roberto Meléndez",
+      "ciudad": "Barranquilla"
+    },
+    {
+      "id": "ldu_quito",
+      "nombre": "LDU Quito",
+      "pais": "Ecuador",
+      "grupo": "G",
+      "plantilla": [],
+      "nivel": 73,
+      "estadio": "Estadio Rodrigo Paz Delgado",
+      "ciudad": "Quito"
+    },
+    {
+      "id": "mirassol",
+      "nombre": "Mirassol",
+      "pais": "Brasil",
+      "grupo": "G",
+      "plantilla": [],
+      "nivel": 71,
+      "estadio": "Estadio José Maria de Campos Maia",
+      "ciudad": "Mirassol"
+    },
+    {
+      "id": "lanus",
+      "nombre": "Lanús",
+      "pais": "Argentina",
+      "grupo": "G",
+      "plantilla": [],
+      "nivel": 73,
+      "estadio": "Estadio Ciudad de Lanús",
+      "ciudad": "Lanús"
+    },
+    {
+      "id": "always_ready",
+      "nombre": "Always Ready",
+      "pais": "Bolivia",
+      "grupo": "G",
+      "plantilla": [],
+      "nivel": 66,
+      "estadio": "Estadio Municipal de El Alto",
+      "ciudad": "El Alto"
+    },
+    {
+      "id": "independiente_del_valle",
+      "nombre": "Independiente del Valle",
+      "pais": "Ecuador",
+      "grupo": "H",
+      "plantilla": [],
+      "nivel": 72,
+      "estadio": "Estadio Banco Guayaquil",
+      "ciudad": "Quito"
+    },
+    {
+      "id": "rosario_central",
+      "nombre": "Rosario Central",
+      "pais": "Argentina",
+      "grupo": "H",
+      "plantilla": [],
+      "nivel": 74,
+      "estadio": "Gigante de Arroyito",
+      "ciudad": "Rosario"
+    },
+    {
+      "id": "universidad_central",
+      "nombre": "Universidad Central",
+      "pais": "Venezuela",
+      "grupo": "H",
+      "plantilla": [],
+      "nivel": 65,
+      "estadio": "Estadio Olímpico de la UCV",
+      "ciudad": "Caracas"
+    },
+    {
+      "id": "libertad",
+      "nombre": "Libertad",
+      "pais": "Paraguay",
+      "grupo": "H",
+      "plantilla": [],
+      "nivel": 71,
+      "estadio": "Estadio Doctor Nicolás Leoz",
+      "ciudad": "Asunción"
+    }
   ],
-  "eliminatorias": "octavos, cuartos y semifinales a ida y vuelta, sin tiempo extra: si hay empate global se define por penales; la final es a partido único con 30 minutos de prórroga y luego penales",
-  "sin_gol_de_visitante": true
- },
- "equipos": [
-  {
-   "id": "flamengo",
-   "nombre": "Flamengo",
-   "pais": "Brasil",
-   "grupo": "A",
-   "plantilla": [],
-   "nivel": 82,
-   "estadio": "Maracanã",
-   "ciudad": "Río de Janeiro"
-  },
-  {
-   "id": "estudiantes_de_la_plata",
-   "nombre": "Estudiantes de La Plata",
-   "pais": "Argentina",
-   "grupo": "A",
-   "plantilla": [],
-   "nivel": 74,
-   "estadio": "Estadio Jorge Luis Hirschi",
-   "ciudad": "La Plata"
-  },
-  {
-   "id": "independiente_medellin",
-   "nombre": "Independiente Medellín",
-   "pais": "Colombia",
-   "grupo": "A",
-   "plantilla": [],
-   "nivel": 67,
-   "estadio": "Estadio Atanasio Girardot",
-   "ciudad": "Medellín"
-  },
-  {
-   "id": "cusco",
-   "nombre": "Cusco",
-   "pais": "Perú",
-   "grupo": "A",
-   "plantilla": [],
-   "nivel": 64,
-   "estadio": "Estadio Garcilaso de la Vega",
-   "ciudad": "Cusco"
-  },
-  {
-   "id": "coquimbo_unido",
-   "nombre": "Coquimbo Unido",
-   "pais": "Chile",
-   "grupo": "B",
-   "plantilla": [],
-   "nivel": 68,
-   "estadio": "Estadio Francisco Sánchez Rumoroso",
-   "ciudad": "Coquimbo"
-  },
-  {
-   "id": "deportes_tolima",
-   "nombre": "Deportes Tolima",
-   "pais": "Colombia",
-   "grupo": "B",
-   "plantilla": [],
-   "nivel": 68,
-   "estadio": "Estadio Manuel Murillo Toro",
-   "ciudad": "Ibagué"
-  },
-  {
-   "id": "nacional",
-   "nombre": "Nacional",
-   "pais": "Uruguay",
-   "grupo": "B",
-   "plantilla": [],
-   "nivel": 72,
-   "estadio": "Gran Parque Central",
-   "ciudad": "Montevideo"
-  },
-  {
-   "id": "universitario",
-   "nombre": "Universitario",
-   "pais": "Perú",
-   "grupo": "B",
-   "plantilla": [],
-   "nivel": 71,
-   "estadio": "Estadio Monumental",
-   "ciudad": "Lima"
-  },
-  {
-   "id": "independiente_rivadavia",
-   "nombre": "Independiente Rivadavia",
-   "pais": "Argentina",
-   "grupo": "C",
-   "plantilla": [],
-   "nivel": 70,
-   "estadio": "Estadio Bautista Gargantini",
-   "ciudad": "Mendoza"
-  },
-  {
-   "id": "fluminense",
-   "nombre": "Fluminense",
-   "pais": "Brasil",
-   "grupo": "C",
-   "plantilla": [],
-   "nivel": 77,
-   "estadio": "Maracanã",
-   "ciudad": "Río de Janeiro"
-  },
-  {
-   "id": "bolivar",
-   "nombre": "Bolívar",
-   "pais": "Bolivia",
-   "grupo": "C",
-   "plantilla": [],
-   "nivel": 68,
-   "estadio": "Estadio Hernando Siles",
-   "ciudad": "La Paz"
-  },
-  {
-   "id": "deportivo_la_guaira",
-   "nombre": "Deportivo La Guaira",
-   "pais": "Venezuela",
-   "grupo": "C",
-   "plantilla": [],
-   "nivel": 63,
-   "estadio": "Estadio Olímpico de la UCV",
-   "ciudad": "Caracas"
-  },
-  {
-   "id": "universidad_catolica",
-   "nombre": "Universidad Católica",
-   "pais": "Chile",
-   "grupo": "D",
-   "plantilla": [],
-   "nivel": 70,
-   "estadio": "Estadio San Carlos de Apoquindo",
-   "ciudad": "Santiago"
-  },
-  {
-   "id": "cruzeiro",
-   "nombre": "Cruzeiro",
-   "pais": "Brasil",
-   "grupo": "D",
-   "plantilla": [],
-   "nivel": 76,
-   "estadio": "Mineirão",
-   "ciudad": "Belo Horizonte"
-  },
-  {
-   "id": "boca_juniors",
-   "nombre": "Boca Juniors",
-   "pais": "Argentina",
-   "grupo": "D",
-   "plantilla": [],
-   "nivel": 76,
-   "estadio": "La Bombonera",
-   "ciudad": "Buenos Aires"
-  },
-  {
-   "id": "barcelona_de_guayaquil",
-   "nombre": "Barcelona de Guayaquil",
-   "pais": "Ecuador",
-   "grupo": "D",
-   "plantilla": [],
-   "nivel": 70,
-   "estadio": "Estadio Monumental Banco Pichincha",
-   "ciudad": "Guayaquil"
-  },
-  {
-   "id": "corinthians",
-   "nombre": "Corinthians",
-   "pais": "Brasil",
-   "grupo": "E",
-   "plantilla": [],
-   "nivel": 77,
-   "estadio": "Neo Química Arena",
-   "ciudad": "São Paulo"
-  },
-  {
-   "id": "platense",
-   "nombre": "Platense",
-   "pais": "Argentina",
-   "grupo": "E",
-   "plantilla": [],
-   "nivel": 70,
-   "estadio": "Estadio Ciudad de Vicente López",
-   "ciudad": "Vicente López"
-  },
-  {
-   "id": "santa_fe",
-   "nombre": "Santa Fe",
-   "pais": "Colombia",
-   "grupo": "E",
-   "plantilla": [],
-   "nivel": 67,
-   "estadio": "Estadio El Campín",
-   "ciudad": "Bogotá"
-  },
-  {
-   "id": "penarol",
-   "nombre": "Peñarol",
-   "pais": "Uruguay",
-   "grupo": "E",
-   "plantilla": [],
-   "nivel": 72,
-   "estadio": "Estadio Campeón del Siglo",
-   "ciudad": "Montevideo"
-  },
-  {
-   "id": "cerro_porteno",
-   "nombre": "Cerro Porteño",
-   "pais": "Paraguay",
-   "grupo": "F",
-   "plantilla": [],
-   "nivel": 72,
-   "estadio": "La Nueva Olla",
-   "ciudad": "Asunción"
-  },
-  {
-   "id": "palmeiras",
-   "nombre": "Palmeiras",
-   "pais": "Brasil",
-   "grupo": "F",
-   "plantilla": [],
-   "nivel": 82,
-   "estadio": "Allianz Parque",
-   "ciudad": "São Paulo"
-  },
-  {
-   "id": "sporting_cristal",
-   "nombre": "Sporting Cristal",
-   "pais": "Perú",
-   "grupo": "F",
-   "plantilla": [],
-   "nivel": 68,
-   "estadio": "Estadio Alberto Gallardo",
-   "ciudad": "Lima"
-  },
-  {
-   "id": "junior_de_barranquilla",
-   "nombre": "Junior de Barranquilla",
-   "pais": "Colombia",
-   "grupo": "F",
-   "plantilla": [],
-   "nivel": 68,
-   "estadio": "Estadio Metropolitano Roberto Meléndez",
-   "ciudad": "Barranquilla"
-  },
-  {
-   "id": "ldu_quito",
-   "nombre": "LDU Quito",
-   "pais": "Ecuador",
-   "grupo": "G",
-   "plantilla": [],
-   "nivel": 73,
-   "estadio": "Estadio Rodrigo Paz Delgado",
-   "ciudad": "Quito"
-  },
-  {
-   "id": "mirassol",
-   "nombre": "Mirassol",
-   "pais": "Brasil",
-   "grupo": "G",
-   "plantilla": [],
-   "nivel": 72,
-   "estadio": "Estadio José Maria de Campos Maia",
-   "ciudad": "Mirassol"
-  },
-  {
-   "id": "lanus",
-   "nombre": "Lanús",
-   "pais": "Argentina",
-   "grupo": "G",
-   "plantilla": [],
-   "nivel": 73,
-   "estadio": "Estadio Ciudad de Lanús",
-   "ciudad": "Lanús"
-  },
-  {
-   "id": "always_ready",
-   "nombre": "Always Ready",
-   "pais": "Bolivia",
-   "grupo": "G",
-   "plantilla": [],
-   "nivel": 65,
-   "estadio": "Estadio Municipal de El Alto",
-   "ciudad": "El Alto"
-  },
-  {
-   "id": "independiente_del_valle",
-   "nombre": "Independiente del Valle",
-   "pais": "Ecuador",
-   "grupo": "H",
-   "plantilla": [],
-   "nivel": 73,
-   "estadio": "Estadio Banco Guayaquil",
-   "ciudad": "Quito"
-  },
-  {
-   "id": "rosario_central",
-   "nombre": "Rosario Central",
-   "pais": "Argentina",
-   "grupo": "H",
-   "plantilla": [],
-   "nivel": 73,
-   "estadio": "Gigante de Arroyito",
-   "ciudad": "Rosario"
-  },
-  {
-   "id": "universidad_central",
-   "nombre": "Universidad Central",
-   "pais": "Venezuela",
-   "grupo": "H",
-   "plantilla": [],
-   "nivel": 63,
-   "estadio": "Estadio Olímpico de la UCV",
-   "ciudad": "Caracas"
-  },
-  {
-   "id": "libertad",
-   "nombre": "Libertad",
-   "pais": "Paraguay",
-   "grupo": "H",
-   "plantilla": [],
-   "nivel": 70,
-   "estadio": "Estadio Doctor Nicolás Leoz",
-   "ciudad": "Asunción"
-  }
- ],
- "fases": [
-  {
-   "id": "fase_grupos",
-   "nombre": "Fase de grupos",
-   "tipo": "grupos",
-   "grupos": {
-    "A": [
-     {
-      "pos": 1,
-      "equipo": "flamengo",
-      "pj": 6,
-      "g": 5,
-      "e": 1,
-      "p": 0,
-      "gf": 14,
-      "gc": 2,
-      "dg": 12,
-      "pts": 16
-     },
-     {
-      "pos": 2,
-      "equipo": "estudiantes_de_la_plata",
-      "pj": 6,
-      "g": 2,
-      "e": 3,
-      "p": 1,
-      "gf": 6,
-      "gc": 5,
-      "dg": 1,
-      "pts": 9
-     },
-     {
-      "pos": 3,
-      "equipo": "independiente_medellin",
-      "pj": 6,
-      "g": 2,
-      "e": 1,
-      "p": 3,
-      "gf": 6,
-      "gc": 11,
-      "dg": -5,
-      "pts": 7
-     },
-     {
-      "pos": 4,
-      "equipo": "cusco",
-      "pj": 6,
-      "g": 0,
-      "e": 1,
-      "p": 5,
-      "gf": 4,
-      "gc": 12,
-      "dg": -8,
-      "pts": 1
-     }
-    ],
-    "B": [
-     {
-      "pos": 1,
-      "equipo": "coquimbo_unido",
-      "pj": 6,
-      "g": 3,
-      "e": 1,
-      "p": 2,
-      "gf": 8,
-      "gc": 6,
-      "dg": 2,
-      "pts": 10
-     },
-     {
-      "pos": 2,
-      "equipo": "deportes_tolima",
-      "pj": 6,
-      "g": 2,
-      "e": 2,
-      "p": 2,
-      "gf": 7,
-      "gc": 6,
-      "dg": 1,
-      "pts": 8
-     },
-     {
-      "pos": 3,
-      "equipo": "nacional",
-      "pj": 6,
-      "g": 2,
-      "e": 2,
-      "p": 2,
-      "gf": 7,
-      "gc": 9,
-      "dg": -2,
-      "pts": 8
-     },
-     {
-      "pos": 4,
-      "equipo": "universitario",
-      "pj": 6,
-      "g": 1,
-      "e": 3,
-      "p": 2,
-      "gf": 5,
-      "gc": 6,
-      "dg": -1,
-      "pts": 6
-     }
-    ],
-    "C": [
-     {
-      "pos": 1,
-      "equipo": "independiente_rivadavia",
-      "pj": 6,
-      "g": 5,
-      "e": 1,
-      "p": 0,
-      "gf": 15,
-      "gc": 6,
-      "dg": 9,
-      "pts": 16
-     },
-     {
-      "pos": 2,
-      "equipo": "fluminense",
-      "pj": 6,
-      "g": 2,
-      "e": 2,
-      "p": 2,
-      "gf": 7,
-      "gc": 7,
-      "dg": 0,
-      "pts": 8
-     },
-     {
-      "pos": 3,
-      "equipo": "bolivar",
-      "pj": 6,
-      "g": 1,
-      "e": 2,
-      "p": 3,
-      "gf": 6,
-      "gc": 8,
-      "dg": -2,
-      "pts": 5
-     },
-     {
-      "pos": 4,
-      "equipo": "deportivo_la_guaira",
-      "pj": 6,
-      "g": 0,
-      "e": 3,
-      "p": 3,
-      "gf": 6,
-      "gc": 13,
-      "dg": -7,
-      "pts": 3
-     }
-    ],
-    "D": [
-     {
-      "pos": 1,
-      "equipo": "universidad_catolica",
-      "pj": 6,
-      "g": 4,
-      "e": 1,
-      "p": 1,
-      "gf": 8,
-      "gc": 4,
-      "dg": 4,
-      "pts": 13
-     },
-     {
-      "pos": 2,
-      "equipo": "cruzeiro",
-      "pj": 6,
-      "g": 3,
-      "e": 2,
-      "p": 1,
-      "gf": 8,
-      "gc": 3,
-      "dg": 5,
-      "pts": 11
-     },
-     {
-      "pos": 3,
-      "equipo": "boca_juniors",
-      "pj": 6,
-      "g": 2,
-      "e": 1,
-      "p": 3,
-      "gf": 6,
-      "gc": 5,
-      "dg": 1,
-      "pts": 7
-     },
-     {
-      "pos": 4,
-      "equipo": "barcelona_de_guayaquil",
-      "pj": 6,
-      "g": 1,
-      "e": 0,
-      "p": 5,
-      "gf": 2,
-      "gc": 12,
-      "dg": -10,
-      "pts": 3
-     }
-    ],
-    "E": [
-     {
-      "pos": 1,
-      "equipo": "corinthians",
-      "pj": 6,
-      "g": 3,
-      "e": 2,
-      "p": 1,
-      "gf": 8,
-      "gc": 4,
-      "dg": 4,
-      "pts": 11
-     },
-     {
-      "pos": 2,
-      "equipo": "platense",
-      "pj": 6,
-      "g": 3,
-      "e": 1,
-      "p": 2,
-      "gf": 8,
-      "gc": 7,
-      "dg": 1,
-      "pts": 10
-     },
-     {
-      "pos": 3,
-      "equipo": "santa_fe",
-      "pj": 6,
-      "g": 2,
-      "e": 2,
-      "p": 2,
-      "gf": 6,
-      "gc": 7,
-      "dg": -1,
-      "pts": 8
-     },
-     {
-      "pos": 4,
-      "equipo": "penarol",
-      "pj": 6,
-      "g": 0,
-      "e": 3,
-      "p": 3,
-      "gf": 4,
-      "gc": 8,
-      "dg": -4,
-      "pts": 3
-     }
-    ],
-    "F": [
-     {
-      "pos": 1,
-      "equipo": "cerro_porteno",
-      "pj": 6,
-      "g": 4,
-      "e": 1,
-      "p": 1,
-      "gf": 6,
-      "gc": 2,
-      "dg": 4,
-      "pts": 13
-     },
-     {
-      "pos": 2,
-      "equipo": "palmeiras",
-      "pj": 6,
-      "g": 3,
-      "e": 2,
-      "p": 1,
-      "gf": 10,
-      "gc": 5,
-      "dg": 5,
-      "pts": 11
-     },
-     {
-      "pos": 3,
-      "equipo": "sporting_cristal",
-      "pj": 6,
-      "g": 2,
-      "e": 0,
-      "p": 4,
-      "gf": 6,
-      "gc": 9,
-      "dg": -3,
-      "pts": 6
-     },
-     {
-      "pos": 4,
-      "equipo": "junior_de_barranquilla",
-      "pj": 6,
-      "g": 1,
-      "e": 1,
-      "p": 4,
-      "gf": 5,
-      "gc": 11,
-      "dg": -6,
-      "pts": 4
-     }
-    ],
-    "G": [
-     {
-      "pos": 1,
-      "equipo": "ldu_quito",
-      "pj": 6,
-      "g": 4,
-      "e": 0,
-      "p": 2,
-      "gf": 8,
-      "gc": 5,
-      "dg": 3,
-      "pts": 12
-     },
-     {
-      "pos": 2,
-      "equipo": "mirassol",
-      "pj": 6,
-      "g": 4,
-      "e": 0,
-      "p": 2,
-      "gf": 7,
-      "gc": 4,
-      "dg": 3,
-      "pts": 12
-     },
-     {
-      "pos": 3,
-      "equipo": "lanus",
-      "pj": 6,
-      "g": 3,
-      "e": 0,
-      "p": 3,
-      "gf": 3,
-      "gc": 7,
-      "dg": -4,
-      "pts": 9
-     },
-     {
-      "pos": 4,
-      "equipo": "always_ready",
-      "pj": 6,
-      "g": 1,
-      "e": 0,
-      "p": 5,
-      "gf": 7,
-      "gc": 9,
-      "dg": -2,
-      "pts": 3
-     }
-    ],
-    "H": [
-     {
-      "pos": 1,
-      "equipo": "independiente_del_valle",
-      "pj": 6,
-      "g": 4,
-      "e": 1,
-      "p": 1,
-      "gf": 11,
-      "gc": 6,
-      "dg": 5,
-      "pts": 13
-     },
-     {
-      "pos": 2,
-      "equipo": "rosario_central",
-      "pj": 6,
-      "g": 4,
-      "e": 1,
-      "p": 1,
-      "gf": 9,
-      "gc": 1,
-      "dg": 8,
-      "pts": 13
-     },
-     {
-      "pos": 3,
-      "equipo": "universidad_central",
-      "pj": 6,
-      "g": 3,
-      "e": 0,
-      "p": 3,
-      "gf": 7,
-      "gc": 11,
-      "dg": -4,
-      "pts": 9
-     },
-     {
-      "pos": 4,
-      "equipo": "libertad",
-      "pj": 6,
-      "g": 0,
-      "e": 0,
-      "p": 6,
-      "gf": 4,
-      "gc": 13,
-      "dg": -9,
-      "pts": 0
-     }
-    ]
-   }
-  },
-  {
-   "id": "octavos",
-   "nombre": "Octavos de final",
-   "tipo": "eliminatoria",
-   "cruces": [
+  "fases": [
     {
-     "id": "A",
-     "equipo1": "estudiantes_de_la_plata",
-     "equipo2": "universidad_catolica",
-     "ida": "1-1",
-     "vuelta": "3-0",
-     "global": "4-1",
-     "penales": null,
-     "ganador": "estudiantes_de_la_plata"
+      "id": "fase_grupos",
+      "nombre": "Fase de grupos",
+      "tipo": "grupos",
+      "grupos": {
+        "A": [
+          {
+            "pos": 1,
+            "equipo": "flamengo",
+            "pj": 6,
+            "g": 5,
+            "e": 1,
+            "p": 0,
+            "gf": 14,
+            "gc": 2,
+            "dg": 12,
+            "pts": 16
+          },
+          {
+            "pos": 2,
+            "equipo": "estudiantes_de_la_plata",
+            "pj": 6,
+            "g": 2,
+            "e": 3,
+            "p": 1,
+            "gf": 6,
+            "gc": 5,
+            "dg": 1,
+            "pts": 9
+          },
+          {
+            "pos": 3,
+            "equipo": "independiente_medellin",
+            "pj": 6,
+            "g": 2,
+            "e": 1,
+            "p": 3,
+            "gf": 6,
+            "gc": 11,
+            "dg": -5,
+            "pts": 7
+          },
+          {
+            "pos": 4,
+            "equipo": "cusco",
+            "pj": 6,
+            "g": 0,
+            "e": 1,
+            "p": 5,
+            "gf": 4,
+            "gc": 12,
+            "dg": -8,
+            "pts": 1
+          }
+        ],
+        "B": [
+          {
+            "pos": 1,
+            "equipo": "coquimbo_unido",
+            "pj": 6,
+            "g": 3,
+            "e": 1,
+            "p": 2,
+            "gf": 8,
+            "gc": 6,
+            "dg": 2,
+            "pts": 10
+          },
+          {
+            "pos": 2,
+            "equipo": "deportes_tolima",
+            "pj": 6,
+            "g": 2,
+            "e": 2,
+            "p": 2,
+            "gf": 7,
+            "gc": 6,
+            "dg": 1,
+            "pts": 8
+          },
+          {
+            "pos": 3,
+            "equipo": "nacional",
+            "pj": 6,
+            "g": 2,
+            "e": 2,
+            "p": 2,
+            "gf": 7,
+            "gc": 9,
+            "dg": -2,
+            "pts": 8
+          },
+          {
+            "pos": 4,
+            "equipo": "universitario",
+            "pj": 6,
+            "g": 1,
+            "e": 3,
+            "p": 2,
+            "gf": 5,
+            "gc": 6,
+            "dg": -1,
+            "pts": 6
+          }
+        ],
+        "C": [
+          {
+            "pos": 1,
+            "equipo": "independiente_rivadavia",
+            "pj": 6,
+            "g": 5,
+            "e": 1,
+            "p": 0,
+            "gf": 15,
+            "gc": 6,
+            "dg": 9,
+            "pts": 16
+          },
+          {
+            "pos": 2,
+            "equipo": "fluminense",
+            "pj": 6,
+            "g": 2,
+            "e": 2,
+            "p": 2,
+            "gf": 7,
+            "gc": 7,
+            "dg": 0,
+            "pts": 8
+          },
+          {
+            "pos": 3,
+            "equipo": "bolivar",
+            "pj": 6,
+            "g": 1,
+            "e": 2,
+            "p": 3,
+            "gf": 6,
+            "gc": 8,
+            "dg": -2,
+            "pts": 5
+          },
+          {
+            "pos": 4,
+            "equipo": "deportivo_la_guaira",
+            "pj": 6,
+            "g": 0,
+            "e": 3,
+            "p": 3,
+            "gf": 6,
+            "gc": 13,
+            "dg": -7,
+            "pts": 3
+          }
+        ],
+        "D": [
+          {
+            "pos": 1,
+            "equipo": "universidad_catolica",
+            "pj": 6,
+            "g": 4,
+            "e": 1,
+            "p": 1,
+            "gf": 8,
+            "gc": 4,
+            "dg": 4,
+            "pts": 13
+          },
+          {
+            "pos": 2,
+            "equipo": "cruzeiro",
+            "pj": 6,
+            "g": 3,
+            "e": 2,
+            "p": 1,
+            "gf": 8,
+            "gc": 3,
+            "dg": 5,
+            "pts": 11
+          },
+          {
+            "pos": 3,
+            "equipo": "boca_juniors",
+            "pj": 6,
+            "g": 2,
+            "e": 1,
+            "p": 3,
+            "gf": 6,
+            "gc": 5,
+            "dg": 1,
+            "pts": 7
+          },
+          {
+            "pos": 4,
+            "equipo": "barcelona_de_guayaquil",
+            "pj": 6,
+            "g": 1,
+            "e": 0,
+            "p": 5,
+            "gf": 2,
+            "gc": 12,
+            "dg": -10,
+            "pts": 3
+          }
+        ],
+        "E": [
+          {
+            "pos": 1,
+            "equipo": "corinthians",
+            "pj": 6,
+            "g": 3,
+            "e": 2,
+            "p": 1,
+            "gf": 8,
+            "gc": 4,
+            "dg": 4,
+            "pts": 11
+          },
+          {
+            "pos": 2,
+            "equipo": "platense",
+            "pj": 6,
+            "g": 3,
+            "e": 1,
+            "p": 2,
+            "gf": 8,
+            "gc": 7,
+            "dg": 1,
+            "pts": 10
+          },
+          {
+            "pos": 3,
+            "equipo": "santa_fe",
+            "pj": 6,
+            "g": 2,
+            "e": 2,
+            "p": 2,
+            "gf": 6,
+            "gc": 7,
+            "dg": -1,
+            "pts": 8
+          },
+          {
+            "pos": 4,
+            "equipo": "penarol",
+            "pj": 6,
+            "g": 0,
+            "e": 3,
+            "p": 3,
+            "gf": 4,
+            "gc": 8,
+            "dg": -4,
+            "pts": 3
+          }
+        ],
+        "F": [
+          {
+            "pos": 1,
+            "equipo": "cerro_porteno",
+            "pj": 6,
+            "g": 4,
+            "e": 1,
+            "p": 1,
+            "gf": 6,
+            "gc": 2,
+            "dg": 4,
+            "pts": 13
+          },
+          {
+            "pos": 2,
+            "equipo": "palmeiras",
+            "pj": 6,
+            "g": 3,
+            "e": 2,
+            "p": 1,
+            "gf": 10,
+            "gc": 5,
+            "dg": 5,
+            "pts": 11
+          },
+          {
+            "pos": 3,
+            "equipo": "sporting_cristal",
+            "pj": 6,
+            "g": 2,
+            "e": 0,
+            "p": 4,
+            "gf": 6,
+            "gc": 9,
+            "dg": -3,
+            "pts": 6
+          },
+          {
+            "pos": 4,
+            "equipo": "junior_de_barranquilla",
+            "pj": 6,
+            "g": 1,
+            "e": 1,
+            "p": 4,
+            "gf": 5,
+            "gc": 11,
+            "dg": -6,
+            "pts": 4
+          }
+        ],
+        "G": [
+          {
+            "pos": 1,
+            "equipo": "ldu_quito",
+            "pj": 6,
+            "g": 4,
+            "e": 0,
+            "p": 2,
+            "gf": 8,
+            "gc": 5,
+            "dg": 3,
+            "pts": 12
+          },
+          {
+            "pos": 2,
+            "equipo": "mirassol",
+            "pj": 6,
+            "g": 4,
+            "e": 0,
+            "p": 2,
+            "gf": 7,
+            "gc": 4,
+            "dg": 3,
+            "pts": 12
+          },
+          {
+            "pos": 3,
+            "equipo": "lanus",
+            "pj": 6,
+            "g": 3,
+            "e": 0,
+            "p": 3,
+            "gf": 3,
+            "gc": 7,
+            "dg": -4,
+            "pts": 9
+          },
+          {
+            "pos": 4,
+            "equipo": "always_ready",
+            "pj": 6,
+            "g": 1,
+            "e": 0,
+            "p": 5,
+            "gf": 7,
+            "gc": 9,
+            "dg": -2,
+            "pts": 3
+          }
+        ],
+        "H": [
+          {
+            "pos": 1,
+            "equipo": "independiente_del_valle",
+            "pj": 6,
+            "g": 4,
+            "e": 1,
+            "p": 1,
+            "gf": 11,
+            "gc": 6,
+            "dg": 5,
+            "pts": 13
+          },
+          {
+            "pos": 2,
+            "equipo": "rosario_central",
+            "pj": 6,
+            "g": 4,
+            "e": 1,
+            "p": 1,
+            "gf": 9,
+            "gc": 1,
+            "dg": 8,
+            "pts": 13
+          },
+          {
+            "pos": 3,
+            "equipo": "universidad_central",
+            "pj": 6,
+            "g": 3,
+            "e": 0,
+            "p": 3,
+            "gf": 7,
+            "gc": 11,
+            "dg": -4,
+            "pts": 9
+          },
+          {
+            "pos": 4,
+            "equipo": "libertad",
+            "pj": 6,
+            "g": 0,
+            "e": 0,
+            "p": 6,
+            "gf": 4,
+            "gc": 13,
+            "dg": -9,
+            "pts": 0
+          }
+        ]
+      }
     },
     {
-     "id": "B",
-     "equipo1": "mirassol",
-     "equipo2": "ldu_quito",
-     "ida": "1-1",
-     "vuelta": "0-0",
-     "global": "1-1",
-     "penales": "4-5",
-     "ganador": "ldu_quito"
+      "id": "octavos",
+      "nombre": "Octavos de final",
+      "tipo": "eliminatoria",
+      "cruces": [
+        {
+          "id": "A",
+          "equipo1": "estudiantes_de_la_plata",
+          "equipo2": "universidad_catolica",
+          "ida": "1-1",
+          "vuelta": "3-0",
+          "global": "4-1",
+          "penales": null,
+          "ganador": "estudiantes_de_la_plata"
+        },
+        {
+          "id": "B",
+          "equipo1": "mirassol",
+          "equipo2": "ldu_quito",
+          "ida": "1-1",
+          "vuelta": "0-0",
+          "global": "1-1",
+          "penales": "4-5",
+          "ganador": "ldu_quito"
+        },
+        {
+          "id": "C",
+          "equipo1": "fluminense",
+          "equipo2": "independiente_rivadavia",
+          "ida": "0-0",
+          "vuelta": "1-1",
+          "global": "1-1",
+          "penales": "5-4",
+          "ganador": "fluminense"
+        },
+        {
+          "id": "D",
+          "equipo1": "deportes_tolima",
+          "equipo2": "independiente_del_valle",
+          "ida": "0-1",
+          "vuelta": "1-3",
+          "global": "1-4",
+          "penales": null,
+          "ganador": "independiente_del_valle"
+        },
+        {
+          "id": "E",
+          "equipo1": "cruzeiro",
+          "equipo2": "flamengo",
+          "ida": "1-1",
+          "vuelta": "1-2",
+          "global": "2-3",
+          "penales": null,
+          "ganador": "flamengo"
+        },
+        {
+          "id": "F",
+          "equipo1": "platense",
+          "equipo2": "coquimbo_unido",
+          "ida": "1-1",
+          "vuelta": "0-0",
+          "global": "1-1",
+          "penales": "7-6",
+          "ganador": "platense"
+        },
+        {
+          "id": "G",
+          "equipo1": "palmeiras",
+          "equipo2": "cerro_porteno",
+          "ida": "1-1",
+          "vuelta": "1-0",
+          "global": "2-1",
+          "penales": null,
+          "ganador": "palmeiras"
+        },
+        {
+          "id": "H",
+          "equipo1": "rosario_central",
+          "equipo2": "corinthians",
+          "ida": "0-0",
+          "vuelta": "0-1",
+          "global": "0-1",
+          "penales": null,
+          "ganador": "corinthians"
+        }
+      ]
     },
     {
-     "id": "C",
-     "equipo1": "fluminense",
-     "equipo2": "independiente_rivadavia",
-     "ida": "0-0",
-     "vuelta": "1-1",
-     "global": "1-1",
-     "penales": "5-4",
-     "ganador": "fluminense"
+      "id": "cuartos",
+      "nombre": "Cuartos de final",
+      "tipo": "eliminatoria",
+      "cruces": [
+        {
+          "id": "S1",
+          "equipo1": "estudiantes_de_la_plata",
+          "equipo2": "corinthians",
+          "ida": "1-1",
+          "vuelta": "1-0",
+          "global": "2-1",
+          "penales": null,
+          "ganador": "estudiantes_de_la_plata"
+        },
+        {
+          "id": "S2",
+          "equipo1": "palmeiras",
+          "equipo2": "ldu_quito",
+          "ida": "1-0",
+          "vuelta": "2-3",
+          "global": "3-3",
+          "penales": "4-3",
+          "ganador": "palmeiras"
+        },
+        {
+          "id": "S3",
+          "equipo1": "fluminense",
+          "equipo2": "platense",
+          "ida": "2-0",
+          "vuelta": "1-2",
+          "global": "3-2",
+          "penales": null,
+          "ganador": "fluminense"
+        },
+        {
+          "id": "S4",
+          "equipo1": "independiente_del_valle",
+          "equipo2": "flamengo",
+          "ida": "0-2",
+          "vuelta": "1-1",
+          "global": "1-3",
+          "penales": null,
+          "ganador": "flamengo"
+        }
+      ]
     },
     {
-     "id": "D",
-     "equipo1": "deportes_tolima",
-     "equipo2": "independiente_del_valle",
-     "ida": "0-1",
-     "vuelta": "1-3",
-     "global": "1-4",
-     "penales": null,
-     "ganador": "independiente_del_valle"
+      "id": "semifinales",
+      "nombre": "Semifinales",
+      "tipo": "eliminatoria",
+      "cruces": [
+        {
+          "id": "F1",
+          "equipo1": "estudiantes_de_la_plata",
+          "equipo2": "flamengo",
+          "ida": null,
+          "vuelta": "0-0",
+          "global": null,
+          "penales": "3-2",
+          "ganador": "estudiantes_de_la_plata"
+        },
+        {
+          "id": "F2",
+          "equipo1": "fluminense",
+          "equipo2": "palmeiras",
+          "ida": null,
+          "vuelta": "1-0",
+          "global": "2-2",
+          "penales": "3-5",
+          "ganador": "palmeiras"
+        }
+      ]
     },
     {
-     "id": "E",
-     "equipo1": "cruzeiro",
-     "equipo2": "flamengo",
-     "ida": "1-1",
-     "vuelta": "1-2",
-     "global": "2-3",
-     "penales": null,
-     "ganador": "flamengo"
-    },
-    {
-     "id": "F",
-     "equipo1": "platense",
-     "equipo2": "coquimbo_unido",
-     "ida": "1-1",
-     "vuelta": "0-0",
-     "global": "1-1",
-     "penales": "7-6",
-     "ganador": "platense"
-    },
-    {
-     "id": "G",
-     "equipo1": "palmeiras",
-     "equipo2": "cerro_porteno",
-     "ida": "1-1",
-     "vuelta": "1-0",
-     "global": "2-1",
-     "penales": null,
-     "ganador": "palmeiras"
-    },
-    {
-     "id": "H",
-     "equipo1": "rosario_central",
-     "equipo2": "corinthians",
-     "ida": "0-0",
-     "vuelta": "0-1",
-     "global": "0-1",
-     "penales": null,
-     "ganador": "corinthians"
+      "id": "final",
+      "nombre": "Final",
+      "tipo": "final",
+      "cruces": [
+        {
+          "id": "FINAL",
+          "equipo1": "estudiantes_de_la_plata",
+          "equipo2": "palmeiras",
+          "fecha": "2026-11-28",
+          "sede": "Estadio Centenario, Montevideo, Uruguay",
+          "resultado": null,
+          "ganador": null
+        }
+      ],
+      "sede": "Estadio Centenario, Montevideo"
     }
-   ]
-  },
-  {
-   "id": "cuartos",
-   "nombre": "Cuartos de final",
-   "tipo": "eliminatoria",
-   "cruces": [
-    {
-     "id": "S1",
-     "equipo1": "estudiantes_de_la_plata",
-     "equipo2": "corinthians",
-     "ida": "1-1",
-     "vuelta": "1-0",
-     "global": "2-1",
-     "penales": null,
-     "ganador": "estudiantes_de_la_plata"
-    },
-    {
-     "id": "S2",
-     "equipo1": "palmeiras",
-     "equipo2": "ldu_quito",
-     "ida": "1-0",
-     "vuelta": "2-3",
-     "global": "3-3",
-     "penales": "4-3",
-     "ganador": "palmeiras"
-    },
-    {
-     "id": "S3",
-     "equipo1": "fluminense",
-     "equipo2": "platense",
-     "ida": "2-0",
-     "vuelta": "1-2",
-     "global": "3-2",
-     "penales": null,
-     "ganador": "fluminense"
-    },
-    {
-     "id": "S4",
-     "equipo1": "independiente_del_valle",
-     "equipo2": "flamengo",
-     "ida": "0-2",
-     "vuelta": "1-1",
-     "global": "1-3",
-     "penales": null,
-     "ganador": "flamengo"
-    }
-   ]
-  },
-  {
-   "id": "semifinales",
-   "nombre": "Semifinales",
-   "tipo": "eliminatoria",
-   "cruces": [
-    {
-     "id": "F1",
-     "equipo1": "estudiantes_de_la_plata",
-     "equipo2": "flamengo",
-     "ida": null,
-     "vuelta": "0-0",
-     "global": null,
-     "penales": "3-2",
-     "ganador": "estudiantes_de_la_plata"
-    },
-    {
-     "id": "F2",
-     "equipo1": "fluminense",
-     "equipo2": "palmeiras",
-     "ida": null,
-     "vuelta": "1-0",
-     "global": "2-2",
-     "penales": "3-5",
-     "ganador": "palmeiras"
-    }
-   ]
-  },
-  {
-   "id": "final",
-   "nombre": "Final",
-   "tipo": "final",
-   "cruces": [
-    {
-     "id": "FINAL",
-     "equipo1": "estudiantes_de_la_plata",
-     "equipo2": "palmeiras",
-     "fecha": "2026-11-28",
-     "sede": "Estadio Centenario, Montevideo, Uruguay",
-     "resultado": null,
-     "ganador": null
-    }
-   ],
-   "sede": "Estadio Centenario, Montevideo"
-  }
- ],
- "nota_nivel": "El campo nivel de cada club es una estimación orientativa para crear plantillas de ejemplo. Se puede cambiar a mano. Si pones jugadores reales en datos/clubes, se usan esos jugadores."
+  ],
+  "nota_nivel": "El campo nivel de cada club es una estimación orientativa para crear plantillas de ejemplo. Se puede cambiar a mano. Si pones jugadores reales en datos/clubes, se usan esos jugadores."
 }

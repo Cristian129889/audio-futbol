@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.15.2
+
+- **Auditoría completa de plantillas y competiciones (temporada 2026-27)**:
+  - **Selecciones Nacionales (Mundial 2026)**: actualizado [TODAS_LAS_SELECCIONES.csv](datos/TODAS_LAS_SELECCIONES.csv) (48 selecciones, 1,248 filas completas sin huecos). México actualizado con su convocatoria oficial de 26 jugadores del Mundial 2026 (bajas de Hirving Lozano, Uriel Antuna y Luis Malagón; altas de Raúl Rangel, Álvaro Fidalgo, Obed Vargas, Gilberto Mora, Armando González, César Huerta, etc.) y completados los 15 planteles que tenían filas vacías (Haití, Irak, Jordania, Uzbekistán, Curazao, Nueva Zelanda, Cabo Verde, Australia, Catar, Chequia, Bosnia y Herzegovina, Costa de Marfil, Sudáfrica, RD Congo y Panamá).
+  - **Liga MX Apertura 2026 (18 clubes completos)**: renovado [ligamx_clubes.csv](datos/clubes/ligamx_clubes.csv) con plantillas reales y dorsales para los 18 equipos. América actualizado sin Álvaro Fidalgo, Sebastián Cáceres, Jonathan dos Santos ni Víctor Dávila (con Óscar Perea, Miguel Borja, Carlos Álvarez, Edwin Cerrillo, Santiago Ramos Mingo, Santiago Bueno, etc.) e incorporados los 8 clubes que antes usaban plantilla genérica (Pachuca, Atlas, Necaxa, Querétaro, Santos Laguna, Atlético San Luis, FC Juárez y Atlante).
+  - **UEFA Champions League 2026-27 y Copa Libertadores 2026**: actualizado [champions_clubes.csv](datos/clubes/champions_clubes.csv) (Álvaro Fidalgo en Real Betis, bajas/altas 2026-27 en Real Madrid, Barcelona y Atlético de Madrid) y asignados dorsales únicos por equipo en Champions y Libertadores.
+  - **Copa Sudamericana 2026 y Copa Interamericana 2026 (0 equipos genéricos)**: agregados [sudamericana_clubes.csv](datos/clubes/sudamericana_clubes.csv) (28 clubes sudamericanos) e [interamericana_clubes.csv](datos/clubes/interamericana_clubes.csv) (10 clubes de la MLS y 4 de Centroamérica).
+  - **Unificación de niveles**: recalibrado el campo `nivel` en los 6 JSON de `competiciones/` según la media real de cada plantel (`team.strength()`), logrando **0 equipos genéricos** en todo el juego (48 selecciones reales + 128 clubes reales únicos).
+
 ## v0.15.1
 
 - **Corrección crítica en semifinales del Mundial**: al ganar la semifinal del Mundial, el juego pasaba a la fase de *Partido por el tercer lugar* y marcaba por error al ganador como eliminado (`user_eliminated = user_team not in semi_losers`), impidiéndole jugar *La gran final*. Ahora el finalista permanece clasificado, el hub anuncia que ya está en la gran final mientras se disputa el tercer puesto y, tras simularse ese partido, juega la final normalmente.
