@@ -219,6 +219,7 @@ class MatchEngine:
                 "C cambios. L alineación. "
                 "En ataque: Q cambio de frente, F pase filtrado, R regate, D disparo, B conducir. "
                 "En defensa: 1 presionar, 2 bloque, 3 marcar, 4 contraataque, 5 barrida, 6 falta táctica, 7 fuera de juego. "
+                "Historial en cualquier pantalla: coma mensaje anterior, punto siguiente, Shift coma primero, Shift punto último. "
                 "Control silencia, F2 repite, Escape pausa.",
                 interrupt=True,
             )

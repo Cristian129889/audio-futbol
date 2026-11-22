@@ -58,3 +58,30 @@ def test_audio_reader_navigation_and_escape() -> None:
 
     ui.reader("Tabla", ["Linea 1", "Linea 2"])
     assert any("Linea 2, 2 de 2" in msg for msg, _ in backend.spoken)
+
+
+def test_global_history_shortcuts_in_game_window() -> None:
+    backend = NullSpeechBackend()
+    speech = SpeechService([backend])
+    window = GameWindow(speech, headless=True)
+
+    speech.speak("Mensaje 1")
+    speech.speak("Mensaje 2")
+    speech.speak("Mensaje 3")
+
+    ev_prev = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_COMMA, mod=0, unicode=",")
+    ev_next = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_PERIOD, mod=0, unicode=".")
+    ev_first = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_COMMA, mod=pygame.KMOD_SHIFT, unicode=";")
+    ev_last = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_PERIOD, mod=pygame.KMOD_SHIFT, unicode=":")
+
+    assert window._handle_global_keydown(ev_prev) is True
+    assert backend.spoken[-1] == ("Mensaje 2", True)
+
+    assert window._handle_global_keydown(ev_first) is True
+    assert backend.spoken[-1] == ("Primer mensaje. Mensaje 1", True)
+
+    assert window._handle_global_keydown(ev_next) is True
+    assert backend.spoken[-1] == ("Mensaje 2", True)
+
+    assert window._handle_global_keydown(ev_last) is True
+    assert backend.spoken[-1] == ("Último mensaje. Mensaje 3", True)

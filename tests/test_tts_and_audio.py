@@ -75,6 +75,61 @@ def test_speech_service_chain_history_and_listener() -> None:
     assert fallback.cancel_count == 1
 
 
+def test_speech_service_history_navigation_and_no_pollution() -> None:
+    backend = NullSpeechBackend()
+    service = SpeechService([backend])
+
+    # Empty history
+    assert service.history_prev() is True
+    assert backend.spoken[-1] == ("Historial vacío.", True)
+    assert service.history == []
+
+    service.speak("Uno")
+    service.speak("Dos")
+    service.speak("Tres")
+    assert service.history == ["Uno", "Dos", "Tres"]
+    assert service.history_cursor == 2
+
+    # Comma -> previous
+    service.history_prev()
+    assert service.history_cursor == 1
+    assert backend.spoken[-1] == ("Dos", True)
+
+    # Shift + Comma -> first
+    service.history_first()
+    assert service.history_cursor == 0
+    assert backend.spoken[-1] == ("Primer mensaje. Uno", True)
+
+    # Boundary at start
+    service.history_prev()
+    assert service.history_cursor == 0
+    assert backend.spoken[-1] == ("Inicio del historial. Uno", True)
+
+    # Period -> next
+    service.history_next()
+    assert service.history_cursor == 1
+    assert backend.spoken[-1] == ("Dos", True)
+
+    # Shift + Period -> last
+    service.history_last()
+    assert service.history_cursor == 2
+    assert backend.spoken[-1] == ("Último mensaje. Tres", True)
+
+    # Boundary at end
+    service.history_next()
+    assert service.history_cursor == 2
+    assert backend.spoken[-1] == ("Fin del historial. Tres", True)
+
+    # Navigation never pollutes history
+    assert service.history == ["Uno", "Dos", "Tres"]
+
+    # New speech resets cursor to newest
+    service.history_first()
+    service.speak("Cuatro")
+    assert service.history == ["Uno", "Dos", "Tres", "Cuatro"]
+    assert service.history_cursor == 3
+
+
 def test_audio_engine_indexes_all_normalized_events() -> None:
     paths = AppPaths.detect()
     cfg = GameConfig()

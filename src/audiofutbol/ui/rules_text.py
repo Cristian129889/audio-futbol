@@ -49,5 +49,6 @@ REGLAS: tuple[str, ...] = (
     "Gol olímpico: al sacar un córner tienes la opción de intentar el gol olímpico, directo a la portería. Es muy difícil, pero entra de vez en cuando.",
     "Rebotes: cuando el portero no retiene el balón, o el balón da en el poste o en la barrera, queda suelto. Puede haber contrarremate, una chilena, o que la defensa despeje. Cerca del área rival también puedes intentar una chilena por tu cuenta.",
     "Tiros a puerta: después de cada tiro el juego dice cuántos tiros lleva el equipo y cuántos van a puerta. Un tiro va a puerta si es gol o lo ataja el portero. Se puede desactivar en Opciones. Con E lo oyes cuando quieras.",
-    "Atajos durante el partido: M marcador, T tiempo, P posesión, G goles, A tarjetas, E tiros y tiros a puerta, S estadísticas, H hacer tiempo, V decisiones del VAR, C cambios, L alineación, F1 ayuda, F2 repetir último mensaje, Control silenciar voz, Escape pausa. En la vuelta de una eliminatoria, M también dice el global.",
+    "Historial de voz en cualquier pantalla: coma lee el mensaje anterior, punto el siguiente, Shift más coma salta al primero y Shift más punto al último.",
+    "Atajos durante el partido: M marcador, T tiempo, P posesión, G goles, A tarjetas, E tiros y tiros a puerta, S estadísticas, X táctica, N clima e impulso, H hacer tiempo, V decisiones del VAR, C cambios, L alineación, F1 ayuda, F2 repetir último mensaje, Control silenciar voz, Escape pausa. En la vuelta de una eliminatoria, M también dice el global.",
 )

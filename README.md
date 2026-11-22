@@ -93,6 +93,8 @@ También puedes iniciar con `python -m audiofutbol` si deseas lanzarlo desde una
 - `Escape`: volver o pausar
 - `Control`: silenciar voz al instante
 - `F2`: repetir el último mensaje
+- `,` / `.`: leer mensaje anterior / siguiente del historial de voz (en cualquier pantalla)
+- `Shift + ,` / `Shift + .`: saltar al primer / último mensaje del historial de voz
 
 ### Durante un partido
 - **Ataque**: `Q` cambio de frente | `F` pase filtrado | `R` regate | `D` disparo | `B` conducir el balón

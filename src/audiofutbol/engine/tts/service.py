@@ -1,4 +1,4 @@
-"""Chain-of-responsibility speech service with history and HUD callback."""
+"""Chain-of-responsibility speech service with navigable history and HUD callback."""
 
 from __future__ import annotations
 
@@ -18,11 +18,12 @@ class SpeechService:
         self,
         backends: list[SpeechBackend],
         braille_enabled: bool = True,
-        history_size: int = 100,
+        history_size: int = 300,
     ) -> None:
         self._backends = list(backends)
         self.braille_enabled = braille_enabled
         self._history: deque[str] = deque(maxlen=history_size)
+        self._cursor: int = -1
         self._listeners: list[Callable[[str, bool], None]] = []
 
     def add_listener(self, listener: Callable[[str, bool], None]) -> None:
@@ -36,6 +37,10 @@ class SpeechService:
     @property
     def history(self) -> list[str]:
         return list(self._history)
+
+    @property
+    def history_cursor(self) -> int:
+        return self._cursor
 
     @property
     def backends(self) -> list[SpeechBackend]:
@@ -60,12 +65,8 @@ class SpeechService:
                 return f"DLL de NVDA no cargada: {backend.error} Usando {self.active_backend_name()}."
         return f"Motor de voz activo: {self.active_backend_name()}."
 
-    def speak(self, text: str, interrupt: bool = False) -> bool:
-        """Speak text via the first available backend and notify visual listeners."""
-        message = str(text)
-        if not message:
-            return False
-        self._history.append(message)
+    def _emit(self, message: str, interrupt: bool) -> bool:
+        """Send text to listeners and active TTS/Braille backend without mutating history."""
         for listener in self._listeners:
             try:
                 listener(message, interrupt)
@@ -82,11 +83,57 @@ class SpeechService:
                 continue
         return False
 
+    def speak(self, text: str, interrupt: bool = False) -> bool:
+        """Speak text via the first available backend, append to history, and move cursor to end."""
+        message = str(text)
+        if not message:
+            return False
+        self._history.append(message)
+        self._cursor = len(self._history) - 1
+        return self._emit(message, interrupt=interrupt)
+
     def repeat_last(self) -> bool:
-        """Repeat the most recent spoken message, interrupting current speech."""
+        """Repeat the most recent spoken message without adding a duplicate to history."""
         if not self._history:
             return False
-        return self.speak(self._history[-1], interrupt=True)
+        self._cursor = len(self._history) - 1
+        return self._emit(self._history[-1], interrupt=True)
+
+    # ------------------------------------------------------- History Navigation
+    def history_prev(self) -> bool:
+        """Move to the previous message in speech history (comma key)."""
+        if not self._history:
+            return self._emit("Historial vacío.", interrupt=True)
+        if self._cursor > 0:
+            self._cursor -= 1
+            return self._emit(self._history[self._cursor], interrupt=True)
+        self._cursor = 0
+        return self._emit(f"Inicio del historial. {self._history[0]}", interrupt=True)
+
+    def history_next(self) -> bool:
+        """Move to the next message in speech history (period key)."""
+        if not self._history:
+            return self._emit("Historial vacío.", interrupt=True)
+        last_idx = len(self._history) - 1
+        if self._cursor < last_idx:
+            self._cursor += 1
+            return self._emit(self._history[self._cursor], interrupt=True)
+        self._cursor = last_idx
+        return self._emit(f"Fin del historial. {self._history[last_idx]}", interrupt=True)
+
+    def history_first(self) -> bool:
+        """Jump to the oldest message in speech history (Shift + comma)."""
+        if not self._history:
+            return self._emit("Historial vacío.", interrupt=True)
+        self._cursor = 0
+        return self._emit(f"Primer mensaje. {self._history[0]}", interrupt=True)
+
+    def history_last(self) -> bool:
+        """Jump to the newest message in speech history (Shift + period)."""
+        if not self._history:
+            return self._emit("Historial vacío.", interrupt=True)
+        self._cursor = len(self._history) - 1
+        return self._emit(f"Último mensaje. {self._history[self._cursor]}", interrupt=True)
 
     def silence(self) -> None:
         """Cancel speech on every available backend."""

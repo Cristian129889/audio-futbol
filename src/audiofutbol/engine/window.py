@@ -34,7 +34,7 @@ class HudState:
     last_spoken: str = ""
     items: list[str] = field(default_factory=list)
     selected_index: int = 0
-    footer_hint: str = "Flechas: navegar | Enter: aceptar | Esc: volver | Ctrl: callar | F2: repetir"
+    footer_hint: str = "Flechas: navegar | Enter: aceptar | Esc: volver | ,/.: historial | Ctrl: callar | F2: repetir"
 
 
 class GameWindow:
@@ -210,17 +210,45 @@ class GameWindow:
         if event.type in (pygame.VIDEORESIZE, pygame.VIDEOEXPOSE):
             self.render()
 
+    def _handle_global_keydown(self, event: pygame.event.Event) -> bool:
+        """Handle universal accessibility shortcuts available on every screen.
+
+        Returns True if the event was consumed globally.
+        """
+        key = event.key
+        if key in (pygame.K_LCTRL, pygame.K_RCTRL):
+            self.speech.silence()
+            return True
+        if key == pygame.K_F2:
+            self.speech.repeat_last()
+            return True
+        if key in (pygame.K_COMMA, pygame.K_PERIOD):
+            mods = getattr(event, "mod", 0)
+            try:
+                mods |= pygame.key.get_mods()
+            except Exception:
+                pass
+            shift_held = bool(mods & pygame.KMOD_SHIFT)
+            if key == pygame.K_COMMA:
+                if shift_held:
+                    self.speech.history_first()
+                else:
+                    self.speech.history_prev()
+            else:
+                if shift_held:
+                    self.speech.history_last()
+                else:
+                    self.speech.history_next()
+            return True
+        return False
+
     def wait_key(self) -> tuple[int, str]:
         """Block cleanly until a gameplay keypress arrives, keeping window responsive."""
         while True:
             for event in pygame.event.get():
                 self._handle_system_event(event)
                 if event.type == pygame.KEYDOWN:
-                    if event.key in (pygame.K_LCTRL, pygame.K_RCTRL):
-                        self.speech.silence()
-                        continue
-                    if event.key == pygame.K_F2:
-                        self.speech.repeat_last()
+                    if self._handle_global_keydown(event):
                         continue
                     return event.key, getattr(event, "unicode", "")
             pygame.time.wait(15)
@@ -233,8 +261,8 @@ class GameWindow:
         while pygame.time.get_ticks() < deadline:
             for event in pygame.event.get():
                 self._handle_system_event(event)
-                if event.type == pygame.KEYDOWN and event.key in (pygame.K_LCTRL, pygame.K_RCTRL):
-                    self.speech.silence()
+                if event.type == pygame.KEYDOWN:
+                    self._handle_global_keydown(event)
             pygame.time.wait(15)
 
     def wait_or_skip(self, ms: int) -> bool:
@@ -246,9 +274,9 @@ class GameWindow:
             for event in pygame.event.get():
                 self._handle_system_event(event)
                 if event.type == pygame.KEYDOWN:
-                    if event.key in (pygame.K_LCTRL, pygame.K_RCTRL):
-                        self.speech.silence()
-                    elif event.key in (pygame.K_ESCAPE, pygame.K_SPACE):
+                    if self._handle_global_keydown(event):
+                        continue
+                    if event.key in (pygame.K_ESCAPE, pygame.K_SPACE):
                         return True
             pygame.time.wait(15)
         return False
