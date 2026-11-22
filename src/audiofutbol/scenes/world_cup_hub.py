@@ -13,8 +13,13 @@ from audiofutbol.ui.widgets import squad_lines
 def _finish_world_cup(ctx: GameContext, wc: WorldCup) -> None:
     assert wc.podium is not None
     champ, runner_up, third = wc.podium
-    ctx.audio.play_theme("musica_fanfarria", volume=0.8)
-    ctx.audio.play_sfx("ovacion")
+    if champ is wc.user_team:
+        ctx.audio.play_theme("musica_fanfarria", volume=0.8)
+        ctx.audio.play_sfx("ovacion")
+    elif runner_up is wc.user_team:
+        ctx.audio.play_theme("musica_derrota", volume=0.65)
+    else:
+        ctx.audio.play_menu_music()
     ctx.ui.speak(
         f"¡{champ.name} es campeón del mundo! Subcampeón: {runner_up.name}. "
         f"Tercer lugar: {third.name}."
@@ -24,6 +29,8 @@ def _finish_world_cup(ctx: GameContext, wc: WorldCup) -> None:
         ctx.ui.speak("Máximo goleador: " + top[0])
     if champ is wc.user_team:
         ctx.ui.speak("¡Enhorabuena, has ganado el Mundial!")
+    elif runner_up is wc.user_team:
+        ctx.ui.speak(f"{wc.user_team.name} termina como subcampeón del mundo.")
     ctx.saves.delete(WorldCup.KEY)
     ctx.ui.reader(
         "Resumen final del Mundial",

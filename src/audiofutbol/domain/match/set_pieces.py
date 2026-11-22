@@ -168,13 +168,13 @@ class SetPieceResolver:
             choice = 0
 
         if choice == 0:
-            if self.state.roll(0.30 + diff * 0.5):
+            if self.state.roll(0.42 + diff * 0.55):
                 self.defensive_header(def_idx, att_idx, from_corner)
                 return "despeje", 1.0
             return "sigue", 1.0
 
         if choice == 1 and gk is not None:
-            if self.state.roll(0.30 + (self.state.rating(def_idx, "gk") - 70) / 100.0 * 0.6):
+            if self.state.roll(0.40 + (self.state.rating(def_idx, "gk") - 70) / 100.0 * 0.6):
                 self._sfx("parada")
                 phrase = self.state.rng.choice(
                     [
@@ -185,13 +185,13 @@ class SetPieceResolver:
                 self._speak(phrase % gk.name)
                 self.state.set_possession(def_idx, 1, carrier=gk)
                 return "portero", 1.0
-            if self.state.roll(0.30):
+            if self.state.roll(0.25):
                 self._speak(
                     f"¡El portero {gk.name} sale en falso y no llega! La portería queda desprotegida."
                 )
-                return "sigue", 1.7
+                return "sigue", 1.35
             self._speak(f"El portero {gk.name} sale pero no alcanza el balón.")
-            return "sigue", 1.15
+            return "sigue", 1.10
 
         if def_idx == 0:
             self._speak("Marcas de cerca a los rematadores.")
@@ -218,9 +218,9 @@ class SetPieceResolver:
         else:
             self._speak("¡Rebote! El balón queda suelto en la frontal del área.")
 
-        win_prob = 0.52 + (
+        win_prob = 0.36 + (
             self.state.rating(att_idx, "att") - self.state.rating(def_idx, "dfn")
-        ) / 100.0 * 0.6
+        ) / 100.0 * 0.5
         if depth >= 2 or not self.state.roll(win_prob):
             defender = self.state.pick_player(
                 def_idx, {"DEF": 6.0, "MED": 1.3, "DEL": 0.3, "POR": 0.0}
@@ -345,7 +345,7 @@ class SetPieceResolver:
             else self.state.pick_scorer(att_idx, header=header)
         )
         self.state.shots[att_idx] += 1
-        base = {0: 0.005, 1: 0.015, 2: 0.095, 3: 0.36}[zone]
+        base = {0: 0.004, 1: 0.012, 2: 0.070, 3: 0.26}[zone]
 
         # Meaningful individual finishing quality (non-linear: 90 OVR >> 70 OVR)
         eff_taker = self.state.effective_overall(taker)
@@ -380,7 +380,7 @@ class SetPieceResolver:
 
         team_edge = 1.0 + (
             self.state.rating(att_idx, "att") - self.state.rating(def_idx, "dfn")
-        ) / 100.0 * 2.2
+        ) / 100.0 * 1.5
 
         p = (
             base
@@ -454,7 +454,7 @@ class SetPieceResolver:
                     f"Gran atajada del portero de {self.state.team_name(def_idx)} al remate de {taker.name}."
                 )
             self._announce_shots(att_idx)
-            spill_prob = (0.28 if header else 0.24) * self.state.weather.gk_spill_mod
+            spill_prob = (0.20 if header else 0.17) * self.state.weather.gk_spill_mod
             if zone >= 2 and depth < 2 and self.state.roll(spill_prob):
                 self._speak("¡El portero no logra retener el balón!")
                 self.rebound(att_idx, depth, from_corner, min(zone, 3))
@@ -535,19 +535,21 @@ class SetPieceResolver:
             f"{self.state.team_name(0)} {self.state.goals[0]}, "
             f"{self.state.team_name(1)} {self.state.goals[1]}."
         )
-        self._sfx("gol")
+        if team_idx == 0:
+            self._sfx("gol")
+            self._crowd_react("ovacion", 1.1)
+        else:
+            self._crowd_react("abucheo", 1.1)
         if wonder_goal and goal_type == "gol olímpico":
             self._speak(
                 f"¡Goooool! ¡GOL OLÍMPICO de {scorer.name}, de {self.state.team_name(team_idx)}! "
                 f"El balón entra directo desde el saque de esquina. Minuto {self.state.minute()}."
             )
-            self._crowd_react("ovacion" if team_idx == 0 else "abucheo", 1.1)
         elif wonder_goal:
             self._speak(
                 f"¡Goooool! ¡Qué golazo de {scorer.name}, de {self.state.team_name(team_idx)}{suffix}! "
                 f"Minuto {self.state.minute()}."
             )
-            self._crowd_react("ovacion" if team_idx == 0 else "abucheo", 0.95)
         else:
             self._speak(
                 f"¡Goooool! {scorer.name}, de {self.state.team_name(team_idx)}{suffix}. "
@@ -582,7 +584,7 @@ class SetPieceResolver:
         if outcome != "sigue" or self.state.abandoned:
             return
         p = (
-            (0.55 + (self.state.rating(att_idx, "att") - self.state.rating(def_idx, "dfn")) / 100.0 * 0.5)
+            (0.46 + (self.state.rating(att_idx, "att") - self.state.rating(def_idx, "dfn")) / 100.0 * 0.45)
             * wing_bonus
             * self.state.weather.cross_mod
         )
@@ -591,7 +593,7 @@ class SetPieceResolver:
             if self.state.roll(0.05):
                 self.shot(att_idx, 3, mult=0.50 * mult, bicycle=True)
             else:
-                self.shot(att_idx, 3, mult=0.62 * mult * factor, header=True)
+                self.shot(att_idx, 3, mult=0.54 * mult * factor, header=True)
         elif self.state.roll(0.28):
             self.corner(att_idx)
         else:
@@ -738,9 +740,13 @@ class SetPieceResolver:
             who = gk.name if gk else "el portero"
             if choice == 0:
                 self.state.set_possession(0, 0, carrier=gk)
-                rec = self.state.pick_receiver(0, "corto", exclude=gk)
-                self._speak(f"{who} saca de meta y juega corto con {rec.name}.")
-                self.state.zone = 1
+                rec = self.state.pick_player(
+                    0, {"DEF": 5.0, "MED": 2.0, "DEL": 0.2, "POR": 0.0}, exclude=gk
+                )
+                self._speak(
+                    f"{who} saca de meta en corto para {rec.name}, {ZONES_OWN[0]}."
+                )
+                self.state.zone = 0
                 self.state.ball_carrier = rec
             elif self.state.roll(0.5):
                 self.state.set_possession(0, 2)

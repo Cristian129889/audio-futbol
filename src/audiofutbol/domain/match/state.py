@@ -227,7 +227,7 @@ class MatchState:
         seg = 120 if auto else settings.turn_seconds
         self.turn_seconds = seg if seg in (120, 60, 30) else 60
         self.factor = 120 // self.turn_seconds
-        self.goal_factor = {1: 1.0, 2: 0.92, 4: 0.82}[self.factor]
+        self.goal_factor = {1: 1.15, 2: 0.62, 4: 0.38}[self.factor]
         self.total_turns = 45 * self.factor
         self.halftime_turn = 22 * self.factor
 

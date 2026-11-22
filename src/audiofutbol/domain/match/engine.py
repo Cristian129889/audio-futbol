@@ -1218,9 +1218,11 @@ class MatchEngine:
                 ),
             )
         if not self.state.auto:
+            self.io.play_menu_music()
             if summary:
                 self.io.read_summary_stream(summary[0], summary[1])
             self._halftime_menu(next_half, summary)
+            self.io.stop_music(800)
         self._sfx("silbato")
         self._speak(f"Comienza el {next_half}.")
 

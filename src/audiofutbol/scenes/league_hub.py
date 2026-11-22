@@ -16,8 +16,13 @@ from audiofutbol.ui.widgets import squad_lines
 def _finish_league(ctx: GameContext, tournament: NationsLeague) -> None:
     assert tournament.champion is not None
     assert tournament.runner_up is not None
-    ctx.audio.play_theme("musica_fanfarria", volume=0.8)
-    ctx.audio.play_sfx("ovacion")
+    if tournament.champion is tournament.user_team:
+        ctx.audio.play_theme("musica_fanfarria", volume=0.8)
+        ctx.audio.play_sfx("ovacion")
+    elif tournament.runner_up is tournament.user_team:
+        ctx.audio.play_theme("musica_derrota", volume=0.65)
+    else:
+        ctx.audio.play_menu_music()
     ctx.ui.speak(
         f"¡{tournament.champion.name} es campeón de la {tournament.TITLE}! "
         f"Subcampeón: {tournament.runner_up.name}."
@@ -27,6 +32,10 @@ def _finish_league(ctx: GameContext, tournament: NationsLeague) -> None:
         ctx.ui.speak("Máximo goleador: " + top[0])
     if tournament.champion is tournament.user_team:
         ctx.ui.speak(f"¡Enhorabuena, has ganado la {tournament.TITLE}!")
+    elif tournament.runner_up is tournament.user_team:
+        ctx.ui.speak(
+            f"{tournament.user_team.name} termina como subcampeón de la {tournament.TITLE}."
+        )
     ctx.saves.delete(tournament.KEY)
     ctx.ui.reader(
         f"Resumen final de la {tournament.TITLE}",

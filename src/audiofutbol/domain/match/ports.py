@@ -37,6 +37,9 @@ class MatchIO(Protocol):
     def play_theme(self, name: str, loop: bool = False, volume: float = 1.0) -> None:
         """Play a match theme (versus, penalties, etc.)."""
 
+    def play_menu_music(self) -> None:
+        """Play background music (used in halftime summaries/menus)."""
+
     def stop_music(self, fade_ms: int = 1200) -> None:
         """Fade out music."""
 
@@ -97,6 +100,9 @@ class HeadlessMatchIO:
         pass
 
     def play_theme(self, name: str, loop: bool = False, volume: float = 1.0) -> None:
+        pass
+
+    def play_menu_music(self) -> None:
         pass
 
     def stop_music(self, fade_ms: int = 1200) -> None:

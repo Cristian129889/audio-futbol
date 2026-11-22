@@ -236,3 +236,61 @@ def test_substituting_active_ball_carrier_updates_carrier_and_removes_subbed_off
     engine._short_pass(1, carrier, 0.25)
     assert all(out_player.name not in msg for msg in io.messages)
 
+
+def test_goal_sfx_distinguishes_user_goal_from_rival_goal() -> None:
+    team_a = create_generic_team("Argentina", 86)
+    team_b = create_generic_team("Corea del Sur", 76)
+    io = HeadlessMatchIO(rng=random.Random(10))
+    engine = MatchEngine(
+        team_a,
+        team_b,
+        io=io,
+        settings=MatchSettings(var_enabled=False, crowd_volume=0.05),
+        auto=False,
+        rng=random.Random(10),
+    )
+
+    scorer_a = next(p for p in engine.state.xi[0] if p.position == "DEL")
+    engine.set_pieces.score_goal(0, scorer_a)
+    assert "gol" in io.sfx_events
+    assert "ovacion" in io.sfx_events
+
+    io.sfx_events.clear()
+    scorer_b = next(p for p in engine.state.xi[1] if p.position == "DEL")
+    engine.set_pieces.score_goal(1, scorer_b)
+    assert "abucheo" in io.sfx_events
+    assert "ovacion" not in io.sfx_events
+    assert "gol" not in io.sfx_events
+
+
+def test_goal_kick_short_pass_stays_in_own_box_zone() -> None:
+    team_a = create_generic_team("Argentina", 86)
+    team_b = create_generic_team("Brasil", 86)
+    io = HeadlessMatchIO(decision_callback=lambda _t, _o: 0)
+    engine = MatchEngine(team_a, team_b, io=io, auto=False, rng=random.Random(7))
+
+    engine.set_pieces.goal_kick(0)
+    assert engine.state.possession == 0
+    assert engine.state.zone == 0
+
+
+def test_halftime_plays_and_stops_menu_music() -> None:
+    class _SpyMatchIO(HeadlessMatchIO):
+        def __init__(self) -> None:
+            super().__init__(decision_callback=lambda _t, _o: 1)
+            self.music_events: list[str] = []
+
+        def play_menu_music(self) -> None:
+            self.music_events.append("play_menu_music")
+
+        def stop_music(self, fade_ms: int = 1200) -> None:
+            self.music_events.append(f"stop_music:{fade_ms}")
+
+    team_a = create_generic_team("Argentina", 86)
+    team_b = create_generic_team("Francia", 86)
+    io = _SpyMatchIO()
+    engine = MatchEngine(team_a, team_b, io=io, auto=False, rng=random.Random(3))
+    engine._halftime("primer tiempo", "segundo tiempo")
+    assert io.music_events == ["play_menu_music", "stop_music:800"]
+
+

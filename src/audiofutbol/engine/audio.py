@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import os
 from pathlib import Path
 import random
@@ -128,7 +129,8 @@ MASTER_MUSIC_HEADROOM = 0.34
 MASTER_CROWD_HEADROOM = 0.20
 VOLUME_CURVE_EXPONENT = 2.2
 
-CROWD_EVENTS: frozenset[str] = frozenset({"tribuna", "ovacion", "abucheo"})
+CROWD_EVENTS: frozenset[str] = frozenset({"tribuna"})
+REACTION_EVENTS: frozenset[str] = frozenset({"ovacion", "abucheo", "casi"})
 
 
 def perceptual_gain(level: float, master: float = 1.0, headroom: float = 1.0) -> float:
@@ -269,18 +271,23 @@ class AudioEngine:
                         headroom=MASTER_CROWD_HEADROOM,
                     )
                 elif event == "gol":
-                    # Goal crowd roar scales gently with both effects and crowd ambience
+                    base_gain = perceptual_gain(
+                        self.config.vol_efectos,
+                        master=self.config.vol_maestro,
+                        headroom=MASTER_SFX_HEADROOM * 0.85,
+                    )
+                elif event in REACTION_EVENTS:
                     eff_gain = perceptual_gain(
                         self.config.vol_efectos,
                         master=self.config.vol_maestro,
-                        headroom=MASTER_SFX_HEADROOM * 0.42,
+                        headroom=MASTER_SFX_HEADROOM * 0.65,
                     )
                     crowd_gain = perceptual_gain(
                         self.config.vol_ambiente,
                         master=self.config.vol_maestro,
-                        headroom=MASTER_CROWD_HEADROOM * 0.90,
+                        headroom=MASTER_CROWD_HEADROOM,
                     )
-                    base_gain = min(eff_gain, crowd_gain + eff_gain * 0.35)
+                    base_gain = max(eff_gain, crowd_gain)
                 else:
                     base_gain = perceptual_gain(
                         self.config.vol_efectos,
@@ -345,11 +352,13 @@ class AudioEngine:
                     tracks.append(filepath)
         if tracks:
             try:
+                self._pygame.mixer.music.stop()
                 self._pygame.mixer.music.load(str(random.choice(tracks)))
                 self.set_music_volume(self.config.vol_musica)
                 self._pygame.mixer.music.play(-1)
-            except Exception:
-                pass
+                self.set_music_volume(self.config.vol_musica)
+            except Exception as exc:
+                logging.getLogger("audiofutbol").warning("Failed to play menu music: %s", exc)
 
     def stop_music(self, fade_ms: int = 600) -> None:
         if not self.ok or self._pygame is None:
@@ -379,18 +388,19 @@ class AudioEngine:
             candidate = self.paths.themes_dir / f"{name}{ext}"
             if candidate.is_file():
                 try:
+                    self._pygame.mixer.music.stop()
                     self._pygame.mixer.music.load(str(candidate))
                     gain = perceptual_gain(
                         self.config.vol_musica,
                         master=self.config.vol_maestro,
                         headroom=MASTER_MUSIC_HEADROOM,
                     )
-                    self._pygame.mixer.music.set_volume(
-                        max(0.0, min(1.0, gain * max(0.0, float(volume))))
-                    )
+                    vol = max(0.0, min(1.0, gain * max(0.0, float(volume))))
+                    self._pygame.mixer.music.set_volume(vol)
                     self._pygame.mixer.music.play(-1 if loop else 0)
-                except Exception:
-                    pass
+                    self._pygame.mixer.music.set_volume(vol)
+                except Exception as exc:
+                    logging.getLogger("audiofutbol").warning("Failed to play theme %s: %s", name, exc)
                 return
 
     def summary_lines(self) -> list[str]:

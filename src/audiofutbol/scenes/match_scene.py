@@ -34,6 +34,9 @@ class PygameMatchIO:
     def play_theme(self, name: str, loop: bool = False, volume: float = 1.0) -> None:
         self.ctx.audio.play_theme(name, loop=loop, volume=volume)
 
+    def play_menu_music(self) -> None:
+        self.ctx.audio.play_menu_music()
+
     def stop_music(self, fade_ms: int = 1200) -> None:
         self.ctx.audio.stop_music(fade_ms)
 

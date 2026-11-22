@@ -164,3 +164,33 @@ def test_config_roundtrip_and_clamping(tmp_path: Path) -> None:
     assert loaded.turno_seg == 60
     assert loaded.var is False
     assert loaded.braille is False
+
+
+def test_goal_and_reaction_sfx_stay_audible_when_ambience_is_low() -> None:
+    from unittest.mock import MagicMock
+
+    paths = AppPaths.detect()
+    cfg = GameConfig(vol_maestro=0.65, vol_efectos=0.40, vol_ambiente=0.05)
+    audio = AudioEngine(paths, cfg, init_mixer=False)
+    audio.ok = True
+    audio._pygame = MagicMock()
+    mock_channel = MagicMock()
+    mock_sound = MagicMock()
+    mock_sound.play.return_value = mock_channel
+    audio._load_sound = MagicMock(return_value=mock_sound)  # type: ignore[method-assign]
+
+    audio.play_sfx("gol")
+    gol_left, gol_right = mock_channel.set_volume.call_args[0]
+    assert gol_left == gol_right
+    assert gol_left > 0.015
+
+    mock_channel.set_volume.reset_mock()
+    audio.play_sfx("ovacion")
+    ov_left, _ = mock_channel.set_volume.call_args[0]
+    assert ov_left > 0.012
+
+    mock_channel.set_volume.reset_mock()
+    audio.play_sfx("tribuna")
+    trib_left, _ = mock_channel.set_volume.call_args[0]
+    assert trib_left < 0.001
+
