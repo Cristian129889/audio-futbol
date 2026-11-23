@@ -24,8 +24,9 @@ REGLAS: tuple[str, ...] = (
     "Dos amarillas acumuladas en distintos partidos del torneo suponen un partido de sanción. La roja también supone un partido de sanción. Los jugadores sancionados no pueden jugar.",
     "Penales: eliges hacia dónde tirar o, si eres el portero, hacia dónde lanzarte. Izquierda y derecha son siempre las de tus altavoces.",
     "Los córners y tiros libres peligrosos también te dejan elegir cómo sacarlos.",
-    "Cambios: durante el partido pulsa C para sustituir jugadores. En el Mundial tienes 5 cambios por partido y en los amistosos son ilimitados. Un jugador que sale no puede volver a entrar.",
-    "Los jugadores se cansan con los minutos y rinden menos. El juego te avisa cuando uno está muy cansado. Si un jugador tuyo se lesiona, tienes que elegir un cambio si te quedan. Con L escuchas tu alineación en el campo.",
+    "Cambios: durante el juego vivo pulsa C para avisarle al cuarto árbitro que harás un cambio; la sustitución se abrirá automáticamente en cuanto se detenga el juego por falta, saque de banda, saque de meta, tiro de esquina, fuera de juego, gol o descanso. Si el juego ya está detenido, C abre el menú al instante, y si vuelves a pulsar C puedes cancelar el aviso. En competiciones oficiales tienes 5 cambios por partido y en los amistosos son ilimitados. Un jugador que sale no puede volver a entrar.",
+    "Expulsión del portero: si expulsan a tu portero y tienes cambios y un portero suplente en el banquillo, el juego te pide elegir qué jugador de campo sale para que entre el portero suplente. Solo si ya no te quedan cambios o no hay portero disponible, un jugador de campo se pone los guantes.",
+    "Los jugadores se cansan con los minutos y rinden menos. El juego te avisa cuando uno está muy cansado. Si un jugador tuyo se lesiona, tienes que elegir un cambio si te quedan. Con L escuchas tu alineación en el campo ordenada por posición.",
     "Mundial: con 48 equipos se juega como el de 2026, en 12 grupos de 4. Si tu base de datos tiene menos equipos, se juega con 32, 16 u 8. Los equipos se reparten en bombos según su calidad.",
     "Fase de grupos: tres jornadas. Victoria 3 puntos, empate 1, derrota 0.",
     "Desempate en la clasificación: puntos, diferencia de goles, goles a favor, fair play y, si persiste, sorteo.",
@@ -53,5 +54,5 @@ REGLAS: tuple[str, ...] = (
     "Tiros a puerta: después de cada tiro el juego dice cuántos tiros lleva el equipo y cuántos van a puerta. Un tiro va a puerta si es gol o lo ataja el portero. Se puede desactivar en Opciones. Con E lo oyes cuando quieras.",
     "Actualizador automático: al arrancar el juego o desde el menú de Opciones puedes buscar actualizaciones oficiales desde GitHub, leer las novedades de la versión antes de decidir y actualizar con un solo paso conservando tus partidas guardadas y tu configuración.",
     "Historial de voz en cualquier pantalla: coma lee el mensaje anterior, punto el siguiente, Shift más coma salta al primero y Shift más punto al último.",
-    "Atajos durante el partido: M marcador, T tiempo, P posesión, G goles, A tarjetas, E tiros y tiros a puerta, S estadísticas, X táctica, N clima e impulso, H hacer tiempo, V decisiones del VAR, C cambios, L alineación, F1 ayuda, F2 repetir último mensaje, Control silenciar voz, Escape pausa. En la vuelta de una eliminatoria, M también dice el global.",
+    "Atajos durante el partido: M marcador, T tiempo, P posesión, G goles, A tarjetas, E tiros y tiros a puerta, S estadísticas, X táctica, N clima e impulso, H hacer tiempo, V decisiones del VAR, C pedir cambio al cuarto árbitro, L alineación, F1 ayuda, F2 repetir último mensaje, Control silenciar voz, Escape pausa. En la vuelta de una eliminatoria, M también dice el global.",
 )

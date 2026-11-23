@@ -68,6 +68,7 @@ class MatchEngine:
             self.state, self.io, self._crowd_react, self.set_pieces.give_card
         )
         self.set_pieces.on_goalkeeper_sent_off = self.subs.handle_goalkeeper_sent_off
+        self.set_pieces.on_stoppage = self.subs.process_pending_substitution
 
     def _speak(self, text: str, interrupt: bool = False) -> None:
         if not self.state.muted:
@@ -219,9 +220,8 @@ class MatchEngine:
                 interrupt=True,
             )
 
-        def k_subs() -> str:
-            self.subs.open_substitution_menu()
-            return "releer"
+        def k_subs() -> str | None:
+            return self.subs.request_substitution()
 
         def k_lineup() -> str:
             self.subs.read_lineup()
@@ -271,7 +271,7 @@ class MatchEngine:
                 "Atajos: M marcador. T tiempo. P posesión y carril. G goles. A tarjetas. "
                 "E tiros y tiros a puerta. S estadísticas. X cambiar táctica en vivo. "
                 "N clima, táctica e impulso del partido. H hacer tiempo. V VAR. "
-                "C cambios. L alineación. "
+                "C pedir cambio al cuarto árbitro (se aplica en la siguiente pausa). L alineación. "
                 "En ataque: Q cambio de frente, F pase filtrado, R regate, D disparo, B conducir. "
                 "En defensa: 1 presionar, 2 bloque, 3 marcar, 4 contraataque, 5 barrida, 6 falta táctica, 7 fuera de juego. "
                 "Historial en cualquier pantalla: coma mensaje anterior, punto siguiente, Shift coma primero, Shift punto último. "
@@ -302,6 +302,7 @@ class MatchEngine:
         options: list[str],
         weights: list[int] | None = None,
         quick_keys: dict[str, int] | None = None,
+        dead_ball: bool = False,
     ) -> int:
         if self.state.auto:
             if weights:
@@ -309,30 +310,36 @@ class MatchEngine:
             return self.state.rng.randrange(len(options))
 
         self.io.update_hud(self.state.hud_status())
-        while True:
-            idx = self.io.choose(
-                title, options, shortcuts=self.build_shortcuts(), quick_keys=quick_keys
-            )
-            if idx is not None:
-                return idx
-            pause_choice = self.io.choose(
-                "Pausa",
-                [
-                    "Continuar",
-                    "Simular el resto del partido",
-                    "Abandonar el partido",
-                ],
-            )
-            if pause_choice == 1:
-                self.io.speak("Simulando el resto del partido.")
-                self.state.auto = True
-                self.state.muted = True
-                return self.state.rng.randrange(len(options))
-            if pause_choice == 2 and self.io.confirm(
-                "¿Seguro que quieres abandonar? Contará como derrota 0 a 3"
-            ):
-                self.state.abandoned = True
-                return 0
+        prev_in_play = self.state.ball_in_play
+        self.state.ball_in_play = not dead_ball
+        try:
+            while True:
+                idx = self.io.choose(
+                    title, options, shortcuts=self.build_shortcuts(), quick_keys=quick_keys
+                )
+                if idx is not None:
+                    return idx
+                pause_choice = self.io.choose(
+                    "Pausa",
+                    [
+                        "Continuar",
+                        "Simular el resto del partido",
+                        "Abandonar el partido",
+                    ],
+                )
+                if pause_choice == 1:
+                    self.io.speak("Simulando el resto del partido.")
+                    self.state.auto = True
+                    self.state.muted = True
+                    self.state.pending_substitution = False
+                    return self.state.rng.randrange(len(options))
+                if pause_choice == 2 and self.io.confirm(
+                    "¿Seguro que quieres abandonar? Contará como derrota 0 a 3"
+                ):
+                    self.state.abandoned = True
+                    return 0
+        finally:
+            self.state.ball_in_play = prev_in_play
 
     # ------------------------------------------------------- Attack Sub-actions
     def _lose_possession(self, can_foul: bool = True, interceptor: Player | None = None) -> None:
@@ -443,6 +450,7 @@ class MatchEngine:
             )
             self.state.space_bonus = 0.0
             self.state.set_possession(1, 1)
+            self.subs.process_pending_substitution("el fuera de juego")
             return
 
         duel = self.state.duel_advantage(carrier, marker)
@@ -566,6 +574,7 @@ class MatchEngine:
                 f"El pase largo de {carrier.name} deja a {striker.name} en fuera de juego."
             )
             self.state.set_possession(1, 1)
+            self.subs.process_pending_substitution("el fuera de juego")
         elif self.state.roll((0.68 + mid_diff * 0.6) * self.state.weather.long_pass_mod):
             self._crowd_react("ovacion", 1.6)
             self._speak(
@@ -707,6 +716,7 @@ class MatchEngine:
                 self._sfx("silbato")
                 self._speak("El pase largo deja al delantero en fuera de juego.")
                 self.state.set_possession(1, 1)
+                self.subs.process_pending_substitution("el fuera de juego")
             elif self.state.roll(
                 (0.50 + (self.state.rating(0, "mid") - self.state.rating(1, "dfn")) / 100.0 * 0.6)
                 * self.state.weather.long_pass_mod
@@ -774,6 +784,7 @@ class MatchEngine:
                 f"Pase filtrado de {carrier.name} para {striker.name}, pero el delantero rival estaba en fuera de juego."
             )
             self.state.set_possession(0, 1, carrier=defender)
+            self.subs.process_pending_substitution("el fuera de juego")
             return
         if self.state.roll(0.42 + duel * 0.65):
             self.state.zone = 3
@@ -970,6 +981,7 @@ class MatchEngine:
                 banda=LANE_SIDE_NAME[wing],
             )
             self._recover_ball(msg, 1, player=defender)
+            self.subs.process_pending_substitution("el saque de banda")
             return
 
         # 4) Force a desperate long shot or forced cross when rival is impatient / in zone 2+
@@ -1031,6 +1043,7 @@ class MatchEngine:
                 )
             )
             self.state.set_possession(0, 1, carrier=leader)
+            self.subs.process_pending_substitution("el fuera de juego")
         else:
             striker = self.state.pick_scorer(1, header=False)
             self._speak(self.narrator.say("offside_trap_fail", riv=striker.name))
@@ -1353,7 +1366,19 @@ class MatchEngine:
             self.io.play_menu_music()
             if summary:
                 self.io.read_summary_stream(summary[0], summary[1])
-            self._halftime_menu(next_half, summary)
+            prev_in_play = self.state.ball_in_play
+            self.state.ball_in_play = False
+            try:
+                if self.state.pending_substitution:
+                    self.state.pending_substitution = False
+                    self.io.update_hud(self.state.hud_status())
+                    self.io.speak(
+                        "Habías pedido un cambio al cuarto árbitro. Puedes hacerlo ahora en el descanso."
+                    )
+                    self.subs.open_substitution_menu()
+                self._halftime_menu(next_half, summary)
+            finally:
+                self.state.ball_in_play = prev_in_play
             self.io.stop_music(800)
         self._sfx("silbato")
         self._speak(f"Comienza el {next_half}.")
@@ -1405,7 +1430,7 @@ class MatchEngine:
             self.io.play_theme("musica_versus", volume=0.7)
         self._speak(
             f"{self.state.title}. {self.state.team_name(0)} contra {self.state.team_name(1)}. "
-            "Pulsa F1 para ver los atajos. Con X cambias tu postura táctica y con C haces cambios."
+            "Pulsa F1 para ver los atajos. Con X cambias tu postura táctica y con C pides un cambio al cuarto árbitro."
         )
         if self.state.stadium:
             self._speak(f"Hoy se juega en {self.state.stadium}.")

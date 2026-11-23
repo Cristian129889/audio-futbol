@@ -466,5 +466,88 @@ def test_ai_goalkeeper_red_card_subs_in_backup_gk() -> None:
     assert len(engine.state.xi[1]) == 10
 
 
+def test_c_during_live_play_notifies_fourth_official_and_applies_at_stoppage() -> None:
+    choose_calls: list[str] = []
+
+    def decide(title: str, options: list[str]) -> int:
+        choose_calls.append(title)
+        if "¿Quién sale?" in title:
+            return len(options) - 1
+        return 0
+
+    team_a = create_generic_team("México", 82)
+    team_b = create_generic_team("Chile", 80)
+    io = HeadlessMatchIO(decision_callback=decide, rng=random.Random(5))
+    engine = MatchEngine(team_a, team_b, io=io, max_substitutions=5, auto=False, rng=random.Random(5))
+    shortcuts = engine.build_shortcuts()
+
+    assert engine.state.ball_in_play is True
+    res = shortcuts["c"]()
+    assert res is None  # Must not return "releer" so menu doesn't cut off announcement
+    assert engine.state.pending_substitution is True
+    assert choose_calls == []
+    assert "Cambio pedido" in engine.state.hud_status()
+    assert any("cuarto árbitro" in m.lower() for m in io.messages)
+
+    # Stoppage occurs (throw-in) -> pending substitution opens automatically before play resumes
+    engine.set_pieces.throw_in()
+    assert engine.state.pending_substitution is False
+    assert engine.state.substitutions_used[0] == 1
+    assert any("¿Quién sale?" in t for t in choose_calls)
+    assert any("tablero electrónico" in m.lower() for m in io.messages)
+
+
+def test_c_twice_during_live_play_cancels_pending_request() -> None:
+    team_a = create_generic_team("México", 82)
+    team_b = create_generic_team("Chile", 80)
+    io = HeadlessMatchIO(rng=random.Random(9))
+    engine = MatchEngine(team_a, team_b, io=io, max_substitutions=5, auto=False, rng=random.Random(9))
+    shortcuts = engine.build_shortcuts()
+
+    assert shortcuts["c"]() is None
+    assert engine.state.pending_substitution is True
+
+    # HeadlessMatchIO.confirm returns True -> cancels the pending fourth-official notice
+    res2 = shortcuts["c"]()
+    assert res2 == "releer"
+    assert engine.state.pending_substitution is False
+    assert any("cancelado" in m.lower() for m in io.messages)
+
+
+def test_c_during_dead_ball_opens_substitution_immediately() -> None:
+    choose_calls: list[str] = []
+
+    def decide(title: str, options: list[str]) -> int:
+        choose_calls.append(title)
+        return 0
+
+    team_a = create_generic_team("Argentina", 86)
+    team_b = create_generic_team("Colombia", 82)
+    io = HeadlessMatchIO(decision_callback=decide)
+    engine = MatchEngine(team_a, team_b, io=io, max_substitutions=5, auto=False)
+    engine.state.ball_in_play = False
+
+    res = engine.build_shortcuts()["c"]()
+    assert res == "releer"
+    assert engine.state.pending_substitution is False
+    assert engine.state.substitutions_used[0] == 1
+    assert any("¿Quién sale?" in t for t in choose_calls)
+
+
+def test_c_blocked_during_penalty_shootout() -> None:
+    team_a = create_generic_team("Argentina", 86)
+    team_b = create_generic_team("Francia", 86)
+    io = HeadlessMatchIO()
+    engine = MatchEngine(team_a, team_b, io=io, max_substitutions=5, auto=False)
+    engine.state.in_penalty_shootout = True
+
+    res = engine.build_shortcuts()["c"]()
+    assert res is None
+    assert engine.state.pending_substitution is False
+    assert engine.state.substitutions_used[0] == 0
+    assert any("tanda de penales" in m.lower() for m in io.messages)
+
+
+
 
 

@@ -18,7 +18,7 @@ class SetPieceResolver:
         state: MatchState,
         io: MatchIO,
         var: VarSystem,
-        choose_fn: Callable[[str, list[str], list[int] | None, dict[str, int] | None], int],
+        choose_fn: Callable[..., int],
         crowd_react: Callable[[str, float], None],
     ) -> None:
         self.state = state
@@ -27,6 +27,11 @@ class SetPieceResolver:
         self._choose = choose_fn
         self._crowd_react = crowd_react
         self.on_goalkeeper_sent_off: Callable[[int], None] | None = None
+        self.on_stoppage: Callable[[str | None], bool] | None = None
+
+    def _notify_stoppage(self, reason: str) -> None:
+        if self.on_stoppage is not None:
+            self.on_stoppage(reason)
 
     def _speak(self, text: str) -> None:
         if not self.state.muted:
@@ -81,6 +86,7 @@ class SetPieceResolver:
             if self.state.suspended_match:
                 return True, 1.0
             self.state.set_possession(att_idx, 3)
+            self._notify_stoppage("la falta en el área")
             self.var.review_penalty(def_idx, att_idx, self.free_kick, self.penalty)
             return True, 1.0
 
@@ -583,6 +589,7 @@ class SetPieceResolver:
             and self.state.roll(0.12)
         ):
             self.var.review_goal(team_idx, scorer)
+        self._notify_stoppage("la reanudación tras el gol")
 
     # ------------------------------------------------------- Cross, Corner, Restarts
     def cross(
@@ -638,6 +645,8 @@ class SetPieceResolver:
                     f"Tres saques de esquina seguidos para {self.state.team_name(att_idx)}."
                 )
 
+        self._notify_stoppage("el tiro de esquina")
+
         taker = self.state.pick_player(
             att_idx, {"MED": 4.0, "DEL": 2.0, "DEF": 0.5, "POR": 0.0}
         )
@@ -653,6 +662,7 @@ class SetPieceResolver:
                 ],
                 [33, 42, 18, 7],
                 None,
+                dead_ball=True,
             )
             if self.state.abandoned:
                 return
@@ -691,15 +701,17 @@ class SetPieceResolver:
         team_idx = self.state.rng.choice((0, 1))
         side = self.state.rng.choice((-1, 1))
         zone = self.state.rng.choice((1, 1, 2))
-        taker = self.state.pick_player(
-            team_idx, {"DEF": 3.0, "MED": 3.0, "DEL": 1.0, "POR": 0.0}
-        )
         self._sfx("balon", side * 0.8)
         wing = "izquierda" if side < 0 else "derecha"
         self._speak(
             f"El balón sale por la banda {wing}. Saque de banda para "
-            f"{self.state.team_name(team_idx)}, lo saca {taker.name}."
+            f"{self.state.team_name(team_idx)}."
         )
+        self._notify_stoppage("el saque de banda")
+        taker = self.state.pick_player(
+            team_idx, {"DEF": 3.0, "MED": 3.0, "DEL": 1.0, "POR": 0.0}
+        )
+        self._speak(f"Lo saca {taker.name}.")
         self.state.set_possession(team_idx, zone, lane=side, carrier=taker)
         if team_idx == 0:
             choice = self._choose(
@@ -710,6 +722,7 @@ class SetPieceResolver:
                 ],
                 [70, 30],
                 None,
+                dead_ball=True,
             )
             if self.state.abandoned:
                 return
@@ -740,16 +753,18 @@ class SetPieceResolver:
             )
 
     def goal_kick(self, team_idx: int) -> None:
-        gk = self.state.goalkeeper(team_idx)
-        who = gk.name if gk else "el portero"
         self._sfx("balon")
         self._speak(f"Saque de meta para {self.state.team_name(team_idx)}.")
+        self._notify_stoppage("el saque de meta")
+        gk = self.state.goalkeeper(team_idx)
+        who = gk.name if gk else "el portero"
         if team_idx == 0:
             choice = self._choose(
                 "¿Cómo sacas de meta?",
                 ["Salida corta jugando desde atrás", "Saque largo al delantero"],
                 [65, 35],
                 None,
+                dead_ball=True,
             )
             if self.state.abandoned:
                 self.state.set_possession(0, 1)
@@ -808,6 +823,7 @@ class SetPieceResolver:
                 ["Tres jugadores", "Cuatro jugadores", "Cinco jugadores"],
                 [25, 50, 25],
                 None,
+                dead_ball=True,
             )
             if self.state.abandoned:
                 return
@@ -835,6 +851,7 @@ class SetPieceResolver:
                 ],
                 [16, 9, 45, 30],
                 None,
+                dead_ball=True,
             )
             if self.state.abandoned:
                 return
@@ -902,6 +919,7 @@ class SetPieceResolver:
         self.state.lost_seconds += 40
         if att_idx == 1:
             self._crowd_react("abucheo", 2.0)
+        self._notify_stoppage("el penal")
         pool = [p for p in self.state.xi[att_idx] if p.position in ("DEL", "MED")] or self.state.xi[att_idx]
         taker = max(pool, key=lambda p: p.overall + self.state.rng.random() * 3)
         self._speak(
@@ -927,6 +945,7 @@ class SetPieceResolver:
                 ["A la izquierda", "Al centro", "A la derecha"],
                 [44, 12, 44],
                 None,
+                dead_ball=True,
             )
             if self.state.abandoned:
                 return "fuera"
@@ -938,6 +957,7 @@ class SetPieceResolver:
                 ["A la izquierda", "Te quedas en el centro", "A la derecha"],
                 [44, 12, 44],
                 None,
+                dead_ball=True,
             )
             if self.state.abandoned:
                 return "fuera"
@@ -966,62 +986,67 @@ class SetPieceResolver:
         return "gol"
 
     def penalty_shootout(self) -> None:
-        self._speak("Se decide en la tanda de penales.")
-        self._sfx("penal")
-        if not self.state.muted:
-            self.io.play_theme("musica_penales", loop=True, volume=0.4)
+        self.state.pending_substitution = False
+        self.state.in_penalty_shootout = True
+        try:
+            self._speak("Se decide en la tanda de penales.")
+            self._sfx("penal")
+            if not self.state.muted:
+                self.io.play_theme("musica_penales", loop=True, volume=0.4)
 
-        score = [0, 0]
-        taken = [0, 0]
-        order: list[list[Player]] = []
-        for idx in (0, 1):
-            candidates = [p for p in self.state.xi[idx] if p.position != "POR"] + [
-                p for p in self.state.xi[idx] if p.position == "POR"
-            ]
-            order.append(
-                sorted(
-                    candidates,
-                    key=lambda p: -(p.overall + self.state.rng.random() * 4),
+            score = [0, 0]
+            taken = [0, 0]
+            order: list[list[Player]] = []
+            for idx in (0, 1):
+                candidates = [p for p in self.state.xi[idx] if p.position != "POR"] + [
+                    p for p in self.state.xi[idx] if p.position == "POR"
+                ]
+                order.append(
+                    sorted(
+                        candidates,
+                        key=lambda p: -(p.overall + self.state.rng.random() * 4),
+                    )
                 )
-            )
-        first = self.state.rng.choice((0, 1))
-        self._speak(f"Empieza lanzando {self.state.team_name(first)}.")
-        round_num = 0
-        decided = False
+            first = self.state.rng.choice((0, 1))
+            self._speak(f"Empieza lanzando {self.state.team_name(first)}.")
+            round_num = 0
+            decided = False
 
-        while not decided and not self.state.abandoned:
-            for idx in (first, 1 - first):
-                taker = order[idx][round_num % len(order[idx])]
-                self._speak(f"Lanza {taker.name}, de {self.state.team_name(idx)}.")
-                outcome = self.take_penalty_kick(idx)
-                if self.state.abandoned:
-                    break
-                taken[idx] += 1
-                if outcome == "gol":
-                    score[idx] += 1
-                    self._sfx("gol")
-                    self._speak(
-                        f"¡Gol! {self.state.team_name(0)} {score[0]}, "
-                        f"{self.state.team_name(1)} {score[1]}."
-                    )
-                else:
-                    self._speak(
-                        f"Penal fallado. {self.state.team_name(0)} {score[0]}, "
-                        f"{self.state.team_name(1)} {score[1]}."
-                    )
-                rem0, rem1 = max(0, 5 - taken[0]), max(0, 5 - taken[1])
-                if min(taken) < 5 or max(taken) <= 5:
-                    if score[0] > score[1] + rem1 or score[1] > score[0] + rem0:
+            while not decided and not self.state.abandoned:
+                for idx in (first, 1 - first):
+                    taker = order[idx][round_num % len(order[idx])]
+                    self._speak(f"Lanza {taker.name}, de {self.state.team_name(idx)}.")
+                    outcome = self.take_penalty_kick(idx)
+                    if self.state.abandoned:
+                        break
+                    taken[idx] += 1
+                    if outcome == "gol":
+                        score[idx] += 1
+                        self._sfx("gol")
+                        self._speak(
+                            f"¡Gol! {self.state.team_name(0)} {score[0]}, "
+                            f"{self.state.team_name(1)} {score[1]}."
+                        )
+                    else:
+                        self._speak(
+                            f"Penal fallado. {self.state.team_name(0)} {score[0]}, "
+                            f"{self.state.team_name(1)} {score[1]}."
+                        )
+                    rem0, rem1 = max(0, 5 - taken[0]), max(0, 5 - taken[1])
+                    if min(taken) < 5 or max(taken) <= 5:
+                        if score[0] > score[1] + rem1 or score[1] > score[0] + rem0:
+                            decided = True
+                    elif taken[0] == taken[1] and score[0] != score[1]:
                         decided = True
-                elif taken[0] == taken[1] and score[0] != score[1]:
-                    decided = True
-                if decided:
-                    break
-            round_num += 1
+                    if decided:
+                        break
+                round_num += 1
 
-        if not self.state.muted:
-            self.io.stop_music(800)
-        self.state.penalties = (score[0], score[1])
+            if not self.state.muted:
+                self.io.stop_music(800)
+            self.state.penalties = (score[0], score[1])
+        finally:
+            self.state.in_penalty_shootout = False
 
     # ------------------------------------------------------- Fouls & Cards
     def foul(self, offender_team: int, zone_receiver: int, foul_type: str = "normal") -> None:
@@ -1121,6 +1146,7 @@ class SetPieceResolver:
         self.state.set_possession(receiver_team, zone_receiver)
         if self.state.suspended_match:
             return
+        self._notify_stoppage("la falta")
         if zone_receiver >= 3:
             self.var.review_penalty(offender_team, receiver_team, self.free_kick, self.penalty)
         elif zone_receiver == 2:

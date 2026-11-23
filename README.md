@@ -93,7 +93,7 @@ Disponibles en todas las pantallas del juego:
 | Defensa (atajos rápidos) | `1` presionar arriba, `2` defender en bloque, `3` salir a marcar, `4` preparar contraataque, `5` barrida, `6` falta táctica, `7` trampa del fuera de juego |
 | Táctica y contexto | `X` cambiar postura táctica (Equilibrado, Ofensivo, Defensivo), `N` clima, postura rival, carril, ánimo y tensión |
 | Información en vivo | `M` marcador y global, `T` minuto, `P` posesión, zona, carril y portador, `G` goles, `A` tarjetas, `E` tiros y tiros a puerta, `S` estadísticas |
-| Gestión y ayuda | `C` cambios de jugadores, `L` alineación en campo, `H` hacer tiempo, `V` historial del VAR, `F1` ayuda de atajos |
+| Gestión y ayuda | `C` pedir cambio al cuarto árbitro (se aplica en la siguiente detención), `L` alineación en campo, `H` hacer tiempo, `V` historial del VAR, `F1` ayuda de atajos |
 | Resumen y recuento | `Espacio` salta a la siguiente sección (goles, jugadas, estadísticas), `Escape` cancela la narración |
 
 ## Menú de Opciones

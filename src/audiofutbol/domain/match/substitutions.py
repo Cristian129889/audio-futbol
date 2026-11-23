@@ -339,6 +339,95 @@ class SubstitutionManager:
             f"sale {out_player.name} y entra el portero suplente {in_gk.name}."
         )
 
+    def request_substitution(self) -> str | None:
+        """Handle pressing C: open immediately on dead ball or notify 4th official."""
+        if self.state.in_penalty_shootout:
+            self.io.speak(
+                "No se pueden hacer cambios durante la tanda de penales.",
+                interrupt=True,
+            )
+            return None
+        rem = self.remaining_subs(0, human=True)
+        if rem is not None and rem <= 0:
+            self.io.speak(
+                f"Ya hiciste tus {self.state.max_substitutions} cambios. No puedes cambiar más.",
+                interrupt=True,
+            )
+            return None
+        if not self.bench(0):
+            self.io.speak("No tienes suplentes disponibles.", interrupt=True)
+            return None
+
+        if not self.state.ball_in_play:
+            self.state.pending_substitution = False
+            self.open_substitution_menu()
+            self.io.update_hud(self.state.hud_status())
+            return "releer"
+
+        if self.state.pending_substitution:
+            if self.io.confirm(
+                "Ya le avisaste al cuarto árbitro para hacer un cambio en la próxima detención del juego. "
+                "¿Quieres cancelar el aviso?"
+            ):
+                self.state.pending_substitution = False
+                self.io.update_hud(self.state.hud_status())
+                self.io.speak("Aviso al cuarto árbitro cancelado.", interrupt=True)
+            else:
+                self.io.speak(
+                    "Se mantiene el aviso al cuarto árbitro. El cambio se realizará en cuanto se detenga el juego.",
+                    interrupt=True,
+                )
+            return "releer"
+
+        self.state.pending_substitution = True
+        self.io.update_hud(self.state.hud_status())
+        self.io.speak(
+            "Le avisas al cuarto árbitro que harás un cambio. "
+            "Se realizará automáticamente en la próxima detención del juego.",
+            interrupt=True,
+        )
+        return None
+
+    def process_pending_substitution(self, reason: str | None = None) -> bool:
+        """Execute a queued substitution when play stops (dead ball, foul, out of bounds)."""
+        if (
+            not self.state.pending_substitution
+            or self.state.auto
+            or self.state.abandoned
+            or self.state.suspended_match
+        ):
+            return False
+
+        self.state.pending_substitution = False
+        self.io.update_hud(self.state.hud_status())
+        rem = self.remaining_subs(0, human=True)
+        if (rem is not None and rem <= 0) or not self.bench(0):
+            self.io.speak(
+                "El juego se detuvo, pero ya no tienes cambios ni suplentes disponibles."
+            )
+            return False
+
+        if reason:
+            self.io.speak(
+                f"Se detiene el juego por {reason}. "
+                "El cuarto árbitro levanta el tablero electrónico para tu cambio."
+            )
+        else:
+            self.io.speak(
+                "Se detiene el juego. El cuarto árbitro levanta el tablero electrónico para tu cambio."
+            )
+
+        prev_in_play = self.state.ball_in_play
+        self.state.ball_in_play = False
+        try:
+            done = self.open_substitution_menu()
+        finally:
+            self.state.ball_in_play = prev_in_play
+
+        if not done:
+            self.io.speak("No hiciste el cambio. Se reanuda el juego.")
+        return done
+
     def ai_substitutions(self, team_idx: int) -> None:
         if team_idx == 0 and not self.state.auto:
             return
@@ -417,6 +506,7 @@ class SubstitutionManager:
                     )
             else:
                 self.ai_substitutions(team_idx)
+            self.process_pending_substitution("la lesión")
 
     def apply_turn_fatigue(self) -> None:
         rates = {"POR": 0.5, "DEF": 2.0, "MED": 2.6, "DEL": 2.3}
@@ -447,7 +537,7 @@ class SubstitutionManager:
                     self.state.fatigue_warned.add(pid)
                     self.state.last_fatigue_warn_turn = self.state.turn
                     self._speak(
-                        f"{player.name}, de tu equipo, está muy cansado. Puedes cambiarlo con la tecla C."
+                        f"{player.name}, de tu equipo, está muy cansado. Puedes pedir su cambio con la tecla C."
                     )
                     break
 

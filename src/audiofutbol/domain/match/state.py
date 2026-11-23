@@ -223,6 +223,9 @@ class MatchState:
         self.substitutions_used: list[int] = [0, 0]
         self.subbed_off: list[set[int]] = [set(), set()]
         self.position_overrides: dict[int, str] = {}  # id(player) -> assigned role if playing out of position
+        self.pending_substitution: bool = False
+        self.ball_in_play: bool = True
+        self.in_penalty_shootout: bool = False
         self.fatigue: dict[int, float] = {}
         self.injured: set[int] = set()
         self.fatigue_warned: set[int] = set()
@@ -628,6 +631,8 @@ class MatchState:
             f"Min {self.minute()}' | {self.team_name(0)} {self.goals[0]} - "
             f"{self.goals[1]} {self.team_name(1)} | {self.formation_code(0)} {tactic_lbl} | {self.weather.name_es.capitalize()}"
         )
+        if self.pending_substitution:
+            base += " | Cambio pedido"
         if self.first_leg is not None:
             agg = self.aggregate()
             base += f" | Global {agg[0]}-{agg[1]}"
