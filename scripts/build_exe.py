@@ -2,10 +2,36 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 from pathlib import Path
 import shutil
 import subprocess
 import sys
+
+from audiofutbol.engine.config import GameConfig
+
+
+def _write_clean_default_config(root: Path, dest: Path) -> None:
+    """Write tracked default config.json (never leaking local runtime overrides)."""
+    try:
+        proc = subprocess.run(
+            ["git", "show", "HEAD:config.json"],
+            cwd=root,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            check=True,
+        )
+        data = json.loads(proc.stdout)
+        dest.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        return
+    except Exception:
+        pass
+    dest.write_text(
+        json.dumps(GameConfig().to_dict(), indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
 
 
 def main() -> None:
@@ -51,7 +77,6 @@ def main() -> None:
             shutil.copytree(src, portable_dir / folder_name)
 
     for file_name in (
-        "config.json",
         "sonidos.txt",
         "README.md",
         "CHANGELOG.md",
@@ -60,12 +85,15 @@ def main() -> None:
         src = root / file_name
         if src.is_file():
             shutil.copy2(src, portable_dir / file_name)
+    _write_clean_default_config(root, portable_dir / "config.json")
 
     zip_path = root / "AudioFutbol_Portable.zip"
     if zip_path.exists():
         zip_path.unlink()
     shutil.make_archive(str(root / "AudioFutbol_Portable"), "zip", portable_dir)
+    sha256 = hashlib.sha256(zip_path.read_bytes()).hexdigest()
     print(f"Portable build ready: {portable_dir} and {zip_path}")
+    print(f"SHA-256: {sha256}")
 
 
 if __name__ == "__main__":

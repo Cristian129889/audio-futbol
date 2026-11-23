@@ -12,6 +12,7 @@ from audiofutbol.version import APP_NAME, VERSION
 
 BG_COLOR = (12, 18, 30)
 PANEL_COLOR = (22, 32, 52)
+STATUS_BG = (28, 44, 72)
 ACCENT_COLOR = (255, 208, 64)
 TEXT_COLOR = (240, 245, 255)
 MUTED_COLOR = (165, 180, 205)
@@ -32,7 +33,9 @@ class HudState:
     last_spoken: str = ""
     items: list[str] = field(default_factory=list)
     selected_index: int = 0
-    footer_hint: str = "Flechas: navegar | Enter: aceptar | Esc: volver | ,/.: historial | Ctrl: callar | F2: repetir"
+    footer_hint: str = (
+        "Flechas: navegar | Enter: elegir | Esc: volver | ,/.: historial | F1: ayuda | F2: repetir | Ctrl: callar"
+    )
 
 
 class GameWindow:
@@ -149,9 +152,15 @@ class GameWindow:
         y += title_surf.get_height() + 8
 
         if self.hud.status_line:
-            status_surf = self._font_body.render(self.hud.status_line, True, TEXT_COLOR)
-            self._surface.blit(status_surf, (pad, y))
-            y += status_surf.get_height() + 10
+            status_text = self.hud.status_line
+            while len(status_text) > 10 and self._font_small.size(status_text)[0] > content_w - 20:
+                status_text = status_text[:-4] + "..."
+            status_rect = pygame.Rect(pad, y, content_w, 28)
+            pygame.draw.rect(self._surface, STATUS_BG, status_rect, border_radius=6)
+            pygame.draw.rect(self._surface, BORDER_COLOR, status_rect, width=1, border_radius=6)
+            status_surf = self._font_small.render(status_text, True, TEXT_COLOR)
+            self._surface.blit(status_surf, (pad + 10, y + 5))
+            y += 36
 
         # Last spoken narration panel
         caption_lines = self._wrap_text(
@@ -168,16 +177,23 @@ class GameWindow:
             surf = self._font_body.render(line, True, TEXT_COLOR)
             self._surface.blit(surf, (pad + 12, cy))
             cy += 26
-        y += panel_h + 14
+        y += panel_h + 12
 
         # Visible menu / reader items
         footer_h = 34
-        available_h = max(40, h - y - footer_h - pad)
-        row_h = 32
-        max_rows = max(1, available_h // row_h)
         if self.hud.items:
             total = len(self.hud.items)
             sel = max(0, min(self.hud.selected_index, total - 1))
+            counter_surf = self._font_small.render(
+                f"Opción {sel + 1} de {total}", True, MUTED_COLOR
+            )
+            self._surface.blit(
+                counter_surf, (max(pad, w - pad - counter_surf.get_width()), y)
+            )
+            y += counter_surf.get_height() + 4
+            available_h = max(40, h - y - footer_h - pad)
+            row_h = 32
+            max_rows = max(1, available_h // row_h)
             start = max(0, min(sel - max_rows // 2, total - max_rows))
             end = min(total, start + max_rows)
             for idx in range(start, end):
@@ -197,7 +213,10 @@ class GameWindow:
                 y += row_h
 
         # Footer shortcuts
-        footer_surf = self._font_small.render(self.hud.footer_hint, True, MUTED_COLOR)
+        footer_text = self.hud.footer_hint
+        while len(footer_text) > 10 and self._font_small.size(footer_text)[0] > content_w:
+            footer_text = footer_text[:-4] + "..."
+        footer_surf = self._font_small.render(footer_text, True, MUTED_COLOR)
         self._surface.blit(footer_surf, (pad, h - footer_h + 6))
 
         pygame.display.flip()
