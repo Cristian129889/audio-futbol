@@ -118,3 +118,31 @@ def test_select_squad_preserves_backup_goalkeeper_beyond_30_cap() -> None:
     gks = [p for p in selected if p.position == "POR"]
     assert {p.name for p in gks} == {"Titular GK", "Suplente GK"}
 
+
+def test_all_csv_squads_have_valid_concrete_puesto_column() -> None:
+    import csv
+    from audiofutbol.domain.formations import ROLES
+
+    paths = AppPaths.detect()
+    csv_files = [
+        paths.data_dir / "TODAS_LAS_SELECCIONES.csv",
+        paths.extra_nations_dir / "otras_selecciones.csv",
+        *sorted(paths.clubs_dir.glob("*.csv")),
+    ]
+    for path in csv_files:
+        with path.open("r", encoding="utf-8-sig", newline="") as fh:
+            reader = csv.DictReader(fh)
+            assert reader.fieldnames is not None
+            assert "puesto" in reader.fieldnames, f"{path.name} missing 'puesto' header"
+            for row in reader:
+                name = (row.get("nombre") or row.get("jugador") or "").strip()
+                if not name:
+                    continue
+                pos = parse_position(row.get("posicion") or "")
+                puesto = (row.get("puesto") or "").strip().upper()
+                assert puesto in ROLES, f"{path.name} invalid puesto {puesto!r} for {name}"
+                assert ROLES[puesto][1] == pos, (
+                    f"{path.name} mismatched puesto {puesto} vs pos {pos} for {name}"
+                )
+
+

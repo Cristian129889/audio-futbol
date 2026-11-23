@@ -1,530 +1,530 @@
-equipo,numero,jugador,posicion,calidad
-Newcastle United,1,Nick Pope,POR,78
-Newcastle United,13,Lukas Hornicek,POR,74
-Newcastle United,2,Sven Botman,DEF,82
-Newcastle United,3,Fabian Schär,DEF,77
-Newcastle United,4,Dan Burn,DEF,77
-Newcastle United,5,Malick Thiaw,DEF,78
-Newcastle United,6,Tino Livramento,DEF,79
-Newcastle United,15,Lewis Hall,DEF,76
-Newcastle United,18,Amar Dedić,DEF,73
-Newcastle United,22,Kieran Trippier,DEF,74
-Newcastle United,8,Joelinton,MED,80
-Newcastle United,10,Nico González,MED,80
-Newcastle United,14,Joe Willock,MED,74
-Newcastle United,16,Lewis Miley,MED,75
-Newcastle United,20,Jacob Ramsey,MED,76
-Newcastle United,21,Sean Steur,MED,70
-Newcastle United,26,Aladji Bamba,MED,74
-Newcastle United,9,Harvey Barnes,DEL,79
-Newcastle United,7,Anthony Elanga,DEL,76
-Newcastle United,11,Yoane Wissa,DEL,76
-Newcastle United,17,Bazoumana Touré,DEL,74
-Newcastle United,19,Matías Fernández-Pardo,DEL,74
-Newcastle United,29,William Osula,DEL,73
-Nottingham Forest,1,Matz Sels,POR,77
-Nottingham Forest,13,Carlos Miguel,POR,70
-Nottingham Forest,2,Murillo,DEF,80
-Nottingham Forest,3,Nikola Milenković,DEF,77
-Nottingham Forest,4,Willy Boly,DEF,70
-Nottingham Forest,5,Ola Aina,DEF,76
-Nottingham Forest,6,Neco Williams,DEF,74
-Nottingham Forest,15,Álex Moreno,DEF,72
-Nottingham Forest,18,Nicolás Savona,DEF,72
-Nottingham Forest,8,Morgan Gibbs-White,MED,82
-Nottingham Forest,10,Ibrahim Sangaré,MED,77
-Nottingham Forest,14,Danilo,MED,74
-Nottingham Forest,16,Ryan Yates,MED,73
-Nottingham Forest,20,Xaver Schlager,MED,74
-Nottingham Forest,9,Chris Wood,DEL,78
-Nottingham Forest,7,Callum Hudson-Odoi,DEL,77
-Nottingham Forest,11,Dan Ndoye,DEL,77
-Nottingham Forest,17,Igor Jesus,DEL,75
-Nottingham Forest,19,Liam Delap,DEL,76
-Sunderland,1,Robin Roefs,POR,76
-Sunderland,13,Anthony Patterson,POR,72
-Sunderland,2,Dan Ballard,DEF,75
-Sunderland,3,Nordi Mukiele,DEF,75
-Sunderland,4,Reinildo,DEF,74
-Sunderland,5,Omar Alderete,DEF,74
-Sunderland,6,Trai Hume,DEF,73
-Sunderland,15,Kevin Danso,DEF,76
-Sunderland,18,Thomas Meunier,DEF,72
-Sunderland,22,Dennis Cirkin,DEF,70
-Sunderland,8,Granit Xhaka,MED,82
-Sunderland,10,Habib Diarra,MED,75
-Sunderland,14,Noah Sadiki,MED,75
-Sunderland,16,Enzo Le Fée,MED,77
-Sunderland,20,Jobe Bellingham,MED,76
-Sunderland,21,Chris Rigg,MED,72
-Sunderland,26,Dayann Methalie,MED,74
-Sunderland,9,Brian Brobbey,DEL,77
-Sunderland,7,Wilson Isidor,DEL,74
-Sunderland,11,Eliezer Mayenda,DEL,72
-Sunderland,17,Romaine Mundle,DEL,73
-Sunderland,19,Simon Adingra,DEL,74
-Sunderland,29,Malick Fofana,DEL,76
-Sunderland,30,Bertrand Traoré,DEL,73
-Tottenham Hotspur,1,Guglielmo Vicario,POR,79
-Tottenham Hotspur,13,Antonín Kinský,POR,72
-Tottenham Hotspur,23,Martin Dúbravka,POR,74
-Tottenham Hotspur,2,Cristian Romero,DEF,83
-Tottenham Hotspur,3,Micky van de Ven,DEF,82
-Tottenham Hotspur,4,Destiny Udogie,DEF,79
-Tottenham Hotspur,5,Pedro Porro,DEF,79
-Tottenham Hotspur,6,Jan Paul van Hecke,DEF,78
-Tottenham Hotspur,15,Marcos Senesi,DEF,75
-Tottenham Hotspur,18,Andy Robertson,DEF,78
-Tottenham Hotspur,22,Djed Spence,DEF,75
-Tottenham Hotspur,8,Sandro Tonali,MED,85
-Tottenham Hotspur,10,Mateus Fernandes,MED,79
-Tottenham Hotspur,14,Yves Bissouma,MED,75
-Tottenham Hotspur,16,João Palhinha,MED,80
-Tottenham Hotspur,20,Rodrigo Bentancur,MED,77
-Tottenham Hotspur,21,Dejan Kulusevski,MED,79
-Tottenham Hotspur,26,James Maddison,MED,80
-Tottenham Hotspur,27,Lucas Bergvall,MED,76
-Tottenham Hotspur,28,Xavi Simons,MED,80
-Tottenham Hotspur,9,Dominic Solanke,DEL,78
-Tottenham Hotspur,7,Richarlison,DEL,75
-Tottenham Hotspur,11,Mohammed Kudus,DEL,79
-Tottenham Hotspur,17,Savinho,DEL,79
-Tottenham Hotspur,19,Mathys Tel,DEL,74
-Tottenham Hotspur,29,Mikey Moore,DEL,74
-Arsenal,1,David Raya,POR,85
-Arsenal,13,Kepa Arrizabalaga,POR,74
-Arsenal,23,Illan Meslier,POR,71
-Arsenal,2,Ben White,DEF,82
-Arsenal,3,Jurriën Timber,DEF,83
-Arsenal,4,Gabriel Magalhães,DEF,87
-Arsenal,5,William Saliba,DEF,89
-Arsenal,6,Cristhian Mosquera,DEF,78
-Arsenal,15,Ezri Konsa,DEF,80
-Arsenal,18,Piero Hincapié,DEF,80
-Arsenal,22,Riccardo Calafiori,DEF,83
-Arsenal,24,Myles Lewis-Skelly,DEF,77
-Arsenal,8,Martín Zubimendi,MED,83
-Arsenal,10,Declan Rice,MED,89
-Arsenal,14,Mikel Merino,MED,81
-Arsenal,16,Bruno Guimarães,MED,87
-Arsenal,20,Martin Ødegaard,MED,87
-Arsenal,21,Eberechi Eze,MED,83
-Arsenal,9,Max Dowman,DEL,74
-Arsenal,7,Bukayo Saka,DEL,90
-Arsenal,11,Noni Madueke,DEL,80
-Arsenal,17,Christos Tzolis,DEL,77
-Arsenal,19,Kai Havertz,DEL,83
-Arsenal,29,Viktor Gyökeres,DEL,86
-Aston Villa,1,Marco Bizot,POR,70
-Aston Villa,13,Zion Suzuki,POR,76
-Aston Villa,2,Matty Cash,DEF,79
-Aston Villa,3,Aaron Wan-Bissaka,DEF,76
-Aston Villa,4,Tyrone Mings,DEF,73
-Aston Villa,5,Pau Torres,DEF,80
-Aston Villa,6,Victor Lindelöf,DEF,77
-Aston Villa,15,Modou Kéba Cissé,DEF,73
-Aston Villa,18,Taylor Harwood-Bellis,DEF,76
-Aston Villa,22,Ian Maatsen,DEF,76
-Aston Villa,24,Matteo Ruggeri,DEF,75
-Aston Villa,8,Boubacar Kamara,MED,80
-Aston Villa,10,Amadou Onana,MED,80
-Aston Villa,14,Lamare Bogarde,MED,72
-Aston Villa,16,João Gomes,MED,79
-Aston Villa,20,John McGinn,MED,77
-Aston Villa,21,Ross Barkley,MED,73
-Aston Villa,26,George Hemmings,MED,75
-Aston Villa,27,Leon Goretzka,MED,80
-Aston Villa,28,Johan Manzambi,MED,77
-Aston Villa,7,Emiliano Buendía,MED,77
-Aston Villa,9,Alysson,DEL,73
-Aston Villa,11,Ibrahim Mbaye,DEL,74
-Aston Villa,17,Alejandro Garnacho,DEL,79
-Aston Villa,19,Tammy Abraham,DEL,75
-Aston Villa,29,Brian Madjo,DEL,73
-Aston Villa,30,Nicolas Jackson,DEL,80
-Brentford,1,Hákon Valdimarsson,POR,68
-Brentford,13,Ellery Balcombe,POR,72
-Brentford,23,Caoimhín Kelleher,POR,80
-Brentford,2,Aaron Hickey,DEF,73
-Brentford,3,Michael Kayode,DEF,76
-Brentford,4,Kristoffer Ajer,DEF,75
-Brentford,5,Nathan Collins,DEF,77
-Brentford,6,Sepp van den Berg,DEF,75
-Brentford,15,Jannik Schuster,DEF,73
-Brentford,18,Ji-soo Kim,DEF,75
-Brentford,22,Benjamin Fredrick,DEF,75
-Brentford,24,Rico Henry,DEF,73
-Brentford,7,El Hadji Malick Diouf,DEF,73
-Brentford,8,Vitaly Janelt,MED,75
-Brentford,10,Mathias Jensen,MED,74
-Brentford,14,Yegor Yarmolyuk,MED,69
-Brentford,16,Josh Dasilva,MED,72
-Brentford,20,Mamadou Sangaré,MED,72
-Brentford,21,Keane Lewis-Potter,MED,74
-Brentford,26,Antoni Milambo,MED,73
-Brentford,27,Fábio Carvalho,MED,73
-Brentford,28,Mikkel Damsgaard,MED,78
-Brentford,9,Dango Ouattara,DEL,76
-Brentford,11,Gustavo Nunes,DEL,70
-Brentford,17,Jaidon Anthony,DEL,74
-Brentford,19,Kevin Schade,DEL,76
-Brentford,29,Igor Thiago,DEL,81
-Brentford,30,Kaye Furo,DEL,74
-Brentford,12,Callum Wilson,DEL,73
-Bournemouth,1,Djordje Petrović,POR,75
-Bournemouth,13,Fraser Forster,POR,72
-Bournemouth,23,Michele Di Gregorio,POR,79
-Bournemouth,2,Adam Smith,DEF,70
-Bournemouth,3,Max Aarons,DEF,72
-Bournemouth,4,Julián Araujo,DEF,72
-Bournemouth,5,Juanlu Sánchez,DEF,76
-Bournemouth,6,James Hill,DEF,72
-Bournemouth,15,Bafodé Diakité,DEF,73
-Bournemouth,18,Veljko Milosavljević,DEF,69
-Bournemouth,22,António Silva,DEF,70
-Bournemouth,24,Julio Soler,DEF,75
-Bournemouth,7,Adrien Truffert,DEF,74
-Bournemouth,8,Tyler Adams,MED,78
-Bournemouth,10,Ben Winterburn,MED,69
-Bournemouth,14,Lewis Cook,MED,72
-Bournemouth,16,Ryan Christie,MED,74
-Bournemouth,20,Alex Scott,MED,78
-Bournemouth,21,Alex Tóth,MED,75
-Bournemouth,26,Marcus Tavernier,MED,77
-Bournemouth,27,Justin Kluivert,MED,79
-Bournemouth,9,David Brooks,DEL,72
-Bournemouth,11,Ben Doak,DEL,73
-Bournemouth,17,Rayan,DEL,76
-Bournemouth,19,Amine Adli,DEL,73
-Bournemouth,29,Evanilson,DEL,77
-Bournemouth,30,Eli Junior Kroupi,DEL,75
-Bournemouth,12,Daniel Jebbison,DEL,75
-Bournemouth,25,Álvaro Rodríguez,DEL,70
-Brighton,1,Jason Steele,POR,69
-Brighton,13,Bart Verbruggen,POR,77
-Brighton,23,Tom McGill,POR,76
-Brighton,2,Costinha,DEF,70
-Brighton,3,Mats Wieffer,DEF,76
-Brighton,4,Lewis Dunk,DEF,76
-Brighton,5,Olivier Boscagli,DEF,74
-Brighton,6,Pascal Struijk,DEF,74
-Brighton,15,Michael Svoboda,DEF,71
-Brighton,18,Luka Vušković,DEF,76
-Brighton,22,Ferdi Kadıoğlu,DEF,77
-Brighton,24,Maxim De Cuyper,DEF,74
-Brighton,7,Jaouen Hadjam,DEF,73
-Brighton,8,Jack Hinshelwood,MED,75
-Brighton,10,Chema Andrés,MED,70
-Brighton,14,Diego Gómez,MED,74
-Brighton,16,Malick Yalcouyé,MED,70
-Brighton,20,Yasin Ayari,MED,77
-Brighton,21,Pascal Groß,MED,73
-Brighton,26,Matt O'Riley,MED,77
-Brighton,27,Femi Azeez,MED,75
-Brighton,9,Yankuba Minteh,DEL,77
-Brighton,11,Zadok Yohanna,DEL,75
-Brighton,17,Kaoru Mitoma,DEL,79
-Brighton,19,Ibrahim Osman,DEL,72
-Brighton,29,Georginio Rutter,DEL,76
-Brighton,30,Stefanos Tzimas,DEL,74
-Brighton,12,Charalampos Kostoulas,DEL,74
-Brighton,25,Evan Ferguson,DEL,74
-Brighton,28,Promise David,DEL,74
-Chelsea,1,Gabriel Slonina,POR,81
-Chelsea,13,Mike Penders,POR,75
-Chelsea,23,Teddy Sharman-Lowe,POR,75
-Chelsea,12,Emiliano Martínez,POR,84
-Chelsea,2,Reece James,DEF,84
-Chelsea,3,Malo Gusto,DEF,79
-Chelsea,4,Marco Palestra,DEF,77
-Chelsea,5,Wesley Fofana,DEF,77
-Chelsea,6,Levi Colwill,DEF,82
-Chelsea,15,Aarón Anselmino,DEF,75
-Chelsea,18,Maxence Lacroix,DEF,80
-Chelsea,22,Josh Acheampong,DEF,78
-Chelsea,24,Jorrel Hato,DEF,77
-Chelsea,7,Pep Chavarría,DEF,75
-Chelsea,8,Moisés Caicedo,MED,85
-Chelsea,10,Roméo Lavia,MED,77
-Chelsea,14,Valentín Barco,MED,75
-Chelsea,16,Jordan Henderson,MED,71
-Chelsea,20,Cole Palmer,MED,87
-Chelsea,21,Morgan Rogers,MED,86
-Chelsea,26,Kendry Páez,MED,81
-Chelsea,9,Pedro Neto,DEL,80
-Chelsea,11,Estêvão,DEL,83
-Chelsea,17,Geovany Quenda,DEL,76
-Chelsea,19,Jamie Gittens,DEL,77
-Chelsea,29,João Pedro,DEL,83
-Chelsea,30,Emmanuel Emegha,DEL,75
-Chelsea,25,Danny Welbeck,DEL,73
-Coventry City,1,Ben Wilson,POR,66
-Coventry City,13,Carl Rushworth,POR,69
-Coventry City,23,Daniel Bentley,POR,66
-Coventry City,2,Milan van Ewijk,DEF,70
-Coventry City,3,Kaine Kesler-Hayden,DEF,65
-Coventry City,4,Bobby Thomas,DEF,69
-Coventry City,5,Joel Latibeaudiere,DEF,68
-Coventry City,6,Luke Woolfenden,DEF,69
-Coventry City,15,Aurèle Amenda,DEF,64
-Coventry City,18,Ethan Pinnock,DEF,70
-Coventry City,22,Stephen Mfuni,DEF,65
-Coventry City,24,Jay Dasilva,DEF,66
-Coventry City,7,Jake Bidwell,DEF,65
-Coventry City,8,Matt Grimes,MED,67
-Coventry City,10,Frank Onyeka,MED,71
-Coventry City,14,Victor Torp,MED,70
-Coventry City,16,Josh Eccles,MED,68
-Coventry City,20,Caleb Yirenkyi,MED,64
-Coventry City,21,Gustavo Hamer,MED,68
-Coventry City,26,Jack Rudoni,MED,71
-Coventry City,9,Loum Tchaouna,DEL,68
-Coventry City,11,Tatsuhiro Sakamoto,DEL,69
-Coventry City,17,Ephron Mason-Clark,DEL,68
-Coventry City,19,Yann Gboho,DEL,70
-Coventry City,29,Haji Wright,DEL,73
-Coventry City,30,Brandon Thomas-Asante,DEL,70
-Coventry City,12,Ellis Simms,DEL,70
-Coventry City,25,Taiwo Awoniyi,DEL,74
-Coventry City,27,Sidiki Chérif,DEL,64
-Crystal Palace,1,Remi Matthews,POR,71
-Crystal Palace,13,Dean Henderson,POR,80
-Crystal Palace,23,Walter Benítez,POR,73
-Crystal Palace,2,Óscar Mingueza,DEF,75
-Crystal Palace,3,Anan Khalaili,DEF,73
-Crystal Palace,4,Chris Richards,DEF,77
-Crystal Palace,5,Chadi Riad,DEF,74
-Crystal Palace,6,Jaydee Canvot,DEF,74
-Crystal Palace,15,Takehiro Tomiyasu,DEF,74
-Crystal Palace,18,Axel Disasi,DEF,74
-Crystal Palace,22,Honest Ahanor,DEF,71
-Crystal Palace,24,Tyrick Mitchell,DEF,78
-Crystal Palace,7,Ben Chilwell,DEF,73
-Crystal Palace,8,Cheick Doucouré,MED,74
-Crystal Palace,10,Jefferson Lerma,MED,76
-Crystal Palace,14,Adam Wharton,MED,82
-Crystal Palace,16,Will Hughes,MED,74
-Crystal Palace,20,Quinten Timber,MED,76
-Crystal Palace,21,Daichi Kamada,MED,75
-Crystal Palace,9,Ismaïla Sarr,DEL,79
-Crystal Palace,11,Zavier Gozo,DEL,71
-Crystal Palace,17,Darío Osorio,DEL,74
-Crystal Palace,19,Evann Guessand,DEL,75
-Crystal Palace,29,Dwight McNeil,DEL,74
-Crystal Palace,30,Yeremi Pino,DEL,74
-Crystal Palace,12,Jean-Philippe Mateta,DEL,81
-Crystal Palace,25,Eddie Nketiah,DEL,72
-Crystal Palace,26,Jørgen Strand Larsen,DEL,78
-Everton,1,Jordan Pickford,POR,82
-Everton,13,Mark Travers,POR,70
-Everton,23,Tom King,POR,73
-Everton,2,Jake O'Brien,DEF,75
-Everton,3,James Tarkowski,DEF,79
-Everton,4,Michael Keane,DEF,76
-Everton,5,Jarrad Branthwaite,DEF,80
-Everton,6,Vitaliy Mykolenko,DEF,74
-Everton,15,Ainsley Maitland-Niles,DEF,71
-Everton,8,Hayden Hackney,MED,74
-Everton,10,James Garner,MED,77
-Everton,14,Christian Nørgaard,MED,74
-Everton,16,Carlos Alcaraz,MED,69
-Everton,20,Kiernan Dewsbury-Hall,MED,77
-Everton,21,Harrison Armstrong,MED,70
-Everton,26,Merlin Röhl,MED,74
-Everton,9,Tyler Dibling,DEL,73
-Everton,7,Brennan Johnson,DEL,75
-Everton,11,Tyrique George,DEL,72
-Everton,17,Jack Grealish,DEL,78
-Everton,19,Thierno Barry,DEL,75
-Fulham,1,Bernd Leno,POR,80
-Fulham,13,Benjamin Lecomte,POR,70
-Fulham,23,Alex Borto,POR,71
-Fulham,2,Kenny Tete,DEF,74
-Fulham,3,Timothy Castagne,DEF,74
-Fulham,4,Calvin Bassey,DEF,76
-Fulham,5,Jorge Cuenca,DEF,72
-Fulham,6,Joachim Andersen,DEF,80
-Fulham,15,David Affengruber,DEF,72
-Fulham,18,Antonee Robinson,DEF,79
-Fulham,22,Ryan Sessegnon,DEF,73
-Fulham,8,Sander Berge,MED,76
-Fulham,10,Shea Charles,MED,72
-Fulham,14,Harrison Reed,MED,70
-Fulham,16,Tom Cairney,MED,69
-Fulham,20,Manuel Ángel,MED,73
-Fulham,21,Hugo Larsson,MED,74
-Fulham,26,Josh King,MED,71
-Fulham,27,Emile Smith Rowe,MED,77
-Fulham,28,César Palacios,MED,70
-Fulham,9,Oscar Bobb,DEL,73
-Fulham,7,Kevin,DEL,69
-Fulham,11,Alex Iwobi,DEL,77
-Fulham,17,Rodrigo Muniz,DEL,76
-Fulham,19,Jonah Kusi-Asare,DEL,70
-Fulham,29,Gonzalo García,DEL,74
-Hull City,1,Dillon Phillips,POR,67
-Hull City,13,Jack Butland,POR,68
-Hull City,23,Konstantinos Tzolakis,POR,67
-Hull City,2,Lewie Coyle,DEF,65
-Hull City,3,Brooke Norton-Cuffy,DEF,67
-Hull City,4,Charlie Hughes,DEF,68
-Hull City,5,Paddy McNair,DEF,67
-Hull City,6,John Egan,DEF,66
-Hull City,15,Semi Ajayi,DEF,62
-Hull City,18,Nobel Mendy,DEF,67
-Hull City,22,Lucas Herrington,DEF,65
-Hull City,24,Ryan Giles,DEF,63
-Hull City,7,Matt Targett,DEF,68
-Hull City,8,Regan Slater,MED,62
-Hull City,10,Óscar Zambrano,MED,66
-Hull City,14,Lucas Gourna-Douath,MED,63
-Hull City,16,Hidemasa Morita,MED,64
-Hull City,20,Darko Gyabi,MED,62
-Hull City,21,Eliot Matazo,MED,67
-Hull City,26,Matt Crooks,MED,65
-Hull City,27,Jens Hjertø-Dahl,MED,63
-Hull City,28,Tim Iroegbunam,MED,65
-Hull City,9,Christos Mouzakitis,MED,68
-Hull City,11,Abdülkadir Ömür,MED,66
-Hull City,12,Kieran Dowell,MED,63
-Hull City,17,Mohamed Belloumi,DEL,62
-Hull City,19,Mohamed-Ali Cho,DEL,67
-Hull City,29,Elliot Stroud,DEL,64
-Hull City,30,Sorba Thomas,DEL,62
-Hull City,25,Oli McBurnie,DEL,68
-Hull City,31,Joe Gelhardt,DEL,65
-Hull City,32,Ilyas Ansah,DEL,67
-Hull City,33,Robinio Vaz,DEL,66
-Ipswich Town,1,Christian Walton,POR,68
-Ipswich Town,13,Alex Palmer,POR,70
-Ipswich Town,23,David Button,POR,67
-Ipswich Town,12,Kjell Scherpen,POR,69
-Ipswich Town,2,Darnell Furlong,DEF,66
-Ipswich Town,3,Abdoul Ouattara,DEF,65
-Ipswich Town,4,Dara O'Shea,DEF,68
-Ipswich Town,5,Jacob Greaves,DEF,66
-Ipswich Town,6,Cédric Kipré,DEF,70
-Ipswich Town,15,Issa Diop,DEF,72
-Ipswich Town,18,Leif Davis,DEF,73
-Ipswich Town,8,Azor Matusiwa,MED,68
-Ipswich Town,10,Florentino Luís,MED,69
-Ipswich Town,14,Marcelino Núñez,MED,70
-Ipswich Town,16,Jack Taylor,MED,66
-Ipswich Town,20,Saša Lukić,MED,74
-Ipswich Town,21,Exequiel Palacios,MED,77
-Ipswich Town,26,Kasey McAteer,MED,64
-Ipswich Town,27,Anis Mehmeti,MED,70
-Ipswich Town,28,Julio Enciso,MED,74
-Ipswich Town,9,Abdul Fatawu,DEL,73
-Ipswich Town,7,Sindre Walle Egeli,DEL,65
-Ipswich Town,11,Jaden Philogene,DEL,64
-Ipswich Town,17,Jack Clarke,DEL,64
-Ipswich Town,19,Daizen Maeda,DEL,73
-Ipswich Town,29,Chuba Akpom,DEL,70
-Ipswich Town,30,Emersonn,DEL,70
-Ipswich Town,22,Zian Flemming,DEL,73
-Leeds United,1,Alex Cairns,POR,73
-Leeds United,13,James Trafford,POR,70
-Leeds United,23,Michael Zetterer,POR,69
-Leeds United,2,Jayden Bogle,DEF,73
-Leeds United,3,James Justin,DEF,68
-Leeds United,4,Joe Rodon,DEF,74
-Leeds United,5,Jaka Bijol,DEF,75
-Leeds United,6,Tarik Muharemović,DEF,73
-Leeds United,15,Nico Elvedi,DEF,70
-Leeds United,18,Gabriel Gudmundsson,DEF,74
-Leeds United,22,Melvin Bard,DEF,67
-Leeds United,8,Ethan Ampadu,MED,77
-Leeds United,10,Ilia Gruev,MED,72
-Leeds United,14,Anton Stach,MED,77
-Leeds United,16,Ao Tanaka,MED,72
-Leeds United,20,Sean Longstaff,MED,74
-Leeds United,21,Brenden Aaronson,MED,73
-Leeds United,9,Harry Wilson,DEL,72
-Leeds United,7,Daniel James,DEL,74
-Leeds United,11,Noah Okafor,DEL,75
-Leeds United,17,Jean-Mattéo Bahoya,DEL,71
-Leeds United,19,Lukas Nmecha,DEL,73
-Leeds United,29,Dominic Calvert-Lewin,DEL,76
-Leeds United,30,Mateo Joseph,DEL,72
-Liverpool,1,Alisson,POR,87
-Liverpool,13,Giorgi Mamardashvili,POR,79
-Liverpool,23,Freddie Woodman,POR,76
-Liverpool,12,Harvey Davies,POR,82
-Liverpool,25,Vitezslav Jaros,POR,77
-Liverpool,2,Conor Bradley,DEF,77
-Liverpool,3,Jeremie Frimpong,DEF,80
-Liverpool,4,Virgil van Dijk,DEF,87
-Liverpool,5,Joe Gomez,DEF,76
-Liverpool,6,Giovanni Leoni,DEF,74
-Liverpool,15,Jérémy Jacquet,DEF,75
-Liverpool,18,Ronald Araújo,DEF,83
-Liverpool,22,Milos Kerkez,DEF,77
-Liverpool,24,Konstantinos Tsimikas,DEF,74
-Liverpool,8,Wataru Endō,MED,73
-Liverpool,10,Ryan Gravenberch,MED,84
-Liverpool,14,Alexis Mac Allister,MED,85
-Liverpool,16,Trey Nyoni,MED,76
-Liverpool,20,Dominik Szoboszlai,MED,85
-Liverpool,21,Florian Wirtz,MED,86
-Liverpool,9,Rio Ngumoha,DEL,73
-Liverpool,7,Víctor Muñoz,DEL,80
-Liverpool,11,Cody Gakpo,DEL,82
-Liverpool,17,Bradley Barcola,DEL,83
-Liverpool,19,Hugo Ekitiké,DEL,82
-Liverpool,29,Alexander Isak,DEL,85
-Manchester City,1,Marcus Bettinelli,POR,81
-Manchester City,13,Gianluigi Donnarumma,POR,88
-Manchester City,23,Gerónimo Rulli,POR,82
-Manchester City,2,Rico Lewis,DEF,81
-Manchester City,3,Matheus Nunes,DEF,80
-Manchester City,4,Rúben Dias,DEF,85
-Manchester City,5,Joško Gvardiol,DEF,85
-Manchester City,6,Abdukodir Khusanov,DEF,76
-Manchester City,15,Marc Guéhi,DEF,82
-Manchester City,18,Vitor Reis,DEF,75
-Manchester City,22,Rayan Aït-Nouri,DEF,79
-Manchester City,24,Nico O'Reilly,DEF,79
-Manchester City,7,Josh Wilson-Esbrand,DEF,82
-Manchester City,8,Mateo Kovačić,MED,79
-Manchester City,10,Elliot Anderson,MED,84
-Manchester City,14,Ayyoub Bouaddi,MED,77
-Manchester City,16,Enzo Fernández,MED,85
-Manchester City,20,Phil Foden,MED,86
-Manchester City,21,Rayan Cherki,MED,83
-Manchester City,9,Antoine Semenyo,DEL,82
-Manchester City,11,Allan,DEL,74
-Manchester City,17,Iliman Ndiaye,DEL,77
-Manchester City,19,Ryan McAidoo,DEL,79
-Manchester City,29,Jérémy Doku,DEL,82
-Manchester City,30,Erling Haaland,DEL,92
-Manchester United,1,Tom Heaton,POR,74
-Manchester United,13,Senne Lammens,POR,76
-Manchester United,23,Karl Darlow,POR,70
-Manchester United,12,Dermot Mee,POR,73
-Manchester United,2,Diogo Dalot,DEF,78
-Manchester United,3,Noussair Mazraoui,DEF,77
-Manchester United,4,Harry Maguire,DEF,77
-Manchester United,5,Lisandro Martínez,DEF,82
-Manchester United,6,Leny Yoro,DEF,77
-Manchester United,15,Matthijs de Ligt,DEF,81
-Manchester United,18,Ayden Heaven,DEF,72
-Manchester United,22,Luke Shaw,DEF,76
-Manchester United,24,Harry Amass,DEF,78
-Manchester United,8,Manuel Ugarte,MED,77
-Manchester United,10,Andrey Santos,MED,75
-Manchester United,14,Carlos Baleba,MED,78
-Manchester United,16,Tyler Fletcher,MED,77
-Manchester United,20,Youri Tielemans,MED,80
-Manchester United,21,Kobbie Mainoo,MED,79
-Manchester United,26,Bruno Fernandes,MED,87
-Manchester United,27,Mason Mount,MED,74
-Manchester United,28,Jack Fletcher,MED,74
-Manchester United,9,Amad Diallo,DEL,80
-Manchester United,7,Bryan Mbeumo,DEL,83
-Manchester United,11,Shea Lacey,DEL,79
-Manchester United,17,Marcus Rashford,DEL,80
-Manchester United,19,Patrick Dorgu,DEL,74
-Manchester United,29,Joshua Zirkzee,DEL,74
-Manchester United,30,Matheus Cunha,DEL,83
-Manchester United,25,Benjamin Šeško,DEL,80
+equipo,numero,jugador,posicion,calidad,puesto
+Newcastle United,1,Nick Pope,POR,78,POR
+Newcastle United,13,Lukas Hornicek,POR,74,POR
+Newcastle United,2,Sven Botman,DEF,82,CE
+Newcastle United,3,Fabian Schär,DEF,77,CE
+Newcastle United,4,Dan Burn,DEF,77,CE
+Newcastle United,5,Malick Thiaw,DEF,78,CE
+Newcastle United,6,Tino Livramento,DEF,79,LD
+Newcastle United,15,Lewis Hall,DEF,76,CE
+Newcastle United,18,Amar Dedić,DEF,73,LI
+Newcastle United,22,Kieran Trippier,DEF,74,CE
+Newcastle United,8,Joelinton,MED,80,MCD
+Newcastle United,10,Nico González,MED,80,MCD
+Newcastle United,14,Joe Willock,MED,74,MC
+Newcastle United,16,Lewis Miley,MED,75,MP
+Newcastle United,20,Jacob Ramsey,MED,76,MP
+Newcastle United,21,Sean Steur,MED,70,MC
+Newcastle United,26,Aladji Bamba,MED,74,MC
+Newcastle United,9,Harvey Barnes,DEL,79,ED
+Newcastle United,7,Anthony Elanga,DEL,76,ED
+Newcastle United,11,Yoane Wissa,DEL,76,DC
+Newcastle United,17,Bazoumana Touré,DEL,74,ED
+Newcastle United,19,Matías Fernández-Pardo,DEL,74,EI
+Newcastle United,29,William Osula,DEL,73,DC
+Nottingham Forest,1,Matz Sels,POR,77,POR
+Nottingham Forest,13,Carlos Miguel,POR,70,POR
+Nottingham Forest,2,Murillo,DEF,80,CE
+Nottingham Forest,3,Nikola Milenković,DEF,77,CE
+Nottingham Forest,4,Willy Boly,DEF,70,LD
+Nottingham Forest,5,Ola Aina,DEF,76,CE
+Nottingham Forest,6,Neco Williams,DEF,74,CE
+Nottingham Forest,15,Álex Moreno,DEF,72,CE
+Nottingham Forest,18,Nicolás Savona,DEF,72,LI
+Nottingham Forest,8,Morgan Gibbs-White,MED,82,MP
+Nottingham Forest,10,Ibrahim Sangaré,MED,77,MP
+Nottingham Forest,14,Danilo,MED,74,MP
+Nottingham Forest,16,Ryan Yates,MED,73,MC
+Nottingham Forest,20,Xaver Schlager,MED,74,MCD
+Nottingham Forest,9,Chris Wood,DEL,78,EI
+Nottingham Forest,7,Callum Hudson-Odoi,DEL,77,ED
+Nottingham Forest,11,Dan Ndoye,DEL,77,EI
+Nottingham Forest,17,Igor Jesus,DEL,75,DC
+Nottingham Forest,19,Liam Delap,DEL,76,DC
+Sunderland,1,Robin Roefs,POR,76,POR
+Sunderland,13,Anthony Patterson,POR,72,POR
+Sunderland,2,Dan Ballard,DEF,75,LD
+Sunderland,3,Nordi Mukiele,DEF,75,LI
+Sunderland,4,Reinildo,DEF,74,CE
+Sunderland,5,Omar Alderete,DEF,74,LI
+Sunderland,6,Trai Hume,DEF,73,CE
+Sunderland,15,Kevin Danso,DEF,76,CE
+Sunderland,18,Thomas Meunier,DEF,72,LD
+Sunderland,22,Dennis Cirkin,DEF,70,CE
+Sunderland,8,Granit Xhaka,MED,82,MCD
+Sunderland,10,Habib Diarra,MED,75,MC
+Sunderland,14,Noah Sadiki,MED,75,MP
+Sunderland,16,Enzo Le Fée,MED,77,MC
+Sunderland,20,Jobe Bellingham,MED,76,MC
+Sunderland,21,Chris Rigg,MED,72,VI
+Sunderland,26,Dayann Methalie,MED,74,MP
+Sunderland,9,Brian Brobbey,DEL,77,EI
+Sunderland,7,Wilson Isidor,DEL,74,DC
+Sunderland,11,Eliezer Mayenda,DEL,72,ED
+Sunderland,17,Romaine Mundle,DEL,73,DC
+Sunderland,19,Simon Adingra,DEL,74,SD
+Sunderland,29,Malick Fofana,DEL,76,ED
+Sunderland,30,Bertrand Traoré,DEL,73,DC
+Tottenham Hotspur,1,Guglielmo Vicario,POR,79,POR
+Tottenham Hotspur,13,Antonín Kinský,POR,72,POR
+Tottenham Hotspur,23,Martin Dúbravka,POR,74,POR
+Tottenham Hotspur,2,Cristian Romero,DEF,83,CE
+Tottenham Hotspur,3,Micky van de Ven,DEF,82,CE
+Tottenham Hotspur,4,Destiny Udogie,DEF,79,CE
+Tottenham Hotspur,5,Pedro Porro,DEF,79,LD
+Tottenham Hotspur,6,Jan Paul van Hecke,DEF,78,CE
+Tottenham Hotspur,15,Marcos Senesi,DEF,75,CE
+Tottenham Hotspur,18,Andy Robertson,DEF,78,LI
+Tottenham Hotspur,22,Djed Spence,DEF,75,CE
+Tottenham Hotspur,8,Sandro Tonali,MED,85,MCD
+Tottenham Hotspur,10,Mateus Fernandes,MED,79,MC
+Tottenham Hotspur,14,Yves Bissouma,MED,75,MCD
+Tottenham Hotspur,16,João Palhinha,MED,80,MCD
+Tottenham Hotspur,20,Rodrigo Bentancur,MED,77,MC
+Tottenham Hotspur,21,Dejan Kulusevski,MED,79,VI
+Tottenham Hotspur,26,James Maddison,MED,80,MP
+Tottenham Hotspur,27,Lucas Bergvall,MED,76,MP
+Tottenham Hotspur,28,Xavi Simons,MED,80,MP
+Tottenham Hotspur,9,Dominic Solanke,DEL,78,DC
+Tottenham Hotspur,7,Richarlison,DEL,75,EI
+Tottenham Hotspur,11,Mohammed Kudus,DEL,79,EI
+Tottenham Hotspur,17,Savinho,DEL,79,ED
+Tottenham Hotspur,19,Mathys Tel,DEL,74,DC
+Tottenham Hotspur,29,Mikey Moore,DEL,74,DC
+Arsenal,1,David Raya,POR,85,POR
+Arsenal,13,Kepa Arrizabalaga,POR,74,POR
+Arsenal,23,Illan Meslier,POR,71,POR
+Arsenal,2,Ben White,DEF,82,LD
+Arsenal,3,Jurriën Timber,DEF,83,CE
+Arsenal,4,Gabriel Magalhães,DEF,87,CE
+Arsenal,5,William Saliba,DEF,89,CE
+Arsenal,6,Cristhian Mosquera,DEF,78,CE
+Arsenal,15,Ezri Konsa,DEF,80,CE
+Arsenal,18,Piero Hincapié,DEF,80,CE
+Arsenal,22,Riccardo Calafiori,DEF,83,CE
+Arsenal,24,Myles Lewis-Skelly,DEF,77,LI
+Arsenal,8,Martín Zubimendi,MED,83,MCD
+Arsenal,10,Declan Rice,MED,89,MCD
+Arsenal,14,Mikel Merino,MED,81,MC
+Arsenal,16,Bruno Guimarães,MED,87,MC
+Arsenal,20,Martin Ødegaard,MED,87,MP
+Arsenal,21,Eberechi Eze,MED,83,MP
+Arsenal,9,Max Dowman,DEL,74,ED
+Arsenal,7,Bukayo Saka,DEL,90,ED
+Arsenal,11,Noni Madueke,DEL,80,EI
+Arsenal,17,Christos Tzolis,DEL,77,EI
+Arsenal,19,Kai Havertz,DEL,83,DC
+Arsenal,29,Viktor Gyökeres,DEL,86,DC
+Aston Villa,1,Marco Bizot,POR,70,POR
+Aston Villa,13,Zion Suzuki,POR,76,POR
+Aston Villa,2,Matty Cash,DEF,79,LD
+Aston Villa,3,Aaron Wan-Bissaka,DEF,76,LD
+Aston Villa,4,Tyrone Mings,DEF,73,CE
+Aston Villa,5,Pau Torres,DEF,80,CE
+Aston Villa,6,Victor Lindelöf,DEF,77,CE
+Aston Villa,15,Modou Kéba Cissé,DEF,73,LI
+Aston Villa,18,Taylor Harwood-Bellis,DEF,76,CE
+Aston Villa,22,Ian Maatsen,DEF,76,LI
+Aston Villa,24,Matteo Ruggeri,DEF,75,CE
+Aston Villa,8,Boubacar Kamara,MED,80,MCD
+Aston Villa,10,Amadou Onana,MED,80,MCD
+Aston Villa,14,Lamare Bogarde,MED,72,VD
+Aston Villa,16,João Gomes,MED,79,MC
+Aston Villa,20,John McGinn,MED,77,MC
+Aston Villa,21,Ross Barkley,MED,73,MC
+Aston Villa,26,George Hemmings,MED,75,MC
+Aston Villa,27,Leon Goretzka,MED,80,MCD
+Aston Villa,28,Johan Manzambi,MED,77,MP
+Aston Villa,7,Emiliano Buendía,MED,77,MC
+Aston Villa,9,Alysson,DEL,73,DC
+Aston Villa,11,Ibrahim Mbaye,DEL,74,ED
+Aston Villa,17,Alejandro Garnacho,DEL,79,DC
+Aston Villa,19,Tammy Abraham,DEL,75,ED
+Aston Villa,29,Brian Madjo,DEL,73,ED
+Aston Villa,30,Nicolas Jackson,DEL,80,EI
+Brentford,1,Hákon Valdimarsson,POR,68,POR
+Brentford,13,Ellery Balcombe,POR,72,POR
+Brentford,23,Caoimhín Kelleher,POR,80,POR
+Brentford,2,Aaron Hickey,DEF,73,LD
+Brentford,3,Michael Kayode,DEF,76,CE
+Brentford,4,Kristoffer Ajer,DEF,75,CE
+Brentford,5,Nathan Collins,DEF,77,CE
+Brentford,6,Sepp van den Berg,DEF,75,LI
+Brentford,15,Jannik Schuster,DEF,73,CE
+Brentford,18,Ji-soo Kim,DEF,75,LD
+Brentford,22,Benjamin Fredrick,DEF,75,LD
+Brentford,24,Rico Henry,DEF,73,LI
+Brentford,7,El Hadji Malick Diouf,DEF,73,CE
+Brentford,8,Vitaly Janelt,MED,75,MCD
+Brentford,10,Mathias Jensen,MED,74,MC
+Brentford,14,Yegor Yarmolyuk,MED,69,MC
+Brentford,16,Josh Dasilva,MED,72,MC
+Brentford,20,Mamadou Sangaré,MED,72,MP
+Brentford,21,Keane Lewis-Potter,MED,74,MP
+Brentford,26,Antoni Milambo,MED,73,MC
+Brentford,27,Fábio Carvalho,MED,73,MP
+Brentford,28,Mikkel Damsgaard,MED,78,MC
+Brentford,9,Dango Ouattara,DEL,76,EI
+Brentford,11,Gustavo Nunes,DEL,70,DC
+Brentford,17,Jaidon Anthony,DEL,74,EI
+Brentford,19,Kevin Schade,DEL,76,DC
+Brentford,29,Igor Thiago,DEL,81,DC
+Brentford,30,Kaye Furo,DEL,74,ED
+Brentford,12,Callum Wilson,DEL,73,DC
+Bournemouth,1,Djordje Petrović,POR,75,POR
+Bournemouth,13,Fraser Forster,POR,72,POR
+Bournemouth,23,Michele Di Gregorio,POR,79,POR
+Bournemouth,2,Adam Smith,DEF,70,LI
+Bournemouth,3,Max Aarons,DEF,72,LI
+Bournemouth,4,Julián Araujo,DEF,72,CE
+Bournemouth,5,Juanlu Sánchez,DEF,76,CE
+Bournemouth,6,James Hill,DEF,72,CE
+Bournemouth,15,Bafodé Diakité,DEF,73,CE
+Bournemouth,18,Veljko Milosavljević,DEF,69,LD
+Bournemouth,22,António Silva,DEF,70,CE
+Bournemouth,24,Julio Soler,DEF,75,LD
+Bournemouth,7,Adrien Truffert,DEF,74,LD
+Bournemouth,8,Tyler Adams,MED,78,MP
+Bournemouth,10,Ben Winterburn,MED,69,VD
+Bournemouth,14,Lewis Cook,MED,72,MP
+Bournemouth,16,Ryan Christie,MED,74,MCD
+Bournemouth,20,Alex Scott,MED,78,MC
+Bournemouth,21,Alex Tóth,MED,75,MC
+Bournemouth,26,Marcus Tavernier,MED,77,MCD
+Bournemouth,27,Justin Kluivert,MED,79,MCD
+Bournemouth,9,David Brooks,DEL,72,DC
+Bournemouth,11,Ben Doak,DEL,73,EI
+Bournemouth,17,Rayan,DEL,76,EI
+Bournemouth,19,Amine Adli,DEL,73,DC
+Bournemouth,29,Evanilson,DEL,77,ED
+Bournemouth,30,Eli Junior Kroupi,DEL,75,DC
+Bournemouth,12,Daniel Jebbison,DEL,75,DC
+Bournemouth,25,Álvaro Rodríguez,DEL,70,DC
+Brighton,1,Jason Steele,POR,69,POR
+Brighton,13,Bart Verbruggen,POR,77,POR
+Brighton,23,Tom McGill,POR,76,POR
+Brighton,2,Costinha,DEF,70,CE
+Brighton,3,Mats Wieffer,DEF,76,CE
+Brighton,4,Lewis Dunk,DEF,76,CE
+Brighton,5,Olivier Boscagli,DEF,74,CE
+Brighton,6,Pascal Struijk,DEF,74,CE
+Brighton,15,Michael Svoboda,DEF,71,CE
+Brighton,18,Luka Vušković,DEF,76,LD
+Brighton,22,Ferdi Kadıoğlu,DEF,77,CE
+Brighton,24,Maxim De Cuyper,DEF,74,LI
+Brighton,7,Jaouen Hadjam,DEF,73,CE
+Brighton,8,Jack Hinshelwood,MED,75,MCD
+Brighton,10,Chema Andrés,MED,70,MCD
+Brighton,14,Diego Gómez,MED,74,MCD
+Brighton,16,Malick Yalcouyé,MED,70,MC
+Brighton,20,Yasin Ayari,MED,77,MC
+Brighton,21,Pascal Groß,MED,73,MC
+Brighton,26,Matt O'Riley,MED,77,MP
+Brighton,27,Femi Azeez,MED,75,MC
+Brighton,9,Yankuba Minteh,DEL,77,DC
+Brighton,11,Zadok Yohanna,DEL,75,ED
+Brighton,17,Kaoru Mitoma,DEL,79,DC
+Brighton,19,Ibrahim Osman,DEL,72,ED
+Brighton,29,Georginio Rutter,DEL,76,ED
+Brighton,30,Stefanos Tzimas,DEL,74,EI
+Brighton,12,Charalampos Kostoulas,DEL,74,DC
+Brighton,25,Evan Ferguson,DEL,74,DC
+Brighton,28,Promise David,DEL,74,EI
+Chelsea,1,Gabriel Slonina,POR,81,POR
+Chelsea,13,Mike Penders,POR,75,POR
+Chelsea,23,Teddy Sharman-Lowe,POR,75,POR
+Chelsea,12,Emiliano Martínez,POR,84,POR
+Chelsea,2,Reece James,DEF,84,LD
+Chelsea,3,Malo Gusto,DEF,79,LD
+Chelsea,4,Marco Palestra,DEF,77,CE
+Chelsea,5,Wesley Fofana,DEF,77,CE
+Chelsea,6,Levi Colwill,DEF,82,CE
+Chelsea,15,Aarón Anselmino,DEF,75,LI
+Chelsea,18,Maxence Lacroix,DEF,80,LI
+Chelsea,22,Josh Acheampong,DEF,78,LI
+Chelsea,24,Jorrel Hato,DEF,77,CE
+Chelsea,7,Pep Chavarría,DEF,75,CE
+Chelsea,8,Moisés Caicedo,MED,85,MCD
+Chelsea,10,Roméo Lavia,MED,77,MC
+Chelsea,14,Valentín Barco,MED,75,MCD
+Chelsea,16,Jordan Henderson,MED,71,MC
+Chelsea,20,Cole Palmer,MED,87,MP
+Chelsea,21,Morgan Rogers,MED,86,VD
+Chelsea,26,Kendry Páez,MED,81,MCD
+Chelsea,9,Pedro Neto,DEL,80,ED
+Chelsea,11,Estêvão,DEL,83,ED
+Chelsea,17,Geovany Quenda,DEL,76,EI
+Chelsea,19,Jamie Gittens,DEL,77,DC
+Chelsea,29,João Pedro,DEL,83,EI
+Chelsea,30,Emmanuel Emegha,DEL,75,DC
+Chelsea,25,Danny Welbeck,DEL,73,DC
+Coventry City,1,Ben Wilson,POR,66,POR
+Coventry City,13,Carl Rushworth,POR,69,POR
+Coventry City,23,Daniel Bentley,POR,66,POR
+Coventry City,2,Milan van Ewijk,DEF,70,CE
+Coventry City,3,Kaine Kesler-Hayden,DEF,65,CE
+Coventry City,4,Bobby Thomas,DEF,69,LD
+Coventry City,5,Joel Latibeaudiere,DEF,68,CE
+Coventry City,6,Luke Woolfenden,DEF,69,CE
+Coventry City,15,Aurèle Amenda,DEF,64,CE
+Coventry City,18,Ethan Pinnock,DEF,70,CE
+Coventry City,22,Stephen Mfuni,DEF,65,CE
+Coventry City,24,Jay Dasilva,DEF,66,LI
+Coventry City,7,Jake Bidwell,DEF,65,CE
+Coventry City,8,Matt Grimes,MED,67,MCD
+Coventry City,10,Frank Onyeka,MED,71,MCD
+Coventry City,14,Victor Torp,MED,70,MCD
+Coventry City,16,Josh Eccles,MED,68,MP
+Coventry City,20,Caleb Yirenkyi,MED,64,MP
+Coventry City,21,Gustavo Hamer,MED,68,MP
+Coventry City,26,Jack Rudoni,MED,71,MC
+Coventry City,9,Loum Tchaouna,DEL,68,EI
+Coventry City,11,Tatsuhiro Sakamoto,DEL,69,EI
+Coventry City,17,Ephron Mason-Clark,DEL,68,EI
+Coventry City,19,Yann Gboho,DEL,70,ED
+Coventry City,29,Haji Wright,DEL,73,DC
+Coventry City,30,Brandon Thomas-Asante,DEL,70,ED
+Coventry City,12,Ellis Simms,DEL,70,DC
+Coventry City,25,Taiwo Awoniyi,DEL,74,EI
+Coventry City,27,Sidiki Chérif,DEL,64,DC
+Crystal Palace,1,Remi Matthews,POR,71,POR
+Crystal Palace,13,Dean Henderson,POR,80,POR
+Crystal Palace,23,Walter Benítez,POR,73,POR
+Crystal Palace,2,Óscar Mingueza,DEF,75,LD
+Crystal Palace,3,Anan Khalaili,DEF,73,LI
+Crystal Palace,4,Chris Richards,DEF,77,LD
+Crystal Palace,5,Chadi Riad,DEF,74,LI
+Crystal Palace,6,Jaydee Canvot,DEF,74,CE
+Crystal Palace,15,Takehiro Tomiyasu,DEF,74,CE
+Crystal Palace,18,Axel Disasi,DEF,74,CE
+Crystal Palace,22,Honest Ahanor,DEF,71,CE
+Crystal Palace,24,Tyrick Mitchell,DEF,78,CE
+Crystal Palace,7,Ben Chilwell,DEF,73,LD
+Crystal Palace,8,Cheick Doucouré,MED,74,MCD
+Crystal Palace,10,Jefferson Lerma,MED,76,MP
+Crystal Palace,14,Adam Wharton,MED,82,MCD
+Crystal Palace,16,Will Hughes,MED,74,MC
+Crystal Palace,20,Quinten Timber,MED,76,MP
+Crystal Palace,21,Daichi Kamada,MED,75,MCD
+Crystal Palace,9,Ismaïla Sarr,DEL,79,DC
+Crystal Palace,11,Zavier Gozo,DEL,71,EI
+Crystal Palace,17,Darío Osorio,DEL,74,DC
+Crystal Palace,19,Evann Guessand,DEL,75,EI
+Crystal Palace,29,Dwight McNeil,DEL,74,EI
+Crystal Palace,30,Yeremi Pino,DEL,74,SD
+Crystal Palace,12,Jean-Philippe Mateta,DEL,81,DC
+Crystal Palace,25,Eddie Nketiah,DEL,72,ED
+Crystal Palace,26,Jørgen Strand Larsen,DEL,78,ED
+Everton,1,Jordan Pickford,POR,82,POR
+Everton,13,Mark Travers,POR,70,POR
+Everton,23,Tom King,POR,73,POR
+Everton,2,Jake O'Brien,DEF,75,CE
+Everton,3,James Tarkowski,DEF,79,LI
+Everton,4,Michael Keane,DEF,76,LI
+Everton,5,Jarrad Branthwaite,DEF,80,LD
+Everton,6,Vitaliy Mykolenko,DEF,74,CE
+Everton,15,Ainsley Maitland-Niles,DEF,71,CE
+Everton,8,Hayden Hackney,MED,74,VD
+Everton,10,James Garner,MED,77,MP
+Everton,14,Christian Nørgaard,MED,74,MC
+Everton,16,Carlos Alcaraz,MED,69,MC
+Everton,20,Kiernan Dewsbury-Hall,MED,77,MC
+Everton,21,Harrison Armstrong,MED,70,MC
+Everton,26,Merlin Röhl,MED,74,MCD
+Everton,9,Tyler Dibling,DEL,73,ED
+Everton,7,Brennan Johnson,DEL,75,DC
+Everton,11,Tyrique George,DEL,72,DC
+Everton,17,Jack Grealish,DEL,78,ED
+Everton,19,Thierno Barry,DEL,75,EI
+Fulham,1,Bernd Leno,POR,80,POR
+Fulham,13,Benjamin Lecomte,POR,70,POR
+Fulham,23,Alex Borto,POR,71,POR
+Fulham,2,Kenny Tete,DEF,74,LD
+Fulham,3,Timothy Castagne,DEF,74,LD
+Fulham,4,Calvin Bassey,DEF,76,CE
+Fulham,5,Jorge Cuenca,DEF,72,CE
+Fulham,6,Joachim Andersen,DEF,80,CE
+Fulham,15,David Affengruber,DEF,72,CE
+Fulham,18,Antonee Robinson,DEF,79,LI
+Fulham,22,Ryan Sessegnon,DEF,73,LI
+Fulham,8,Sander Berge,MED,76,MC
+Fulham,10,Shea Charles,MED,72,MC
+Fulham,14,Harrison Reed,MED,70,MC
+Fulham,16,Tom Cairney,MED,69,MP
+Fulham,20,Manuel Ángel,MED,73,MC
+Fulham,21,Hugo Larsson,MED,74,MC
+Fulham,26,Josh King,MED,71,MCD
+Fulham,27,Emile Smith Rowe,MED,77,MCD
+Fulham,28,César Palacios,MED,70,MC
+Fulham,9,Oscar Bobb,DEL,73,DC
+Fulham,7,Kevin,DEL,69,ED
+Fulham,11,Alex Iwobi,DEL,77,EI
+Fulham,17,Rodrigo Muniz,DEL,76,DC
+Fulham,19,Jonah Kusi-Asare,DEL,70,ED
+Fulham,29,Gonzalo García,DEL,74,DC
+Hull City,1,Dillon Phillips,POR,67,POR
+Hull City,13,Jack Butland,POR,68,POR
+Hull City,23,Konstantinos Tzolakis,POR,67,POR
+Hull City,2,Lewie Coyle,DEF,65,CE
+Hull City,3,Brooke Norton-Cuffy,DEF,67,CE
+Hull City,4,Charlie Hughes,DEF,68,CE
+Hull City,5,Paddy McNair,DEF,67,CE
+Hull City,6,John Egan,DEF,66,CE
+Hull City,15,Semi Ajayi,DEF,62,CE
+Hull City,18,Nobel Mendy,DEF,67,CE
+Hull City,22,Lucas Herrington,DEF,65,LI
+Hull City,24,Ryan Giles,DEF,63,CE
+Hull City,7,Matt Targett,DEF,68,LD
+Hull City,8,Regan Slater,MED,62,MC
+Hull City,10,Óscar Zambrano,MED,66,MP
+Hull City,14,Lucas Gourna-Douath,MED,63,MC
+Hull City,16,Hidemasa Morita,MED,64,MC
+Hull City,20,Darko Gyabi,MED,62,MC
+Hull City,21,Eliot Matazo,MED,67,MC
+Hull City,26,Matt Crooks,MED,65,MP
+Hull City,27,Jens Hjertø-Dahl,MED,63,MC
+Hull City,28,Tim Iroegbunam,MED,65,MP
+Hull City,9,Christos Mouzakitis,MED,68,MCD
+Hull City,11,Abdülkadir Ömür,MED,66,MCD
+Hull City,12,Kieran Dowell,MED,63,VD
+Hull City,17,Mohamed Belloumi,DEL,62,SD
+Hull City,19,Mohamed-Ali Cho,DEL,67,DC
+Hull City,29,Elliot Stroud,DEL,64,ED
+Hull City,30,Sorba Thomas,DEL,62,EI
+Hull City,25,Oli McBurnie,DEL,68,DC
+Hull City,31,Joe Gelhardt,DEL,65,DC
+Hull City,32,Ilyas Ansah,DEL,67,DC
+Hull City,33,Robinio Vaz,DEL,66,EI
+Ipswich Town,1,Christian Walton,POR,68,POR
+Ipswich Town,13,Alex Palmer,POR,70,POR
+Ipswich Town,23,David Button,POR,67,POR
+Ipswich Town,12,Kjell Scherpen,POR,69,POR
+Ipswich Town,2,Darnell Furlong,DEF,66,LD
+Ipswich Town,3,Abdoul Ouattara,DEF,65,CE
+Ipswich Town,4,Dara O'Shea,DEF,68,LI
+Ipswich Town,5,Jacob Greaves,DEF,66,CE
+Ipswich Town,6,Cédric Kipré,DEF,70,CE
+Ipswich Town,15,Issa Diop,DEF,72,CE
+Ipswich Town,18,Leif Davis,DEF,73,CE
+Ipswich Town,8,Azor Matusiwa,MED,68,MP
+Ipswich Town,10,Florentino Luís,MED,69,MCD
+Ipswich Town,14,Marcelino Núñez,MED,70,MC
+Ipswich Town,16,Jack Taylor,MED,66,MC
+Ipswich Town,20,Saša Lukić,MED,74,MP
+Ipswich Town,21,Exequiel Palacios,MED,77,MC
+Ipswich Town,26,Kasey McAteer,MED,64,MC
+Ipswich Town,27,Anis Mehmeti,MED,70,MC
+Ipswich Town,28,Julio Enciso,MED,74,MCD
+Ipswich Town,9,Abdul Fatawu,DEL,73,DC
+Ipswich Town,7,Sindre Walle Egeli,DEL,65,EI
+Ipswich Town,11,Jaden Philogene,DEL,64,ED
+Ipswich Town,17,Jack Clarke,DEL,64,SD
+Ipswich Town,19,Daizen Maeda,DEL,73,EI
+Ipswich Town,29,Chuba Akpom,DEL,70,DC
+Ipswich Town,30,Emersonn,DEL,70,EI
+Ipswich Town,22,Zian Flemming,DEL,73,DC
+Leeds United,1,Alex Cairns,POR,73,POR
+Leeds United,13,James Trafford,POR,70,POR
+Leeds United,23,Michael Zetterer,POR,69,POR
+Leeds United,2,Jayden Bogle,DEF,73,LI
+Leeds United,3,James Justin,DEF,68,CE
+Leeds United,4,Joe Rodon,DEF,74,LD
+Leeds United,5,Jaka Bijol,DEF,75,LD
+Leeds United,6,Tarik Muharemović,DEF,73,CE
+Leeds United,15,Nico Elvedi,DEF,70,CE
+Leeds United,18,Gabriel Gudmundsson,DEF,74,LI
+Leeds United,22,Melvin Bard,DEF,67,CE
+Leeds United,8,Ethan Ampadu,MED,77,MP
+Leeds United,10,Ilia Gruev,MED,72,MC
+Leeds United,14,Anton Stach,MED,77,MP
+Leeds United,16,Ao Tanaka,MED,72,MC
+Leeds United,20,Sean Longstaff,MED,74,MCD
+Leeds United,21,Brenden Aaronson,MED,73,MC
+Leeds United,9,Harry Wilson,DEL,72,ED
+Leeds United,7,Daniel James,DEL,74,EI
+Leeds United,11,Noah Okafor,DEL,75,DC
+Leeds United,17,Jean-Mattéo Bahoya,DEL,71,EI
+Leeds United,19,Lukas Nmecha,DEL,73,DC
+Leeds United,29,Dominic Calvert-Lewin,DEL,76,EI
+Leeds United,30,Mateo Joseph,DEL,72,EI
+Liverpool,1,Alisson,POR,87,POR
+Liverpool,13,Giorgi Mamardashvili,POR,79,POR
+Liverpool,23,Freddie Woodman,POR,76,POR
+Liverpool,12,Harvey Davies,POR,82,POR
+Liverpool,25,Vitezslav Jaros,POR,77,POR
+Liverpool,2,Conor Bradley,DEF,77,LD
+Liverpool,3,Jeremie Frimpong,DEF,80,LD
+Liverpool,4,Virgil van Dijk,DEF,87,CE
+Liverpool,5,Joe Gomez,DEF,76,CE
+Liverpool,6,Giovanni Leoni,DEF,74,LI
+Liverpool,15,Jérémy Jacquet,DEF,75,LI
+Liverpool,18,Ronald Araújo,DEF,83,CE
+Liverpool,22,Milos Kerkez,DEF,77,LI
+Liverpool,24,Konstantinos Tsimikas,DEF,74,CE
+Liverpool,8,Wataru Endō,MED,73,MCD
+Liverpool,10,Ryan Gravenberch,MED,84,MCD
+Liverpool,14,Alexis Mac Allister,MED,85,MC
+Liverpool,16,Trey Nyoni,MED,76,MCD
+Liverpool,20,Dominik Szoboszlai,MED,85,MP
+Liverpool,21,Florian Wirtz,MED,86,MP
+Liverpool,9,Rio Ngumoha,DEL,73,DC
+Liverpool,7,Víctor Muñoz,DEL,80,ED
+Liverpool,11,Cody Gakpo,DEL,82,EI
+Liverpool,17,Bradley Barcola,DEL,83,EI
+Liverpool,19,Hugo Ekitiké,DEL,82,DC
+Liverpool,29,Alexander Isak,DEL,85,DC
+Manchester City,1,Marcus Bettinelli,POR,81,POR
+Manchester City,13,Gianluigi Donnarumma,POR,88,POR
+Manchester City,23,Gerónimo Rulli,POR,82,POR
+Manchester City,2,Rico Lewis,DEF,81,LI
+Manchester City,3,Matheus Nunes,DEF,80,LD
+Manchester City,4,Rúben Dias,DEF,85,CE
+Manchester City,5,Joško Gvardiol,DEF,85,CE
+Manchester City,6,Abdukodir Khusanov,DEF,76,CE
+Manchester City,15,Marc Guéhi,DEF,82,CE
+Manchester City,18,Vitor Reis,DEF,75,CE
+Manchester City,22,Rayan Aït-Nouri,DEF,79,LI
+Manchester City,24,Nico O'Reilly,DEF,79,CE
+Manchester City,7,Josh Wilson-Esbrand,DEF,82,LD
+Manchester City,8,Mateo Kovačić,MED,79,MCD
+Manchester City,10,Elliot Anderson,MED,84,MCD
+Manchester City,14,Ayyoub Bouaddi,MED,77,MC
+Manchester City,16,Enzo Fernández,MED,85,MC
+Manchester City,20,Phil Foden,MED,86,MP
+Manchester City,21,Rayan Cherki,MED,83,MP
+Manchester City,9,Antoine Semenyo,DEL,82,DC
+Manchester City,11,Allan,DEL,74,DC
+Manchester City,17,Iliman Ndiaye,DEL,77,EI
+Manchester City,19,Ryan McAidoo,DEL,79,ED
+Manchester City,29,Jérémy Doku,DEL,82,ED
+Manchester City,30,Erling Haaland,DEL,92,DC
+Manchester United,1,Tom Heaton,POR,74,POR
+Manchester United,13,Senne Lammens,POR,76,POR
+Manchester United,23,Karl Darlow,POR,70,POR
+Manchester United,12,Dermot Mee,POR,73,POR
+Manchester United,2,Diogo Dalot,DEF,78,LD
+Manchester United,3,Noussair Mazraoui,DEF,77,LI
+Manchester United,4,Harry Maguire,DEF,77,CE
+Manchester United,5,Lisandro Martínez,DEF,82,CE
+Manchester United,6,Leny Yoro,DEF,77,CE
+Manchester United,15,Matthijs de Ligt,DEF,81,CE
+Manchester United,18,Ayden Heaven,DEF,72,LD
+Manchester United,22,Luke Shaw,DEF,76,LI
+Manchester United,24,Harry Amass,DEF,78,CE
+Manchester United,8,Manuel Ugarte,MED,77,MC
+Manchester United,10,Andrey Santos,MED,75,MP
+Manchester United,14,Carlos Baleba,MED,78,MC
+Manchester United,16,Tyler Fletcher,MED,77,MCD
+Manchester United,20,Youri Tielemans,MED,80,MC
+Manchester United,21,Kobbie Mainoo,MED,79,MCD
+Manchester United,26,Bruno Fernandes,MED,87,MP
+Manchester United,27,Mason Mount,MED,74,MC
+Manchester United,28,Jack Fletcher,MED,74,MC
+Manchester United,9,Amad Diallo,DEL,80,ED
+Manchester United,7,Bryan Mbeumo,DEL,83,ED
+Manchester United,11,Shea Lacey,DEL,79,DC
+Manchester United,17,Marcus Rashford,DEL,80,EI
+Manchester United,19,Patrick Dorgu,DEL,74,DC
+Manchester United,29,Joshua Zirkzee,DEL,74,EI
+Manchester United,30,Matheus Cunha,DEL,83,DC
+Manchester United,25,Benjamin Šeško,DEL,80,DC

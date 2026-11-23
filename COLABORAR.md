@@ -23,30 +23,30 @@ Cada club debe existir en un solo archivo `.csv` dentro de `datos/clubes/`. Si u
 
 ### Formato del archivo CSV
 
-La primera línea debe ser el encabezado:
+La primera línea debe ser el encabezado (la columna `puesto` es opcional pero recomendada para indicar el rol táctico exacto):
 
 ```csv
-equipo,numero,jugador,posicion,calidad
+equipo,numero,jugador,posicion,calidad,puesto
 ```
 
 Ejemplo de filas:
 
 ```csv
-Universitario,1,Diego Romero,POR,72
-Universitario,13,Miguel Vargas,POR,66
-Universitario,2,Aldo Corzo,DEF,70
-Universitario,3,Williams Riveros,DEF,72
-Universitario,4,Matías Di Benedetto,DEF,71
-Universitario,5,Anderson Santamaría,DEF,71
-Universitario,6,Andy Polo,DEF,70
-Universitario,8,Horacio Calcaterra,MED,72
-Universitario,10,Jairo Concha,MED,70
-Universitario,14,Piero Quispe,MED,74
-Universitario,16,Jorge Murrugarra,MED,66
-Universitario,9,Alex Valera,DEL,75
-Universitario,7,Gianluca Lapadula,DEL,75
-Universitario,11,Edison Flores,DEL,74
-Universitario,17,José Rivera,DEL,68
+Universitario,1,Diego Romero,POR,72,POR
+Universitario,13,Miguel Vargas,POR,66,POR
+Universitario,2,Aldo Corzo,DEF,70,LD
+Universitario,3,Williams Riveros,DEF,72,CE
+Universitario,4,Matías Di Benedetto,DEF,71,CE
+Universitario,5,Anderson Santamaría,DEF,71,CE
+Universitario,6,Andy Polo,DEF,70,LD
+Universitario,8,Horacio Calcaterra,MED,72,MC
+Universitario,10,Jairo Concha,MED,70,MP
+Universitario,14,Piero Quispe,MED,74,MP
+Universitario,16,Jorge Murrugarra,MED,66,MCD
+Universitario,9,Alex Valera,DEL,75,DC
+Universitario,7,Gianluca Lapadula,DEL,75,DC
+Universitario,11,Edison Flores,DEL,74,EI
+Universitario,17,José Rivera,DEL,68,ED
 ```
 
 ### Requisitos de cada plantilla de club
@@ -59,6 +59,7 @@ Universitario,17,José Rivera,DEL,68
   - `MED` (mediocampistas): al menos 5 o 6.
   - `DEL` (delanteros): al menos 3 o 4.
 - Posiciones válidas: `POR`, `DEF`, `MED`, `DEL` (también acepta `GK`, `CB`, `RB`, `LB`, `CM`, `CDM`, `CAM`, `RW`, `LW`, `ST`, o `portero`, `defensa`, `medio`, `delantero`).
+- Puesto concreto opcional (`puesto`): `POR`, `LI`, `LD`, `CE` (`DFC`), `MCD`, `MC`, `MP`, `VI`, `VD`, `EI`, `ED`, `DC`, `SD`. Si se omite, el juego usa su lista de jugadores conocidos o estima un puesto estable por nombre.
 - Calidad (`calidad`): número entero de 1 a 99. Guía orientativa de niveles:
   - 85 a 92: estrellas mundiales.
   - 78 a 84: titulares de grandes ligas europeas o figuras continentales.

@@ -1,216 +1,216 @@
-equipo,numero,jugador,posicion,calidad
-Inter Miami,1,Óscar Ustari,POR,74
-Inter Miami,19,Drake Callender,POR,73
-Inter Miami,18,Jordi Alba,DEF,78
-Inter Miami,2,Gonzalo Luján,DEF,73
-Inter Miami,6,Tomás Avilés,DEF,74
-Inter Miami,32,Noah Allen,DEF,72
-Inter Miami,17,Ian Fray,DEF,72
-Inter Miami,5,Sergio Busquets,MED,79
-Inter Miami,7,Rodrigo De Paul,MED,82
-Inter Miami,8,Telasco Segovia,MED,74
-Inter Miami,55,Federico Redondo,MED,75
-Inter Miami,42,Yannick Bright,MED,72
-Inter Miami,10,Lionel Messi,DEL,88
-Inter Miami,9,Luis Suárez,DEL,80
-Inter Miami,11,Germán Berterame,DEL,77
-Inter Miami,21,Tadeo Allende,DEL,75
-Inter Miami,14,Mateo Silvetti,DEL,73
-Los Angeles FC,1,Hugo Lloris,POR,77
-Los Angeles FC,12,Thomas Hasal,POR,69
-Los Angeles FC,4,Eddie Segura,DEF,75
-Los Angeles FC,5,Ryan Porteous,DEF,75
-Los Angeles FC,3,Nkosi Tafari,DEF,73
-Los Angeles FC,14,Sergi Palencia,DEF,74
-Los Angeles FC,24,Ryan Hollingshead,DEF,74
-Los Angeles FC,6,Igor Jesus,MED,75
-Los Angeles FC,8,Mark Delgado,MED,74
-Los Angeles FC,11,Timothy Tillman,MED,74
-Los Angeles FC,20,Yaw Yeboah,MED,73
-Los Angeles FC,99,Denis Bouanga,DEL,81
-Los Angeles FC,9,Olivier Giroud,DEL,77
-Los Angeles FC,17,Jeremy Ebobisse,DEL,74
-Los Angeles FC,30,David Martínez,DEL,74
-Seattle Sounders,24,Stefan Frei,POR,76
-Seattle Sounders,26,Andrew Thomas,POR,70
-Seattle Sounders,16,Alex Roldan,DEF,74
-Seattle Sounders,5,Nouhou Tolo,DEF,75
-Seattle Sounders,28,Yeimar Gómez Andrade,DEF,76
-Seattle Sounders,25,Jackson Ragen,DEF,75
-Seattle Sounders,20,Kim Kee-hee,DEF,73
-Seattle Sounders,11,Albert Rusnák,MED,77
-Seattle Sounders,7,Cristian Roldan,MED,76
-Seattle Sounders,6,João Paulo,MED,74
-Seattle Sounders,18,Obed Vargas,MED,74
-Seattle Sounders,10,Pedro de la Vega,MED,75
-Seattle Sounders,9,Jesús Ferreira,DEL,76
-Seattle Sounders,13,Jordan Morris,DEL,76
-Seattle Sounders,99,Dejan Joveljić,DEL,76
-Seattle Sounders,14,Paul Rothrock,DEL,72
-Columbus Crew,1,Nicholas Hagen,POR,72
-Columbus Crew,24,Evan Bush,POR,69
-Columbus Crew,2,Andrés Herrera,DEF,74
-Columbus Crew,4,Eric Bailly,DEF,76
-Columbus Crew,3,Rudy Camacho,DEF,74
-Columbus Crew,23,Mohamed Farsi,DEF,74
-Columbus Crew,14,Malte Amundsen,DEF,73
-Columbus Crew,7,Dylan Chambost,MED,74
-Columbus Crew,8,Brais Méndez,MED,78
-Columbus Crew,6,Darlington Nagbe,MED,75
-Columbus Crew,25,Sean Zawadzki,MED,73
-Columbus Crew,10,Diego Rossi,MED,77
-Columbus Crew,9,Wessam Abou Ali,DEL,76
-Columbus Crew,11,Santiago Rodríguez,DEL,76
-Columbus Crew,27,Max Arfsten,DEL,74
-LA Galaxy,1,JT Marcinkowski,POR,72
-LA Galaxy,77,Novak Mićović,POR,71
-LA Galaxy,4,Maya Yoshida,DEF,74
-LA Galaxy,3,Julián Aude,DEF,73
-LA Galaxy,2,Lucas Calegari,DEF,73
-LA Galaxy,5,Jakob Glesnes,DEF,75
-LA Galaxy,14,John Nelson,DEF,72
-LA Galaxy,10,Riqui Puig,MED,79
-LA Galaxy,18,Marco Reus,MED,77
-LA Galaxy,20,Sergi Roberto,MED,76
-LA Galaxy,8,Lucas Sanabria,MED,73
-LA Galaxy,6,Erik Thommy,MED,74
-LA Galaxy,28,Joseph Paintsil,DEL,77
-LA Galaxy,9,Kyōgo Furuhashi,DEL,77
-LA Galaxy,11,João Klauss,DEL,75
-Philadelphia Union,18,Andre Blake,POR,78
-Philadelphia Union,76,Andrew Rick,POR,69
-Philadelphia Union,26,Nathan Harriel,DEF,74
-Philadelphia Union,27,Kai Wagner,DEF,76
-Philadelphia Union,5,Japhet Sery Larsen,DEF,73
-Philadelphia Union,4,Olwethu Makhanya,DEF,72
-Philadelphia Union,15,Olivier Mbaizo,DEF,72
-Philadelphia Union,6,Cavan Sullivan,MED,72
-Philadelphia Union,8,Jesús Bueno,MED,73
-Philadelphia Union,14,Danley Jean Jacques,MED,74
-Philadelphia Union,11,Alejandro Bedoya,MED,72
-Philadelphia Union,33,Quinn Sullivan,MED,74
-Philadelphia Union,10,Indiana Vassilev,MED,73
-Philadelphia Union,9,Bruno Damiani,DEL,74
-Philadelphia Union,7,Mikael Uhre,DEL,74
-Philadelphia Union,19,Milan Iloski,DEL,73
-FC Cincinnati,18,Roman Celentano,POR,76
-FC Cincinnati,1,Evan Louro,POR,69
-FC Cincinnati,12,Miles Robinson,DEF,76
-FC Cincinnati,2,Alvas Powell,DEF,71
-FC Cincinnati,4,Tyrell Malacia,DEF,75
-FC Cincinnati,3,Nick Hagglund,DEF,72
-FC Cincinnati,5,Julian Malatini,DEF,73
-FC Cincinnati,10,Evander,MED,79
-FC Cincinnati,6,Obinna Nwobodo,MED,75
-FC Cincinnati,20,Pavel Bucha,MED,74
-FC Cincinnati,8,José Martínez,MED,74
-FC Cincinnati,14,Gerardo Valenzuela,MED,72
-FC Cincinnati,9,Kévin Denkey,DEL,78
-FC Cincinnati,7,Yuya Kubo,DEL,73
-FC Cincinnati,11,Kristian Fletcher,DEL,71
-Atlanta United,1,Lucas Hoyos,POR,72
-Atlanta United,22,Jayden Hibbert,POR,68
-Atlanta United,5,Júnior Alonso,DEF,75
-Atlanta United,4,Enea Mihaj,DEF,73
-Atlanta United,2,Pedro Amador,DEF,73
-Atlanta United,3,Elías Báez,DEF,71
-Atlanta United,6,Ronald Hernández,DEF,72
-Atlanta United,10,Miguel Almirón,MED,78
-Atlanta United,8,Steven Alzate,MED,74
-Atlanta United,7,Tristan Muyumba,MED,73
-Atlanta United,14,Giuliano Galoppo,MED,75
-Atlanta United,59,Aleksei Miranchuk,MED,77
-Atlanta United,9,Emmanuel Latte Lath,DEL,77
-Atlanta United,11,Saba Lobjanidze,DEL,74
-Atlanta United,19,Jamal Thiaré,DEL,72
-New York City FC,49,Matt Freese,POR,75
-New York City FC,1,Tomás Romero,POR,69
-New York City FC,13,Thiago Martins,DEF,75
-New York City FC,24,Tayvon Gray,DEF,73
-New York City FC,22,Kevin O'Toole,DEF,72
-New York City FC,5,Birk Risa,DEF,73
-New York City FC,35,Mitja Ilenič,DEF,72
-New York City FC,55,Keaton Parks,MED,74
-New York City FC,27,Maxi Moralez,MED,73
-New York City FC,10,Santiago Rodríguez,MED,76
-New York City FC,26,Agustín Ojeda,MED,73
-New York City FC,8,Andrés Perea,MED,73
-New York City FC,11,Julián Fernández,DEL,73
-New York City FC,9,Alonso Martínez,DEL,76
-New York City FC,7,Talles Magno,DEL,74
-Vancouver Whitecaps,1,Yohei Takaoka,POR,74
-Vancouver Whitecaps,32,Isaac Boehmer,POR,69
-Vancouver Whitecaps,4,Ranko Veselinović,DEF,74
-Vancouver Whitecaps,2,Mathías Laborda,DEF,73
-Vancouver Whitecaps,33,Tristan Blackmon,DEF,74
-Vancouver Whitecaps,3,Sam Adekugbe,DEF,73
-Vancouver Whitecaps,15,Bjørn Inge Utvik,DEF,72
-Vancouver Whitecaps,25,Ryan Gauld,MED,78
-Vancouver Whitecaps,16,Sebastian Berhalter,MED,73
-Vancouver Whitecaps,22,Ali Ahmed,MED,73
-Vancouver Whitecaps,20,Andrés Cubas,MED,75
-Vancouver Whitecaps,45,Pedro Vite,MED,74
-Vancouver Whitecaps,24,Brian White,DEL,76
-Vancouver Whitecaps,7,Cheikh Sabaly,DEL,73
-Vancouver Whitecaps,11,Fafà Picault,DEL,73
-Deportivo Saprissa,1,Kevin Chamorro,POR,69
-Deportivo Saprissa,13,Abraham Madriz,POR,66
-Deportivo Saprissa,4,Kendall Waston,DEF,71
-Deportivo Saprissa,5,Pablo Arboine,DEF,68
-Deportivo Saprissa,2,Ryan Bolaños,DEF,67
-Deportivo Saprissa,3,Thiago Cordero,DEF,67
-Deportivo Saprissa,6,Fidel Escobar,DEF,70
-Deportivo Saprissa,8,Mariano Torres,MED,72
-Deportivo Saprissa,10,Jefferson Brenes,MED,69
-Deportivo Saprissa,14,David Guzmán,MED,68
-Deportivo Saprissa,15,Gerson Torres,MED,68
-Deportivo Saprissa,9,Javon East,DEL,70
-Deportivo Saprissa,11,Orlando Sinclair,DEL,68
-Deportivo Saprissa,7,Ariel Rodríguez,DEL,69
-Deportivo Saprissa,19,Tomás Rodríguez,DEL,68
-Alajuelense,1,Washington Ortega,POR,69
-Alajuelense,23,Bayron Mora,POR,66
-Alajuelense,4,Alexis Gamboa,DEF,69
-Alajuelense,22,Ronald Matarrita,DEF,69
-Alajuelense,3,Yeison Molina,DEF,67
-Alajuelense,2,Fernando Piñar,DEF,67
-Alajuelense,6,Daniel Chacón,DEF,68
-Alajuelense,5,Celso Borges,MED,70
-Alajuelense,10,Juanpi Añor,MED,70
-Alajuelense,8,Roan Wilson,MED,68
-Alajuelense,14,Rashir Parkins,MED,68
-Alajuelense,15,Creichel Pérez,MED,68
-Alajuelense,9,Ronaldo Cisneros,DEL,70
-Alajuelense,7,Kenyel Michel,DEL,68
-Alajuelense,11,Anthony Hernández,DEL,68
-Alajuelense,19,Luis Díaz,DEL,69
-Olimpia de Honduras,1,Edrick Menjívar,POR,70
-Olimpia de Honduras,12,Alex Güity,POR,65
-Olimpia de Honduras,4,José García,DEF,68
-Olimpia de Honduras,2,Maylor Núñez,DEF,67
-Olimpia de Honduras,3,Julián Martínez,DEF,68
-Olimpia de Honduras,5,Jonathan Paz,DEF,68
-Olimpia de Honduras,6,Gabriel Araújo,DEF,67
-Olimpia de Honduras,10,Edwin Rodríguez,MED,71
-Olimpia de Honduras,8,Carlos Pineda,MED,69
-Olimpia de Honduras,14,Jorge Álvarez,MED,70
-Olimpia de Honduras,7,José Mario Pinto,MED,69
-Olimpia de Honduras,33,Michaell Chirinos,MED,70
-Olimpia de Honduras,27,Jerry Bengtson,DEL,69
-Olimpia de Honduras,9,Jorge Benguché,DEL,69
-Olimpia de Honduras,11,Yustin Arboleda,DEL,69
-Comunicaciones,1,Fredy Pérez,POR,67
-Comunicaciones,12,Arnold Barrios,POR,64
-Comunicaciones,4,José Pinto,DEF,68
-Comunicaciones,2,Stheven Robles,DEF,67
-Comunicaciones,3,Diego Santis,DEF,66
-Comunicaciones,5,Kevin Grijalva,DEF,66
-Comunicaciones,6,Rafael Morales,DEF,66
-Comunicaciones,8,Marco Domínguez,MED,67
-Comunicaciones,10,José Contreras,MED,68
-Comunicaciones,14,Karel Espino,MED,67
-Comunicaciones,15,Antonio López,MED,67
-Comunicaciones,9,Agustín Vuletich,DEL,68
-Comunicaciones,11,Omar Duarte,DEL,67
-Comunicaciones,7,Erick Lemus,DEL,67
-Comunicaciones,19,Dairon Reyes,DEL,66
+equipo,numero,jugador,posicion,calidad,puesto
+Inter Miami,1,Óscar Ustari,POR,74,POR
+Inter Miami,19,Drake Callender,POR,73,POR
+Inter Miami,18,Jordi Alba,DEF,78,CE
+Inter Miami,2,Gonzalo Luján,DEF,73,CE
+Inter Miami,6,Tomás Avilés,DEF,74,CE
+Inter Miami,32,Noah Allen,DEF,72,LI
+Inter Miami,17,Ian Fray,DEF,72,LD
+Inter Miami,5,Sergio Busquets,MED,79,MP
+Inter Miami,7,Rodrigo De Paul,MED,82,MCD
+Inter Miami,8,Telasco Segovia,MED,74,MC
+Inter Miami,55,Federico Redondo,MED,75,MCD
+Inter Miami,42,Yannick Bright,MED,72,MP
+Inter Miami,10,Lionel Messi,DEL,88,ED
+Inter Miami,9,Luis Suárez,DEL,80,DC
+Inter Miami,11,Germán Berterame,DEL,77,ED
+Inter Miami,21,Tadeo Allende,DEL,75,EI
+Inter Miami,14,Mateo Silvetti,DEL,73,DC
+Los Angeles FC,1,Hugo Lloris,POR,77,POR
+Los Angeles FC,12,Thomas Hasal,POR,69,POR
+Los Angeles FC,4,Eddie Segura,DEF,75,LI
+Los Angeles FC,5,Ryan Porteous,DEF,75,LI
+Los Angeles FC,3,Nkosi Tafari,DEF,73,LD
+Los Angeles FC,14,Sergi Palencia,DEF,74,CE
+Los Angeles FC,24,Ryan Hollingshead,DEF,74,CE
+Los Angeles FC,6,Igor Jesus,MED,75,MP
+Los Angeles FC,8,Mark Delgado,MED,74,MC
+Los Angeles FC,11,Timothy Tillman,MED,74,MCD
+Los Angeles FC,20,Yaw Yeboah,MED,73,MCD
+Los Angeles FC,99,Denis Bouanga,DEL,81,ED
+Los Angeles FC,9,Olivier Giroud,DEL,77,EI
+Los Angeles FC,17,Jeremy Ebobisse,DEL,74,DC
+Los Angeles FC,30,David Martínez,DEL,74,EI
+Seattle Sounders,24,Stefan Frei,POR,76,POR
+Seattle Sounders,26,Andrew Thomas,POR,70,POR
+Seattle Sounders,16,Alex Roldan,DEF,74,LI
+Seattle Sounders,5,Nouhou Tolo,DEF,75,CE
+Seattle Sounders,28,Yeimar Gómez Andrade,DEF,76,LD
+Seattle Sounders,25,Jackson Ragen,DEF,75,CE
+Seattle Sounders,20,Kim Kee-hee,DEF,73,CE
+Seattle Sounders,11,Albert Rusnák,MED,77,MCD
+Seattle Sounders,7,Cristian Roldan,MED,76,VD
+Seattle Sounders,6,João Paulo,MED,74,MC
+Seattle Sounders,18,Obed Vargas,MED,74,MC
+Seattle Sounders,10,Pedro de la Vega,MED,75,MP
+Seattle Sounders,9,Jesús Ferreira,DEL,76,DC
+Seattle Sounders,13,Jordan Morris,DEL,76,DC
+Seattle Sounders,99,Dejan Joveljić,DEL,76,ED
+Seattle Sounders,14,Paul Rothrock,DEL,72,EI
+Columbus Crew,1,Nicholas Hagen,POR,72,POR
+Columbus Crew,24,Evan Bush,POR,69,POR
+Columbus Crew,2,Andrés Herrera,DEF,74,LD
+Columbus Crew,4,Eric Bailly,DEF,76,CE
+Columbus Crew,3,Rudy Camacho,DEF,74,CE
+Columbus Crew,23,Mohamed Farsi,DEF,74,CE
+Columbus Crew,14,Malte Amundsen,DEF,73,LI
+Columbus Crew,7,Dylan Chambost,MED,74,MP
+Columbus Crew,8,Brais Méndez,MED,78,MP
+Columbus Crew,6,Darlington Nagbe,MED,75,MCD
+Columbus Crew,25,Sean Zawadzki,MED,73,MC
+Columbus Crew,10,Diego Rossi,MED,77,MC
+Columbus Crew,9,Wessam Abou Ali,DEL,76,ED
+Columbus Crew,11,Santiago Rodríguez,DEL,76,DC
+Columbus Crew,27,Max Arfsten,DEL,74,EI
+LA Galaxy,1,JT Marcinkowski,POR,72,POR
+LA Galaxy,77,Novak Mićović,POR,71,POR
+LA Galaxy,4,Maya Yoshida,DEF,74,CE
+LA Galaxy,3,Julián Aude,DEF,73,CE
+LA Galaxy,2,Lucas Calegari,DEF,73,LD
+LA Galaxy,5,Jakob Glesnes,DEF,75,LI
+LA Galaxy,14,John Nelson,DEF,72,LI
+LA Galaxy,10,Riqui Puig,MED,79,MC
+LA Galaxy,18,Marco Reus,MED,77,MCD
+LA Galaxy,20,Sergi Roberto,MED,76,MP
+LA Galaxy,8,Lucas Sanabria,MED,73,MCD
+LA Galaxy,6,Erik Thommy,MED,74,MC
+LA Galaxy,28,Joseph Paintsil,DEL,77,EI
+LA Galaxy,9,Kyōgo Furuhashi,DEL,77,ED
+LA Galaxy,11,João Klauss,DEL,75,DC
+Philadelphia Union,18,Andre Blake,POR,78,POR
+Philadelphia Union,76,Andrew Rick,POR,69,POR
+Philadelphia Union,26,Nathan Harriel,DEF,74,LD
+Philadelphia Union,27,Kai Wagner,DEF,76,CE
+Philadelphia Union,5,Japhet Sery Larsen,DEF,73,LD
+Philadelphia Union,4,Olwethu Makhanya,DEF,72,LI
+Philadelphia Union,15,Olivier Mbaizo,DEF,72,CE
+Philadelphia Union,6,Cavan Sullivan,MED,72,VD
+Philadelphia Union,8,Jesús Bueno,MED,73,MC
+Philadelphia Union,14,Danley Jean Jacques,MED,74,MC
+Philadelphia Union,11,Alejandro Bedoya,MED,72,MCD
+Philadelphia Union,33,Quinn Sullivan,MED,74,MC
+Philadelphia Union,10,Indiana Vassilev,MED,73,MP
+Philadelphia Union,9,Bruno Damiani,DEL,74,EI
+Philadelphia Union,7,Mikael Uhre,DEL,74,DC
+Philadelphia Union,19,Milan Iloski,DEL,73,ED
+FC Cincinnati,18,Roman Celentano,POR,76,POR
+FC Cincinnati,1,Evan Louro,POR,69,POR
+FC Cincinnati,12,Miles Robinson,DEF,76,LD
+FC Cincinnati,2,Alvas Powell,DEF,71,CE
+FC Cincinnati,4,Tyrell Malacia,DEF,75,LI
+FC Cincinnati,3,Nick Hagglund,DEF,72,CE
+FC Cincinnati,5,Julian Malatini,DEF,73,CE
+FC Cincinnati,10,Evander,MED,79,MCD
+FC Cincinnati,6,Obinna Nwobodo,MED,75,MC
+FC Cincinnati,20,Pavel Bucha,MED,74,MP
+FC Cincinnati,8,José Martínez,MED,74,MP
+FC Cincinnati,14,Gerardo Valenzuela,MED,72,MCD
+FC Cincinnati,9,Kévin Denkey,DEL,78,ED
+FC Cincinnati,7,Yuya Kubo,DEL,73,DC
+FC Cincinnati,11,Kristian Fletcher,DEL,71,EI
+Atlanta United,1,Lucas Hoyos,POR,72,POR
+Atlanta United,22,Jayden Hibbert,POR,68,POR
+Atlanta United,5,Júnior Alonso,DEF,75,CE
+Atlanta United,4,Enea Mihaj,DEF,73,LD
+Atlanta United,2,Pedro Amador,DEF,73,CE
+Atlanta United,3,Elías Báez,DEF,71,CE
+Atlanta United,6,Ronald Hernández,DEF,72,LI
+Atlanta United,10,Miguel Almirón,MED,78,MCD
+Atlanta United,8,Steven Alzate,MED,74,MCD
+Atlanta United,7,Tristan Muyumba,MED,73,MC
+Atlanta United,14,Giuliano Galoppo,MED,75,MP
+Atlanta United,59,Aleksei Miranchuk,MED,77,MCD
+Atlanta United,9,Emmanuel Latte Lath,DEL,77,DC
+Atlanta United,11,Saba Lobjanidze,DEL,74,ED
+Atlanta United,19,Jamal Thiaré,DEL,72,EI
+New York City FC,49,Matt Freese,POR,75,POR
+New York City FC,1,Tomás Romero,POR,69,POR
+New York City FC,13,Thiago Martins,DEF,75,LD
+New York City FC,24,Tayvon Gray,DEF,73,LI
+New York City FC,22,Kevin O'Toole,DEF,72,CE
+New York City FC,5,Birk Risa,DEF,73,CE
+New York City FC,35,Mitja Ilenič,DEF,72,CE
+New York City FC,55,Keaton Parks,MED,74,MC
+New York City FC,27,Maxi Moralez,MED,73,MC
+New York City FC,10,Santiago Rodríguez,MED,76,MP
+New York City FC,26,Agustín Ojeda,MED,73,MC
+New York City FC,8,Andrés Perea,MED,73,MCD
+New York City FC,11,Julián Fernández,DEL,73,ED
+New York City FC,9,Alonso Martínez,DEL,76,DC
+New York City FC,7,Talles Magno,DEL,74,EI
+Vancouver Whitecaps,1,Yohei Takaoka,POR,74,POR
+Vancouver Whitecaps,32,Isaac Boehmer,POR,69,POR
+Vancouver Whitecaps,4,Ranko Veselinović,DEF,74,CE
+Vancouver Whitecaps,2,Mathías Laborda,DEF,73,LI
+Vancouver Whitecaps,33,Tristan Blackmon,DEF,74,LD
+Vancouver Whitecaps,3,Sam Adekugbe,DEF,73,CE
+Vancouver Whitecaps,15,Bjørn Inge Utvik,DEF,72,LI
+Vancouver Whitecaps,25,Ryan Gauld,MED,78,MC
+Vancouver Whitecaps,16,Sebastian Berhalter,MED,73,MC
+Vancouver Whitecaps,22,Ali Ahmed,MED,73,MP
+Vancouver Whitecaps,20,Andrés Cubas,MED,75,MC
+Vancouver Whitecaps,45,Pedro Vite,MED,74,MCD
+Vancouver Whitecaps,24,Brian White,DEL,76,EI
+Vancouver Whitecaps,7,Cheikh Sabaly,DEL,73,ED
+Vancouver Whitecaps,11,Fafà Picault,DEL,73,DC
+Deportivo Saprissa,1,Kevin Chamorro,POR,69,POR
+Deportivo Saprissa,13,Abraham Madriz,POR,66,POR
+Deportivo Saprissa,4,Kendall Waston,DEF,71,LD
+Deportivo Saprissa,5,Pablo Arboine,DEF,68,CE
+Deportivo Saprissa,2,Ryan Bolaños,DEF,67,LI
+Deportivo Saprissa,3,Thiago Cordero,DEF,67,LI
+Deportivo Saprissa,6,Fidel Escobar,DEF,70,CE
+Deportivo Saprissa,8,Mariano Torres,MED,72,MC
+Deportivo Saprissa,10,Jefferson Brenes,MED,69,MP
+Deportivo Saprissa,14,David Guzmán,MED,68,MP
+Deportivo Saprissa,15,Gerson Torres,MED,68,MCD
+Deportivo Saprissa,9,Javon East,DEL,70,ED
+Deportivo Saprissa,11,Orlando Sinclair,DEL,68,EI
+Deportivo Saprissa,7,Ariel Rodríguez,DEL,69,DC
+Deportivo Saprissa,19,Tomás Rodríguez,DEL,68,EI
+Alajuelense,1,Washington Ortega,POR,69,POR
+Alajuelense,23,Bayron Mora,POR,66,POR
+Alajuelense,4,Alexis Gamboa,DEF,69,CE
+Alajuelense,22,Ronald Matarrita,DEF,69,CE
+Alajuelense,3,Yeison Molina,DEF,67,LI
+Alajuelense,2,Fernando Piñar,DEF,67,CE
+Alajuelense,6,Daniel Chacón,DEF,68,LD
+Alajuelense,5,Celso Borges,MED,70,VI
+Alajuelense,10,Juanpi Añor,MED,70,MCD
+Alajuelense,8,Roan Wilson,MED,68,MCD
+Alajuelense,14,Rashir Parkins,MED,68,MC
+Alajuelense,15,Creichel Pérez,MED,68,MP
+Alajuelense,9,Ronaldo Cisneros,DEL,70,EI
+Alajuelense,7,Kenyel Michel,DEL,68,DC
+Alajuelense,11,Anthony Hernández,DEL,68,ED
+Alajuelense,19,Luis Díaz,DEL,69,EI
+Olimpia de Honduras,1,Edrick Menjívar,POR,70,POR
+Olimpia de Honduras,12,Alex Güity,POR,65,POR
+Olimpia de Honduras,4,José García,DEF,68,CE
+Olimpia de Honduras,2,Maylor Núñez,DEF,67,LI
+Olimpia de Honduras,3,Julián Martínez,DEF,68,CE
+Olimpia de Honduras,5,Jonathan Paz,DEF,68,CE
+Olimpia de Honduras,6,Gabriel Araújo,DEF,67,LD
+Olimpia de Honduras,10,Edwin Rodríguez,MED,71,MP
+Olimpia de Honduras,8,Carlos Pineda,MED,69,MC
+Olimpia de Honduras,14,Jorge Álvarez,MED,70,MP
+Olimpia de Honduras,7,José Mario Pinto,MED,69,MCD
+Olimpia de Honduras,33,Michaell Chirinos,MED,70,MCD
+Olimpia de Honduras,27,Jerry Bengtson,DEL,69,ED
+Olimpia de Honduras,9,Jorge Benguché,DEL,69,DC
+Olimpia de Honduras,11,Yustin Arboleda,DEL,69,EI
+Comunicaciones,1,Fredy Pérez,POR,67,POR
+Comunicaciones,12,Arnold Barrios,POR,64,POR
+Comunicaciones,4,José Pinto,DEF,68,LI
+Comunicaciones,2,Stheven Robles,DEF,67,CE
+Comunicaciones,3,Diego Santis,DEF,66,LD
+Comunicaciones,5,Kevin Grijalva,DEF,66,CE
+Comunicaciones,6,Rafael Morales,DEF,66,LI
+Comunicaciones,8,Marco Domínguez,MED,67,MP
+Comunicaciones,10,José Contreras,MED,68,MC
+Comunicaciones,14,Karel Espino,MED,67,MP
+Comunicaciones,15,Antonio López,MED,67,MCD
+Comunicaciones,9,Agustín Vuletich,DEL,68,EI
+Comunicaciones,11,Omar Duarte,DEL,67,DC
+Comunicaciones,7,Erick Lemus,DEL,67,DC
+Comunicaciones,19,Dairon Reyes,DEL,66,ED
