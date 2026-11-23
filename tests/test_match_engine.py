@@ -345,4 +345,126 @@ def test_rival_context_adapts_tactic_and_emotional_mood() -> None:
     assert engine.state.rival_tactic == "defensivo"
 
 
+def test_natural_position_substitution_sorts_lineup_by_role() -> None:
+    from audiofutbol.domain.models import POSITION_ORDER
+
+    class _SpyReaderIO(HeadlessMatchIO):
+        def __init__(self) -> None:
+            super().__init__()
+            self.reader_lines: list[str] = []
+
+        def read_lines(self, title: str, lines: list[str]) -> None:
+            self.reader_lines = list(lines)
+
+    team_a = create_generic_team("México", 80)
+    team_b = create_generic_team("Brasil", 84)
+    io = _SpyReaderIO()
+    engine = MatchEngine(team_a, team_b, io=io, auto=False)
+
+    striker = next(p for p in engine.state.xi[0] if p.position == "DEL")
+    bench_def = next(
+        p for p in engine.subs.eligible_replacements(0, striker) if p.position == "DEF"
+    )
+
+    engine.subs.apply_substitution(0, striker, bench_def, play_as_position="DEF")
+    roles = [POSITION_ORDER[engine.state.player_role(p)] for p in engine.state.xi[0]]
+    assert roles == sorted(roles)
+    # New defender is grouped with defenders, not at the bottom with strikers
+    def_indices = [i for i, p in enumerate(engine.state.xi[0]) if engine.state.player_role(p) == "DEF"]
+    assert engine.state.xi[0].index(bench_def) in def_indices
+    assert engine.state.xi[0][-1].position == "DEL"
+
+    engine.subs.read_lineup()
+    player_lines = io.reader_lines[1:-1]
+    assert len(player_lines) == 11
+    bench_def_line_idx = next(
+        i for i, line in enumerate(player_lines) if line.startswith(bench_def.name + ",")
+    )
+    assert bench_def_line_idx in def_indices
+
+    # Cover position keeps incoming player in the outgoing player's role slot
+    engine2 = MatchEngine(team_a, team_b, io=HeadlessMatchIO(), auto=False)
+    striker2 = next(p for p in engine2.state.xi[0] if p.position == "DEL")
+    bench_def2 = next(
+        p for p in engine2.subs.eligible_replacements(0, striker2) if p.position == "DEF"
+    )
+    engine2.subs.apply_substitution(0, striker2, bench_def2, play_as_position="DEL")
+    assert engine2.state.player_role(bench_def2) == "DEL"
+    assert engine2.state.xi[0].index(bench_def2) >= 8
+
+
+def test_goalkeeper_red_card_prompts_backup_gk_and_outfield_sacrifice() -> None:
+    prompts: list[str] = []
+
+    def decide(title: str, options: list[str]) -> int:
+        prompts.append(title)
+        if "¿Qué jugador de campo sale" in title:
+            return len(options) - 1  # sacrifice last striker
+        return 0  # pick best backup GK
+
+    team_a = create_generic_team("México", 80)
+    team_b = create_generic_team("Argentina", 85)
+    io = HeadlessMatchIO(decision_callback=decide)
+    engine = MatchEngine(team_a, team_b, io=io, max_substitutions=5, auto=False)
+    starting_gk = engine.state.goalkeeper(0)
+    assert starting_gk is not None
+
+    engine.set_pieces.give_card(0, starting_gk, "roja")
+
+    assert any("¿Qué jugador de campo sale" in p for p in prompts)
+    assert any("¿Qué portero suplente entra?" in p for p in prompts)
+    new_gk = engine.state.goalkeeper(0)
+    assert new_gk is not None and new_gk is not starting_gk
+    assert new_gk.position == "POR"
+    assert engine.state.xi[0][0] is new_gk
+    assert engine.state.gk_penalty[0] == 0
+    assert engine.state.substitutions_used[0] == 1
+    assert len(engine.state.xi[0]) == 10
+
+
+def test_goalkeeper_red_card_falls_back_when_no_subs_or_no_backup_gk() -> None:
+    # Case (a): no substitutions remaining
+    team_a = create_generic_team("México", 80)
+    team_b = create_generic_team("Argentina", 85)
+    io_no_subs = HeadlessMatchIO()
+    engine_no_subs = MatchEngine(team_a, team_b, io=io_no_subs, max_substitutions=5, auto=False)
+    engine_no_subs.state.substitutions_used[0] = 5
+    gk_a = engine_no_subs.state.goalkeeper(0)
+    assert gk_a is not None
+    engine_no_subs.set_pieces.give_card(0, gk_a, "roja")
+    assert engine_no_subs.state.gk_penalty[0] == -25
+    assert any("un jugador de campo se pone los guantes" in m.lower() for m in io_no_subs.messages)
+
+    # Case (b): no backup goalkeepers available on the bench
+    io_no_gk = HeadlessMatchIO()
+    engine_no_gk = MatchEngine(team_a, team_b, io=io_no_gk, max_substitutions=5, auto=False)
+    gk_b = engine_no_gk.state.goalkeeper(0)
+    assert gk_b is not None
+    for p in engine_no_gk.subs.bench(0):
+        if p.position == "POR":
+            engine_no_gk.state.subbed_off[0].add(id(p))
+    engine_no_gk.set_pieces.give_card(0, gk_b, "roja")
+    assert engine_no_gk.state.gk_penalty[0] == -25
+    assert any("un jugador de campo se pone los guantes" in m.lower() for m in io_no_gk.messages)
+
+
+def test_ai_goalkeeper_red_card_subs_in_backup_gk() -> None:
+    team_a = create_generic_team("Brasil", 84)
+    team_b = create_generic_team("México", 80)
+    io = HeadlessMatchIO()
+    engine = MatchEngine(team_a, team_b, io=io, max_substitutions=5, auto=False)
+    rival_gk = engine.state.goalkeeper(1)
+    assert rival_gk is not None
+
+    engine.set_pieces.give_card(1, rival_gk, "roja")
+
+    new_rival_gk = engine.state.goalkeeper(1)
+    assert new_rival_gk is not None and new_rival_gk is not rival_gk
+    assert new_rival_gk.position == "POR"
+    assert engine.state.gk_penalty[1] == 0
+    assert engine.state.substitutions_used[1] == 1
+    assert len(engine.state.xi[1]) == 10
+
+
+
 

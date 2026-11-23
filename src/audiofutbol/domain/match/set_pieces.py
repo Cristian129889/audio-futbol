@@ -26,6 +26,7 @@ class SetPieceResolver:
         self.var = var
         self._choose = choose_fn
         self._crowd_react = crowd_react
+        self.on_goalkeeper_sent_off: Callable[[int], None] | None = None
 
     def _speak(self, text: str) -> None:
         if not self.state.muted:
@@ -1183,6 +1184,7 @@ class SetPieceResolver:
 
     def _send_off(self, team_idx: int, player: Player) -> None:
         self._sfx("abucheo" if team_idx == 1 else "casi")
+        was_gk = self.state.player_role(player) == "POR" or player.position == "POR"
         player.suspended_matches = max(player.suspended_matches, 1)
         self.state.subbed_off[team_idx].add(id(player))
         self.state.position_overrides.pop(id(player), None)
@@ -1191,11 +1193,6 @@ class SetPieceResolver:
         if self.state.ball_carrier is player:
             self.state.ball_carrier = None
         self.state.red_cards[team_idx] += 1
-        if player.position == "POR":
-            self.state.gk_penalty[team_idx] = -25
-            self._speak(
-                "El portero se va expulsado, un jugador de campo se pone los guantes."
-            )
         self.state.ratings[team_idx] = self.state.compute_ratings(team_idx)
         self._speak(
             f"{self.state.team_name(team_idx)} se queda con {11 - self.state.red_cards[team_idx]} jugadores."
@@ -1211,3 +1208,13 @@ class SetPieceResolver:
                 f"{self.state.team_name(team_idx)} tiene menos de siete jugadores. "
                 f"El árbitro suspende el partido y da la victoria a {self.state.team_name(winner)}."
             )
+            return
+        if was_gk and self.state.goalkeeper(team_idx) is None:
+            if self.on_goalkeeper_sent_off is not None:
+                self.on_goalkeeper_sent_off(team_idx)
+            else:
+                self.state.gk_penalty[team_idx] = -25
+                self.state.ratings[team_idx] = self.state.compute_ratings(team_idx)
+                self._speak(
+                    "El portero se va expulsado, un jugador de campo se pone los guantes."
+                )

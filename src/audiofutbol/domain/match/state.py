@@ -7,7 +7,7 @@ import random
 from typing import Any
 
 from audiofutbol.domain.match.ports import MatchSettings
-from audiofutbol.domain.models import MatchResult, Player, Team
+from audiofutbol.domain.models import POSITION_ORDER, MatchResult, Player, Team
 
 ZONES_OWN: dict[int, str] = {
     0: "en tu área",
@@ -232,6 +232,8 @@ class MatchState:
             for team in self.teams
         ]
         self.xi: list[list[Player]] = [team.starting_xi() for team in self.teams]
+        self.sort_lineup(0)
+        self.sort_lineup(1)
         self.player_form: dict[int, float] = {
             id(p): self.rng.uniform(-2.0, 2.0)
             for team in self.teams
@@ -390,6 +392,12 @@ class MatchState:
         return TACTIC_PROFILES[self.tactic]
 
     # ------------------------------------------------------- Role & Formation
+    def sort_lineup(self, team_idx: int) -> None:
+        """Keep on-pitch players ordered by active tactical role (POR -> DEF -> MED -> DEL)."""
+        self.xi[team_idx].sort(
+            key=lambda p: POSITION_ORDER.get(self.player_role(p), 99)
+        )
+
     def player_role(self, player: Player) -> str:
         """Current tactical position on the pitch (override if playing out of position)."""
         return self.position_overrides.get(id(player), player.position)

@@ -45,15 +45,25 @@ class SubstitutionManager:
     def eligible_replacements(self, team_idx: int, out_player: Player) -> list[Player]:
         """Return valid bench replacements for `out_player`.
 
-        Prevents subbing a backup goalkeeper in for an outfield player.
-        When replacing a goalkeeper, prioritizes backup goalkeepers first.
+        Prevents subbing a backup goalkeeper in for an outfield player while a
+        goalkeeper is already on the pitch. When replacing a goalkeeper, or when
+        the team currently has no goalkeeper on the pitch, prioritizes backup
+        goalkeepers first.
         """
         bench_players = self.bench(team_idx)
         out_role = self.state.player_role(out_player)
-        if out_role != "POR":
+        has_gk_on_pitch = any(
+            self.state.player_role(p) == "POR" for p in self.state.xi[team_idx]
+        )
+        if out_role != "POR" and has_gk_on_pitch:
             outfield = [p for p in bench_players if p.position != "POR"]
             return sorted(
                 outfield, key=lambda p: (p.position != out_role, -p.overall)
+            )
+        if not has_gk_on_pitch:
+            return sorted(
+                bench_players,
+                key=lambda p: (p.position != "POR", p.position != out_role, -p.overall),
             )
         return sorted(
             bench_players, key=lambda p: (p.position != "POR", -p.overall)
@@ -112,10 +122,7 @@ class SubstitutionManager:
         if self.state.ball_carrier is out_player:
             self.state.ball_carrier = in_player
 
-        assigned = self.state.player_role(in_player)
-        if assigned == "POR" and self.state.player_role(self.state.xi[team_idx][0]) != "POR":
-            self.state.xi[team_idx].remove(in_player)
-            self.state.xi[team_idx].insert(0, in_player)
+        self.state.sort_lineup(team_idx)
 
         has_natural_gk = any(
             p.position == "POR" and self.state.player_role(p) == "POR"
@@ -198,7 +205,9 @@ class SubstitutionManager:
             chosen_role = in_player.position
 
             # Ask tactical role if natural positions differ on outfield players
-            if out_role != "POR" and in_player.position != out_role:
+            if out_role != "POR" and in_player.position == "POR":
+                chosen_role = "POR"
+            elif out_role != "POR" and in_player.position != out_role:
                 natural_code = self._preview_formation_code(out_player, in_player, in_player.position)
                 cover_code = self._preview_formation_code(out_player, in_player, out_role)
                 role_choice = self.io.choose(
@@ -235,6 +244,100 @@ class SubstitutionManager:
                     msg += " Cuidado, te quedas sin portero natural."
                 self.io.speak(msg)
                 return True
+
+    def handle_goalkeeper_sent_off(self, team_idx: int) -> None:
+        """Prompt user (or AI) to sacrifice an outfield player for a backup GK on red card."""
+        backup_gks = sorted(
+            (p for p in self.bench(team_idx) if p.position == "POR"),
+            key=lambda p: -p.overall,
+        )
+        is_human = team_idx == 0 and not self.state.auto
+        rem = self.remaining_subs(team_idx, human=is_human)
+        has_subs = rem is None or rem > 0
+
+        if not has_subs or not backup_gks or not self.state.xi[team_idx]:
+            self.state.gk_penalty[team_idx] = -25
+            self.state.ratings[team_idx] = self.state.compute_ratings(team_idx)
+            self.io.update_hud(self.state.hud_status())
+            if is_human:
+                if not has_subs:
+                    self._speak(
+                        "El portero se va expulsado y ya no te quedan cambios. Un jugador de campo se pone los guantes."
+                    )
+                else:
+                    self._speak(
+                        "El portero se va expulsado y no tienes otro portero disponible en el banquillo. Un jugador de campo se pone los guantes."
+                    )
+            else:
+                self._speak(
+                    f"El portero de {self.state.team_name(team_idx)} se va expulsado y un jugador de campo se pone los guantes."
+                )
+            return
+
+        if is_human:
+            self.io.speak(
+                "¡Te quedaste sin portero! Tienes portero suplente en el banquillo. "
+                "Elige qué jugador de campo sale para que entre el portero suplente."
+            )
+            while True:
+                on_pitch = list(self.state.xi[0])
+                idx_out = self.io.choose(
+                    f"Expulsión del portero. {self.remaining_subs_text(0)}. "
+                    "¿Qué jugador de campo sale para que entre el portero suplente?",
+                    [self.player_status_text(p) for p in on_pitch],
+                )
+                if idx_out is None:
+                    if self.io.confirm(
+                        "¿Seguro que no quieres meter al portero suplente? Un jugador de campo tendrá que ponerse los guantes."
+                    ):
+                        self.state.gk_penalty[0] = -25
+                        self.state.ratings[0] = self.state.compute_ratings(0)
+                        self.io.update_hud(self.state.hud_status())
+                        self.io.speak(
+                            "No realizas el cambio. Un jugador de campo se pone los guantes."
+                        )
+                        return
+                    continue
+
+                out_player = on_pitch[idx_out]
+                if len(backup_gks) == 1:
+                    in_gk = backup_gks[0]
+                else:
+                    idx_gk = self.io.choose(
+                        f"Sale {out_player.name}. ¿Qué portero suplente entra?",
+                        [
+                            f"{p.name}, portero, calidad {p.overall}"
+                            for p in backup_gks
+                        ],
+                    )
+                    if idx_gk is None:
+                        continue
+                    in_gk = backup_gks[idx_gk]
+
+                if self.io.confirm(
+                    f"Sale {out_player.name} y entra el portero {in_gk.name}. ¿Confirmas el cambio?"
+                ):
+                    self.apply_substitution(0, out_player, in_gk, play_as_position="POR")
+                    self.io.speak(
+                        f"Cambio de portero realizado. Sale {out_player.name}, entra {in_gk.name}. "
+                        f"Dibujo actual {self.state.formation_code(0)}. {self.remaining_subs_text(0)}."
+                    )
+                    return
+
+        in_gk = backup_gks[0]
+        sacrifice_priority = {"DEL": 0, "MED": 1, "DEF": 2, "POR": 3}
+        out_player = min(
+            self.state.xi[team_idx],
+            key=lambda p: (
+                sacrifice_priority.get(self.state.player_role(p), 2),
+                self.state.effective_overall(p),
+            ),
+        )
+        self.apply_substitution(team_idx, out_player, in_gk, play_as_position="POR")
+        self._speak(
+            f"Tras la expulsión del portero, {self.state.team_name(team_idx)} realiza un cambio: "
+            f"sale {out_player.name} y entra el portero suplente {in_gk.name}."
+        )
 
     def ai_substitutions(self, team_idx: int) -> None:
         if team_idx == 0 and not self.state.auto:

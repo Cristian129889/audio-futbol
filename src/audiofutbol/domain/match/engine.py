@@ -67,6 +67,7 @@ class MatchEngine:
         self.subs = SubstitutionManager(
             self.state, self.io, self._crowd_react, self.set_pieces.give_card
         )
+        self.set_pieces.on_goalkeeper_sent_off = self.subs.handle_goalkeeper_sent_off
 
     def _speak(self, text: str, interrupt: bool = False) -> None:
         if not self.state.muted:
