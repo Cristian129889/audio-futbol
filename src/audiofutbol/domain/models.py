@@ -5,6 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
+from audiofutbol.domain.formations import DEFAULT_SCHEME, SCHEMES, scheme_counts
+
 FORMATION: tuple[tuple[str, int], ...] = (
     ("POR", 1),
     ("DEF", 4),
@@ -33,6 +35,8 @@ class Player:
     yellow_cards: int = 0
     suspended_matches: int = 0
     goals: int = 0
+    assists: int = 0
+    puesto: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -43,6 +47,8 @@ class Player:
             "yellow_cards": self.yellow_cards,
             "suspended_matches": self.suspended_matches,
             "goals": self.goals,
+            "assists": self.assists,
+            "puesto": self.puesto,
         }
 
     @classmethod
@@ -55,6 +61,8 @@ class Player:
             yellow_cards=int(data.get("yellow_cards", 0)),
             suspended_matches=int(data.get("suspended_matches", 0)),
             goals=int(data.get("goals", 0)),
+            assists=int(data.get("assists", 0)),
+            puesto=str(data.get("puesto", "") or ""),
         )
 
 
@@ -71,6 +79,57 @@ class Team:
     group: str | None = None
     level: int = 72
     is_real_squad: bool = False
+    scheme: str | None = None
+    lineup_names: list[str] | None = None
+    positions: dict[str, str] = field(default_factory=dict)
+    takers: dict[str, str] = field(default_factory=dict)
+    mentality: int = 0
+
+    def lineup(
+        self, scheme: str | None = None, ignore_suspensions: bool = False
+    ) -> list[Player]:
+        """Build the XI for `scheme`, preserving preferred `lineup_names` when valid."""
+        use = (
+            scheme
+            if scheme in SCHEMES
+            else (self.scheme if self.scheme in SCHEMES else DEFAULT_SCHEME)
+        )
+        counts = scheme_counts(use)
+        available = [
+            p for p in self.players if ignore_suspensions or p.suspended_matches <= 0
+        ]
+        by_name = {p.name: p for p in available}
+        xi: list[Player] = []
+        used: set[int] = set()
+        for name in self.lineup_names or []:
+            p = by_name.get(name)
+            if p is not None and id(p) not in used:
+                xi.append(p)
+                used.add(id(p))
+        for pos in ("POR", "DEF", "MED", "DEL"):
+            group = [p for p in xi if p.position == pos]
+            if len(group) > counts[pos]:
+                for p in sorted(group, key=lambda q: q.overall)[: len(group) - counts[pos]]:
+                    xi.remove(p)
+                    used.discard(id(p))
+            elif len(group) < counts[pos]:
+                extra = sorted(
+                    (p for p in available if p.position == pos and id(p) not in used),
+                    key=lambda q: -q.overall,
+                )[: counts[pos] - len(group)]
+                xi.extend(extra)
+                used.update(id(p) for p in extra)
+        missing = 11 - len(xi)
+        if missing > 0:
+            rest = sorted(
+                (p for p in available if id(p) not in used),
+                key=lambda q: (q.position == "POR", -q.overall),
+            )[:missing]
+            xi.extend(rest)
+        if not any(p.position == "POR" for p in xi):
+            xi = [Player("Portero suplente", "POR", 60)] + xi[:10]
+        xi.sort(key=lambda p: POSITION_ORDER[p.position])
+        return xi
 
     def starting_xi(self, ignore_suspensions: bool = False) -> list[Player]:
         """Pick the strongest available 11 players respecting 1-4-3-3 formation."""
@@ -116,6 +175,11 @@ class Team:
             "group": self.group,
             "level": self.level,
             "is_real_squad": self.is_real_squad,
+            "scheme": self.scheme,
+            "lineup_names": self.lineup_names,
+            "positions": dict(self.positions),
+            "takers": dict(self.takers),
+            "mentality": self.mentality,
         }
 
     @classmethod
@@ -130,6 +194,15 @@ class Team:
             group=data.get("group"),
             level=int(data.get("level", 72)),
             is_real_squad=bool(data.get("is_real_squad", False)),
+            scheme=data.get("scheme"),
+            lineup_names=(
+                [str(n) for n in data["lineup_names"]]
+                if data.get("lineup_names")
+                else None
+            ),
+            positions={str(k): str(v) for k, v in (data.get("positions") or {}).items()},
+            takers={str(k): str(v) for k, v in (data.get("takers") or {}).items()},
+            mentality=int(data.get("mentality", 0)),
         )
 
 
@@ -142,6 +215,7 @@ class MatchResult:
     abandoned: bool = False
     fair_play: tuple[int, int] = (0, 0)
     scorers: list[tuple[Team, Player, int]] = field(default_factory=list)
+    assists: list[tuple[Team, Player, int]] = field(default_factory=list)
     highlights: list[tuple[int, str]] = field(default_factory=list)
 
 

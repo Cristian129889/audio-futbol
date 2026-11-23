@@ -8,6 +8,7 @@ import io
 from pathlib import Path
 import random
 
+from audiofutbol.domain.formations import puesto_from_text, register_csv_puesto
 from audiofutbol.domain.models import Player, Team
 from audiofutbol.domain.text import normalize_text, tokenize
 from audiofutbol.engine.paths import AppPaths
@@ -51,6 +52,7 @@ COLUMN_ALIASES: dict[str, tuple[str, ...]] = {
     "defensa": ("defensa", "defense", "defending", "dfn"),
     "pase": ("pase", "passing", "pas", "pass"),
     "porteria": ("porteria", "portero", "goalkeeping"),
+    "puesto": ("puesto", "puesto_concreto", "role", "rol"),
 }
 
 POSITION_ALIASES: dict[str, tuple[str, ...]] = {
@@ -161,6 +163,7 @@ def read_squad_csv(path: Path) -> list[tuple[str, str, str, int, int]]:
     c_dfn = find_col("defensa")
     c_pas = find_col("pase")
     c_por = find_col("porteria")
+    c_pue = find_col("puesto")
     if not c_nom:
         return []
 
@@ -187,6 +190,11 @@ def read_squad_csv(path: Path) -> list[tuple[str, str, str, int, int]]:
         if ovr <= 10:
             ovr *= 10
         overall = int(round(max(30, min(99, ovr))))
+        concrete = puesto_from_text(row.get(c_pue) or "") if c_pue else None
+        if not concrete and c_pos:
+            concrete = puesto_from_text(row.get(c_pos) or "")
+        if concrete:
+            register_csv_puesto(player_name, concrete)
         try:
             shirt = int(float(row.get(c_num) or 0)) if c_num else 0
         except ValueError:

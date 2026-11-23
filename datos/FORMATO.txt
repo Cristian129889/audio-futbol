@@ -24,3 +24,5 @@ al menos 8 equipos (48 para el Mundial completo de 2026, 32, 16 u 8 si hay menos
 Si la carpeta esta vacia o hay menos de 8 equipos, el juego usa 32 selecciones de ejemplo.
 
 Si tu base de datos tiene otro formato, mandame las primeras lineas y lo adapto.
+
+Columna opcional "puesto" (puesto, role): LI, LD, DFC/CE, MCD, MC, MP, VI, VD, EI, ED, DC, SD. Si no existe, el juego usa su lista de jugadores conocidos o estima un puesto estable por nombre.
