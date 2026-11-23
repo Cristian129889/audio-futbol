@@ -382,6 +382,18 @@ class SetPieceResolver:
             self.state.rating(att_idx, "att") - self.state.rating(def_idx, "dfn")
         ) / 100.0 * 1.5
 
+        # Emotional context: confidence sharpens finishing; anxiety/frustration causes rush
+        mood = self.state.mood_state[att_idx]
+        mood_mod = {
+            "euforico": 1.07,
+            "confiado": 1.04,
+            "sereno": 1.00,
+            "ansioso": 0.95,
+            "frustrado": 0.93,
+            "caliente": 0.94,
+        }.get(mood, 1.0)
+        variance_mod = self.state.rng.uniform(0.92, 1.09)
+
         p = (
             base
             * mult
@@ -389,6 +401,8 @@ class SetPieceResolver:
             * role_factor
             * angle_factor
             * space_factor
+            * mood_mod
+            * variance_mod
             * self.state.weather.shot_skid_mod
             * max(0.55, team_edge)
             * gk_resistance
@@ -426,6 +440,7 @@ class SetPieceResolver:
         allow_corner = corner_ok and self.state.can_chain_corner(att_idx, from_corner)
         if self.state.roll(p):
             self.state.shots_on_target[att_idx] += 1
+            self.state.drought_turns[att_idx] = 0
             wonder = bicycle or (
                 (not header)
                 and (
@@ -440,7 +455,9 @@ class SetPieceResolver:
         roll = self.state.rng.random()
         if roll < 0.38:
             self.state.shots_on_target[att_idx] += 1
+            self.state.drought_turns[att_idx] = 0
             self.state.saves[def_idx] += 1
+            self.state.shift_morale(def_idx, 0.8)
             self.state.shift_momentum(-1.4 if att_idx == 0 else 1.8)
             self._sfx("parada", self.state.stereo_pan(0.15))
             gk = self.state.goalkeeper(def_idx)
@@ -1009,8 +1026,16 @@ class SetPieceResolver:
     def foul(self, offender_team: int, zone_receiver: int, foul_type: str = "normal") -> None:
         receiver_team = 1 - offender_team
         self.state.fouls[offender_team] += 1
+        heat_gain = {"normal": 7.5, "mano": 4.0, "tactica": 11.0, "barrida": 13.5}.get(
+            foul_type, 7.5
+        )
+        self.state.add_tension(heat_gain)
+        self.state.shift_morale(receiver_team, -0.4)
         offender = self.state.pick_player(
             offender_team, {"DEF": 3.0, "MED": 2.5, "DEL": 1.0, "POR": 0.02}
+        )
+        victim = self.state.pick_player(
+            receiver_team, {"DEL": 3.2, "MED": 3.2, "DEF": 1.4, "POR": 0.0}
         )
         self._sfx("falta")
         self.state.lost_seconds += 5
@@ -1020,6 +1045,7 @@ class SetPieceResolver:
             self._crowd_react("ovacion", 1.5)
 
         offender_club = self.state.team_name(offender_team)
+        aggr = self.state.aggression_level()
         if foul_type == "mano":
             phrase = self.state.rng.choice(
                 [
@@ -1030,9 +1056,23 @@ class SetPieceResolver:
             )
             self._speak(phrase % (offender.name, offender_club))
         elif foul_type == "barrida":
-            self._speak(f"¡Barrida de {offender.name}, de {offender_club}, y llega tarde! Falta.")
+            if aggr >= 0.55:
+                self._speak(
+                    f"¡Entrada durísima a ras de piso de {offender.name}, de {offender_club}, sobre {victim.name}! Falta."
+                )
+            else:
+                self._speak(f"¡Barrida de {offender.name}, de {offender_club}, y llega tarde! Falta.")
         elif foul_type == "tactica":
             self._speak(f"{offender.name}, de {offender_club}, corta la jugada con una falta táctica.")
+        elif aggr >= 0.50 and self.state.roll(0.55):
+            hard_phrase = self.state.rng.choice(
+                [
+                    "¡Entrada muy fuerte de %s, de %s! El partido se pone áspero.",
+                    "¡Falta dura de %s, de %s! Va con demasiada vehemencia a la disputa.",
+                    "¡Infracción agresiva de %s, de %s! El árbitro pita de inmediato.",
+                ]
+            )
+            self._speak(hard_phrase % (offender.name, offender_club))
         else:
             self._speak(f"Falta de {offender.name}, de {offender_club}.")
 
@@ -1044,6 +1084,9 @@ class SetPieceResolver:
         }[foul_type]
         if zone_receiver >= 3:
             prob_y, prob_r = prob_y + 0.12, prob_r + 0.03
+        if foul_type != "mano" and aggr >= 0.35:
+            prob_y = min(0.82, prob_y + aggr * 0.22)
+            prob_r = min(0.14, prob_r + max(0.0, aggr - 0.35) * 0.055)
 
         roll = self.state.rng.random()
         if roll < prob_r:
@@ -1054,6 +1097,25 @@ class SetPieceResolver:
             )
         elif roll < prob_r + prob_y:
             self.give_card(offender_team, offender, "amarilla")
+
+        # When match is heated, players can square up / push each other after a foul
+        if (
+            not self.state.suspended_match
+            and foul_type != "mano"
+            and aggr >= 0.55
+            and self.state.roll(0.24)
+        ):
+            self._speak(
+                f"¡{victim.name} y {offender.name} se encaran tras la entrada! "
+                "Llegan varios jugadores a empujarse y el árbitro interviene para calmar los ánimos."
+            )
+            self.state.lost_seconds += 15
+            if (
+                aggr >= 0.75
+                and self.state.match_yellows.get(id(victim), 0) == 0
+                and self.state.roll(0.16)
+            ):
+                self.give_card(receiver_team, victim, "amarilla", "por protestar y empujar")
 
         self.state.set_possession(receiver_team, zone_receiver)
         if self.state.suspended_match:
@@ -1074,6 +1136,8 @@ class SetPieceResolver:
     ) -> None:
         self._sfx("tarjeta" if level == "amarilla" else "tarjeta_roja")
         self.state.lost_seconds += 20
+        self.state.add_tension(6.0 if level == "amarilla" else 14.0)
+        self.state.shift_morale(team_idx, -0.6 if level == "amarilla" else -2.2)
         club = self.state.team_name(team_idx)
         suffix = f" {reason}" if reason else ""
         if level == "amarilla":

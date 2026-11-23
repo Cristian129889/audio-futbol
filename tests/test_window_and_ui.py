@@ -85,3 +85,71 @@ def test_global_history_shortcuts_in_game_window() -> None:
 
     assert window._handle_global_keydown(ev_last) is True
     assert backend.spoken[-1] == ("Último mensaje. Mensaje 3", True)
+
+
+def test_recap_space_skips_between_sections_and_always_opens_menu() -> None:
+    backend = NullSpeechBackend()
+    speech = SpeechService([backend])
+    window = GameWindow(speech, headless=True)
+    audio = AudioEngine(AppPaths.detect(), GameConfig(), init_mixer=False)
+    ui = AudioUI(speech, audio, window)
+
+    lines = [
+        "Resultado final: Argentina 2, Francia 1",
+        "Global: Argentina 3, Francia 2",
+        "Minuto 14. Gol de Messi, de Argentina.",
+        "Minuto 52. Poste de Mbappé, de Francia.",
+        "Estadísticas del partido.",
+        "Posesión del balón: Argentina 55 por ciento, Francia 45 por ciento.",
+        "Tiros: Argentina 8, 5 a puerta. Francia 6, 3 a puerta.",
+    ]
+
+    # Wait sequence:
+    # 1) intro -> None (let goals section start)
+    # 2) first line of goals -> 'space' (jump to plays section)
+    # 3) first line of plays -> 'space' (jump to stats section)
+    # 4) first line of stats -> 'space' (finish stream and open menu)
+    actions = iter([None, "space", "space", "space"])
+    window.wait_or_skip_action = lambda _ms: next(actions, None)  # type: ignore[method-assign]
+    window.wait_key = lambda: (pygame.K_RETURN, "\r")  # type: ignore[method-assign]
+
+    ui.recap(lines)
+    spoken_msgs = [msg for msg, _ in backend.spoken]
+
+    # First line of each section was narrated, while skipped lines inside sections were omitted
+    assert "Resultado final: Argentina 2, Francia 1" in spoken_msgs
+    assert "Global: Argentina 3, Francia 2" not in spoken_msgs
+    assert "Minuto 14. Gol de Messi, de Argentina." in spoken_msgs
+    assert "Minuto 52. Poste de Mbappé, de Francia." not in spoken_msgs
+    assert "Estadísticas del partido." in spoken_msgs
+    assert "Posesión del balón: Argentina 55 por ciento, Francia 45 por ciento." not in spoken_msgs
+    # Menu "Fin del recuento" is always presented
+    assert any("Fin del recuento" in msg for msg in spoken_msgs)
+
+
+def test_recap_escape_cancels_narration_but_still_shows_post_recap_menu() -> None:
+    backend = NullSpeechBackend()
+    speech = SpeechService([backend])
+    window = GameWindow(speech, headless=True)
+    audio = AudioEngine(AppPaths.detect(), GameConfig(), init_mixer=False)
+    ui = AudioUI(speech, audio, window)
+
+    lines = [
+        "Resultado final: España 1, Italia 0",
+        "Minuto 70. Gol de Morata, de España.",
+        "Estadísticas del partido.",
+        "Posesión del balón: España 60 por ciento, Italia 40 por ciento.",
+    ]
+
+    # Press Escape immediately on the first line
+    actions = iter([None, "escape"])
+    window.wait_or_skip_action = lambda _ms: next(actions, None)  # type: ignore[method-assign]
+    window.wait_key = lambda: (pygame.K_RETURN, "\r")  # type: ignore[method-assign]
+
+    ui.recap(lines)
+    spoken_msgs = [msg for msg, _ in backend.spoken]
+
+    assert "Recuento cancelado." in spoken_msgs
+    assert "Minuto 70. Gol de Morata, de España." not in spoken_msgs
+    assert any("Fin del recuento" in msg for msg in spoken_msgs)
+

@@ -95,6 +95,38 @@ WEATHER_PROFILES: tuple[WeatherProfile, ...] = (
 
 TACTICS_ORDER: tuple[str, ...] = ("equilibrado", "ofensivo", "defensivo")
 
+RIVAL_STYLES: tuple[dict[str, Any], ...] = (
+    {
+        "key": "posesion",
+        "label": "juego de posesión y toque",
+        "weights": {"shot": -4, "cross": -3, "dribble": 4, "through": 10, "one_two": 12, "switch": 8},
+    },
+    {
+        "key": "directo",
+        "label": "juego directo y centros al área",
+        "weights": {"shot": 8, "cross": 14, "dribble": -3, "through": 2, "one_two": -4, "switch": 6},
+    },
+    {
+        "key": "transicion",
+        "label": "transiciones rápidas y contragolpe",
+        "weights": {"shot": 6, "cross": 4, "dribble": 10, "through": 12, "one_two": 6, "switch": 4},
+    },
+    {
+        "key": "equilibrado",
+        "label": "juego equilibrado",
+        "weights": {"shot": 0, "cross": 0, "dribble": 0, "through": 0, "one_two": 0, "switch": 0},
+    },
+)
+
+MOOD_LABELS_ES: dict[str, str] = {
+    "euforico": "eufórico y lleno de confianza",
+    "confiado": "confiado",
+    "sereno": "sereno y concentrado",
+    "ansioso": "ansioso por el resultado",
+    "frustrado": "frustrado e impaciente",
+    "caliente": "muy caliente y agresivo",
+}
+
 TACTIC_PROFILES: dict[str, dict[str, Any]] = {
     "equilibrado": {
         "label": "Equilibrado",
@@ -173,10 +205,17 @@ class MatchState:
             WEATHER_PROFILES, weights=[48, 22, 18, 12]
         )[0]
         self.tactic: str = "equilibrado"
+        self.rival_tactic: str = "equilibrado"
+        self.rival_style: dict[str, Any] = self.rng.choice(RIVAL_STYLES)
         self.momentum: float = 0.0  # -10 (rival dominates) .. +10 (user dominates)
+        self.morale: list[float] = [0.0, 0.0]  # -10 (shaken/frustrated) .. +10 (confident/inspired)
+        self.mood_state: list[str] = ["sereno", "sereno"]
+        self.tension: float = 0.0  # 0 .. 100 match friction / heat from accumulated fouls & cards
+        self.tension_stage_announced: int = 0  # 0=calm, 1=heated (>=35), 2=boiling (>=65)
         self.block_solidity: int = 0  # 0..3 accumulated when holding block cleanly
         self.space_bonus: float = 0.0  # bonus on next user attack (counter / switch play)
         self.rival_attack_turns: int = 0  # tracks consecutive rival turns in our half
+        self.drought_turns: list[int] = [0, 0]  # turns without shots on target
         self.final_stretch_announced: bool = False
 
         self.highlights: list[tuple[int, str]] = []
@@ -193,6 +232,11 @@ class MatchState:
             for team in self.teams
         ]
         self.xi: list[list[Player]] = [team.starting_xi() for team in self.teams]
+        self.player_form: dict[int, float] = {
+            id(p): self.rng.uniform(-2.0, 2.0)
+            for team in self.teams
+            for p in team.players
+        }
         self.ratings: list[dict[str, float]] = [
             self.compute_ratings(0),
             self.compute_ratings(1),
@@ -262,9 +306,72 @@ class MatchState:
 
     def shift_momentum(self, delta: float) -> None:
         self.momentum = max(-10.0, min(10.0, self.momentum + delta))
+        self.shift_morale(0, delta * 0.45)
+        self.shift_morale(1, -delta * 0.45)
+
+    def shift_morale(self, team_idx: int, delta: float) -> None:
+        self.morale[team_idx] = max(-10.0, min(10.0, self.morale[team_idx] + delta))
+        self.update_moods()
+
+    def add_tension(self, delta: float) -> None:
+        """Increase or cool down match friction/aggressiveness (clamped 0..100)."""
+        self.tension = max(0.0, min(100.0, self.tension + delta))
+        self.update_moods()
+
+    def aggression_level(self) -> float:
+        """Normalized 0.0 .. 1.0 match aggressiveness factor from fouls and tension."""
+        foul_pressure = min(40.0, sum(self.fouls) * 2.5)
+        raw = max(self.tension, foul_pressure)
+        return max(0.0, min(1.0, raw / 100.0))
+
+    def tension_summary(self) -> str:
+        if self.tension >= 65:
+            return "El partido está caldeado y muy agresivo por las reiteradas faltas."
+        if self.tension >= 35:
+            return "El juego se está poniendo físico y con roces constantes."
+        return "El partido se juega con deportividad."
+
+    def update_moods(self) -> None:
+        """Recompute emotional state for both teams based on morale, score, clock, and tension."""
+        progress = (
+            self.turn / float(self.total_turns) if self.total_turns > 0 else 0.0
+        )
+        score = (
+            self.aggregate() if self.first_leg is not None else self.goals
+        )
+        for idx in (0, 1):
+            diff = score[idx] - score[1 - idx]
+            m = self.morale[idx]
+            if self.tension >= 65 and (m <= 1.0 or self.fouls[idx] >= 5):
+                self.mood_state[idx] = "caliente"
+            elif m >= 4.5 or (diff >= 2 and m >= 1.5):
+                self.mood_state[idx] = "euforico"
+            elif m >= 1.8 or (diff == 1 and m >= 0.0):
+                self.mood_state[idx] = "confiado"
+            elif diff < 0 and progress >= 0.68:
+                self.mood_state[idx] = "ansioso"
+            elif m <= -2.8 or (diff < 0 and self.drought_turns[idx] >= 4):
+                self.mood_state[idx] = "frustrado"
+            else:
+                self.mood_state[idx] = "sereno"
+
+    def mood_label(self, team_idx: int) -> str:
+        self.update_moods()
+        return MOOD_LABELS_ES.get(self.mood_state[team_idx], "sereno y concentrado")
+
+    def mood_summary(self) -> str:
+        self.update_moods()
+        return (
+            f"Ánimo de {self.team_name(0)}: {self.mood_label(0)}. "
+            f"Ánimo de {self.team_name(1)}: {self.mood_label(1)}."
+        )
 
     def decay_momentum(self) -> None:
         self.momentum *= 0.90
+        self.morale[0] *= 0.94
+        self.morale[1] *= 0.94
+        self.tension = max(0.0, self.tension - 0.85)
+        self.update_moods()
 
     def momentum_summary(self) -> str:
         if self.momentum >= 3.5:
@@ -317,8 +424,9 @@ class MatchState:
         )
 
     def effective_overall(self, player: Player) -> float:
+        base_ovr = player.overall + self.player_form.get(id(player), 0.0)
         val = (
-            player.overall
+            base_ovr
             * self.out_of_position_factor(player)
             * (1.0 - 0.14 * self.fatigue.get(id(player), 0.0) / 100.0)
         )
@@ -349,11 +457,11 @@ class MatchState:
             "dfn": 0.72 * d + 0.28 * m + dfn_shape,
             "gk": gk,
         }
-        if team_idx == 0:
-            tp = self.tactic_profile()
-            res["att"] += tp["att"]
-            res["mid"] += tp["mid"]
-            res["dfn"] += tp["dfn"]
+        tactic_key = self.tactic if team_idx == 0 else self.rival_tactic
+        tp = TACTIC_PROFILES[tactic_key]
+        res["att"] += tp["att"]
+        res["mid"] += tp["mid"]
+        res["dfn"] += tp["dfn"]
         return res
 
     def refresh_ratings(self) -> None:
@@ -362,9 +470,10 @@ class MatchState:
     def rating(self, team_idx: int, key: str) -> float:
         val = self.ratings[team_idx][key]
         mom_boost = (self.momentum if team_idx == 0 else -self.momentum) * 0.35
+        morale_boost = self.morale[team_idx] * 0.22
         if key == "gk":
-            return val + self.gk_penalty[team_idx] + mom_boost * 0.5
-        return (val + mom_boost) * (1.0 - 0.07 * self.red_cards[team_idx])
+            return val + self.gk_penalty[team_idx] + (mom_boost + morale_boost) * 0.5
+        return (val + mom_boost + morale_boost) * (1.0 - 0.07 * self.red_cards[team_idx])
 
     def duel_advantage(self, player_a: Player, player_b: Player) -> float:
         """Strong individual player-vs-player rating edge (-0.26..+0.26)."""

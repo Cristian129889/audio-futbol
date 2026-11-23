@@ -267,8 +267,12 @@ class GameWindow:
 
     def wait_or_skip(self, ms: int) -> bool:
         """Wait `ms` ms; return True early if Escape or Space is pressed."""
+        return self.wait_or_skip_action(ms) is not None
+
+    def wait_or_skip_action(self, ms: int) -> str | None:
+        """Wait `ms` ms; return 'escape' on Esc, 'space' on Space, or None on timeout."""
         if self.headless or ms <= 0:
-            return False
+            return None
         deadline = pygame.time.get_ticks() + ms
         while pygame.time.get_ticks() < deadline:
             for event in pygame.event.get():
@@ -276,10 +280,12 @@ class GameWindow:
                 if event.type == pygame.KEYDOWN:
                     if self._handle_global_keydown(event):
                         continue
-                    if event.key in (pygame.K_ESCAPE, pygame.K_SPACE):
-                        return True
+                    if event.key == pygame.K_ESCAPE:
+                        return "escape"
+                    if event.key == pygame.K_SPACE:
+                        return "space"
             pygame.time.wait(15)
-        return False
+        return None
 
     def wait_enter(self, shortcuts: dict[int, Callable[[], None]] | None = None) -> None:
         shortcuts = shortcuts or {}

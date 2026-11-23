@@ -96,7 +96,7 @@ class MatchEngine:
             )
 
     def _rival_aggression(self) -> float:
-        """Adaptive AI urgency: pushes harder when trailing late, steadier when leading."""
+        """Adaptive AI urgency based on score, clock, knockout context, morale, and match heat."""
         if self.state.total_turns <= 0:
             return 0.0
         progress = self.state.turn / float(self.state.total_turns)
@@ -106,11 +106,62 @@ class MatchEngine:
             else self.state.goals
         )
         diff = score[1] - score[0]
-        if progress >= 0.72 and diff < 0:
-            return 0.14  # Rival trailing late -> throws numbers forward
-        if progress >= 0.78 and diff > 0:
-            return -0.08  # Rival protecting lead
-        return 0.0
+        urg = 0.0
+        if diff < 0:
+            urg += 0.08 + (0.10 if progress >= 0.65 else 0.0) + (0.05 if self.state.knockout else 0.0)
+        elif diff > 0:
+            urg -= 0.06 if progress >= 0.72 else 0.02
+        elif self.state.knockout and progress >= 0.75:
+            urg += 0.05
+
+        mood = self.state.mood_state[1]
+        if mood in ("euforico", "confiado"):
+            urg += 0.04
+        elif mood in ("ansioso", "frustrado", "caliente"):
+            urg += 0.06
+        return max(-0.14, min(0.24, urg))
+
+    def _update_rival_context_and_tension(self) -> None:
+        """Evolve rival tactical posture and announce match heat milestones when fouls pile up."""
+        self.state.update_moods()
+
+        # Announce escalating physical aggression when fouls accumulate
+        if self.state.tension >= 65 and self.state.tension_stage_announced < 2:
+            self.state.tension_stage_announced = 2
+            self._crowd_react("abucheo", 1.3)
+            self._speak(self.narrator.say("tension_boiling"))
+            self.state.add_highlight("El partido se volvió muy caliente y agresivo por las reiteradas faltas.")
+        elif self.state.tension >= 35 and self.state.tension_stage_announced < 1:
+            self.state.tension_stage_announced = 1
+            self._speak(self.narrator.say("tension_rising"))
+
+        # Adaptive rival tactical posture
+        if self.state.total_turns <= 0:
+            return
+        progress = self.state.turn / float(self.state.total_turns)
+        score = (
+            self.state.aggregate()
+            if self.state.first_leg is not None
+            else self.state.goals
+        )
+        diff = score[1] - score[0]
+        desired = self.state.rival_tactic
+        if diff < 0 and (progress >= 0.52 or self.state.mood_state[1] in ("ansioso", "frustrado")):
+            desired = "ofensivo"
+        elif diff > 0 and progress >= 0.70 and self.state.red_cards[1] >= self.state.red_cards[0]:
+            desired = "defensivo"
+        elif diff == 0 and progress < 0.75 and self.state.red_cards[1] == 0:
+            desired = "equilibrado"
+
+        if desired != self.state.rival_tactic:
+            self.state.rival_tactic = desired
+            self.state.refresh_ratings()
+            tpl_key = {
+                "ofensivo": "rival_tactic_offensive",
+                "defensivo": "rival_tactic_defensive",
+                "equilibrado": "rival_tactic_balanced",
+            }[desired]
+            self._speak(self.narrator.say(tpl_key, rival=self.state.team_name(1)))
 
     # ------------------------------------------------------- In-match shortcuts
     def build_shortcuts(self) -> dict[str, Callable[[], str | None]]:
@@ -202,10 +253,15 @@ class MatchEngine:
                 if self.state.space_bonus > 0
                 else ""
             )
+            rival_posture = (
+                f" {self.state.team_name(1)} juega con postura {self.state.rival_tactic} "
+                f"y {self.state.rival_style['label']}."
+            )
             self.io.speak(
-                f"Clima: {self.state.weather.name_es}. Postura: {tp['label']}. "
+                f"Clima: {self.state.weather.name_es}. Postura: {tp['label']}.{rival_posture} "
                 f"El juego está {self.state.lane_text()}. "
-                f"{self.state.momentum_summary()}{sol}{space}",
+                f"{self.state.momentum_summary()} {self.state.mood_summary()} "
+                f"{self.state.tension_summary()}{sol}{space}",
                 interrupt=True,
             )
 
@@ -281,9 +337,12 @@ class MatchEngine:
     def _lose_possession(self, can_foul: bool = True, interceptor: Player | None = None) -> None:
         z = self.state.zone
         self.state.space_bonus = 0.0
-        if can_foul and z >= 1 and self.state.roll(0.16):
+        aggr = self.state.aggression_level()
+        foul_prob = 0.16 + aggr * 0.16 + (0.05 if self.state.mood_state[1] in ("frustrado", "caliente") else 0.0)
+        if can_foul and z >= 1 and self.state.roll(foul_prob):
             self._speak("Te derriban.")
-            self.set_pieces.foul(1, z, "normal")
+            f_type = "barrida" if (aggr >= 0.50 and self.state.roll(0.32)) else "normal"
+            self.set_pieces.foul(1, z, f_type)
         else:
             self.state.shift_momentum(-0.7)
             self.state.set_possession(1, min(2, 3 - z), lane=self.state.lane, carrier=interceptor)
@@ -753,12 +812,16 @@ class MatchEngine:
 
         # Dangerous zone 2 (edge of your box): decisive, varied attacking actions!
         if rz == 2:
+            style_w = self.state.rival_style.get("weights", {})
+            mood = self.state.mood_state[1]
+            rush_shot = 14 if mood in ("ansioso", "frustrado", "caliente") else 0
+            confident_flair = 8 if mood in ("euforico", "confiado") else 0
             action_weights = [
-                ("shot", 30 + (22 if impatient else 0) + int(urgency * 80)),
-                ("cross", 28 if self.state.lane != 0 else 20),
-                ("dribble", 22 + (10 if impatient else 0)),
-                ("through", 18),
-                ("one_two", 14 if not impatient else 6),
+                ("shot", max(8, 30 + (22 if impatient else 0) + int(urgency * 80) + style_w.get("shot", 0) + rush_shot)),
+                ("cross", max(8, (28 if self.state.lane != 0 else 20) + style_w.get("cross", 0))),
+                ("dribble", max(8, 22 + (10 if impatient else 0) + style_w.get("dribble", 0) + confident_flair)),
+                ("through", max(8, 18 + style_w.get("through", 0) + confident_flair)),
+                ("one_two", max(4, (14 if not impatient else 6) + style_w.get("one_two", 0))),
             ]
             names, wts = zip(*action_weights)
             move = self.state.rng.choices(names, weights=wts)[0]
@@ -794,6 +857,24 @@ class MatchEngine:
         # Zones 0-1: advance purposefully, switch wings, or attempt direct through ball
         if rz == 1 and self.state.roll(0.18 + urgency * 0.35):
             self._rival_through_ball(carrier)
+            return
+
+        if rz == 1 and self.state.roll(0.22):
+            target_lane = -self.state.lane if self.state.lane != 0 else self.state.rng.choice((-1, 1))
+            rec = self.state.pick_receiver(1, "corto", exclude=carrier)
+            self.state.lane = target_lane
+            self.state.zone = min(3, rz + step)
+            self.state.ball_carrier = rec
+            self._sfx("balon", target_lane * 0.85)
+            self._speak(
+                self.narrator.say(
+                    "rival_switch_play",
+                    pas=carrier.name,
+                    rec=rec.name,
+                    rival=rival,
+                    banda=LANE_SIDE_NAME[target_lane],
+                )
+            )
             return
 
         self.state.zone = min(3, rz + step)
@@ -1092,26 +1173,64 @@ class MatchEngine:
 
     # ------------------------------------------------------- Match Flow & Dynamic Events
     def _ambient_foul(self) -> None:
-        offender = self.state.rng.choice((0, 1))
+        aggr = self.state.aggression_level()
+        w0 = 1.0 + (0.35 if self.state.mood_state[0] in ("frustrado", "caliente", "ansioso") else 0.0)
+        w1 = 1.0 + (0.35 if self.state.mood_state[1] in ("frustrado", "caliente", "ansioso") else 0.0)
+        offender = self.state.rng.choices((0, 1), weights=[w0, w1])[0]
         zr = self.state.rng.choices((0, 1, 2, 3), weights=[16, 47, 34, 3])[0]
         self._speak(f"Minuto {self.state.minute()}.")
-        self.set_pieces.foul(offender, zr, "mano" if self.state.roll(0.05) else "normal")
+        if self.state.roll(0.05):
+            f_type = "mano"
+        elif aggr >= 0.45 and self.state.roll(0.28):
+            f_type = "barrida"
+        elif aggr >= 0.35 and zr == 2 and self.state.roll(0.22):
+            f_type = "tactica"
+        else:
+            f_type = "normal"
+        self.set_pieces.foul(offender, zr, f_type)
 
     def _midfield_clash(self) -> None:
         p0 = self.state.pick_player(0, {"MED": 4.0, "DEF": 2.5, "DEL": 1.5, "POR": 0.0})
         p1 = self.state.pick_player(1, {"MED": 4.0, "DEF": 2.5, "DEL": 1.5, "POR": 0.0})
         self._sfx("choque", self.state.stereo_pan())
+        self.state.add_tension(3.0)
+        aggr = self.state.aggression_level()
+        # If match is already heated, a midfield clash can boil over into a hard foul
+        if aggr >= 0.50 and self.state.roll(0.25 + aggr * 0.20):
+            offender = 0 if self.state.roll(0.48) else 1
+            self._speak(f"Minuto {self.state.minute()}.")
+            self.set_pieces.foul(offender, 1, "barrida" if self.state.roll(0.45) else "normal")
+            return
         winner_idx = 0 if self.state.roll(0.50 + self.state.duel_advantage(p0, p1)) else 1
         winner_player = p0 if winner_idx == 0 else p1
+        tpl = "heated_clash" if aggr >= 0.35 else "midfield_clash"
         self._speak(
             self.narrator.say(
-                "midfield_clash",
+                tpl,
                 jug=p0.name,
                 riv=p1.name,
                 ganador=self.state.team_name(winner_idx),
             )
         )
         self.state.set_possession(winner_idx, 1, lane=0, carrier=winner_player)
+
+    def _unexpected_pitch_incident(self) -> None:
+        """Emergent unscripted pitch moment (slip under pressure or sudden space opening)."""
+        att_idx = self.state.possession
+        def_idx = 1 - att_idx
+        att = self.state.ensure_ball_carrier(att_idx)
+        defender = self.state.pick_player(def_idx, {"DEF": 4.5, "MED": 2.5, "DEL": 0.2, "POR": 0.0})
+        self._sfx("balon", self.state.stereo_pan())
+        self._speak(
+            f"Minuto {self.state.minute()}. "
+            + self.narrator.say("unexpected_slip", def_=defender.name, att=att.name)
+        )
+        self.state.zone = min(3, max(2, self.state.zone + 1))
+        if att_idx == 0:
+            self.state.space_bonus = max(self.state.space_bonus, 0.14)
+            self._attack_turn()
+        else:
+            self._defense_turn()
 
     def _check_late_match_tension(self) -> None:
         if (
@@ -1127,20 +1246,30 @@ class MatchEngine:
 
     def _play_turn(self) -> None:
         self._check_late_match_tension()
+        self._update_rival_context_and_tension()
         self.subs.check_injuries()
         self.subs.ai_waste_time()
         self.subs.ai_substitutions(1)
         self.subs.ai_substitutions(0)
         self.state.refresh_ratings()
         self.state.possession_turns[self.state.possession] += 1
+        self.state.drought_turns[self.state.possession] += 1
+
+        aggr = self.state.aggression_level()
+        foul_cut = (0.11 + aggr * 0.065) / self.state.factor
+        throw_cut = foul_cut + 0.09 / self.state.factor
+        clash_cut = throw_cut + (0.04 + aggr * 0.035) / self.state.factor
+        slip_cut = clash_cut + (0.014 * self.state.weather.slide_foul_mod) / self.state.factor
 
         roll = self.state.rng.random()
-        if roll < 0.11 / self.state.factor:
+        if roll < foul_cut:
             self._ambient_foul()
-        elif roll < 0.20 / self.state.factor:
+        elif roll < throw_cut:
             self.set_pieces.throw_in()
-        elif roll < 0.24 / self.state.factor:
+        elif roll < clash_cut:
             self._midfield_clash()
+        elif roll < slip_cut:
+            self._unexpected_pitch_incident()
         else:
             if self.state.possession == 0:
                 self._attack_turn()
@@ -1205,6 +1334,8 @@ class MatchEngine:
     def _halftime(self, ended_half: str, next_half: str) -> None:
         for pid in self.state.fatigue:
             self.state.fatigue[pid] = max(0.0, self.state.fatigue[pid] - 15.0)
+        self.state.tension *= 0.65
+        self.state.update_moods()
         self._sfx("silbato_descanso")
         self._speak(f"Final del {ended_half}.")
         self._speak(self.state.scoreboard_text())

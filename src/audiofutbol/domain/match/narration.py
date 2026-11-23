@@ -200,10 +200,48 @@ TEMPLATES: dict[str, tuple[str, ...]] = {
         "{riv} no lo duda más: se perfila y prueba al arco desde media distancia.",
         "¡Disparo lejano de {riv}, de {rival}! Busca sorprender al portero.",
     ),
-    # ---- Dynamic ambient / clash / tension
+    # ---- Dynamic ambient / clash / tension / emotional & tactical shifts
     "midfield_clash": (
         "¡Choque fuerte en la disputa del balón entre {jug} y {riv}! Ambos se levantan rápido y el árbitro deja seguir.",
         "Balón dividido en la mitad de la cancha: {jug} y {riv} van con todo, y el rebote favorece a {ganador}.",
+        "¡Duelo chispazo en el medio! {jug} y {riv} meten la pierna sin guardarse nada; sale jugando {ganador}.",
+    ),
+    "heated_clash": (
+        "¡Saltan chispas entre {jug} y {riv}! Se empujan tras la disputa y el árbitro tiene que separarlos.",
+        "¡Cruce picante entre {jug} y {riv}! El partido está muy caliente y nadie regala un centímetro. Balón para {ganador}.",
+        "¡Fricción máxima en el medio! {jug} y {riv} van al límite del reglamento; la pelota queda para {ganador}.",
+    ),
+    "tension_rising": (
+        "¡El partido se empieza a picar! Hay muchas faltas y los jugadores entran cada vez más fuerte.",
+        "Se calienta el encuentro: tras tantos roces, cada pelota dividida se disputa con mucha agresividad.",
+    ),
+    "tension_boiling": (
+        "¡Clima de máxima tensión en la cancha! Los dos equipos están muy agresivos y el árbitro advierte a los capitanes.",
+        "¡El partido es una caldera! Hay pierna fuerte en cada rincón y cualquier entrada a destiempo puede terminar en expulsión.",
+    ),
+    "scuffle_warning": (
+        "¡Conato de bronca! {jug} y {riv} se encaran tras la falta, llegan varios compañeros a empujarse y el árbitro pide calma.",
+        "¡Se arman los empujones! {jug} le reclama airadamente a {riv} por la entrada; el árbitro interviene para que no pase a mayores.",
+    ),
+    "rival_tactic_offensive": (
+        "El técnico de {rival} pide ir con todo arriba: {rival} adelanta sus líneas y pasa a postura ofensiva.",
+        "{rival} no se conforma con el resultado, arriesga más y manda a sus laterales al ataque.",
+    ),
+    "rival_tactic_defensive": (
+        "{rival} decide cuidar el resultado: repliega sus líneas y arma un bloque defensivo más cerrado.",
+        "El banco de {rival} ordena cerrar espacios y defender la ventaja con uñas y dientes.",
+    ),
+    "rival_tactic_balanced": (
+        "{rival} reacomoda sus líneas y vuelve a una postura equilibrada en la mitad de la cancha.",
+        "El entrenador de {rival} pide orden y equilibrio entre líneas.",
+    ),
+    "rival_switch_play": (
+        "{pas}, de {rival}, cambia de orientación con un pelotazo cruzado hacia la banda {banda} para {rec}.",
+        "¡Cambio de frente de {rival}! {pas} abre la cancha hacia la banda {banda} buscando a {rec}.",
+    ),
+    "unexpected_slip": (
+        "¡Increíble! {def_} pierde pie en el momento clave y le deja un hueco enorme a {att}.",
+        "¡Mal control en el peor momento! {def_} pifia el despeje y {att} queda con ventaja.",
     ),
     "late_tension": (
         "¡Últimos diez minutos de partido! El ambiente en el estadio se vuelve eléctrico.",

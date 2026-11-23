@@ -197,51 +197,116 @@ class AudioUI:
     def confirm(self, question: str) -> bool:
         return self.menu(question, ["No", "Sí"]) == 1
 
-    def stream_summary(self, title: str, lines: list[str]) -> None:
-        """Speak summary lines sequentially; Escape or Space skips."""
+    @staticmethod
+    def _split_summary_sections(lines: list[str]) -> list[tuple[int, list[str]]]:
+        """Partition summary/recap lines into (start_index, section_lines) blocks.
+
+        Sections follow the logical structure:
+        1) Goles / Marcador (header + scorers)
+        2) Jugadas destacadas (highlights, when present)
+        3) Estadísticas del partido
+        """
+        if not lines:
+            return []
+
+        stats_idx: int | None = None
+        for i, line in enumerate(lines):
+            if line.startswith("Estadísticas del partido") or line.startswith(
+                "Posesión del balón:"
+            ):
+                stats_idx = i
+                break
+
+        if stats_idx is None or stats_idx <= 0:
+            return [(0, list(lines))]
+
+        pre_stats = lines[:stats_idx]
+        stats_lines = lines[stats_idx:]
+
+        # Find where plays/highlights begin after the score/goals header
+        plays_idx: int | None = None
+        for i, line in enumerate(pre_stats):
+            if i == 0:
+                continue
+            if line.startswith(("Global:", "Goles:", "No hubo goles.")):
+                continue
+            plays_idx = i
+            break
+
+        sections: list[tuple[int, list[str]]] = []
+        if plays_idx is not None and plays_idx > 0:
+            sections.append((0, pre_stats[:plays_idx]))
+            sections.append((plays_idx, pre_stats[plays_idx:]))
+        else:
+            sections.append((0, pre_stats))
+        sections.append((stats_idx, stats_lines))
+        return sections
+
+    def _stream_sectioned_lines(
+        self, title: str, intro: str, cancel_msg: str, lines: list[str]
+    ) -> str:
+        """Stream lines grouped by sections (goals, plays, stats).
+
+        - Space jumps immediately to the next section while continuing TTS narration.
+        - Escape cancels the remaining stream and announces `cancel_msg`.
+        Returns 'completed' or 'cancelled'.
+        """
         self.window.set_view(title, items=lines, selected_index=0)
-        self.speech.speak(f"{title}. Escape o espacio para saltarlo.")
-        if self.window.wait_or_skip(2500):
-            self.speech.speak("Resumen omitido.", interrupt=True)
-            return
-        for idx, line in enumerate(lines):
-            self.window.set_view(title, items=lines, selected_index=idx)
-            self.speech.speak(line)
-            if self.window.wait_or_skip(700 + 50 * len(line)):
-                self.speech.speak("Resumen omitido.", interrupt=True)
-                return
+        self.speech.speak(intro)
+        act = self.window.wait_or_skip_action(2500)
+        if act == "escape":
+            self.speech.speak(cancel_msg, interrupt=True)
+            return "cancelled"
+
+        sections = self._split_summary_sections(lines)
+        for sec_idx, (start_idx, sec_lines) in enumerate(sections):
+            interrupt_next = act == "space" or sec_idx > 0
+            act = None
+            for offset, line in enumerate(sec_lines):
+                idx = start_idx + offset
+                self.window.set_view(title, items=lines, selected_index=idx)
+                self.speech.speak(line, interrupt=(interrupt_next and offset == 0))
+                act = self.window.wait_or_skip_action(700 + 50 * len(line))
+                if act == "escape":
+                    self.speech.speak(cancel_msg, interrupt=True)
+                    return "cancelled"
+                if act == "space":
+                    # Jump to the next section (or finish stream if on the last section)
+                    break
+        return "completed"
+
+    def stream_summary(self, title: str, lines: list[str]) -> None:
+        """Speak summary lines by sections; Space jumps section, Escape cancels to menu."""
+        self._stream_sectioned_lines(
+            title,
+            f"{title}. Espacio para saltar de sección, Escape para cancelar.",
+            "Resumen cancelado.",
+            lines,
+        )
 
     def recap(self, lines: list[str]) -> None:
-        """Post-match highlight stream with repeat and line-by-line review options."""
+        """Post-match highlight stream with section skip and guaranteed post-recap menu."""
+        play_stream = True
         while True:
-            self.window.set_view("Recuento del partido", items=lines, selected_index=0)
-            self.speech.speak(
-                "Recuento de lo más destacado del partido. Escape o espacio para saltarlo."
-            )
-            if self.window.wait_or_skip(2500):
-                self.speech.speak("Recuento omitido.", interrupt=True)
-                return
-            skipped = False
-            for idx, line in enumerate(lines):
-                self.window.set_view("Recuento del partido", items=lines, selected_index=idx)
-                self.speech.speak(line)
-                if self.window.wait_or_skip(700 + 50 * len(line)):
-                    skipped = True
-                    break
-            if skipped:
-                self.speech.speak("Recuento omitido.", interrupt=True)
-                return
+            if play_stream:
+                self._stream_sectioned_lines(
+                    "Recuento del partido",
+                    "Recuento de lo más destacado del partido. Espacio salta entre goles, jugadas y estadísticas. Escape cancela la narración.",
+                    "Recuento cancelado.",
+                    lines,
+                )
             choice = self.menu(
                 "Fin del recuento",
                 ["Continuar", "Repetir el recuento", "Leer línea por línea"],
             )
+            if choice == 1:
+                play_stream = True
+                continue
             if choice == 2:
                 self.reader("Recuento del partido", lines)
-                choice = self.menu(
-                    "Fin del recuento", ["Continuar", "Repetir el recuento"]
-                )
-            if choice != 1:
-                return
+                play_stream = False
+                continue
+            return
 
     def choose_team(
         self, title: str, teams: list[Team], exclude: Team | None = None

@@ -294,3 +294,55 @@ def test_halftime_plays_and_stops_menu_music() -> None:
     assert io.music_events == ["play_menu_music", "stop_music:800"]
 
 
+def test_accumulated_fouls_increase_tension_and_aggression() -> None:
+    team_a = create_generic_team("Argentina", 84)
+    team_b = create_generic_team("Uruguay", 84)
+    io = HeadlessMatchIO(rng=random.Random(11))
+    engine = MatchEngine(
+        team_a,
+        team_b,
+        io=io,
+        settings=MatchSettings(var_enabled=False),
+        auto=False,
+        rng=random.Random(11),
+    )
+    assert engine.state.tension == 0.0
+    assert engine.state.aggression_level() == 0.0
+
+    for _ in range(6):
+        engine.set_pieces.foul(1, 1, "barrida")
+        engine._update_rival_context_and_tension()
+
+    assert engine.state.tension >= 65.0
+    assert engine.state.aggression_level() >= 0.65
+    assert engine.state.tension_stage_announced == 2
+    assert any("caliente" in m or "caldera" in m or "tensión" in m for m in io.messages)
+
+
+def test_rival_context_adapts_tactic_and_emotional_mood() -> None:
+    team_a = create_generic_team("Brasil", 85)
+    team_b = create_generic_team("Colombia", 83)
+    io = HeadlessMatchIO(rng=random.Random(21))
+    engine = MatchEngine(team_a, team_b, io=io, auto=False, rng=random.Random(21))
+
+    # Rival trailing late -> switches to offensive posture and anxious/frustrated mood
+    engine.state.goals = [2, 0]
+    engine.state.turn = int(engine.state.total_turns * 0.75)
+    engine.state.shift_morale(0, 5.0)
+    engine.state.shift_morale(1, -4.0)
+    engine._update_rival_context_and_tension()
+
+    assert engine.state.rival_tactic == "ofensivo"
+    assert engine.state.mood_state[0] == "euforico"
+    assert engine.state.mood_state[1] == "ansioso"
+    assert engine._rival_aggression() > 0.15
+
+    # Rival leading late -> switches to defensive posture to protect the result
+    engine.state.goals = [0, 1]
+    engine.state.turn = int(engine.state.total_turns * 0.80)
+    engine.state.shift_morale(1, 6.0)
+    engine._update_rival_context_and_tension()
+    assert engine.state.rival_tactic == "defensivo"
+
+
+
