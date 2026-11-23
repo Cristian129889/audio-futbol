@@ -4,10 +4,15 @@ from __future__ import annotations
 
 from typing import Callable
 
+from audiofutbol.domain.formations import stable_hash
 from audiofutbol.domain.match.ports import MatchIO
 from audiofutbol.domain.match.state import PENALTY_DIRECTIONS, ZONES_OWN, MatchState
 from audiofutbol.domain.match.var import VarSystem
 from audiofutbol.domain.models import Player
+
+NO_ASSIST_GOAL_TYPES = frozenset(
+    {"de penal", "de tiro libre", "gol olímpico", "de contrarremate"}
+)
 
 
 class SetPieceResolver:
@@ -552,10 +557,29 @@ class SetPieceResolver:
         self.state.goals[team_idx] += 1
         scorer.goals += 1
         self.state.scorers.append((team_idx, scorer, self.state.minute()))
+        self.state.note(scorer, 3)
+
+        assistant: Player | None = None
+        if goal_type in NO_ASSIST_GOAL_TYPES:
+            self.state.last_pass = None
+        else:
+            assistant = self.state.pick_assistant(team_idx, scorer)
+        self.state.last_assist = assistant
+        if assistant is not None:
+            assistant.assists += 1
+            self.state.assist_log.append((team_idx, assistant, self.state.minute()))
+            self.state.note(assistant, 2)
+        assist_txt = f" Asistencia de {assistant.name}." if assistant is not None else ""
+
+        last_flank = self.state.last_flank
+        if team_idx == 1 and last_flank is not None and last_flank[1] == self.state.turn:
+            self.state.flank_goals[last_flank[0]] += 1
+            self.state.note(self.state.flank_defender(last_flank[0]), -2)
+
         suffix = f", {goal_type}" if goal_type else ""
         label = "Golazo" if wonder_goal else "Gol"
         self.state.add_highlight(
-            f"{label} de {scorer.name}, de {self.state.team_name(team_idx)}{suffix}. "
+            f"{label} de {scorer.name}, de {self.state.team_name(team_idx)}{suffix}.{assist_txt} "
             f"{self.state.team_name(0)} {self.state.goals[0]}, "
             f"{self.state.team_name(1)} {self.state.goals[1]}."
         )
@@ -572,12 +596,12 @@ class SetPieceResolver:
         elif wonder_goal:
             self._speak(
                 f"¡Goooool! ¡Qué golazo de {scorer.name}, de {self.state.team_name(team_idx)}{suffix}! "
-                f"Minuto {self.state.minute()}."
+                f"Minuto {self.state.minute()}.{assist_txt}"
             )
         else:
             self._speak(
                 f"¡Goooool! {scorer.name}, de {self.state.team_name(team_idx)}{suffix}. "
-                f"Minuto {self.state.minute()}."
+                f"Minuto {self.state.minute()}.{assist_txt}"
             )
         self._announce_scoreboard()
         self.state.shift_momentum(3.5 if team_idx == 0 else -3.5)
@@ -596,10 +620,16 @@ class SetPieceResolver:
         self, att_idx: int, mult: float = 1.0, crosser: Player | None = None
     ) -> None:
         def_idx = 1 - att_idx
-        player = crosser or self.state.pick_player(
+        side_name = {-1: "izquierda", 1: "derecha"}.get(self.state.lane)
+        player = crosser or (
+            self.state.flank_player(att_idx, side_name) if side_name else None
+        ) or self.state.pick_player(
             att_idx, {"MED": 3.0, "DEL": 2.0, "DEF": 1.0, "POR": 0.0}
         )
+        self.state.record_pass(att_idx, player)
         wing_bonus = 1.12 if self.state.lane != 0 else 0.94
+        if side_name:
+            wing_bonus += self.state.flank_edge(att_idx, side_name)
         if att_idx == 0 and self.state.space_bonus > 0:
             wing_bonus += self.state.space_bonus * 0.8
             self.state.space_bonus = 0.0
@@ -623,6 +653,8 @@ class SetPieceResolver:
             self.corner(att_idx)
         else:
             self._speak("La defensa despeja el centro.")
+            if att_idx == 1 and side_name:
+                self.state.note(self.state.flank_defender(side_name), 1)
             self.state.set_possession(def_idx, 1)
 
     def corner(self, att_idx: int, consecutive: bool = False) -> None:
@@ -647,9 +679,9 @@ class SetPieceResolver:
 
         self._notify_stoppage("el tiro de esquina")
 
-        taker = self.state.pick_player(
-            att_idx, {"MED": 4.0, "DEL": 2.0, "DEF": 0.5, "POR": 0.0}
-        )
+        taker, notice = self.state.designated_taker(att_idx, "corner")
+        if notice:
+            self._speak(notice)
         self._speak(f"Lo cobra {taker.name}.")
         if att_idx == 0:
             choice = self._choose(
@@ -667,9 +699,7 @@ class SetPieceResolver:
             if self.state.abandoned:
                 return
             if taker not in self.state.xi[0]:
-                taker = self.state.pick_player(
-                    0, {"MED": 4.0, "DEL": 2.0, "DEF": 0.5, "POR": 0.0}
-                )
+                taker, _ = self.state.designated_taker(0, "corner")
         else:
             choice = self.state.rng.choice((0, 1, 1, 2))
             if self.state.roll(0.006):
@@ -678,6 +708,7 @@ class SetPieceResolver:
         if choice == 3:
             self.olympic_goal(att_idx, taker)
             return
+        self.state.record_pass(att_idx, taker)
         if choice == 2:
             self._speak(
                 f"Saque corto, {self.state.team_name(att_idx)} mantiene la posesión."
@@ -801,9 +832,9 @@ class SetPieceResolver:
     # ------------------------------------------------------- Free Kicks & Penalties
     def free_kick(self, att_idx: int) -> None:
         def_idx = 1 - att_idx
-        taker = self.state.pick_player(
-            att_idx, {"MED": 3.0, "DEL": 3.0, "DEF": 0.5, "POR": 0.0}
-        )
+        taker, notice = self.state.designated_taker(att_idx, "libre")
+        if notice:
+            self._speak(notice)
         self._speak(
             f"Tiro libre peligroso para {self.state.team_name(att_idx)}. Lo cobra {taker.name}."
         )
@@ -856,9 +887,7 @@ class SetPieceResolver:
             if self.state.abandoned:
                 return
             if taker not in self.state.xi[0]:
-                taker = self.state.pick_player(
-                    0, {"MED": 3.0, "DEL": 3.0, "DEF": 0.5, "POR": 0.0}
-                )
+                taker, _ = self.state.designated_taker(0, "libre")
         else:
             choice = self.state.rng.choices((0, 1, 2, 3), weights=[16, 9, 45, 30])[0]
 
@@ -868,6 +897,7 @@ class SetPieceResolver:
             self.cross(att_idx, crosser=taker)
         else:
             rec = self.state.pick_receiver(att_idx, "corto", exclude=taker)
+            self.state.record_pass(att_idx, taker)
             self._speak("Pase corto, se mantiene la posesión.")
             self.state.set_possession(att_idx, 2, carrier=rec)
 
@@ -920,12 +950,13 @@ class SetPieceResolver:
         if att_idx == 1:
             self._crowd_react("abucheo", 2.0)
         self._notify_stoppage("el penal")
-        pool = [p for p in self.state.xi[att_idx] if p.position in ("DEL", "MED")] or self.state.xi[att_idx]
-        taker = max(pool, key=lambda p: p.overall + self.state.rng.random() * 3)
+        taker, notice = self.state.designated_taker(att_idx, "penal")
+        if notice:
+            self._speak(notice)
         self._speak(
             f"¡Penal para {self.state.team_name(att_idx)}! Va a lanzar {taker.name}."
         )
-        outcome = self.take_penalty_kick(att_idx)
+        outcome = self.take_penalty_kick(att_idx, taker)
         if outcome == "gol":
             self.score_goal(att_idx, taker, goal_type="de penal")
         else:
@@ -938,7 +969,13 @@ class SetPieceResolver:
             )
             self.state.set_possession(1 - att_idx, 1)
 
-    def take_penalty_kick(self, att_idx: int) -> str:
+    @staticmethod
+    def preferred_side(player: Player) -> int:
+        """Deterministic preferred penalty direction (-1 left, +1 right)."""
+        return -1 if stable_hash(player.name) % 2 == 0 else 1
+
+    def take_penalty_kick(self, att_idx: int, taker: Player | None = None) -> str:
+        pref = self.preferred_side(taker) if taker is not None else 0
         if att_idx == 0:
             choice = self._choose(
                 "¿Hacia dónde tiras? Izquierda y derecha son las de tus altavoces",
@@ -952,6 +989,11 @@ class SetPieceResolver:
             shot_dir = choice - 1
             dive_dir = self.state.rng.choices((-1, 0, 1), weights=[44, 12, 44])[0]
         else:
+            if taker is not None and not self.state.auto:
+                self._speak(
+                    f"Informe del entrenador de porteros: {taker.name} suele tirar "
+                    f"{PENALTY_DIRECTIONS[pref + 1]}."
+                )
             choice = self._choose(
                 "Eres el portero. ¿Hacia dónde te lanzas?",
                 ["A la izquierda", "Te quedas en el centro", "A la derecha"],
@@ -962,12 +1004,24 @@ class SetPieceResolver:
             if self.state.abandoned:
                 return "fuera"
             dive_dir = choice - 1
-            shot_dir = self.state.rng.choices((-1, 0, 1), weights=[44, 12, 44])[0]
+            if taker is not None:
+                shot_dir = (
+                    pref
+                    if self.state.roll(0.55)
+                    else self.state.rng.choice([d for d in (-1, 0, 1) if d != pref])
+                )
+            else:
+                shot_dir = self.state.rng.choices((-1, 0, 1), weights=[44, 12, 44])[0]
 
         self._sfx("silbato")
         self._sfx("balon", shot_dir * 0.9)
         def_idx = 1 - att_idx
-        if self.state.roll(0.06):
+        miss = 0.06
+        if taker is not None:
+            miss += max(0.0, 72 - taker.overall) / 100.0 * 0.18
+            if self.state.player_role(taker) == "POR":
+                miss += 0.05
+        if self.state.roll(miss):
             if self.state.roll(0.35):
                 self._sfx("poste")
                 self._speak("¡El balón da en el poste!")
@@ -985,7 +1039,43 @@ class SetPieceResolver:
             return "parada"
         return "gol"
 
+    # ------------------------------------------------------- One-by-One Shootout
+    def _shooter_text(self, player: Player) -> str:
+        return f"{player.name}, {self.state.slot_text(player)}, calidad {player.overall}"
+
+    def _trim_shootout_squad(
+        self, idx: int, eligible: list[list[Player]], excess: int, human: bool
+    ) -> None:
+        team = self.state.team_name(idx)
+        plural = "" if excess == 1 else "es"
+        self._speak(
+            f"{team} terminó el partido con más jugadores que su rival. Para la tanda, "
+            f"{excess} jugador{plural} de {team} no lanza{'' if excess == 1 else 'n'}, "
+            "para igualar el número."
+        )
+        for _ in range(excess):
+            if idx == 0 and human and not self.state.abandoned:
+                k = self._choose(
+                    f"Debes dejar fuera de la tanda a {excess} jugador{plural} más. "
+                    "¿A quién dejas fuera?",
+                    [self._shooter_text(p) for p in eligible[0]],
+                    None,
+                    None,
+                    dead_ball=True,
+                )
+                left_out = eligible[0].pop(k)
+            else:
+                pool = [p for p in eligible[idx] if self.state.player_role(p) != "POR"] or list(
+                    eligible[idx]
+                )
+                left_out = min(pool, key=lambda p: p.overall)
+                eligible[idx].remove(left_out)
+            self._speak(f"{left_out.name} no lanzará en la tanda.")
+            excess -= 1
+            plural = "" if excess == 1 else "es"
+
     def penalty_shootout(self) -> None:
+        """Run a one-by-one shootout where no player repeats until every eligible teammate kicks."""
         self.state.pending_substitution = False
         self.state.in_penalty_shootout = True
         try:
@@ -993,30 +1083,115 @@ class SetPieceResolver:
             self._sfx("penal")
             if not self.state.muted:
                 self.io.play_theme("musica_penales", loop=True, volume=0.4)
+            human = not self.state.auto and not self.state.abandoned
 
+            eligible = [list(self.state.xi[0]), list(self.state.xi[1])]
+            size = min(len(eligible[0]), len(eligible[1]))
+            for idx in (0, 1):
+                if len(eligible[idx]) > size:
+                    self._trim_shootout_squad(idx, eligible, len(eligible[idx]) - size, human)
+
+            self.state.shootout_lines = []
             score = [0, 0]
             taken = [0, 0]
-            order: list[list[Player]] = []
-            for idx in (0, 1):
-                candidates = [p for p in self.state.xi[idx] if p.position != "POR"] + [
-                    p for p in self.state.xi[idx] if p.position == "POR"
-                ]
-                order.append(
-                    sorted(
-                        candidates,
-                        key=lambda p: -(p.overall + self.state.rng.random() * 4),
-                    )
+            pending = [list(eligible[0]), list(eligible[1])]
+
+            def best_five(idx: int) -> list[Player]:
+                field = sorted(
+                    (p for p in eligible[idx] if self.state.player_role(p) != "POR"),
+                    key=lambda p: -(p.overall + self.state.rng.random() * 4),
                 )
+                keepers = [p for p in eligible[idx] if self.state.player_role(p) == "POR"]
+                return field + keepers
+
+            assigned = [best_five(0)[:5], best_five(1)[:5]]
+
             first = self.state.rng.choice((0, 1))
-            self._speak(f"Empieza lanzando {self.state.team_name(first)}.")
+            self._speak(
+                f"El árbitro lanza la moneda. Empieza lanzando {self.state.team_name(first)}."
+            )
+            self._speak(
+                "Regla uno a uno: cada jugador lanza una sola vez, y nadie repite "
+                "hasta que hayan lanzado todos los demás."
+            )
+            if human:
+                k = self._choose(
+                    "Tanda de penales. ¿Cómo eliges a tus primeros cinco lanzadores?",
+                    [
+                        "Que el juego elija a mis cinco mejores lanzadores",
+                        "Elegirlos yo, uno por uno",
+                    ],
+                    None,
+                    None,
+                    dead_ball=True,
+                )
+                if k == 1 and not self.state.abandoned:
+                    free = list(eligible[0])
+                    chosen: list[Player] = []
+                    while len(chosen) < min(5, len(eligible[0])):
+                        cands = sorted(free, key=lambda p: -p.overall)
+                        r = self._choose(
+                            f"Lanzador número {len(chosen) + 1} de 5. Elige a quién lanza",
+                            [self._shooter_text(p) for p in cands],
+                            None,
+                            None,
+                            dead_ball=True,
+                        )
+                        pick = cands[r]
+                        chosen.append(pick)
+                        free.remove(pick)
+                    assigned[0] = chosen
+                    self._speak("Orden de lanzadores: " + ", ".join(p.name for p in chosen) + ".")
+                else:
+                    self._speak(
+                        "Tus lanzadores serán: " + ", ".join(p.name for p in assigned[0]) + "."
+                    )
+
+            def next_shooter(idx: int) -> Player:
+                number = taken[idx] + 1
+                if number <= 5 and number <= len(assigned[idx]):
+                    shooter = assigned[idx][number - 1]
+                    if shooter in pending[idx]:
+                        pending[idx].remove(shooter)
+                    return shooter
+                if not pending[idx]:
+                    pending[idx] = list(eligible[idx])
+                    self._speak(
+                        f"Ya lanzaron todos los jugadores de {self.state.team_name(idx)}. "
+                        "Empieza un nuevo ciclo uno a uno."
+                    )
+                if idx == 0 and human and not self.state.abandoned:
+                    cands = sorted(pending[0], key=lambda p: -p.overall)
+                    k = self._choose(
+                        f"Muerte súbita. Penal número {number} de tu equipo. "
+                        "Estos jugadores aún no han lanzado",
+                        ["Al azar entre los que aún no han lanzado"]
+                        + [self._shooter_text(p) for p in cands],
+                        None,
+                        None,
+                        dead_ball=True,
+                    )
+                    shooter = self.state.rng.choice(cands) if k == 0 else cands[k - 1]
+                else:
+                    shooter = self.state.rng.choice(pending[idx])
+                pending[idx].remove(shooter)
+                return shooter
+
             round_num = 0
             decided = False
-
             while not decided and not self.state.abandoned:
+                if round_num == 5:
+                    self._speak(
+                        "Siguen igualados. Empieza la muerte súbita: si un equipo marca y el "
+                        "otro falla en la misma ronda, se acaba."
+                    )
                 for idx in (first, 1 - first):
-                    taker = order[idx][round_num % len(order[idx])]
-                    self._speak(f"Lanza {taker.name}, de {self.state.team_name(idx)}.")
-                    outcome = self.take_penalty_kick(idx)
+                    shooter = next_shooter(idx)
+                    self._speak(
+                        f"Penal número {taken[idx] + 1} de {self.state.team_name(idx)}. "
+                        f"Lanza {shooter.name}, {self.state.slot_text(shooter)}."
+                    )
+                    outcome = self.take_penalty_kick(idx, shooter)
                     if self.state.abandoned:
                         break
                     taken[idx] += 1
@@ -1027,10 +1202,19 @@ class SetPieceResolver:
                             f"¡Gol! {self.state.team_name(0)} {score[0]}, "
                             f"{self.state.team_name(1)} {score[1]}."
                         )
+                        self.state.shootout_lines.append(
+                            f"{shooter.name}, de {self.state.team_name(idx)}: gol."
+                        )
                     else:
+                        why = {"parada": "lo ataja el portero", "poste": "da en el poste"}.get(
+                            outcome, "se va fuera"
+                        )
                         self._speak(
                             f"Penal fallado. {self.state.team_name(0)} {score[0]}, "
                             f"{self.state.team_name(1)} {score[1]}."
+                        )
+                        self.state.shootout_lines.append(
+                            f"{shooter.name}, de {self.state.team_name(idx)}: fallado, {why}."
                         )
                     rem0, rem1 = max(0, 5 - taken[0]), max(0, 5 - taken[1])
                     if min(taken) < 5 or max(taken) <= 5:
@@ -1045,6 +1229,9 @@ class SetPieceResolver:
             if not self.state.muted:
                 self.io.stop_music(800)
             self.state.penalties = (score[0], score[1])
+            self.state.shootout_lines.append(
+                f"Tanda: {self.state.team_name(0)} {score[0]}, {self.state.team_name(1)} {score[1]}."
+            )
         finally:
             self.state.in_penalty_shootout = False
 
@@ -1214,6 +1401,8 @@ class SetPieceResolver:
         player.suspended_matches = max(player.suspended_matches, 1)
         self.state.subbed_off[team_idx].add(id(player))
         self.state.position_overrides.pop(id(player), None)
+        self.state.slot.pop(id(player), None)
+        self.state.fit.pop(id(player), None)
         if player in self.state.xi[team_idx]:
             self.state.xi[team_idx].remove(player)
         if self.state.ball_carrier is player:

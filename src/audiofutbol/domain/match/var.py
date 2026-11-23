@@ -65,6 +65,18 @@ class VarSystem:
             scorer.goals -= 1
             if self.state.scorers and self.state.scorers[-1][1] is scorer:
                 self.state.scorers.pop()
+            assist = self.state.last_assist
+            if (
+                assist is not None
+                and self.state.assist_log
+                and self.state.assist_log[-1][1] is assist
+            ):
+                assist.assists = max(0, assist.assists - 1)
+                self.state.assist_log.pop()
+            self.state.last_assist = None
+            if team_idx == 1 and self.state.last_flank is not None:
+                side = self.state.last_flank[0]
+                self.state.flank_goals[side] = max(0, self.state.flank_goals[side] - 1)
             if self.state.highlights:
                 self.state.highlights.pop()
             self._finish_review(

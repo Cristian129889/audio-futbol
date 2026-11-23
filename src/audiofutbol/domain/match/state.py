@@ -6,6 +6,22 @@ from dataclasses import dataclass
 import random
 from typing import Any
 
+from audiofutbol.domain.formations import (
+    DEFAULT_ROLE_BY_GROUP,
+    DEFAULT_SCHEME,
+    MENTALITY_TACTIC,
+    ROLES,
+    SCHEME_STYLE,
+    SCHEMES,
+    assign_roles,
+    choose_ai_scheme,
+    family_of,
+    fit_multiplier,
+    group_of,
+    role_text,
+    scheme_counts,
+    side_of,
+)
 from audiofutbol.domain.match.ports import MatchSettings
 from audiofutbol.domain.models import POSITION_ORDER, MatchResult, Player, Team
 
@@ -128,6 +144,26 @@ MOOD_LABELS_ES: dict[str, str] = {
 }
 
 TACTIC_PROFILES: dict[str, dict[str, Any]] = {
+    "muy_defensivo": {
+        "label": "Muy defensivo",
+        "desc": "Muy defensivo: te cierras atrás, el bloque es casi impasable pero casi no atacas.",
+        "att": -5.0,
+        "mid": -2.0,
+        "dfn": 7.5,
+        "stamina": 0.80,
+        "behind_risk": -0.14,
+        "block_bonus": 0.12,
+    },
+    "muy_ofensivo": {
+        "label": "Muy ofensivo",
+        "desc": "Muy ofensivo: todo al ataque, dejas muchos espacios atrás.",
+        "att": 7.0,
+        "mid": 3.5,
+        "dfn": -6.5,
+        "stamina": 1.30,
+        "behind_risk": 0.20,
+        "block_bonus": -0.09,
+    },
     "equilibrado": {
         "label": "Equilibrado",
         "desc": "Equilibrado: balance entre ataque y orden defensivo.",
@@ -204,8 +240,10 @@ class MatchState:
         self.weather: WeatherProfile = self.rng.choices(
             WEATHER_PROFILES, weights=[48, 22, 18, 12]
         )[0]
-        self.tactic: str = "equilibrado"
-        self.rival_tactic: str = "equilibrado"
+        self.tactics: list[str] = [
+            MENTALITY_TACTIC.get(max(-2, min(2, int(t.mentality))), "equilibrado")
+            for t in self.teams
+        ]
         self.rival_style: dict[str, Any] = self.rng.choice(RIVAL_STYLES)
         self.momentum: float = 0.0  # -10 (rival dominates) .. +10 (user dominates)
         self.morale: list[float] = [0.0, 0.0]  # -10 (shaken/frustrated) .. +10 (confident/inspired)
@@ -234,9 +272,33 @@ class MatchState:
             {id(p) for p in team.players if p.suspended_matches > 0}
             for team in self.teams
         ]
-        self.xi: list[list[Player]] = [team.starting_xi() for team in self.teams]
+        self.scheme: list[str] = [
+            self._initial_scheme(0, auto),
+            self._initial_scheme(1, auto),
+        ]
+        self.xi: list[list[Player]] = [
+            self.teams[i].lineup(self.scheme[i]) for i in (0, 1)
+        ]
+        self.slot: dict[int, str] = {}
+        self.fit: dict[int, float] = {}
+        self.assign_slots(0)
+        self.assign_slots(1)
         self.sort_lineup(0)
         self.sort_lineup(1)
+        self.takers: list[dict[str, Player]] = [
+            self._resolve_takers(0),
+            self._resolve_takers(1),
+        ]
+        self.taker_auto: list[dict[str, Player]] = [{}, {}]
+        self.last_pass: tuple[int, Player, int] | None = None
+        self.assist_log: list[tuple[int, Player, int]] = []
+        self.last_assist: Player | None = None
+        self.flank_attacks: dict[str, int] = {"izquierda": 0, "derecha": 0}
+        self.flank_goals: dict[str, int] = {"izquierda": 0, "derecha": 0}
+        self.last_flank: tuple[str, int] | None = None
+        self.perf: dict[int, int] = {}
+        self.last_tactic_minute: list[int] = [-1, -1]
+        self.shootout_lines: list[str] = []
         self.player_form: dict[int, float] = {
             id(p): self.rng.uniform(-2.0, 2.0)
             for team in self.teams
@@ -385,14 +447,252 @@ class MatchState:
             return f"{self.team_name(1)} está crecido y controla el impulso del partido."
         return "El partido está parejo y disputado."
 
+    @property
+    def tactic(self) -> str:
+        """Active tactical mentality key for the user's team."""
+        return self.tactics[0]
+
+    @tactic.setter
+    def tactic(self, value: str) -> None:
+        self.tactics[0] = value
+
+    @property
+    def rival_tactic(self) -> str:
+        """Active tactical mentality key for the rival team."""
+        return self.tactics[1]
+
+    @rival_tactic.setter
+    def rival_tactic(self, value: str) -> None:
+        self.tactics[1] = value
+
     def cycle_tactic(self) -> str:
-        idx = TACTICS_ORDER.index(self.tactic)
+        idx = TACTICS_ORDER.index(self.tactic) if self.tactic in TACTICS_ORDER else 0
         self.tactic = TACTICS_ORDER[(idx + 1) % len(TACTICS_ORDER)]
         self.refresh_ratings()
         return TACTIC_PROFILES[self.tactic]["desc"]
 
-    def tactic_profile(self) -> dict[str, Any]:
-        return TACTIC_PROFILES[self.tactic]
+    def tactic_profile(self, team_idx: int = 0) -> dict[str, Any]:
+        return TACTIC_PROFILES[self.tactics[team_idx]]
+
+    def mentality(self, team_idx: int) -> int:
+        for value, key in MENTALITY_TACTIC.items():
+            if key == self.tactics[team_idx]:
+                return value
+        return 0
+
+    def set_mentality(self, team_idx: int, value: int) -> None:
+        value = max(-2, min(2, value))
+        self.tactics[team_idx] = MENTALITY_TACTIC[value]
+        self.ratings[team_idx] = self.compute_ratings(team_idx)
+
+    # ---------------------------------------------------- Schemes & Slots
+    def _initial_scheme(self, idx: int, auto: bool) -> str:
+        team = self.teams[idx]
+        if team.scheme in SCHEMES:
+            return str(team.scheme)
+        if idx == 0 and not auto:
+            return DEFAULT_SCHEME
+        other = self.teams[1 - idx]
+        return choose_ai_scheme(team.strength(), other.strength(), self.rng)
+
+    def assign_slots(self, idx: int, use_fixed: bool = True) -> None:
+        """Assign concrete scheme slots across the eleven players of team `idx`."""
+        team = self.teams[idx]
+        has_slots = any(id(p) in self.slot for p in self.xi[idx])
+        gk = self.goalkeeper(idx) if has_slots else None
+        fixed = team.positions if (use_fixed and team.positions) else None
+        roles, fits = assign_roles(self.xi[idx], self.scheme[idx], fixed, goalkeeper=gk)
+        for p in self.xi[idx]:
+            self.slot.pop(id(p), None)
+        self.slot.update(roles)
+        self.fit.update(fits)
+        self.sync_roles(idx)
+        self.sort_lineup(idx)
+
+    def sync_roles(self, idx: int) -> None:
+        """Keep `position_overrides` synchronized with concrete tactical slots."""
+        for p in self.xi[idx]:
+            code = self.slot.get(id(p))
+            if code is None:
+                continue
+            group = group_of(code)
+            if group != p.position:
+                self.position_overrides[id(p)] = group
+            else:
+                self.position_overrides.pop(id(p), None)
+
+    def slot_code(self, player: Player) -> str:
+        code = self.slot.get(id(player))
+        if code:
+            return code
+        return DEFAULT_ROLE_BY_GROUP.get(self.player_role(player), "MC")
+
+    def slot_text(self, player: Player) -> str:
+        return role_text(self.slot_code(player))
+
+    def slot_fit(self, player: Player) -> float:
+        return self.fit.get(id(player), 1.0)
+
+    def scheme_label(self, idx: int) -> str:
+        """Return scheme name, or actual DEF-MED-DEL shape if modified by substitutions."""
+        label = self.scheme[idx]
+        want = scheme_counts(label)
+        cur = self.formation_counts(idx)
+        if all(want[k] == cur.get(k, 0) for k in ("POR", "DEF", "MED", "DEL")):
+            return label
+        return f"{cur['DEF']}-{cur['MED']}-{cur['DEL']}"
+
+    def shape_counts(self, idx: int) -> dict[str, float]:
+        """Compute line counts for rating bonuses (wingbacks split 70/30 DEF/MED)."""
+        c = {"POR": 0.0, "DEF": 0.0, "MED": 0.0, "DEL": 0.0}
+        for p in self.xi[idx]:
+            code = self.slot.get(id(p))
+            role = self.player_role(p)
+            if code in ("CAI", "CAD") and role == "DEF":
+                c["DEF"] += 0.7
+                c["MED"] += 0.3
+            else:
+                c[role] = c.get(role, 0.0) + 1.0
+        return c
+
+    # ------------------------------------------------------------- Fixed Takers
+    def _resolve_takers(self, idx: int) -> dict[str, Player]:
+        team = self.teams[idx]
+        by_name = {p.name: p for p in team.players}
+        out: dict[str, Player] = {}
+        for kind, name in (team.takers or {}).items():
+            p = by_name.get(name)
+            if p is not None:
+                out[kind] = p
+        return out
+
+    def taker_order(self, idx: int, kind: str) -> list[Player]:
+        pool = [
+            p
+            for p in self.xi[idx]
+            if self.player_role(p) != "POR" and id(p) not in self.injured
+        ] or list(self.xi[idx])
+
+        def pts(p: Player) -> float:
+            grp = self.player_role(p)
+            if kind == "penal":
+                return p.overall + {"DEL": 3.0, "MED": 2.0, "DEF": -4.0}.get(grp, 0.0)
+            if kind == "libre":
+                return p.overall + {"MED": 3.0, "DEL": 2.0, "DEF": -3.0}.get(grp, 0.0)
+            wide = 1.5 if family_of(self.slot_code(p)) in ("ALA", "EXT", "LAT") else 0.0
+            return p.overall + {"MED": 4.0, "DEL": 0.5, "DEF": -4.0}.get(grp, 0.0) + wide
+
+        return sorted(pool, key=lambda p: -pts(p))
+
+    def designated_taker(self, idx: int, kind: str) -> tuple[Player, str | None]:
+        """Return fixed set-piece taker or consistent fallback plus optional notice."""
+        fixed = self.takers[idx].get(kind)
+        if fixed is not None and fixed in self.xi[idx] and id(fixed) not in self.injured:
+            return fixed, None
+        auto = self.taker_auto[idx].get(kind)
+        notice: str | None = None
+        if auto is None or auto not in self.xi[idx] or id(auto) in self.injured:
+            auto = self.taker_order(idx, kind)[0]
+            self.taker_auto[idx][kind] = auto
+            if fixed is not None and idx == 0:
+                notice = f"{fixed.name}, tu cobrador habitual, no está en el campo."
+        return auto, notice
+
+    # ------------------------------------------------------------------ Flanks
+    def side_from_user(self, idx: int, player: Player) -> str:
+        """Return player's flank side from the user's perspective (rival sides mirror)."""
+        side = side_of(self.slot_code(player))
+        if idx == 1 and side != "centro":
+            return "derecha" if side == "izquierda" else "izquierda"
+        return side
+
+    def flank_player(
+        self, idx: int, side: str, families: tuple[str, ...] = ("LAT", "EXT", "ALA")
+    ) -> Player | None:
+        pool = [
+            p
+            for p in self.xi[idx]
+            if self.side_from_user(idx, p) == side
+            and family_of(self.slot_code(p)) in families
+        ]
+        if not pool:
+            return None
+        weights = [(self.effective_overall(p) / 70.0) ** 2 for p in pool]
+        return self.rng.choices(pool, weights=weights)[0]
+
+    def flank_defender(self, side: str) -> Player | None:
+        pool = [
+            p
+            for p in self.xi[0]
+            if self.side_from_user(0, p) == side and family_of(self.slot_code(p)) == "LAT"
+        ]
+        if not pool:
+            pool = [
+                p
+                for p in self.xi[0]
+                if self.side_from_user(0, p) == side
+                and family_of(self.slot_code(p)) in ("CEN", "ALA")
+            ]
+        return pool[0] if pool else None
+
+    def _flank_quality(self, idx: int, side: str, fams: tuple[str, ...]) -> float | None:
+        vals = [
+            self.effective_overall(p)
+            for p in self.xi[idx]
+            if self.side_from_user(idx, p) == side and family_of(self.slot_code(p)) in fams
+        ]
+        return sum(vals) / len(vals) if vals else None
+
+    def flank_edge(self, idx: int, side: str) -> float:
+        """Return flank attack-vs-defense edge in [-0.12 .. +0.12]."""
+        att = self._flank_quality(idx, side, ("LAT", "EXT", "ALA"))
+        dfn = self._flank_quality(1 - idx, side, ("LAT", "CEN", "ALA"))
+        if att is None or dfn is None:
+            return 0.0
+        return max(-0.12, min(0.12, (att - dfn) / 100.0 * 0.6))
+
+    # ------------------------------------------------------- Performance & Assists
+    def note(self, player: Player | None, points: int) -> None:
+        if player is not None:
+            self.perf[id(player)] = self.perf.get(id(player), 0) + points
+
+    def note_text(self, player: Player) -> str:
+        if id(player) not in self.perf:
+            return "sin acciones destacadas"
+        n = self.perf[id(player)]
+        return "excelente" if n >= 4 else "bien" if n >= 2 else "regular" if n >= 0 else "flojo"
+
+    def record_pass(self, team_idx: int, passer: Player | None) -> None:
+        """Track most recent passer for goal assist attribution."""
+        if passer is not None:
+            self.last_pass = (team_idx, passer, self.turn)
+
+    def pick_assistant(self, team_idx: int, scorer: Player) -> Player | None:
+        """Return recent passer or weighted midfield/flank creator for a scored goal."""
+        lp = self.last_pass
+        self.last_pass = None
+        if (
+            lp is not None
+            and lp[0] == team_idx
+            and self.turn - lp[2] <= 1
+            and lp[1] is not scorer
+            and lp[1] in self.xi[team_idx]
+        ):
+            return lp[1]
+        if not self.roll(0.55):
+            return None
+        pool = [
+            p for p in self.xi[team_idx] if p is not scorer and self.player_role(p) != "POR"
+        ]
+        if not pool:
+            return None
+        weights = []
+        for p in pool:
+            w = {"MED": 3.0, "DEF": 0.8, "DEL": 2.2}.get(self.player_role(p), 1.0)
+            if family_of(self.slot_code(p)) in ("MP", "LAT", "EXT", "ALA"):
+                w *= 1.3
+            weights.append(w * (p.overall / 70.0) ** 2)
+        return self.rng.choices(pool, weights=weights)[0]
 
     # ------------------------------------------------------- Role & Formation
     def sort_lineup(self, team_idx: int) -> None:
@@ -427,12 +727,7 @@ class MatchState:
         return f"{c['DEF']}-{c['MED']}-{c['DEL']}"
 
     def formation_text(self, team_idx: int) -> str:
-        c = self.formation_counts(team_idx)
-        return (
-            f"Dibujo {c['DEF']}-{c['MED']}-{c['DEL']}: "
-            f"{c['POR']} portero, {c['DEF']} defensas, "
-            f"{c['MED']} mediocampistas y {c['DEL']} delanteros"
-        )
+        return f"Esquema {self.scheme_label(team_idx)}"
 
     def effective_overall(self, player: Player) -> float:
         base_ovr = player.overall + self.player_form.get(id(player), 0.0)
@@ -441,6 +736,8 @@ class MatchState:
             * self.out_of_position_factor(player)
             * (1.0 - 0.14 * self.fatigue.get(id(player), 0.0) / 100.0)
         )
+        if self.player_role(player) == player.position:
+            val *= fit_multiplier(self.fit.get(id(player), 1.0))
         if id(player) in self.injured:
             val *= 0.6
         return val
@@ -454,7 +751,7 @@ class MatchState:
                 return sum(vals) / len(vals)
             return sum(self.effective_overall(p) for p in xi) / max(1, len(xi))
 
-        c = self.formation_counts(team_idx)
+        c = self.shape_counts(team_idx)
         d, m, f, gk = avg("DEF"), avg("MED"), avg("DEL"), avg("POR")
 
         # Tactical formation shape directly affects line strength (vs base 4-3-3)
@@ -468,8 +765,15 @@ class MatchState:
             "dfn": 0.72 * d + 0.28 * m + dfn_shape,
             "gk": gk,
         }
-        tactic_key = self.tactic if team_idx == 0 else self.rival_tactic
-        tp = TACTIC_PROFILES[tactic_key]
+        label = self.scheme[team_idx]
+        want = scheme_counts(label)
+        cur = self.formation_counts(team_idx)
+        if all(want[k] == cur.get(k, 0) for k in ("POR", "DEF", "MED", "DEL")):
+            sa, sm, sd = SCHEME_STYLE.get(label, (0.0, 0.0, 0.0))
+            res["att"] += sa
+            res["mid"] += sm
+            res["dfn"] += sd
+        tp = self.tactic_profile(team_idx)
         res["att"] += tp["att"]
         res["mid"] += tp["mid"]
         res["dfn"] += tp["dfn"]
@@ -629,7 +933,7 @@ class MatchState:
         tactic_lbl = TACTIC_PROFILES[self.tactic]["label"]
         base = (
             f"Min {self.minute()}' | {self.team_name(0)} {self.goals[0]} - "
-            f"{self.goals[1]} {self.team_name(1)} | {self.formation_code(0)} {tactic_lbl} | {self.weather.name_es.capitalize()}"
+            f"{self.goals[1]} {self.team_name(1)} | {self.scheme_label(0)} {tactic_lbl} | {self.weather.name_es.capitalize()}"
         )
         if self.pending_substitution:
             base += " | Cambio pedido"
@@ -762,6 +1066,7 @@ class MatchState:
         if self.first_leg is not None:
             agg = self.aggregate()
             out.append(f"Global: {self.team_name(0)} {agg[0]}, {self.team_name(1)} {agg[1]}")
+        out.extend(self.shootout_lines)
         if not self.highlights:
             out.append("Fue un partido con pocas emociones.")
         for m, txt in self.highlights:
@@ -778,5 +1083,6 @@ class MatchState:
             abandoned=self.abandoned,
             fair_play=(self.fair_play[0], self.fair_play[1]),
             scorers=[(self.teams[i], p, m) for i, p, m in self.scorers],
+            assists=[(self.teams[i], p, m) for i, p, m in self.assist_log],
             highlights=list(self.highlights),
         )

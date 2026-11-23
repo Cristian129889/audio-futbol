@@ -4,6 +4,13 @@ from __future__ import annotations
 
 from typing import Callable
 
+from audiofutbol.domain.formations import (
+    DEFAULT_ROLE_BY_GROUP,
+    fit,
+    group_of,
+    preferred_role,
+    preferred_role_text,
+)
 from audiofutbol.domain.match.ports import MatchIO
 from audiofutbol.domain.match.state import MatchState
 from audiofutbol.domain.models import POSITION_NAMES_ES, Player
@@ -78,9 +85,9 @@ class SubstitutionManager:
     def player_status_text(self, player: Player) -> str:
         fatigue_pct = int(round(self.state.fatigue.get(id(player), 0.0)))
         role = self.state.player_role(player)
-        pos_txt = POSITION_NAMES_ES[player.position]
+        pos_txt = self.state.slot_text(player)
         if role != player.position:
-            pos_txt += f" jugando como {POSITION_NAMES_ES[role]}"
+            pos_txt += f" (natural: {POSITION_NAMES_ES[player.position]})"
         text = (
             f"{player.name}, {pos_txt}, calidad efectiva {int(round(self.state.effective_overall(player)))}, "
             f"cansancio {fatigue_pct} por ciento"
@@ -122,16 +129,39 @@ class SubstitutionManager:
         if self.state.ball_carrier is out_player:
             self.state.ball_carrier = in_player
 
-        self.state.sort_lineup(team_idx)
-
         has_natural_gk = any(
             p.position == "POR" and self.state.player_role(p) == "POR"
             for p in self.state.xi[team_idx]
         )
         self.state.gk_penalty[team_idx] = 0 if has_natural_gk else -25
+        self._assign_incoming_slot(team_idx, out_player, in_player)
+        self.state.sort_lineup(team_idx)
         self.state.ratings[team_idx] = self.state.compute_ratings(team_idx)
         self._sfx("cambio")
         self.io.update_hud(self.state.hud_status())
+
+    def _assign_incoming_slot(
+        self, team_idx: int, out_player: Player, in_player: Player
+    ) -> None:
+        """Inherit outgoing player's slot on the same line, or use incoming natural slot."""
+        st = self.state
+        out_slot = st.slot.pop(id(out_player), None)
+        st.fit.pop(id(out_player), None)
+        group = st.player_role(in_player)
+        if group == "POR":
+            slot = "POR"
+        elif out_slot and group_of(out_slot) == group and group_of(out_slot) != "POR":
+            slot = out_slot
+        else:
+            natural = preferred_role(in_player)
+            slot = natural if group_of(natural) == group else DEFAULT_ROLE_BY_GROUP[group]
+        st.slot[id(in_player)] = slot
+        st.fit[id(in_player)] = (
+            fit(in_player, slot)
+            if slot != "POR"
+            else (1.0 if in_player.position == "POR" else 0.3)
+        )
+        st.sync_roles(team_idx)
 
     def read_lineup(self) -> None:
         lines = [self.state.formation_text(0) + "."]
@@ -191,7 +221,7 @@ class SubstitutionManager:
             idx_in = self.io.choose(
                 f"Sale {out_player.name}. ¿Quién entra?",
                 [
-                    f"{p.name}, {POSITION_NAMES_ES[p.position]}, calidad {p.overall}"
+                    f"{p.name}, {preferred_role_text(p)}, calidad {p.overall}"
                     for p in candidates
                 ],
             )

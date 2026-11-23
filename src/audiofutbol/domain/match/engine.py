@@ -15,6 +15,7 @@ from audiofutbol.domain.match.state import (
     MatchState,
 )
 from audiofutbol.domain.match.substitutions import SubstitutionManager
+from audiofutbol.domain.match.tactics import TacticsManager
 from audiofutbol.domain.match.var import VarSystem
 from audiofutbol.domain.models import MatchResult, Player, Team
 
@@ -40,7 +41,9 @@ class MatchEngine:
         table_advantage: int | None = None,
         attendance: tuple[str, float] | None = None,
         rng: random.Random | None = None,
+        prematch_menu: bool = True,
     ) -> None:
+        self.prematch_menu = prematch_menu
         self.io: MatchIO = io or HeadlessMatchIO(rng=rng)
         self.state = MatchState(
             user_team=user_team,
@@ -69,6 +72,9 @@ class MatchEngine:
         )
         self.set_pieces.on_goalkeeper_sent_off = self.subs.handle_goalkeeper_sent_off
         self.set_pieces.on_stoppage = self.subs.process_pending_substitution
+        self.tactics = TacticsManager(
+            self.state, self.io, self.build_shortcuts, self._speak
+        )
 
     def _speak(self, text: str, interrupt: bool = False) -> None:
         if not self.state.muted:
@@ -149,9 +155,11 @@ class MatchEngine:
         diff = score[1] - score[0]
         desired = self.state.rival_tactic
         if diff < 0 and (progress >= 0.52 or self.state.mood_state[1] in ("ansioso", "frustrado")):
-            desired = "ofensivo"
+            if desired != "muy_ofensivo":
+                desired = "ofensivo"
         elif diff > 0 and progress >= 0.70 and self.state.red_cards[1] >= self.state.red_cards[0]:
-            desired = "defensivo"
+            if desired != "muy_defensivo":
+                desired = "defensivo"
         elif diff == 0 and progress < 0.75 and self.state.red_cards[1] == 0:
             desired = "equilibrado"
 
@@ -159,8 +167,10 @@ class MatchEngine:
             self.state.rival_tactic = desired
             self.state.refresh_ratings()
             tpl_key = {
+                "muy_ofensivo": "rival_tactic_offensive",
                 "ofensivo": "rival_tactic_offensive",
                 "defensivo": "rival_tactic_defensive",
+                "muy_defensivo": "rival_tactic_defensive",
                 "equilibrado": "rival_tactic_balanced",
             }[desired]
             self._speak(self.narrator.say(tpl_key, rival=self.state.team_name(1)))
@@ -237,10 +247,10 @@ class MatchEngine:
                 text = ". ".join(f"Minuto {m}: {t}" for m, t in self.state.var_log)
                 self.io.speak(text, interrupt=True)
 
-        def k_tactic() -> None:
-            desc = self.state.cycle_tactic()
+        def k_tactic() -> str:
+            self.tactics.in_match_menu()
             self.io.update_hud(self.state.hud_status())
-            self.io.speak(f"Postura táctica cambiada. {desc}", interrupt=True)
+            return "releer"
 
         def k_context() -> None:
             tp = self.state.tactic_profile()
@@ -259,7 +269,8 @@ class MatchEngine:
                 f"y {self.state.rival_style['label']}."
             )
             self.io.speak(
-                f"Clima: {self.state.weather.name_es}. Postura: {tp['label']}.{rival_posture} "
+                f"Clima: {self.state.weather.name_es}. Esquema: {self.state.scheme_label(0)}. "
+                f"Postura: {tp['label']}.{rival_posture} "
                 f"El juego está {self.state.lane_text()}. "
                 f"{self.state.momentum_summary()} {self.state.mood_summary()} "
                 f"{self.state.tension_summary()}{sol}{space}",
@@ -269,7 +280,8 @@ class MatchEngine:
         def k_help() -> None:
             self.io.speak(
                 "Atajos: M marcador. T tiempo. P posesión y carril. G goles. A tarjetas. "
-                "E tiros y tiros a puerta. S estadísticas. X cambiar táctica en vivo. "
+                "E tiros y tiros a puerta. S estadísticas. "
+                "X táctica: esquema, posiciones, cobradores y mentalidad. "
                 "N clima, táctica e impulso del partido. H hacer tiempo. V VAR. "
                 "C pedir cambio al cuarto árbitro (se aplica en la siguiente pausa). L alineación. "
                 "En ataque: Q cambio de frente, F pase filtrado, R regate, D disparo, B conducir. "
@@ -368,6 +380,7 @@ class MatchEngine:
             if self.state.roll(0.45):
                 self.state.lane = self.state.rng.choice((-1, 0, 1))
             self.state.ball_carrier = rec
+            self.state.record_pass(0, carrier)
             self._sfx("balon", self.state.stereo_pan())
             if self.state.roll(0.20):
                 self.state.space_bonus = min(0.14, self.state.space_bonus + 0.06)
@@ -417,6 +430,7 @@ class MatchEngine:
             self.state.lane = target_lane
             self.state.zone = min(3, max(self.state.zone, 2) if self.state.zone >= 1 else 1)
             self.state.ball_carrier = rec
+            self.state.record_pass(0, carrier)
             self.state.space_bonus = min(0.18, self.state.space_bonus + 0.12)
             self.state.shift_momentum(0.9)
             self._speak(
@@ -460,6 +474,7 @@ class MatchEngine:
             self.state.zone = min(3, z + 2)
             self.state.lane = 0
             self.state.ball_carrier = rec
+            self.state.record_pass(0, carrier)
             self.state.shift_momentum(1.3)
             if self.state.roll(0.24):
                 self._crowd_react("ovacion", 2.0)
@@ -583,6 +598,7 @@ class MatchEngine:
             self.state.zone = 3
             self.state.lane = 0
             self.state.ball_carrier = striker
+            self.state.record_pass(0, carrier)
             self.state.add_highlight(
                 f"Pase largo de {carrier.name} para {striker.name}, que quedó solo frente al portero."
             )
@@ -606,6 +622,7 @@ class MatchEngine:
         elif style == 1:
             self.state.lane = self.state.rng.choice((-1, 0, 1))
             self.state.ball_carrier = rec
+            self.state.record_pass(0, carrier)
             self._sfx("balon", self.state.stereo_pan())
             self._speak(
                 self.narrator.say("quiet_attack_long", pas=carrier.name, rec=rec.name, zona=z_txt)
@@ -658,7 +675,8 @@ class MatchEngine:
         )
         add("conducir", "Conducir el balón", 17)
         if z >= 2:
-            add("centro", "Centro al área", 16 if self.state.lane != 0 else 11)
+            add("centro_izq", "Centro por tu banda izquierda", 13 if self.state.lane < 0 else 6)
+            add("centro_der", "Centro por tu banda derecha", 13 if self.state.lane > 0 else 6)
         if z >= 3:
             add("chilena", "Intentar una chilena", 2)
         if lone_striker is not None:
@@ -667,6 +685,7 @@ class MatchEngine:
                 f"Pase largo a {lone_striker.name}, que está solo frente al portero",
                 45,
             )
+        add("tactica", "Táctica", 0)
 
         quick_keys = {
             "q": keys.index("cambio_frente"),
@@ -675,9 +694,13 @@ class MatchEngine:
             "d": keys.index("disparo"),
             "b": keys.index("conducir"),
         }
-        choice = self._choose("¿Qué haces?", ops, weights, quick_keys)
-        if self.state.abandoned:
-            return
+        while True:
+            choice = self._choose("¿Qué haces?", ops, weights, quick_keys)
+            if self.state.abandoned:
+                return
+            if keys[choice] != "tactica":
+                break
+            self.tactics.in_match_menu()
         action = keys[choice]
         # Re-sync ball carrier in case the active player was substituted via 'C' during menu
         carrier = self.state.ensure_ball_carrier(0)
@@ -724,6 +747,7 @@ class MatchEngine:
                 rec = self.state.pick_receiver(0, "filtrado", exclude=carrier)
                 self.state.zone = min(3, z + 2)
                 self.state.ball_carrier = rec
+                self.state.record_pass(0, carrier)
                 self._sfx("balon", self.state.stereo_pan())
                 self._speak(
                     f"¡Gran pase largo de {carrier.name} para {rec.name}! "
@@ -738,8 +762,12 @@ class MatchEngine:
             self._carry_ball(z, carrier, att_diff)
         elif action == "disparo":
             self.set_pieces.shot(0, z, shooter=carrier if carrier.position != "POR" else None)
-        elif action == "centro":
-            self.set_pieces.cross(0, crosser=carrier)
+        elif action in ("centro_izq", "centro_der"):
+            self.state.lane = -1 if action == "centro_izq" else 1
+            side_name = "izquierda" if self.state.lane < 0 else "derecha"
+            self.set_pieces.cross(
+                0, crosser=self.state.flank_player(0, side_name) or carrier
+            )
         elif action == "solo" and lone_striker is not None:
             self._long_pass_to_lone_striker(carrier, lone_striker, mid_diff)
         else:
@@ -790,6 +818,7 @@ class MatchEngine:
             self.state.zone = 3
             self.state.lane = 0
             self.state.ball_carrier = striker
+            self.state.record_pass(1, carrier)
             self._speak(
                 self.narrator.say(
                     "rival_through_ball_ok", pas=carrier.name, rec=striker.name
@@ -846,8 +875,10 @@ class MatchEngine:
                 self.state.possession = 1
                 if self.state.lane == 0:
                     self.state.lane = self.state.rng.choice((-1, 1))
-                self._speak(f"{carrier.name} desborda {self.state.lane_text()} y busca el centro.")
-                self.set_pieces.cross(1, crosser=carrier)
+                side_name = "izquierda" if self.state.lane < 0 else "derecha"
+                winger = self.state.flank_player(1, side_name) or carrier
+                self._speak(f"{winger.name} desborda {self.state.lane_text()} y busca el centro.")
+                self.set_pieces.cross(1, crosser=winger)
             elif move == "dribble":
                 self._rival_dribble(carrier)
             elif move == "through":
@@ -857,6 +888,7 @@ class MatchEngine:
                 self.state.zone = 3
                 self.state.lane = 0
                 self.state.ball_carrier = partner
+                self.state.record_pass(1, carrier)
                 self._sfx("balon", self.state.stereo_pan())
                 self._speak(
                     self.narrator.say(
@@ -894,6 +926,7 @@ class MatchEngine:
             self.state.lane = self.state.rng.choice((-1, 0, 1))
         next_c = self.state.pick_receiver(1, "corto", exclude=carrier)
         self.state.ball_carrier = next_c
+        self.state.record_pass(1, carrier)
         self._sfx("balon", self.state.stereo_pan())
         self._speak(
             f"{rival} progresa con {next_c.name}, ahora {ZONES_RIVAL[self.state.zone]}, "
@@ -911,6 +944,7 @@ class MatchEngine:
             0, {"DEF": 3.0, "MED": 3.0, "DEL": 0.8, "POR": 0.0}
         )
         self.state.interceptions[0] += 1
+        self.state.note(recoverer, 1)
         self.state.set_possession(0, zone, lane=self.state.lane, carrier=recoverer)
         if space_bonus > 0:
             self.state.space_bonus = max(self.state.space_bonus, space_bonus)
@@ -1071,6 +1105,13 @@ class MatchEngine:
         self._crowd_boo_rival(rz)
         if rz >= 3 and not self.state.auto:
             self._speak("Cuidado: una falta ahora sería penal.")
+        if rz >= 2 and self.state.lane != 0:
+            side_name = "izquierda" if self.state.lane < 0 else "derecha"
+            self.state.flank_attacks[side_name] += 1
+            self.state.last_flank = (side_name, self.state.turn)
+            guard = self.state.flank_defender(side_name)
+            if guard is not None and not self.state.auto:
+                self._speak(f"Por tu banda {side_name} defiende {guard.name}.")
 
         options = [
             "Presionar arriba",
@@ -1087,9 +1128,15 @@ class MatchEngine:
             weights.append(5)
             quick_keys["7"] = 6
 
-        choice = self._choose("¿Cómo defiendes?", options, weights, quick_keys)
-        if self.state.abandoned:
-            return
+        options.append("Táctica")
+        weights.append(0)
+        while True:
+            choice = self._choose("¿Cómo defiendes?", options, weights, quick_keys)
+            if self.state.abandoned:
+                return
+            if choice != len(options) - 1:
+                break
+            self.tactics.in_match_menu()
         if self.state.roll(0.004 / self.state.factor):
             self.set_pieces.foul(1, 3 - rz, "mano")
             return
@@ -1150,7 +1197,7 @@ class MatchEngine:
                 )
         elif choice == 3:
             defender = self.state.pick_player(0, {"DEF": 3.5, "MED": 3.5, "DEL": 0.5, "POR": 0.0})
-            bonus_def = 0.06 if self.state.tactic == "defensivo" else 0.0
+            bonus_def = 0.06 if self.state.tactic in ("defensivo", "muy_defensivo") else 0.0
             if self.state.roll(base - 0.02 + bonus_def + self._rival_aggression() * 0.4):
                 msg = self.narrator.say("counter_win", def_=defender.name, rival=rival)
                 self._recover_ball(msg, 2, player=defender, space_bonus=0.16)
@@ -1265,6 +1312,8 @@ class MatchEngine:
         self.subs.ai_waste_time()
         self.subs.ai_substitutions(1)
         self.subs.ai_substitutions(0)
+        self.tactics.ai_adjust(1)
+        self.tactics.ai_adjust(0)
         self.state.refresh_ratings()
         self.state.possession_turns[self.state.possession] += 1
         self.state.drought_turns[self.state.possession] += 1
@@ -1325,6 +1374,7 @@ class MatchEngine:
                 "Sí, modificar mi alineación",
                 f"No, comenzar el {next_half}",
                 "Leer mi alineación en el campo",
+                "Táctica: esquema, posiciones, cobradores y mentalidad",
             ]
             if summary:
                 options.append("Repetir el resumen")
@@ -1342,7 +1392,9 @@ class MatchEngine:
                 self.subs.open_substitution_menu()
             elif choice == 2:
                 self.subs.read_lineup()
-            elif choice == 3 and summary:
+            elif choice == 3:
+                self.tactics.in_match_menu()
+            elif choice == 4 and summary:
                 self.io.read_summary_stream(summary[0], summary[1])
 
     def _halftime(self, ended_half: str, next_half: str) -> None:
@@ -1430,8 +1482,13 @@ class MatchEngine:
             self.io.play_theme("musica_versus", volume=0.7)
         self._speak(
             f"{self.state.title}. {self.state.team_name(0)} contra {self.state.team_name(1)}. "
-            "Pulsa F1 para ver los atajos. Con X cambias tu postura táctica y con C pides un cambio al cuarto árbitro."
+            "Pulsa F1 para ver los atajos. Con X abres la táctica y con C pides un cambio al cuarto árbitro."
         )
+        if not self.state.muted:
+            self._speak(
+                f"Tu equipo sale con {self.state.scheme_label(0)}. "
+                f"{self.state.team_name(1)} juega con {self.state.scheme_label(1)}."
+            )
         if self.state.stadium:
             self._speak(f"Hoy se juega en {self.state.stadium}.")
         self._speak(self.state.weather.announcement)
@@ -1460,6 +1517,15 @@ class MatchEngine:
             self.io.stop_music(1200)
             factor = self.state.attendance[1] if self.state.attendance else 1.0
             self.io.start_crowd(factor)
+
+        if not self.state.auto and self.prematch_menu:
+            prev_in_play = self.state.ball_in_play
+            self.state.ball_in_play = False
+            try:
+                self.tactics.prematch_menu()
+            finally:
+                self.state.ball_in_play = prev_in_play
+            self.state.refresh_ratings()
 
         self.state.set_possession(self.state.rng.choice((0, 1)), 1, lane=0)
 

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import random
+
 from audiofutbol.data.csv_loader import create_generic_team
 from audiofutbol.domain.formations import (
     ROLES,
@@ -11,7 +13,9 @@ from audiofutbol.domain.formations import (
     fit,
     preferred_role,
 )
-from audiofutbol.domain.models import Player, Team
+from audiofutbol.domain.match.engine import MatchEngine
+from audiofutbol.domain.match.ports import HeadlessMatchIO, MatchSettings
+from audiofutbol.domain.models import POSITION_ORDER, Player, Team
 
 
 def test_every_scheme_builds_a_valid_eleven() -> None:
@@ -67,3 +71,155 @@ def test_lineup_never_pulls_backup_gk_into_outfield_slot() -> None:
     assert len(xi) == 11
     assert sum(1 for p in xi if p.position == "POR") == 1
     assert all(p.name != "GK Suplente" for p in xi)
+
+
+def test_all_schemes_play_complete_matches() -> None:
+    for i, scheme in enumerate(SCHEME_ORDER):
+        a = create_generic_team("Alemania", 82)
+        a.scheme = scheme
+        b = create_generic_team("Italia", 82)
+        rng = random.Random(i)
+        engine = MatchEngine(a, b, io=HeadlessMatchIO(rng=rng), auto=True, rng=rng)
+        assert engine.state.scheme[0] == scheme
+        res = engine.play()
+        assert res.goals[0] >= 0 and not res.abandoned
+
+
+def test_fixed_takers_are_used() -> None:
+    a = create_generic_team("Argentina", 84)
+    b = create_generic_team("Brasil", 84)
+    chosen = next(p for p in a.lineup() if p.position == "DEF")
+    a.takers = {"penal": chosen.name, "corner": chosen.name}
+    engine = MatchEngine(a, b, io=HeadlessMatchIO(), auto=False, prematch_menu=False)
+    taker, notice = engine.state.designated_taker(0, "penal")
+    assert taker is chosen and notice is None
+    engine.state.injured.add(id(chosen))
+    taker2, notice2 = engine.state.designated_taker(0, "penal")
+    assert taker2 is not chosen and notice2 is not None
+    assert engine.state.designated_taker(0, "penal")[0] is taker2
+
+
+def test_shootout_is_one_by_one_and_ends() -> None:
+    for seed in range(20):
+        a = create_generic_team("España", 80)
+        b = create_generic_team("Portugal", 80)
+        rng = random.Random(seed)
+        io = HeadlessMatchIO(rng=random.Random(seed))
+        engine = MatchEngine(a, b, io=io, auto=False, prematch_menu=False, rng=rng)
+        engine.set_pieces.penalty_shootout()
+        pen = engine.state.penalties
+        assert pen is not None and pen[0] != pen[1]
+        names = [ln.split(",")[0] for ln in engine.state.shootout_lines[:-1]]
+        per_team: dict[int, list[str]] = {0: [], 1: []}
+        for ln in engine.state.shootout_lines[:-1]:
+            who = ln.split(", de ")[0]
+            team_name = ln.split(", de ")[1].split(":")[0]
+            per_team[0 if team_name == a.name else 1].append(who)
+        for lst in per_team.values():
+            head = lst[:11]
+            assert len(head) == len(set(head)), names
+
+
+def test_assists_counted_and_serialized() -> None:
+    total_goals = total_assists = 0
+    for seed in range(15):
+        a = create_generic_team("Japón", 80)
+        b = create_generic_team("Senegal", 80)
+        rng = random.Random(seed)
+        engine = MatchEngine(a, b, io=HeadlessMatchIO(rng=rng), auto=True, rng=rng)
+        res = engine.play()
+        total_goals += sum(res.goals)
+        total_assists += len(res.assists)
+        assert sum(p.assists for p in a.players + b.players) == len(res.assists)
+        for team, player, _minute in res.assists:
+            assert player in team.players
+    assert total_goals > 0 and 0 < total_assists <= total_goals
+
+
+def test_interactive_match_with_prematch_and_live_tactics() -> None:
+    a = create_generic_team("México", 80)
+    b = create_generic_team("Colombia", 80)
+    io = HeadlessMatchIO(rng=random.Random(5))
+    engine = MatchEngine(
+        a,
+        b,
+        io=io,
+        auto=False,
+        max_substitutions=5,
+        settings=MatchSettings(turn_seconds=120),
+        rng=random.Random(6),
+    )
+    res = engine.play()
+    assert not res.abandoned
+    assert any("juega con" in m for m in io.messages)
+    engine.tactics.in_match_menu()
+    engine.tactics.apply_scheme(0, "5-4-1")
+    assert engine.state.scheme[0] == "5-4-1"
+    assert len(engine.state.xi[0]) == 11 or engine.state.red_cards[0] > 0
+
+
+def test_ai_balance_between_schemes_is_reasonable() -> None:
+    """No tactical scheme should dominate or collapse against 4-4-2 at equal strength."""
+    for scheme in SCHEME_ORDER:
+        points = goals_for = goals_against = 0
+        n = 40
+        for seed in range(n):
+            a = create_generic_team("Croacia", 80)
+            a.scheme = scheme
+            b = create_generic_team("Croacia", 80)
+            b.scheme = "4-4-2"
+            rng = random.Random(1000 + seed)
+            res = MatchEngine(
+                a, b, io=HeadlessMatchIO(rng=rng), auto=True, rng=rng
+            ).play()
+            goals_for += res.goals[0]
+            goals_against += res.goals[1]
+            points += 3 if res.goals[0] > res.goals[1] else 1 if res.goals[0] == res.goals[1] else 0
+        avg = points / n
+        total = (goals_for + goals_against) / n
+        assert 0.7 <= avg <= 2.3, (scheme, avg)
+        assert 1.2 <= total <= 5.0, (scheme, total)
+
+
+def test_prematch_tactics_harmonizes_with_fourth_official_subs_and_gk_red_card() -> None:
+    def decide(title: str, options: list[str]) -> int:
+        if "¿Qué jugador de campo sale" in title:
+            return len(options) - 1
+        if "¿Quién sale?" in title:
+            return len(options) - 1
+        return 0
+
+    a = create_generic_team("México", 80)
+    b = create_generic_team("Argentina", 84)
+    io = HeadlessMatchIO(decision_callback=decide, rng=random.Random(12))
+    engine = MatchEngine(
+        a, b, io=io, max_substitutions=5, auto=False, prematch_menu=False, rng=random.Random(12)
+    )
+
+    # Apply prematch-style scheme & mentality change
+    engine.tactics.apply_scheme(0, "3-5-2", persist=True)
+    engine.state.set_mentality(0, 1)
+    assert engine.state.scheme[0] == "3-5-2"
+    roles_order = [POSITION_ORDER[engine.state.player_role(p)] for p in engine.state.xi[0]]
+    assert roles_order == sorted(roles_order)
+    assert all(id(p) in engine.state.slot for p in engine.state.xi[0])
+
+    # Queue 4th-official substitution during live play, then trigger stoppage
+    assert engine.build_shortcuts()["c"]() is None
+    assert engine.state.pending_substitution is True
+    engine.set_pieces.throw_in()
+    assert engine.state.pending_substitution is False
+    assert engine.state.substitutions_used[0] == 1
+    roles_after_sub = [POSITION_ORDER[engine.state.player_role(p)] for p in engine.state.xi[0]]
+    assert roles_after_sub == sorted(roles_after_sub)
+
+    # Send off GK -> prompts backup GK and keeps XI valid & sorted
+    gk = engine.state.goalkeeper(0)
+    assert gk is not None
+    engine.set_pieces.give_card(0, gk, "roja")
+    new_gk = engine.state.goalkeeper(0)
+    assert new_gk is not None and new_gk is not gk
+    assert engine.state.xi[0][0] is new_gk
+    assert engine.state.slot.get(id(new_gk)) == "POR"
+    assert engine.state.gk_penalty[0] == 0
+
