@@ -84,6 +84,7 @@ class HeadlessMatchIO:
         self._decision_callback = decision_callback
         self.messages: list[str] = []
         self.sfx_events: list[str] = []
+        self.reader_calls: list[tuple[str, list[str]]] = []
 
     def speak(self, text: str, interrupt: bool = False) -> None:
         self.messages.append(text)
@@ -130,7 +131,7 @@ class HeadlessMatchIO:
         return True
 
     def read_lines(self, title: str, lines: list[str]) -> None:
-        pass
+        self.reader_calls.append((title, list(lines)))
 
     def read_summary_stream(self, title: str, lines: list[str]) -> None:
         pass

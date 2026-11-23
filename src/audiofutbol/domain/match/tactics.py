@@ -433,8 +433,9 @@ class TacticsManager:
             add("move", "Mover a un jugador a otra posición")
             add("takers", "Cobradores: penales, tiros libres y córners")
             add("mental", f"Mentalidad: {MENTALITY_NAMES[st.mentality(0)]}")
-            add("perf", "Rendimiento de mis jugadores")
-            add("flanks", "Por dónde me atacan")
+            if not prematch:
+                add("perf", "Rendimiento de mis jugadores")
+                add("flanks", "Por dónde me atacan")
             add("rival", "Ver el esquema y el once del rival")
             if not prematch:
                 add("back", "Volver al partido")

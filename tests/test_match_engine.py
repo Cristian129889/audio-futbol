@@ -64,7 +64,8 @@ def test_match_shortcuts_and_time_wasting() -> None:
     shortcuts = engine.build_shortcuts()
     for key in ("m", "t", "p", "g", "a", "e", "s", "v", "x", "n", "f1", "h"):
         shortcuts[key]()
-    assert len(io.messages) >= 12
+    assert len(io.messages) >= 11
+    assert any(title == "Estado del partido" and len(lines) >= 5 for title, lines in io.reader_calls)
     assert engine.state.tactic in (
         "muy_defensivo",
         "defensivo",
@@ -607,6 +608,100 @@ def test_extra_time_grants_one_additional_substitution() -> None:
     skip_ko.play()
     assert skip_ko.state.extra_time_sub_bonus == 0
     assert skip_ko.state.max_substitutions == 5
+
+
+def test_attack_menu_hides_shots_behind_midfield_and_shows_single_contextual_cross() -> None:
+    captured: list[tuple[list[str], dict[str, int] | None]] = []
+
+    class _CaptureIO(HeadlessMatchIO):
+        def choose(self, title, options, shortcuts=None, quick_keys=None, initial_index=0):
+            if title == "¿Qué haces?":
+                captured.append((list(options), dict(quick_keys or {})))
+                return 0
+            return super().choose(title, options, shortcuts, quick_keys, initial_index)
+
+    team_a = create_generic_team("México", 82)
+    team_b = create_generic_team("Colombia", 80)
+
+    def probe(zone: int, lane: int) -> tuple[list[str], dict[str, int] | None]:
+        captured.clear()
+        rng = random.Random(99)
+        eng = MatchEngine(team_a, team_b, io=_CaptureIO(rng=rng), auto=False, prematch_menu=False, rng=rng)
+        eng.state.set_possession(0, zone, lane=lane)
+        eng._attack_turn()
+        assert len(captured) == 1
+        return captured[0]
+
+    for z in (0, 1):
+        ops, qk = probe(z, 0)
+        assert not any("Disparo" in o for o in ops)
+        assert not any("Centro" in o for o in ops)
+        assert "d" not in (qk or {})
+        assert "Táctica" not in ops
+
+    ops_r, qk_r = probe(2, 1)
+    assert "Disparo de lejos" in ops_r
+    assert "d" in (qk_r or {})
+    assert [o for o in ops_r if "Centro" in o] == ["Centro al área desde la derecha"]
+    assert "Táctica" not in ops_r
+
+    ops_l, _ = probe(2, -1)
+    assert [o for o in ops_l if "Centro" in o] == ["Centro al área desde la izquierda"]
+
+    ops_box_c, _ = probe(3, 0)
+    assert "Disparo a puerta" in ops_box_c
+    assert not any("Centro" in o for o in ops_box_c)
+
+    ops_box_l, _ = probe(3, -1)
+    assert [o for o in ops_box_l if "Centro" in o] == ["Centro al área desde la izquierda"]
+
+
+def test_defense_menu_hides_tactical_foul_in_own_box() -> None:
+    captured: list[list[str]] = []
+
+    class _CaptureIO(HeadlessMatchIO):
+        def choose(self, title, options, shortcuts=None, quick_keys=None, initial_index=0):
+            if title == "¿Cómo defiendes?":
+                captured.append(list(options))
+                return 0
+            return super().choose(title, options, shortcuts, quick_keys, initial_index)
+
+    team_a = create_generic_team("Argentina", 84)
+    team_b = create_generic_team("Brasil", 84)
+    eng = MatchEngine(team_a, team_b, io=_CaptureIO(), auto=False, prematch_menu=False, rng=random.Random(15))
+
+    eng.state.set_possession(1, 3, lane=1)
+    eng._defense_turn()
+    assert "Falta táctica" not in captured[-1]
+    assert "Trampa del fuera de juego" not in captured[-1]
+    assert "Táctica" not in captured[-1]
+
+    eng.state.set_possession(1, 2, lane=-1)
+    eng._defense_turn()
+    assert "Falta táctica" in captured[-1]
+    assert "Trampa del fuera de juego" in captured[-1]
+
+
+def test_context_shortcut_n_returns_structured_lines() -> None:
+    team_a = create_generic_team("México", 80)
+    team_b = create_generic_team("Brasil", 84)
+    io = HeadlessMatchIO()
+    eng = MatchEngine(team_a, team_b, io=io, max_substitutions=5, auto=False, prematch_menu=False)
+    eng.state.pending_substitution = True
+
+    res = eng.build_shortcuts()["n"]()
+    assert res == "releer"
+    assert len(io.reader_calls) == 1
+    title, lines = io.reader_calls[0]
+    assert title == "Estado del partido"
+    joined = " ".join(lines)
+    assert "Marcador:" in joined
+    assert "Tu equipo" in joined
+    assert "Rival" in joined
+    assert "Ritmo y campo:" in joined
+    assert "Clima y ambiente:" in joined
+    assert "Cambio pedido al cuarto árbitro" in joined
+
 
 
 

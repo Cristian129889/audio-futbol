@@ -9,6 +9,7 @@ from typing import Any
 from audiofutbol.domain.formations import (
     DEFAULT_ROLE_BY_GROUP,
     DEFAULT_SCHEME,
+    MENTALITY_NAMES,
     MENTALITY_TACTIC,
     ROLES,
     SCHEME_STYLE,
@@ -456,6 +457,45 @@ class MatchState:
         if self.momentum <= -3.5:
             return f"{self.team_name(1)} está crecido y controla el impulso del partido."
         return "El partido está parejo y disputado."
+
+    def context_lines(self, subs_text: str) -> list[str]:
+        """Return structured status lines for the live match context reader (key N)."""
+        pending = " Cambio pedido al cuarto árbitro." if self.pending_substitution else ""
+        lines = [
+            f"Minuto {self.minute()}. Marcador: {self.scoreboard_text()}.",
+            (
+                f"Tu equipo ({self.team_name(0)}): esquema {self.scheme_label(0)}, "
+                f"mentalidad {MENTALITY_NAMES[self.mentality(0)]}, "
+                f"ánimo {self.mood_label(0)}. {subs_text}.{pending}"
+            ),
+            (
+                f"Rival ({self.team_name(1)}): esquema {self.scheme_label(1)}, "
+                f"mentalidad {MENTALITY_NAMES[self.mentality(1)]}, "
+                f"{self.rival_style['label']}, ánimo {self.mood_label(1)}."
+            ),
+        ]
+        sol = (
+            f" Solidez del bloque nivel {self.block_solidity} de 3."
+            if self.block_solidity > 0
+            else ""
+        )
+        space = (
+            " Tienes espacios abiertos tras descolocar al rival."
+            if self.space_bonus > 0
+            else ""
+        )
+        lines.append(
+            f"Ritmo y campo: el juego está {self.lane_text()}. "
+            f"{self.momentum_summary()}{sol}{space}"
+        )
+        lines.append(f"Clima y ambiente: {self.weather.name_es}. {self.tension_summary()}")
+        if self.flank_attacks["izquierda"] > 0 or self.flank_attacks["derecha"] > 0:
+            lines.append(
+                f"Llegadas rivales por banda: {self.flank_attacks['izquierda']} por tu izquierda "
+                f"({self.flank_goals['izquierda']} goles) y {self.flank_attacks['derecha']} por tu derecha "
+                f"({self.flank_goals['derecha']} goles)."
+            )
+        return lines
 
     @property
     def tactic(self) -> str:
