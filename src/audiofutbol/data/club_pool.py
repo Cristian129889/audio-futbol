@@ -6,7 +6,11 @@ import json
 from typing import Any
 
 from audiofutbol.data.competition_loader import team_from_entry
-from audiofutbol.data.csv_loader import load_club_players, read_squad_csv
+from audiofutbol.data.csv_loader import (
+    load_club_players,
+    read_squad_csv,
+    select_squad,
+)
 from audiofutbol.domain.models import Team
 from audiofutbol.domain.text import normalize_text
 from audiofutbol.engine.paths import AppPaths
@@ -51,7 +55,7 @@ def build_club_pool(paths: AppPaths) -> list[Team]:
         for key, squad_map in real.items():
             if key in pool or len(squad_map) < 11:
                 continue
-            squad = sorted(squad_map.values(), key=lambda p: -p.overall)[:30]
+            squad = select_squad(squad_map.values())
             top = [p.overall for p in squad[:11]]
             team = Team(
                 name=display.get(key, key.title()),

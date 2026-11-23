@@ -5,7 +5,11 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from audiofutbol.data.csv_loader import create_generic_team, load_club_players
+from audiofutbol.data.csv_loader import (
+    create_generic_team,
+    load_club_players,
+    select_squad,
+)
 from audiofutbol.domain.models import Team
 from audiofutbol.domain.text import normalize_text
 from audiofutbol.engine.paths import AppPaths
@@ -47,7 +51,7 @@ def team_from_entry(entry: dict[str, Any], real_clubs: dict[str, dict[str, Any]]
     )
     level = int(entry.get("nivel", 72))
     if squad_map and len(squad_map) >= 11:
-        squad = sorted(squad_map.values(), key=lambda p: -p.overall)[:30]
+        squad = select_squad(squad_map.values())
         return Team(
             name=entry["nombre"],
             players=squad,

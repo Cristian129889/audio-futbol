@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 import csv
 import io
 from pathlib import Path
@@ -194,6 +195,30 @@ def read_squad_csv(path: Path) -> list[tuple[str, str, str, int, int]]:
     return rows
 
 
+def select_squad(
+    players: Iterable[Player],
+    max_size: int = 30,
+    min_goalkeepers: int = 2,
+) -> list[Player]:
+    """Return top `max_size` players by overall while preserving at least `min_goalkeepers`."""
+    ordered = sorted(players, key=lambda p: (-p.overall, p.name))
+    if len(ordered) <= max_size:
+        return ordered
+    selected = list(ordered[:max_size])
+    gks_in = sum(1 for p in selected if p.position == "POR")
+    if gks_in < min_goalkeepers:
+        extra_gks = [p for p in ordered[max_size:] if p.position == "POR"][
+            : min_goalkeepers - gks_in
+        ]
+        for gk in extra_gks:
+            for idx in range(len(selected) - 1, -1, -1):
+                if selected[idx].position != "POR":
+                    selected[idx] = gk
+                    break
+        selected.sort(key=lambda p: (-p.overall, p.name))
+    return selected
+
+
 def load_national_teams(paths: AppPaths) -> tuple[list[Team], bool]:
     """Load national teams from `datos/*.csv`; fallback to 32 generated teams if < 8."""
     grouped: dict[str, dict[str, Player]] = {}
@@ -208,7 +233,7 @@ def load_national_teams(paths: AppPaths) -> tuple[list[Team], bool]:
 
     teams: list[Team] = []
     for name, player_map in grouped.items():
-        squad = sorted(player_map.values(), key=lambda p: -p.overall)[:30]
+        squad = select_squad(player_map.values())
         if len(squad) >= 11:
             teams.append(Team(name=name, players=squad, is_real_squad=True))
 
@@ -234,7 +259,7 @@ def load_extra_national_teams(paths: AppPaths) -> list[Team]:
                     continue
     teams: list[Team] = []
     for name, player_map in grouped.items():
-        squad = sorted(player_map.values(), key=lambda p: -p.overall)[:30]
+        squad = select_squad(player_map.values())
         if len(squad) >= 11:
             teams.append(Team(name=name, players=squad, is_real_squad=True))
     return sorted(teams, key=lambda t: t.name)

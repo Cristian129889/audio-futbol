@@ -10,8 +10,9 @@ from audiofutbol.data.csv_loader import (
     load_extra_national_teams,
     load_national_teams,
     parse_position,
+    select_squad,
 )
-from audiofutbol.domain.models import Team
+from audiofutbol.domain.models import Player, Team
 from audiofutbol.domain.text import normalize_text, tokenize
 from audiofutbol.engine.paths import AppPaths
 
@@ -89,4 +90,31 @@ def test_club_pool_and_extra_national_teams() -> None:
         xi = club.starting_xi()
         assert len(xi) == 11
         assert sum(1 for p in xi if p.position == "POR") == 1
+
+
+def test_all_national_and_club_squads_have_backup_goalkeeper_and_unique_numbers() -> None:
+    paths = AppPaths.detect()
+    nations, from_csv = load_national_teams(paths)
+    assert from_csv is True
+    extra = load_extra_national_teams(paths)
+    pool = build_club_pool(paths)
+
+    for team in [*nations, *extra, *pool]:
+        gks = [p for p in team.players if p.position == "POR"]
+        assert len(gks) >= 2, f"{team.name} has only {len(gks)} goalkeeper(s)"
+        if team.is_real_squad:
+            nums = [p.number for p in team.players if p.number > 0]
+            assert len(nums) == len(set(nums)), f"{team.name} has duplicate shirt numbers"
+
+
+def test_select_squad_preserves_backup_goalkeeper_beyond_30_cap() -> None:
+    players = [Player("Titular GK", "POR", 85, 1)]
+    for idx in range(33):
+        players.append(Player(f"Campo {idx}", "MED", 70 + (idx % 11), idx + 2))
+    players.append(Player("Suplente GK", "POR", 65, 99))
+
+    selected = select_squad(players, max_size=30, min_goalkeepers=2)
+    assert len(selected) == 30
+    gks = [p for p in selected if p.position == "POR"]
+    assert {p.name for p in gks} == {"Titular GK", "Suplente GK"}
 
