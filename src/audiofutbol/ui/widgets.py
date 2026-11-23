@@ -6,7 +6,8 @@ from typing import Callable
 
 import pygame
 
-from audiofutbol.domain.models import POSITION_NAMES_ES, POSITION_ORDER, Team
+from audiofutbol.domain.formations import preferred_role_text
+from audiofutbol.domain.models import POSITION_ORDER, Team
 from audiofutbol.domain.text import normalize_text
 from audiofutbol.engine.audio import AudioEngine
 from audiofutbol.engine.tts.service import SpeechService
@@ -318,7 +319,7 @@ class AudioUI:
 
 def squad_lines(team: Team) -> list[str]:
     """Format a team's full squad sorted by position and overall rating."""
-    xi = team.starting_xi()
+    xi = team.lineup(team.scheme)
     lines: list[str] = []
     for p in sorted(
         team.players, key=lambda pl: (POSITION_ORDER.get(pl.position, 9), -pl.overall)
@@ -331,7 +332,9 @@ def squad_lines(team: Team) -> list[str]:
             extra += f", {p.yellow_cards} amarilla"
         if p.goals:
             extra += f", {p.goals} goles"
+        if p.assists:
+            extra += f", {p.assists} pases de gol"
         lines.append(
-            f"{p.name}, {POSITION_NAMES_ES[p.position]}, calidad {p.overall}, {role}{extra}"
+            f"{p.name}, {preferred_role_text(p)}, calidad {p.overall}, {role}{extra}"
         )
     return lines

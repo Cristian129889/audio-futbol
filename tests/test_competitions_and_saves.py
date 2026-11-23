@@ -266,3 +266,27 @@ def test_custom_club_cup_full_simulation_and_save_roundtrip(tmp_path: Path) -> N
     assert loaded.runner_up is not None
 
 
+def test_top_assists_and_tactical_preferences_persist_across_saves(tmp_path: Path) -> None:
+    teams = [create_generic_team(f"Sel {i}", 76 + (i % 8)) for i in range(8)]
+    user_team = teams[0]
+    user_team.scheme = "3-5-2"
+    user_team.mentality = 1
+    user_team.takers = {"penal": user_team.players[10].name}
+    user_team.players[9].assists = 3
+
+    wc = WorldCup(teams, user_team)
+    league = NationsLeague(teams, user_team)
+    assert any("3 pases de gol" in line for line in wc.top_assists(5))
+    assert any("3 pases de gol" in line for line in league.top_assists(5))
+
+    saves = SaveManager(AppPaths(tmp_path))
+    assert saves.save(WorldCup.KEY, wc) is True
+    loaded = saves.load(WorldCup.KEY)
+    assert isinstance(loaded, WorldCup)
+    assert loaded.user_team.scheme == "3-5-2"
+    assert loaded.user_team.mentality == 1
+    assert loaded.user_team.takers == user_team.takers
+    assert any(p.assists == 3 for p in loaded.user_team.players)
+
+
+

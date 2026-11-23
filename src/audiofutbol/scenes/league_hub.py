@@ -115,11 +115,12 @@ def run_league_hub(ctx: GameContext, tournament: NationsLeague) -> None:
             [
                 "Ver resultados de una fase",
                 "Goleadores del torneo",
+                "Asistidores del torneo",
                 "Mi plantilla",
                 "Guardar y volver al menú",
             ]
         )
-        actions.extend(["resultados", "goleadores", "plantilla", "guardar"])
+        actions.extend(["resultados", "goleadores", "asistidores", "plantilla", "guardar"])
 
         status = (
             f"{tournament.TITLE}. {phase}. "
@@ -204,6 +205,11 @@ def run_league_hub(ctx: GameContext, tournament: NationsLeague) -> None:
             ctx.ui.reader(
                 "Goleadores del torneo",
                 tournament.top_scorers(20) or ["Todavía no hay goles"],
+            )
+        elif act == "asistidores":
+            ctx.ui.reader(
+                "Asistidores del torneo",
+                tournament.top_assists(20) or ["Todavía no hay pases de gol"],
             )
         elif act == "plantilla":
             ctx.ui.reader(

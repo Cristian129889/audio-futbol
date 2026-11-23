@@ -568,6 +568,19 @@ class NationsLeague:
                 out.append(line)
         return out
 
+    def top_assists(self, limit: int = 15) -> list[str]:
+        entries = [
+            (p.assists, p.name, t.name)
+            for t in self.teams
+            for p in t.players
+            if p.assists > 0
+        ]
+        entries.sort(key=lambda item: (-item[0], item[1]))
+        return [
+            f"{idx + 1}. {name}, de {team}, {n} pase{'' if n == 1 else 's'} de gol"
+            for idx, (n, name, team) in enumerate(entries[:limit])
+        ]
+
     def top_scorers(self, limit: int = 15) -> list[str]:
         entries = [
             (p.goals, p.name, t.name)

@@ -81,11 +81,14 @@ def run_world_cup_hub(ctx: GameContext, wc: WorldCup) -> None:
                 "Ver resultados de esta fase",
                 "Ver el sorteo",
                 "Goleadores del torneo",
+                "Asistidores del torneo",
                 "Mi plantilla",
                 "Guardar y volver al menú",
             ]
         )
-        actions.extend(["resultados", "sorteo", "goleadores", "plantilla", "guardar"])
+        actions.extend(
+            ["resultados", "sorteo", "goleadores", "asistidores", "plantilla", "guardar"]
+        )
 
         status = f"Mundial. {phase}. Tu selección es {wc.user_team.name}."
         if wc.user_eliminated:
@@ -153,6 +156,11 @@ def run_world_cup_hub(ctx: GameContext, wc: WorldCup) -> None:
             ctx.ui.reader(
                 "Goleadores del torneo",
                 wc.top_scorers(20) or ["Todavía no hay goles"],
+            )
+        elif act == "asistidores":
+            ctx.ui.reader(
+                "Asistidores del torneo",
+                wc.top_assists(20) or ["Todavía no hay pases de gol"],
             )
         elif act == "plantilla":
             ctx.ui.reader(f"Plantilla de {wc.user_team.name}", squad_lines(wc.user_team))
