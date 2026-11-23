@@ -4,8 +4,22 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import json
+import math
 from pathlib import Path
 from typing import Any
+
+
+def _clamp_unit_float(value: Any, default: float) -> float:
+    """Convert value to a finite float in [0.0, 1.0], falling back to default."""
+    if isinstance(value, bool):
+        return default
+    try:
+        num = float(value)
+    except (TypeError, ValueError):
+        return default
+    if not math.isfinite(num):
+        return default
+    return max(0.0, min(1.0, round(num, 2)))
 
 
 @dataclass
@@ -26,12 +40,17 @@ class GameConfig:
     version_omitida: str = ""
 
     def clamp(self) -> None:
-        self.vol_maestro = max(0.0, min(1.0, round(float(self.vol_maestro), 2)))
-        self.vol_musica = max(0.0, min(1.0, round(float(self.vol_musica), 2)))
-        self.vol_efectos = max(0.0, min(1.0, round(float(self.vol_efectos), 2)))
-        self.vol_ambiente = max(0.0, min(1.0, round(float(self.vol_ambiente), 2)))
-        if self.turno_seg not in (120, 60, 30):
+        self.vol_maestro = _clamp_unit_float(self.vol_maestro, 0.65)
+        self.vol_musica = _clamp_unit_float(self.vol_musica, 0.35)
+        self.vol_efectos = _clamp_unit_float(self.vol_efectos, 0.50)
+        self.vol_ambiente = _clamp_unit_float(self.vol_ambiente, 0.25)
+        self.musica = bool(self.musica)
+        if isinstance(self.turno_seg, bool) or self.turno_seg not in (120, 60, 30):
             self.turno_seg = 60
+        self.gol_visitante = bool(self.gol_visitante)
+        self.var = bool(self.var)
+        self.aviso_tiros = bool(self.aviso_tiros)
+        self.braille = bool(self.braille)
         self.buscar_actualizaciones_al_iniciar = bool(
             self.buscar_actualizaciones_al_iniciar
         )
@@ -72,8 +91,10 @@ class GameConfig:
         self.clamp()
         try:
             path.parent.mkdir(parents=True, exist_ok=True)
-            with path.open("w", encoding="utf-8") as fh:
+            tmp = path.with_suffix(".tmp")
+            with tmp.open("w", encoding="utf-8") as fh:
                 json.dump(self.to_dict(), fh, indent=2, ensure_ascii=False)
+            tmp.replace(path)
             return True
         except Exception:
             return False

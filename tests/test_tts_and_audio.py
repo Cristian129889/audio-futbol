@@ -166,6 +166,21 @@ def test_config_roundtrip_and_clamping(tmp_path: Path) -> None:
     assert loaded.braille is False
 
 
+def test_config_load_recovers_from_corrupted_field_types(tmp_path: Path) -> None:
+    cfg_file = tmp_path / "config.json"
+    cfg_file.write_text(
+        '{"vol_maestro": "invalid", "vol_musica": null, "turno_seg": "bad", "var": 0, "braille": 1}',
+        encoding="utf-8",
+    )
+
+    loaded = GameConfig.load(cfg_file)
+    assert loaded.vol_maestro == 0.65
+    assert loaded.vol_musica == 0.35
+    assert loaded.turno_seg == 60
+    assert loaded.var is False
+    assert loaded.braille is True
+
+
 def test_goal_and_reaction_sfx_stay_audible_when_ambience_is_low() -> None:
     from unittest.mock import MagicMock
 

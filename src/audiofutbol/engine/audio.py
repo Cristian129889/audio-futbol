@@ -90,40 +90,6 @@ SOUND_FALLBACKS: dict[str, str] = {
     "poste": "balon",
 }
 
-EVENT_DISPLAY_NAMES_ES: dict[str, str] = {
-    "silbato": "silbato del árbitro",
-    "silbato_descanso": "silbato de descanso",
-    "silbato_final": "silbato final",
-    "falta": "falta",
-    "gol": "gol",
-    "ovacion": "ovación",
-    "abucheo": "abucheo",
-    "balon": "golpe de balón",
-    "cabezazo": "cabezazo",
-    "barrera": "balón en la barrera",
-    "barrida": "barrida",
-    "regate": "regate",
-    "chilena": "chilena",
-    "choque": "choque",
-    "parada": "parada del portero",
-    "poste": "poste",
-    "tarjeta": "tarjeta amarilla",
-    "tarjeta_roja": "tarjeta roja",
-    "var": "aviso del VAR",
-    "var_confirmado": "VAR confirmado",
-    "var_anulado": "VAR anulado",
-    "cambio": "cambio de jugador y tiempo añadido",
-    "corner": "córner",
-    "penal": "penal",
-    "casi": "ocasión fallada",
-    "tribuna": "ambiente de tribuna",
-    "sorteo": "sorteo",
-    "mover": "mover en menú",
-    "aceptar": "aceptar en menú",
-    "volver": "volver en menú",
-}
-
-
 MASTER_SFX_HEADROOM = 0.40
 MASTER_MUSIC_HEADROOM = 0.34
 MASTER_CROWD_HEADROOM = 0.20
@@ -402,44 +368,3 @@ class AudioEngine:
                 except Exception as exc:
                     logging.getLogger("audiofutbol").warning("Failed to play theme %s: %s", name, exc)
                 return
-
-    def summary_lines(self) -> list[str]:
-        lines = [f"Hay {len(self.files)} archivos de sonido en la carpeta sonidos."]
-        present: list[tuple[str, int]] = []
-        missing: list[tuple[str, int]] = []
-        for event in SOUND_ALIASES:
-            count = len(self.candidates(event))
-            (present if count else missing).append((event, count))
-        for event, count in present:
-            suffix = "" if count == 1 else "s"
-            lines.append(f"{EVENT_DISPLAY_NAMES_ES[event]}: {count} archivo{suffix}")
-        if missing:
-            lines.append(
-                "Sin sonido asignado: "
-                + ", ".join(EVENT_DISPLAY_NAMES_ES[ev] for ev, _ in missing)
-            )
-        unused = [p for p in self.files if p not in self.assigned]
-        lines.append(f"Archivos que no encajan con ningún evento: {len(unused)}")
-        return lines
-
-    def export_sound_list(self) -> Path | None:
-        target = self.paths.sound_list_file
-        try:
-            with target.open("w", encoding="utf-8") as fh:
-                fh.write("ARCHIVOS DE LA CARPETA SONIDOS (archivo -> evento asignado)\n\n")
-                for filepath in self.files:
-                    rel = os.path.relpath(filepath, self.paths.sounds_dir)
-                    fh.write(f"{rel} -> {self.assigned.get(filepath, '(sin asignar)')}\n")
-                fh.write("\nARCHIVOS DE LA CARPETA MUSICA\n\n")
-                if self.paths.music_dir.is_dir():
-                    for root, _, filenames in os.walk(self.paths.music_dir):
-                        for name in sorted(filenames):
-                            rel = os.path.relpath(Path(root) / name, self.paths.music_dir)
-                            fh.write(f"{rel}\n")
-                fh.write("\nARCHIVOS DE LA CARPETA DATOS\n\n")
-                if self.paths.data_dir.is_dir():
-                    for name in sorted(os.listdir(self.paths.data_dir)):
-                        fh.write(f"{name}\n")
-            return target
-        except Exception:
-            return None

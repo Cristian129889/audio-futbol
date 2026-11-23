@@ -83,10 +83,6 @@ class AppPaths:
         return self.base_dir / "sonidos.txt"
 
     @property
-    def sound_list_file(self) -> Path:
-        return self.base_dir / "lista_sonidos.txt"
-
-    @property
     def error_log_file(self) -> Path:
         return self.base_dir / "error.log"
 

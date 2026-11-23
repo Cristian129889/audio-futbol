@@ -8,5 +8,7 @@
   "gol_visitante": true,
   "var": true,
   "aviso_tiros": true,
-  "braille": true
+  "braille": true,
+  "buscar_actualizaciones_al_iniciar": true,
+  "version_omitida": ""
 }
