@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.17.0
+
+- **Sistema táctico completo con nueve esquemas y puestos concretos (aporte de Asuma-Sarutovi)**:
+  - **Nueve esquemas disponibles**: `4-3-3`, `4-4-2`, `4-2-3-1`, `4-5-1`, `4-1-4-1`, `3-5-2`, `3-4-3`, `5-3-2` y `5-4-1`, con puestos específicos (laterales, carrileros, centrales, pivote, interiores, volantes, mediapuntas, extremos y delanteros). Cada jugador posee un puesto natural (columna opcional `puesto` en los CSV, lista de jugadores conocidos o estimación estable) y rinde un poco menos fuera de él.
+  - **Preparación previa al partido**: antes de cada partido que juegas puedes elegir esquema, modificar el once titular y consultar el banquillo, intercambiar posiciones, invertir bandas de laterales/carrileros y extremos/volantes, fijar cobradores de penales, tiros libres y córners, elegir mentalidad en cinco niveles (de muy defensiva a muy ofensiva), revisar rendimiento, ataques por banda y el esquema/once del rival. Lo que ajustas antes del partido se guarda con tu partida.
+  - **Táctica en vivo (`X`) e IA táctica**: la tecla `X` abre el menú táctico completo durante el partido (también accesible desde *Táctica* en los menús de ataque/defensa y en el descanso); el rival elige esquema según la fuerza de ambos equipos y ajusta mentalidad y dibujo a partir del minuto 60 según el marcador.
+  - **Cobradores fijos, juego por bandas, asistencias y tanda uno a uno**: cobradores designados para penales, tiros libres y córners con aviso cuando falta el habitual; centros dirigidos por banda izquierda o derecha y mención del defensor de banda rival; narración y conteo de **asistencias** (con reversión si el VAR anula el gol y tabla de *Asistidores del torneo* en todos los hubs); y tanda de penales bajo la regla uno a uno con elección de lanzadores, igualación tras expulsiones e informe del entrenador de porteros.
+- **Sustituciones realistas, tiempo extra, porteros y dinámicas de partido**:
+  - **Aviso al cuarto árbitro con `C` y cambio adicional en tiempo extra**: durante el juego vivo, `C` avisa al cuarto árbitro (muestra `Cambio pedido` en el HUD y permite cancelar volviendo a pulsar `C`) y abre la sustitución automáticamente en la siguiente detención del juego (falta, saque de banda, saque de meta, córner, fuera de juego, gol, lesión o descanso); en balón detenido abre al instante, y si el partido llega a **tiempo extra**, cada equipo recibe **1 cambio adicional** (de 5 a 6 en torneos oficiales).
+  - **Expulsión de portero y orden real de la alineación**: al expulsar al arquero (tuyo o del rival), si quedan cambios y portero suplente disponible, el juego pide elegir qué jugador de campo sale para que entre el portero suplente; además, `L` y el menú de cambios ordenan siempre el once en cancha por rol activo (`POR -> DEF -> MED -> DEL`).
+  - **Mínimo 2 porteros garantizados en todas las selecciones y clubes**: agregados porteros suplentes para `Lille` (`Arnaud Bodart`) y `Slavia de Praga` (`Jakub Markovič`) en `champions_clubes.csv`, y helper `select_squad()` que preserva al menos 2 porteros dentro del tope de 30 jugadores.
+  - **Integración limpia con `v0.16.0`**: se conservan íntegramente el recuento navegable por secciones (`Espacio` / `Escape`), las dinámicas contextuales de ánimo y tensión del partido, la calibración goleadora, el audio de podio y el actualizador automático vía GitHub Releases.
+
 ## v0.16.0
 
 - **Actualizador integrado y seguro vía API de GitHub Releases**:
