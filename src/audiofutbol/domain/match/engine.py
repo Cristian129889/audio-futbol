@@ -1572,6 +1572,14 @@ class MatchEngine:
                 self.state.add_highlight(
                     "Se va directo a los penales." if skip_et else "Se va al tiempo extra."
                 )
+                if not skip_et:
+                    self.state.grant_extra_time_substitution()
+                    if self.state.max_substitutions is not None:
+                        self._speak(
+                            f"Por el tiempo extra, cada equipo recibe un cambio adicional. "
+                            f"{self.subs.remaining_subs_text(0)}."
+                        )
+                    self.subs.process_pending_substitution("el inicio del tiempo extra")
                 self._sfx("silbato")
                 base_turn = self.state.turn
                 self.state.total_turns = base_turn + (0 if skip_et else 15 * self.state.factor)

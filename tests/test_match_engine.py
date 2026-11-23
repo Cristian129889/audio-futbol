@@ -554,6 +554,62 @@ def test_c_blocked_during_penalty_shootout() -> None:
     assert any("tanda de penales" in m.lower() for m in io.messages)
 
 
+def test_extra_time_grants_one_additional_substitution() -> None:
+    team_a = create_generic_team("Argentina", 84)
+    team_b = create_generic_team("Francia", 84)
+    engine = MatchEngine(team_a, team_b, io=HeadlessMatchIO(), max_substitutions=5, auto=False, prematch_menu=False)
+    engine.state.substitutions_used = [5, 5]
+    assert engine.subs.remaining_subs(0, human=True) == 0
+    assert engine.subs.remaining_subs(1, human=False) == 0
+
+    assert engine.state.grant_extra_time_substitution() is True
+    assert engine.state.max_substitutions == 6
+    assert engine.subs.remaining_subs(0, human=True) == 1
+    assert engine.subs.remaining_subs(1, human=False) == 1
+
+    # Idempotent if called again
+    assert engine.state.grant_extra_time_substitution() is False
+    assert engine.state.max_substitutions == 6
+
+    # Friendly (unlimited subs) keeps max_substitutions=None
+    friendly = MatchEngine(team_a, team_b, io=HeadlessMatchIO(), max_substitutions=None, auto=True)
+    assert friendly.state.grant_extra_time_substitution() is True
+    assert friendly.state.max_substitutions is None
+    assert friendly.subs.remaining_subs(0, human=True) is None
+    assert friendly.subs.remaining_subs(1, human=False) == 6
+
+    # Actual tied knockout match entering extra time grants bonus sub (while skip_et does not)
+    ko_rng = random.Random(31)
+    ko = MatchEngine(
+        team_a, team_b, io=HeadlessMatchIO(rng=ko_rng), knockout=True, max_substitutions=5, auto=True, rng=ko_rng
+    )
+    ko.state.total_turns = 0
+    ko.state.halftime_turn = -1
+    ko.play()
+    assert ko.state.extra_time_sub_bonus == 1
+    assert ko.state.max_substitutions == 6
+
+    skip_rng = random.Random(32)
+    skip_ko = MatchEngine(
+        team_a,
+        team_b,
+        io=HeadlessMatchIO(rng=skip_rng),
+        knockout=True,
+        first_leg=(1, 1),
+        away_goals_rule=False,
+        no_extra_time=True,
+        max_substitutions=5,
+        auto=True,
+        rng=skip_rng,
+    )
+    skip_ko.state.total_turns = 0
+    skip_ko.state.halftime_turn = -1
+    skip_ko.play()
+    assert skip_ko.state.extra_time_sub_bonus == 0
+    assert skip_ko.state.max_substitutions == 5
+
+
+
 
 
 

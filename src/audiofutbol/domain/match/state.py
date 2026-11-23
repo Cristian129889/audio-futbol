@@ -258,6 +258,7 @@ class MatchState:
 
         self.highlights: list[tuple[int, str]] = []
         self.max_substitutions = max_substitutions
+        self.extra_time_sub_bonus: int = 0
         self.substitutions_used: list[int] = [0, 0]
         self.subbed_off: list[set[int]] = [set(), set()]
         self.position_overrides: dict[int, str] = {}  # id(player) -> assigned role if playing out of position
@@ -354,6 +355,15 @@ class MatchState:
         self.fair_play: list[int] = [0, 0]
         self.halftime_snapshot: dict[str, Any] | None = None
         self.last_bicycle_taker: dict[int, Player] = {}
+
+    def grant_extra_time_substitution(self) -> bool:
+        """Grant one additional substitution to both teams upon entering extra time (idempotent)."""
+        if self.extra_time_sub_bonus > 0:
+            return False
+        self.extra_time_sub_bonus = 1
+        if self.max_substitutions is not None:
+            self.max_substitutions += 1
+        return True
 
     def roll(self, p: float) -> bool:
         return prob(p, self.rng)

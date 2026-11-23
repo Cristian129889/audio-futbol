@@ -77,7 +77,11 @@ class SubstitutionManager:
         )
 
     def remaining_subs(self, team_idx: int, human: bool = False) -> int | None:
-        limit = self.state.max_substitutions if (human and team_idx == 0) else 5
+        limit = (
+            self.state.max_substitutions
+            if (human and team_idx == 0)
+            else 5 + self.state.extra_time_sub_bonus
+        )
         if limit is None:
             return None
         return max(0, limit - self.state.substitutions_used[team_idx])
