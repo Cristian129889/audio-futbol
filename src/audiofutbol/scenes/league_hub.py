@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import random
 from typing import Any
 
 from audiofutbol.data.competition_loader import load_competition_data

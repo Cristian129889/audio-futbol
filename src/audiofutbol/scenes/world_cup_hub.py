@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import random
-
 from audiofutbol.domain.competitions.world_cup import GROUP_LETTERS, WorldCup
 from audiofutbol.scenes.base import GameContext
 from audiofutbol.scenes.customize import choose_national_field

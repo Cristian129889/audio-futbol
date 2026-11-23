@@ -1,1 +1,1 @@
-Selecciones fuera del pool del Mundial. Solo aparecen en Partido amistoso. Mismo formato que datos\FORMATO.txt.
+Selecciones fuera del pool oficial de 48 del Mundial. Aparecen en Partido amistoso y en el modo Personalizado del Mundial y de la Liga de Naciones. Mismo formato que datos\FORMATO.txt.

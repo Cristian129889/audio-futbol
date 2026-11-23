@@ -42,6 +42,9 @@ PROTECTED_RELATIVE_PATHS: frozenset[str] = frozenset(
         ".venv",
     }
 )
+_PROTECTED_TOP_LOWER: frozenset[str] = frozenset(
+    p.lower() for p in PROTECTED_RELATIVE_PATHS
+)
 
 
 def parse_version_tuple(raw: str) -> tuple[int, ...]:
@@ -215,7 +218,7 @@ def _is_protected_path(rel_path: Path) -> bool:
     if not parts:
         return True
     top = parts[0].lower()
-    if top in {p.lower() for p in PROTECTED_RELATIVE_PATHS}:
+    if top in _PROTECTED_TOP_LOWER:
         return True
     name_lower = rel_path.name.lower()
     if name_lower.endswith(".sav"):
@@ -507,8 +510,8 @@ class UpdateService:
         - In frozen portable mode (`.exe` on Windows): writes an external batch script in
           `_update_staging/apply_update.bat`, launches it detached, and signals the app to exit
           so `AudioFutbol.exe` and `lib/*.dll` can be replaced and relaunched cleanly.
-        - In source/script mode: if inside a git worktree with `git` available, attempts
-          `git pull --ff-only`; otherwise copies non-protected files directly into `base_dir`.
+        - In source/script mode: copies non-protected files directly into `base_dir`,
+          skipping any bundled `AudioFutbol.exe` and `lib/*.dll` files.
         """
         is_frozen = getattr(sys, "frozen", False) if frozen is None else frozen
         staging_root = self.paths.update_staging_dir

@@ -6,7 +6,6 @@ import hashlib
 import io
 import json
 from pathlib import Path
-import urllib.error
 import zipfile
 
 import pygame
@@ -30,7 +29,7 @@ from audiofutbol.engine.updater import (
     parse_version_tuple,
     safe_extract_zip,
 )
-from audiofutbol.engine.window import GameWindow, QuitRequested
+from audiofutbol.engine.window import GameWindow
 from audiofutbol.scenes.base import GameContext
 from audiofutbol.scenes.updater_scene import (
     check_updates_on_startup_if_ready,

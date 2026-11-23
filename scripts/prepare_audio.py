@@ -9,7 +9,9 @@ overpower NVDA or Windows SAPI5 TTS:
 
 from __future__ import annotations
 
+import argparse
 import math
+import os
 from pathlib import Path
 import random
 import shutil
@@ -235,11 +237,30 @@ def _normalize_ffmpeg(
     subprocess.run(cmd, check=True)
 
 
-def main() -> None:
-    repo_root = Path(__file__).resolve().parents[1]
-    portable_src = Path(
-        r"C:\Users\angel_hmv3h04\Downloads\Compressed\audio futbol veta 14\AudioFutbol_Portable"
+def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Import, synthesize, and EBU R128 loudness-normalize AudioFutbol assets."
     )
+    parser.add_argument(
+        "--source",
+        default=os.environ.get("AUDIOFUTBOL_AUDIO_SOURCE", ""),
+        help=(
+            "Path to the source AudioFutbol_Portable directory containing sonidos/, "
+            "musica/, and temas/ (or set AUDIOFUTBOL_AUDIO_SOURCE)."
+        ),
+    )
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> None:
+    args = _parse_args(argv)
+    repo_root = Path(__file__).resolve().parents[1]
+    if not args.source:
+        raise SystemExit(
+            "Missing source audio directory. Pass --source <path-to-AudioFutbol_Portable> "
+            "or set the AUDIOFUTBOL_AUDIO_SOURCE environment variable."
+        )
+    portable_src = Path(args.source).expanduser().resolve()
     if not portable_src.is_dir():
         raise FileNotFoundError(f"Original portable folder not found: {portable_src}")
 

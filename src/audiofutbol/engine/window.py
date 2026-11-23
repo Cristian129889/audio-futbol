@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-import sys
-from typing import Callable
 
 import pygame
 
@@ -265,10 +263,6 @@ class GameWindow:
                     self._handle_global_keydown(event)
             pygame.time.wait(15)
 
-    def wait_or_skip(self, ms: int) -> bool:
-        """Wait `ms` ms; return True early if Escape or Space is pressed."""
-        return self.wait_or_skip_action(ms) is not None
-
     def wait_or_skip_action(self, ms: int) -> str | None:
         """Wait `ms` ms; return 'escape' on Esc, 'space' on Space, or None on timeout."""
         if self.headless or ms <= 0:
@@ -286,18 +280,3 @@ class GameWindow:
                         return "space"
             pygame.time.wait(15)
         return None
-
-    def wait_enter(self, shortcuts: dict[int, Callable[[], None]] | None = None) -> None:
-        shortcuts = shortcuts or {}
-        while True:
-            key, _ = self.wait_key()
-            if key in (pygame.K_RETURN, pygame.K_KP_ENTER):
-                return
-            if key in shortcuts:
-                shortcuts[key]()
-
-
-def exit_cleanly(window: GameWindow | None = None) -> None:
-    if window is not None:
-        window.close()
-    sys.exit(0)

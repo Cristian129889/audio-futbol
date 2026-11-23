@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from pathlib import Path
-
 from audiofutbol.data.club_pool import build_club_pool
 from audiofutbol.data.competition_loader import StadiumDirectory, load_competition_data
 from audiofutbol.data.csv_loader import (
@@ -13,7 +11,7 @@ from audiofutbol.data.csv_loader import (
     load_national_teams,
     parse_position,
 )
-from audiofutbol.domain.models import Player, Team
+from audiofutbol.domain.models import Team
 from audiofutbol.domain.text import normalize_text, tokenize
 from audiofutbol.engine.paths import AppPaths
 

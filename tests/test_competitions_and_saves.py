@@ -1,4 +1,4 @@
-"""End-to-end simulation and JSON save/load roundtrip tests for all 7 competitions."""
+"""End-to-end simulation and JSON save/load roundtrip tests for all 10 competitions."""
 
 from __future__ import annotations
 

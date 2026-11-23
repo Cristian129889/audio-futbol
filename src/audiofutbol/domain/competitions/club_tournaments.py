@@ -1,4 +1,4 @@
-"""Club competitions: Champions League, Libertadores, Sudamericana, Interamericana, Liga MX."""
+"""Club competitions: Champions League, Libertadores, Sudamericana, Interamericana, Liga MX, Premier League, Liga 1 de Perú, and Custom Club Cup."""
 
 from __future__ import annotations
 
