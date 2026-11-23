@@ -1,151 +1,152 @@
 # AudioFútbol
 
-Audiojuego de fútbol accesible para personas ciegas y con baja visión, con salida directa por **NVDA** (mediante `nvdaControllerClient` DLL), respaldo automático por **Windows SAPI5**, ventana accesible sin consola y audio normalizado.
+Audiojuego de fútbol accesible para personas ciegas y con baja visión en Windows. Se ejecuta sin consola mediante salida directa por **NVDA** (`nvdaControllerClient` DLL), respaldo automático asíncrono por **Windows SAPI5**, ventana gráfica de alto contraste y audio espacial normalizado.
 
-## Características principales
+## Inicio rápido
 
-- **Sin dependencia de consola**: se ejecuta con `pythonw` o como ejecutable `--windowed` sin abrir ventanas negras de terminal, mostrando una ventana accesible de alto contraste con el marcador, el último relato hablado y el menú activo.
-- **Voz TTS prioritaria con NVDA DLL**:
-  - Motor principal: `lib/nvdaControllerClient64.dll` / `lib/nvdaControllerClient32.dll` (habla y soporte opcional de línea Braille).
-  - Respaldo automático no bloqueante: **Windows SAPI5** (asíncrono) si NVDA no está abierto.
-  - Atajos universales de accesibilidad: `Ctrl` silencia la voz al instante y `F2` repite el último mensaje.
-- **Audio normalizado y enriquecido**:
-  - Todos los efectos (`sonidos/`), música (`musica/`) y temas (`temas/`) están normalizados bajo estándar **EBU R128** (`-16.5` a `-22.5 LUFS`) con limitación suave para evitar picos aturdidores y no tapar la voz de NVDA.
-  - Incluye variaciones de silbatos (inicio, falta, penal, descanso, final triple), balón (pase, tiro, córner, cabezazo, barrera, barrida, regate, chilena), tarjetas amarilla y roja, avisos del VAR (revisión, confirmado, anulado), tablero de cambios/tiempo añadido y ambiente de tribuna.
-- **10 competiciones + amistosos y personalización estilo PES/FIFA**:
-  - Mundial (oficial de 48 selecciones o personalizado de 8, 16, 32 o 48 selecciones)
-  - Liga de Naciones (oficial de 48 selecciones o personalizado de 8, 16, 32 o 48 selecciones)
-  - Liga de Campeones de la UEFA 2026-27 (36 clubes, fase de liga, play-off y eliminatorias)
-  - Copa Libertadores 2026 (edición sudamericana o con 4 clubes mexicanos)
-  - Copa Sudamericana 2026
-  - Copa Interamericana 2026 (64 clubes en 16 grupos)
-  - Liga MX Apertura 2026 (18 clubes y liguilla de 8 equipos)
-  - Premier League 2026-27 (20 clubes, 38 jornadas a ida y vuelta sin playoffs)
-  - Liga 1 de Perú 2026 (18 clubes, Apertura + Clausura de 17 fechas, tabla acumulada y playoffs por el título)
-  - Copa de clubes personalizada (8, 16, 32 o 64 clubes elegidos libremente de cualquier liga)
-  - Partido amistoso o eliminatoria rápida (incluyendo selecciones adicionales en `datos/otras_selecciones/`)
-- **Personalizar torneos**: al iniciar cualquier competición de clubes puedes elegir *Personalizar participantes* para reemplazar cualquier club por otro del pool global de 183 clubes con filtro por país conservando el calendario oficial. Para agregar un club propio basta con escribir al menos 11 jugadores en cualquier CSV de `datos/clubes/`. Consulta [COLABORAR.md](COLABORAR.md) para ver la guía completa de creación de plantillas y competiciones.
-- **Partidas guardadas seguras en JSON + compatibilidad con `.sav`**: guardadas en `saves/` de forma portable y resistente a actualizaciones, con detección y migración automática de partidas `.sav` de versiones anteriores (v0.2–v0.14) ubicadas en la carpeta raíz o en `saves/`.
-- **Actualizador integrado con lector de cambios (GitHub Releases)**: verifica actualizaciones en segundo plano al iniciar el juego (configurable) o manualmente desde *Opciones -> Buscar actualizaciones ahora*, te permite leer el *changelog* completo antes de decidir, valida la integridad del paquete por suma **SHA-256** y actualiza automáticamente en caliente conservando intactas tus partidas guardadas (`saves/`, `.sav`) y tu configuración (`config.json`, `sonidos.txt`).
+### Opción 1: versión portable para Windows (recomendada para jugadores)
 
-## Arquitectura del proyecto
+1. Descarga `AudioFutbol_Portable.zip` desde la sección de publicaciones oficiales (*Releases*) en GitHub.
+2. Extrae el contenido en una carpeta con permisos de escritura.
+3. Ejecuta `AudioFutbol.exe`. El juego conserva tus partidas (`saves/`, `.sav`), tu configuración (`config.json`) y tu mapa de sonidos (`sonidos.txt`) entre actualizaciones.
 
-El proyecto separa dominio puro, motor de infraestructura y escenas de presentación:
-
-```text
-src/audiofutbol/
-├── app.py                     # Raíz de composición y ciclo de vida sin consola
-├── domain/                    # Lógica pura de fútbol (sin dependencias de Pygame/OS)
-│   ├── models.py              # Player, Team, MatchResult
-│   ├── match/                 # MatchEngine, MatchState, SetPieceResolver, VarSystem, SubstitutionManager, MatchIO (puerto hexagonal)
-│   └── competitions/          # WorldCup, NationsLeague, ChampionsLeague, GroupCup, LigaMX, scheduling, attendance
-├── engine/                    # Infraestructura
-│   ├── tts/                   # SpeechService (Chain of Responsibility): NvdaDllBackend -> Sapi5Backend
-│   ├── audio.py               # AudioEngine con paneo estéreo, ambiente y música
-│   ├── updater.py             # Actualizador seguro vía API de GitHub Releases + verificación SHA-256
-│   ├── window.py              # Ventana Pygame accesible (HUD alto contraste)
-│   ├── config.py              # Persistencia de config.json
-│   └── paths.py               # Resolución de rutas en código fuente y .exe portable
-├── data/                      # Carga de CSV, JSON de competiciones y SaveManager JSON
-├── ui/                        # Widgets accesibles (menú, lector, confirmación, recuento) y reglas
-└── scenes/                    # Máquina de escenas (menú principal, hubs, opciones, actualizador, partido)
-```
-
-## Instalación y ejecución (entorno Conda `futbol`)
-
-### 1. Crear o activar el entorno Conda
-
-Si ya tienes el entorno creado:
+### Opción 2: ejecución desde código fuente (entorno Conda `futbol`)
 
 ```powershell
-conda activate futbol
-```
-
-Si clonas el repositorio desde cero:
-
-```powershell
+# Clonar y crear el entorno por primera vez
 conda env create -f environment.yml
 conda activate futbol
-```
 
-Instalar el paquete en modo editable (si creaste el entorno manualmente):
-
-```powershell
-pip install -e ".[dev]"
-```
-
-### 2. Jugar sin consola (recomendado)
-
-```powershell
+# Iniciar sin ventana de consola (recomendado)
 pythonw jugar.pyw
 ```
 
-O haciendo doble clic sobre `jugar.pyw` (con Python asociado a `.pyw`), o desde el módulo:
+Si ya creaste el entorno o prefieres usar `pip` en un entorno virtual propio:
 
 ```powershell
+pip install -e ".[dev]"
 pythonw -m audiofutbol
 ```
 
-También puedes iniciar con `python -m audiofutbol` si deseas lanzarlo desde una terminal.
+También puedes iniciar desde terminal con `python -m audiofutbol`.
 
-## Controles principales
+## Accesibilidad, voz y audio
 
-### Menús y lectores
-- `Flecha arriba / abajo`: moverse por las opciones o líneas
-- `Flecha izquierda / derecha`: cambiar valores en Opciones (de 5% en 5% con curva perceptual suave)
-- `Inicio / Fin / RePág / AvPág`: saltar al inicio, final o de 10 en 10
-- `Letras (A-Z)`: saltar por inicial en listas largas (selecciones, clubes)
-- `Enter`: confirmar
-- `Escape`: volver o pausar
-- `Control`: silenciar voz al instante
-- `F2`: repetir el último mensaje
-- `,` / `.`: leer mensaje anterior / siguiente del historial de voz (en cualquier pantalla)
-- `Shift + ,` / `Shift + .`: saltar al primer / último mensaje del historial de voz
+- **Voz prioritaria con NVDA DLL**: detecta automáticamente `lib/nvdaControllerClient64.dll` o `lib/nvdaControllerClient32.dll` según la arquitectura de Python e incluye soporte opcional para línea Braille.
+- **Respaldo automático con Windows SAPI5**: si NVDA no está abierto, la cadena de voz cambia sin bloquear la interfaz a `SAPI.SpVoice` asíncrono.
+- **Ventana accesible sin consola**: muestra el título de pantalla, el motor TTS activo, el estado en vivo del partido, el último mensaje hablado y las opciones del menú en alto contraste.
+- **Audio normalizado EBU R128 y curva perceptual**: los efectos (`sonidos/`), música (`musica/`) y temas (`temas/`) están normalizados entre `-16.5` y `-22.5 LUFS` para no saturar ni tapar la voz del lector de pantalla. Los controles de volumen usan una curva exponencial suave con deslizador maestro y pasos de 5 por ciento.
+- **Guardado seguro y migración heredada**: todas las partidas se guardan en formato JSON versionado dentro de `saves/`. Si existen partidas `.sav` de versiones anteriores (`v0.2`–`v0.14`) en la carpeta raíz o en `saves/`, se detectan y migran automáticamente con un deserializador restringido.
+- **Actualizador integrado vía GitHub Releases**: comprueba actualizaciones al iniciar (configurable) o bajo demanda en Opciones, lee el historial de novedades antes de confirmar, verifica el hash **SHA-256** del paquete y protege frente a *Zip-Slip* sin sobrescribir `saves/`, `.sav`, `config.json` ni `sonidos.txt`.
 
-### Durante un partido
-- **Ataque**: `Q` cambio de frente | `F` pase filtrado | `R` regate | `D` disparo | `B` conducir el balón
-- **Defensa**: `1` presionar arriba | `2` defender en bloque | `3` salir a marcar | `4` preparar contraataque | `5` barrida | `6` falta táctica | `7` trampa del fuera de juego
-- **Táctica y contexto**: `X` cambiar postura táctica en vivo (Equilibrado / Ofensivo / Defensivo) | `N` clima, táctica, carril e impulso del partido
-- **Información**: `M` marcador (y global en vueltas) | `T` minuto | `P` posesión, portador y carril | `G` goles | `A` tarjetas | `E` tiros y tiros a puerta | `S` estadísticas completas (con atajadas, intercepciones y bloqueos)
-- **Gestión**: `C` cambios de jugadores | `L` alineación en campo | `H` hacer tiempo | `V` historial del VAR | `F1` ayuda de atajos
+## Competiciones y personalización
 
-## Pruebas automatizadas
+| Competición | Participantes | Formato |
+|---|---|---|
+| Mundial | 8, 16, 32 o 48 selecciones (oficial o personalizado) | Fase de grupos (en 48 equipos pasan los 2 primeros y 8 mejores terceros), eliminatorias, tercer lugar y final |
+| Liga de Naciones | 8, 16, 32 o 48 selecciones (oficial o personalizado) | Liga a una vuelta, eliminatorias a ida y vuelta (gol de visitante configurable) y final a partido único |
+| Liga de Campeones de la UEFA | 36 clubes | Fase de liga de 8 fechas, play-off del 9 al 24, eliminatorias a ida y vuelta y final única en Madrid |
+| Copa Libertadores | 32 clubes (con 4 clubes mexicanos o solo Sudamérica) | 8 grupos de 4, ida y vuelta sin tiempo extra ni gol de visitante, final única en Montevideo |
+| Copa Sudamericana | 32 clubes (28 sudamericanos y 4 mexicanos) | 8 grupos de 4, ida y vuelta sin tiempo extra ni gol de visitante, final única en Asunción |
+| Copa Interamericana | 64 clubes de toda América | 16 grupos de 4 sorteados en 4 bombos, dieciseisavos a ida y vuelta y final única en Miami |
+| Liga MX | 18 clubes | 17 jornadas y liguilla de 8 equipos a ida y vuelta (desempata mejor posición hasta semifinales) |
+| Premier League | 20 clubes | 38 jornadas a ida y vuelta sin playoffs; zonas europeas y descenso |
+| Liga 1 de Perú | 18 clubes | Apertura y Clausura (17 fechas cada uno con localías invertidas), tabla acumulada y playoffs por el título |
+| Copa de clubes personalizada | 8, 16, 32 o 64 clubes libres | Selección libre desde el pool global de 183 clubes (170 con plantilla real), grupos y eliminatorias |
+| Partido amistoso | 50 selecciones (48 del Mundial y 2 adicionales) | Partido único en formato amistoso o eliminatoria con tiempo extra y penales |
+
+En las competiciones oficiales de clubes puedes activar **Personalizar participantes** antes de iniciar para intercambiar cualquier club conservando el calendario oficial. Para agregar equipos, selecciones o torneos nuevos, consulta la [Guía para colaboradores](COLABORAR.md).
+
+## Controles y atajos
+
+### Atajos globales de accesibilidad
+
+Disponibles en todas las pantallas del juego:
+
+| Tecla | Acción |
+|---|---|
+| `Control` | Silenciar la voz al instante |
+| `F2` | Repetir el último mensaje hablado |
+| `,` (coma) | Leer el mensaje anterior del historial de voz |
+| `.` (punto) | Leer el mensaje siguiente del historial de voz |
+| `Shift + ,` | Saltar al primer mensaje guardado en el historial |
+| `Shift + .` | Saltar al último mensaje guardado en el historial |
+
+### Navegación en menús y lectores
+
+| Tecla | Acción |
+|---|---|
+| `Flecha arriba / abajo` | Moverse entre opciones o líneas |
+| `Flecha izquierda / derecha` | Cambiar valores o activar ajustes en Opciones |
+| `Inicio / Fin` | Ir al primer o último elemento |
+| `RePág / AvPág` | Saltar de 10 en 10 elementos |
+| `Letras (A-Z)` | Saltar por inicial en listas de más de 5 elementos |
+| `Enter` | Confirmar o seleccionar |
+| `Escape` | Volver atrás o abrir el menú de pausa en partido |
+| `Retroceso` | Salir de un lector de líneas o tablas |
+
+### Atajos durante un partido
+
+| Contexto | Teclas |
+|---|---|
+| Ataque (atajos rápidos) | `Q` cambio de frente, `F` pase filtrado, `R` regate, `D` disparo, `B` conducir el balón |
+| Defensa (atajos rápidos) | `1` presionar arriba, `2` defender en bloque, `3` salir a marcar, `4` preparar contraataque, `5` barrida, `6` falta táctica, `7` trampa del fuera de juego |
+| Táctica y contexto | `X` cambiar postura táctica (Equilibrado, Ofensivo, Defensivo), `N` clima, postura rival, carril, ánimo y tensión |
+| Información en vivo | `M` marcador y global, `T` minuto, `P` posesión, zona, carril y portador, `G` goles, `A` tarjetas, `E` tiros y tiros a puerta, `S` estadísticas |
+| Gestión y ayuda | `C` cambios de jugadores, `L` alineación en campo, `H` hacer tiempo, `V` historial del VAR, `F1` ayuda de atajos |
+| Resumen y recuento | `Espacio` salta a la siguiente sección (goles, jugadas, estadísticas), `Escape` cancela la narración |
+
+## Menú de Opciones
+
+El menú de **Opciones** está organizado por categorías para facilitar la navegación con lector de pantalla:
+
+| Categoría | Ajustes disponibles |
+|---|---|
+| Audio | Volumen maestro, interruptor general de música, volumen de música, volumen de efectos y volumen del ambiente de tribuna (ajustes de 5 en 5 por ciento) |
+| Partido y reglas | Duración de cada jugada (2 minutos, 1 minuto o 30 segundos), VAR, aviso de tiros a puerta y gol de visitante en la Liga de Naciones |
+| Voz y accesibilidad | Salida a línea Braille con NVDA y prueba de voz con estado de la DLL |
+| Actualizaciones | Búsqueda manual en GitHub Releases con lector de cambios e interruptor de búsqueda automática al iniciar |
+| Leer las reglas del juego | Lector interactivo con el reglamento completo y controles |
+
+## Arquitectura del proyecto
+
+El código sigue una arquitectura modular que separa el dominio puro de fútbol, el motor de infraestructura, los datos y la capa de presentación:
+
+| Ruta | Responsabilidad |
+|---|---|
+| [src/audiofutbol/app.py](src/audiofutbol/app.py) | Raíz de composición, registro de errores sin consola y ciclo de vida |
+| [src/audiofutbol/domain/](src/audiofutbol/domain/models.py) | Entidades (`Player`, `Team`, `MatchResult`), motor de partido (`match/`) y competiciones (`competitions/`), sin dependencias de Pygame ni del sistema operativo |
+| [src/audiofutbol/engine/](src/audiofutbol/engine/paths.py) | Infraestructura: rutas (`paths.py`), configuración (`config.py`), audio (`audio.py`), ventana HUD (`window.py`), cadena TTS (`tts/`) y actualizador (`updater.py`) |
+| [src/audiofutbol/data/](src/audiofutbol/data/save_manager.py) | Lectores de CSV/JSON (`csv_loader.py`, `competition_loader.py`, `club_pool.py`) y persistencia JSON segura (`save_manager.py`) |
+| [src/audiofutbol/ui/](src/audiofutbol/ui/widgets.py) | Widgets accesibles (`AudioUI`: menú, lector, confirmación y recuento por secciones) y textos de reglas (`rules_text.py`) |
+| [src/audiofutbol/scenes/](src/audiofutbol/scenes/base.py) | Máquina de escenas: menú principal, hubs de torneos, personalización, amistosos, partido, opciones y actualizador |
+| `datos/` y `competiciones/` | Bases CSV de selecciones y clubes, estadios y calendarios/participantes en JSON |
+| `sonidos/`, `musica/` y `temas/` | Recursos de audio normalizados y mapeados mediante `sonidos.txt` |
+| `scripts/` y `tests/` | Scripts de compilación/limpieza/audio y suite automatizada con `pytest` |
+
+## Desarrollo, pruebas y compilación
 
 ```powershell
 conda activate futbol
+
+# Ejecutar toda la suite automatizada
 pytest -v
-```
 
-## Compilar ejecutable portable sin consola (`.exe`)
-
-Forma automática (prepara entorno Conda `futbol` o `.venv`, instala dependencias, corre pruebas y compila):
-
-```powershell
+# Compilar ejecutable portable sin consola (.exe y .zip)
 .\scripts\setup_and_build.ps1
-```
 
-Opciones útiles:
-- `.\scripts\setup_and_build.ps1 -UseVenv` usa un entorno virtual local `.venv` en lugar de Conda.
-- `.\scripts\setup_and_build.ps1 -CleanAfter` borra `build/`, `dist/` y `.spec` al terminar.
-- `.\scripts\setup_and_build.ps1 -SkipTests` omite `pytest` antes de compilar.
-
-También puedes compilar manualmente desde el entorno activo:
-
-```powershell
-conda activate futbol
-python scripts/build_exe.py
-```
-
-Genera `AudioFutbol_Portable/AudioFutbol.exe` (sin ventana de consola) y `AudioFutbol_Portable.zip` listo para publicar como release en GitHub.
-
-## Limpiar archivos de compilación
-
-Para borrar `build/`, `dist/`, `AudioFutbol_Portable/`, `AudioFutbol_Portable.zip`, `.spec` y cachés sin tocar tus partidas guardadas ni tu configuración:
-
-```powershell
+# Limpiar artefactos de compilación sin tocar saves/ ni config.json
 .\scripts\clean.ps1
 ```
 
+Opciones de `.\scripts\setup_and_build.ps1`:
+
+- `-UseVenv`: usa `.venv` local en lugar del entorno Conda `futbol`.
+- `-CleanAfter`: elimina `build/`, `dist/` y `AudioFutbol.spec` al finalizar.
+- `-SkipTests`: omite `pytest` antes de compilar.
+
+También puedes compilar directamente con `python scripts/build_exe.py` dentro del entorno activo. Para reglas detalladas de contribución en código consulta [AGENTS.md](AGENTS.md), y para el historial de versiones revisa [CHANGELOG.md](CHANGELOG.md).
+
 ## Licencias de terceros
 
-Las DLL del cliente controlador de NVDA incluidas en `lib/` se distribuyen bajo la licencia oficial de NVDA (`lib/LICENCIA_NVDA_controllerClient.txt`).
+Las DLL del cliente controlador de NVDA incluidas en `lib/` se distribuyen bajo la licencia oficial de NVDA en [lib/LICENCIA_NVDA_controllerClient.txt](lib/LICENCIA_NVDA_controllerClient.txt).
