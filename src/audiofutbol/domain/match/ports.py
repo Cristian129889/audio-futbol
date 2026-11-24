@@ -6,6 +6,8 @@ from dataclasses import dataclass
 import random
 from typing import Callable, Protocol
 
+from audiofutbol.domain.match.board import FormationRowView, FormationSlotView
+
 
 @dataclass(frozen=True)
 class MatchSettings:
@@ -59,6 +61,18 @@ class MatchIO(Protocol):
     ) -> int | None:
         """Present a choice menu; return chosen index or None on Escape."""
 
+    def choose_formation(
+        self,
+        title: str,
+        rows: list[FormationRowView],
+        status_line: str = "",
+        shortcuts: dict[str, Callable[[], str | None]] | None = None,
+        initial_slot_id: str | None = None,
+        allow_remove: bool = False,
+        allow_swap_key: bool = False,
+    ) -> tuple[str, str] | None:
+        """Present a 2D spatial tactical formation board; return (action, slot_id) or None."""
+
     def confirm(self, question: str) -> bool:
         """Present a Yes/No confirmation prompt."""
 
@@ -79,12 +93,16 @@ class HeadlessMatchIO:
         self,
         rng: random.Random | None = None,
         decision_callback: Callable[[str, list[str]], int | None] | None = None,
+        formation_callback: Callable[[str, list[FormationRowView]], tuple[str, str] | None]
+        | None = None,
     ) -> None:
         self._rng = rng or random.Random()
         self._decision_callback = decision_callback
+        self._formation_callback = formation_callback
         self.messages: list[str] = []
         self.sfx_events: list[str] = []
         self.reader_calls: list[tuple[str, list[str]]] = []
+        self.formation_calls: list[tuple[str, list[FormationRowView]]] = []
 
     def speak(self, text: str, interrupt: bool = False) -> None:
         self.messages.append(text)
@@ -126,6 +144,49 @@ class HeadlessMatchIO:
         if self._decision_callback is not None:
             return self._decision_callback(title, options)
         return self._rng.randrange(len(options)) if options else None
+
+    def choose_formation(
+        self,
+        title: str,
+        rows: list[FormationRowView],
+        status_line: str = "",
+        shortcuts: dict[str, Callable[[], str | None]] | None = None,
+        initial_slot_id: str | None = None,
+        allow_remove: bool = False,
+        allow_swap_key: bool = False,
+    ) -> tuple[str, str] | None:
+        self.formation_calls.append((title, list(rows)))
+        if self._formation_callback is not None:
+            return self._formation_callback(title, rows)
+        tactical_slots: list[FormationSlotView] = [
+            slot for row in rows if not row.is_action_row for slot in row.slots
+        ]
+        all_slots: list[FormationSlotView] = [slot for row in rows for slot in row.slots]
+        if self._decision_callback is not None:
+            pool = tactical_slots or all_slots
+            if not pool:
+                return None
+            idx = self._decision_callback(title, [s.label for s in pool])
+            if idx is None:
+                return None
+            chosen = pool[max(0, min(idx, len(pool) - 1))]
+            return ("select", chosen.slot_id)
+        if allow_remove:
+            occupied_count = sum(1 for s in tactical_slots if s.occupied)
+            if occupied_count < 8:
+                empty_slot = next((s for s in tactical_slots if not s.occupied), None)
+                if empty_slot is not None:
+                    return ("select", empty_slot.slot_id)
+        accept_slot = next((s for s in all_slots if s.slot_id == "action:accept"), None)
+        if accept_slot is not None:
+            return ("select", accept_slot.slot_id)
+        cancel_slot = next((s for s in all_slots if s.slot_id == "action:cancel"), None)
+        if cancel_slot is not None and self._rng.random() < 0.35:
+            return ("select", cancel_slot.slot_id)
+        pool = tactical_slots or all_slots
+        if not pool:
+            return None
+        return ("select", self._rng.choice(pool).slot_id)
 
     def confirm(self, question: str) -> bool:
         return True

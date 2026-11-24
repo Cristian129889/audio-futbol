@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any, Callable
 
 from audiofutbol.domain.competitions.attendance import calculate_attendance
+from audiofutbol.domain.match.board import FormationRowView
 from audiofutbol.domain.match.engine import MatchEngine
 from audiofutbol.domain.models import format_result_text
 from audiofutbol.scenes.base import GameContext
@@ -60,6 +61,26 @@ class PygameMatchIO:
             shortcuts=map_shortcut_keys(shortcuts),
             initial_index=initial_index,
             quick_keys=map_quick_keys(quick_keys),
+        )
+
+    def choose_formation(
+        self,
+        title: str,
+        rows: list[FormationRowView],
+        status_line: str = "",
+        shortcuts: dict[str, Callable[[], str | None]] | None = None,
+        initial_slot_id: str | None = None,
+        allow_remove: bool = False,
+        allow_swap_key: bool = False,
+    ) -> tuple[str, str] | None:
+        return self.ctx.ui.formation_board(
+            title,
+            rows,
+            status_line=status_line,
+            shortcuts=map_shortcut_keys(shortcuts),
+            initial_slot_id=initial_slot_id,
+            allow_remove=allow_remove,
+            allow_swap_key=allow_swap_key,
         )
 
     def confirm(self, question: str) -> bool:

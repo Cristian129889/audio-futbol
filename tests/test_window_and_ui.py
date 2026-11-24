@@ -6,6 +6,7 @@ import ast
 
 import pygame
 
+from audiofutbol.domain.match.board import FormationRowView, FormationSlotView
 from audiofutbol.engine.audio import AudioEngine
 from audiofutbol.engine.config import GameConfig
 from audiofutbol.engine.paths import AppPaths
@@ -151,4 +152,72 @@ def test_recap_escape_cancels_narration_but_still_shows_post_recap_menu() -> Non
     assert "Recuento cancelado." in spoken_msgs
     assert "Minuto 70. Gol de Morata, de España." not in spoken_msgs
     assert any("Fin del recuento" in msg for msg in spoken_msgs)
+
+
+def test_formation_board_navigation_audio_cues_and_boundaries() -> None:
+    backend = NullSpeechBackend()
+    speech = SpeechService([backend])
+    window = GameWindow(speech, headless=True)
+    audio = AudioEngine(AppPaths.detect(), GameConfig(), init_mixer=False)
+
+    ting_calls: list[tuple[float, float, bool]] = []
+    edge_calls: list[float] = []
+    audio.play_board_ting = lambda pan=0.0, pitch_ratio=0.0, is_line_end=False: ting_calls.append(  # type: ignore[method-assign]
+        (round(pan, 2), round(pitch_ratio, 2), is_line_end)
+    )
+    audio.play_board_edge = lambda pan=0.0: edge_calls.append(round(pan, 2))  # type: ignore[method-assign]
+
+    ui = AudioUI(speech, audio, window)
+    rows = [
+        FormationRowView(
+            name="Portería",
+            pitch_ratio=0.0,
+            slots=(FormationSlotView("slot:0", "Portero: Dibu Martínez", "POR: Dibu", 0.0),),
+        ),
+        FormationRowView(
+            name="Zona defensiva",
+            pitch_ratio=0.33,
+            slots=(
+                FormationSlotView("slot:1", "Lateral izquierdo: Tagliafico", "LI: Tagliafico", -1.0),
+                FormationSlotView("slot:2", "Central izquierdo: Lisandro", "CEI: Lisandro", -0.33),
+                FormationSlotView("slot:3", "Central derecho: Romero", "CED: Romero", 0.33),
+                FormationSlotView("slot:4", "Lateral derecho: Molina", "LD: Molina", 1.0),
+            ),
+        ),
+        FormationRowView(
+            name="Confirmar",
+            pitch_ratio=1.0,
+            is_action_row=True,
+            slots=(FormationSlotView("action:accept", "Aceptar alineación", "Aceptar", 0.0, is_action=True),),
+        ),
+    ]
+
+    keys = iter(
+        [
+            (pygame.K_DOWN, ""),   # enter Zona defensiva header
+            (pygame.K_RIGHT, ""),  # LI (-1.0)
+            (pygame.K_RIGHT, ""),  # CEI (-0.33)
+            (pygame.K_RIGHT, ""),  # CED (+0.33)
+            (pygame.K_RIGHT, ""),  # LD (+1.0, line_end=True)
+            (pygame.K_RIGHT, ""),  # past right edge -> boundary beep
+            (pygame.K_DOWN, ""),   # Confirmar / Aceptar
+            (pygame.K_RETURN, "\r"),
+        ]
+    )
+    window.wait_key = lambda: next(keys)  # type: ignore[method-assign]
+
+    result = ui.formation_board("Alineación 4-3-3", rows)
+    assert result == ("select", "action:accept")
+    assert ting_calls == [
+        (0.0, 0.0, False),
+        (-1.0, 0.33, False),
+        (-0.33, 0.33, False),
+        (0.33, 0.33, False),
+        (1.0, 0.33, True),
+    ]
+    assert edge_calls == [1.0]
+    spoken_msgs = [msg for msg, _ in backend.spoken]
+    assert any("Zona defensiva, 4 posiciones" in m for m in spoken_msgs)
+    assert any("Fin de zona defensiva." in m for m in spoken_msgs)
+
 

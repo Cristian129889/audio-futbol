@@ -209,3 +209,42 @@ def test_goal_and_reaction_sfx_stay_audible_when_ambience_is_low() -> None:
     trib_left, _ = mock_channel.set_volume.call_args[0]
     assert trib_left < 0.001
 
+
+def test_board_ting_and_edge_use_equal_power_stereo_pan_and_perceptual_gain() -> None:
+    from unittest.mock import MagicMock
+
+    paths = AppPaths.detect()
+    cfg = GameConfig(vol_maestro=0.80, vol_efectos=0.50)
+    audio = AudioEngine(paths, cfg, init_mixer=False)
+    audio.ok = True
+    audio._pygame = MagicMock()
+    audio._pygame.mixer.get_init.return_value = (44100, -16, 2)
+
+    built_buffers: list[bytes] = []
+
+    def fake_sound(buffer: bytes):
+        built_buffers.append(buffer)
+        snd = MagicMock()
+        snd.play.return_value = MagicMock()
+        return snd
+
+    audio._pygame.mixer.Sound.side_effect = fake_sound
+
+    ch_left = audio.play_board_ting(pan=-1.0, pitch_ratio=0.0, is_line_end=False)
+    l_vol, r_vol = ch_left.set_volume.call_args[0]
+    assert l_vol > 0.0 and r_vol == 0.0 or r_vol < 1e-6
+
+    ch_center = audio.play_board_ting(pan=0.0, pitch_ratio=0.5, is_line_end=False)
+    cl_vol, cr_vol = ch_center.set_volume.call_args[0]
+    assert abs(cl_vol - cr_vol) < 1e-6
+
+    ch_end = audio.play_board_ting(pan=1.0, pitch_ratio=1.0, is_line_end=True)
+    el_vol, er_vol = ch_end.set_volume.call_args[0]
+    assert el_vol < 1e-6 and er_vol > 0.0
+    assert len(built_buffers[-1]) > len(built_buffers[0])
+
+    ch_edge = audio.play_board_edge(pan=1.0)
+    edge_l, edge_r = ch_edge.set_volume.call_args[0]
+    assert edge_l < 1e-6 and abs(edge_r - er_vol) < 1e-6
+
+

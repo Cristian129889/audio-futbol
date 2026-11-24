@@ -13,8 +13,19 @@ from audiofutbol.domain.formations import (
     family_of,
     fit,
     fit_text,
+    group_of,
     preferred_role_text,
     role_text,
+    scheme_slot_codes,
+)
+from audiofutbol.domain.match.board import (
+    MIN_STARTING_PLAYERS,
+    FormationRowView,
+    FormationSlotView,
+    build_live_board_rows,
+    build_prematch_board_rows,
+    format_quality,
+    yellow_card_badge,
 )
 from audiofutbol.domain.match.ports import MatchIO
 from audiofutbol.domain.match.state import MatchState
@@ -100,8 +111,10 @@ class TacticsManager:
 
     def lineup_lines(self) -> list[str]:
         st = self.state
+        avg_txt = format_quality(st.lineup_average_quality(0, include_fatigue=True))
         out = [
-            f"Esquema {st.scheme_label(0)}. Mentalidad {MENTALITY_NAMES[st.mentality(0)]}."
+            f"Esquema {st.scheme_label(0)}. Mentalidad {MENTALITY_NAMES[st.mentality(0)]}. "
+            f"Calidad media {avg_txt}."
         ]
         out += self.formation_lines(0)
         out.append(
@@ -131,6 +144,8 @@ class TacticsManager:
                 extra = ", sancionado"
             elif id(p) in st.subbed_off[0]:
                 extra = ", ya salió del partido"
+            else:
+                extra = yellow_card_badge(p, in_match=False)
             out.append(f"{p.name}, {preferred_role_text(p)}, calidad {p.overall}{extra}")
         return out or ["No tienes suplentes."]
 
@@ -171,20 +186,30 @@ class TacticsManager:
         return out + self.formation_lines(1)
 
     # ------------------------------------------------------------ Core Mutations
-    def apply_scheme(self, idx: int, new: str, persist: bool = False) -> None:
+    def apply_scheme(
+        self,
+        idx: int,
+        new: str,
+        persist: bool = False,
+        keep_current_xi: bool = False,
+    ) -> None:
         st = self.state
         team = self._team(idx)
         for p in st.xi[idx]:
             st.slot.pop(id(p), None)
+            st.fit.pop(id(p), None)
             st.position_overrides.pop(id(p), None)
         st.scheme[idx] = new
         if persist:
             team.scheme = new
             team.positions = {}
-            st.xi[idx] = team.lineup(new)
+            if not keep_current_xi:
+                st.xi[idx] = team.lineup(new)
             team.lineup_names = [p.name for p in st.xi[idx]]
-        st.assign_slots(idx, use_fixed=persist)
+        st.assign_slots(idx, use_fixed=persist and not keep_current_xi)
         st.sort_lineup(idx)
+        if persist and keep_current_xi and idx == 0:
+            self._save_positions()
         st.ratings[idx] = st.compute_ratings(idx)
         if idx == 0:
             self.io.update_hud(st.hud_status())
@@ -245,9 +270,27 @@ class TacticsManager:
         if k is None or k >= len(SCHEME_ORDER) or SCHEME_ORDER[k] == st.scheme[0]:
             return
         new = SCHEME_ORDER[k]
-        self.apply_scheme(0, new, persist=prematch)
-        if not prematch:
-            st.lost_seconds += 20
+        if prematch:
+            if self.io.confirm(
+                "¿Deseas limpiar tu alineación y colocar los jugadores manualmente?"
+            ):
+                st.clear_lineup(0, new_scheme=new, persist=True)
+                self.io.update_hud(st.hud_status())
+                self._tell(
+                    f"Esquema {new}. Alineación limpia. Coloca al menos "
+                    f"{MIN_STARTING_PLAYERS} jugadores para poder empezar el partido."
+                )
+                self._lineup_board()
+                return
+            self.apply_scheme(0, new, persist=True, keep_current_xi=True)
+            avg_txt = format_quality(st.lineup_average_quality(0, include_fatigue=False))
+            self._tell(
+                f"Esquema {new}. Tus jugadores se reacomodaron al nuevo esquema. "
+                f"Calidad media {avg_txt}. " + ". ".join(self.formation_lines(0))
+            )
+            return
+        self.apply_scheme(0, new, persist=False)
+        st.lost_seconds += 20
         self._tell(f"Esquema {new}. " + ". ".join(self.formation_lines(0)))
 
     def _mentality_menu(self, prematch: bool) -> None:
@@ -270,32 +313,139 @@ class TacticsManager:
 
     def _move_menu(self, persist: bool) -> None:
         st = self.state
-        pos = 0
+        if persist:
+            self._move_menu_prematch()
+            return
+        swap_player: Player | None = None
+        last_slot_id: str | None = None
         while True:
             field = [p for p in st.xi[0] if st.slot.get(id(p)) not in (None, "POR")]
             if len(field) < 2:
                 self._tell("No hay jugadores que mover.")
                 return
-            ops = [f"{p.name}, {st.slot_text(p)}" for p in field] + ["Terminar"]
-            k = self._menu(
-                "Mover jugadores. ¿A quién quieres cambiar de posición?",
-                ops,
-                pos,
-                prematch=persist,
+            rows = build_live_board_rows(
+                st,
+                0,
+                action_label="Terminar",
+                exclude_gk=True,
+                include_fatigue=True,
+                swap_source_player=swap_player,
             )
-            if k is None or k >= len(field):
+            title = (
+                f"Mover jugadores. Elige con quién intercambiar a {swap_player.name}"
+                if swap_player is not None
+                else "Mover jugadores en el esquema. Elige al primero para intercambiar"
+            )
+            res = self.io.choose_formation(
+                title,
+                rows,
+                status_line=self._board_status_line(include_fatigue=True),
+                shortcuts={"i": lambda: self._announce_board_summary(include_fatigue=True)},
+                initial_slot_id=last_slot_id,
+                allow_remove=False,
+                allow_swap_key=False,
+            )
+            if res is None:
+                if swap_player is not None:
+                    swap_player = None
+                    self._tell("Intercambio cancelado.")
+                    continue
                 return
-            pos = k
-            a = field[k]
-            others = [p for p in field if p is not a]
-            k2 = self._menu(
-                f"{a.name} juega de {st.slot_text(a)}. ¿Con quién intercambia su puesto?",
-                [f"Intercambiar con {p.name}, {st.slot_text(p)}" for p in others],
-                prematch=persist,
-            )
-            if k2 is None:
+            _action, slot_id = res
+            if slot_id == "action:cancel":
+                return
+            last_slot_id = slot_id
+            if not slot_id.startswith("player:"):
                 continue
-            self._swap(a, others[k2], persist)
+            pid = int(slot_id.split(":", 1)[1])
+            picked = next((p for p in field if id(p) == pid), None)
+            if picked is None:
+                continue
+            if swap_player is None:
+                swap_player = picked
+                self._tell(
+                    f"Seleccionado {picked.name}, {st.slot_text(picked)}. "
+                    "Ahora elige con quién intercambia su puesto."
+                )
+            elif swap_player is picked:
+                swap_player = None
+                self._tell("Selección cancelada.")
+            else:
+                self._swap(swap_player, picked, persist=False)
+                swap_player = None
+
+    def _move_menu_prematch(self) -> None:
+        st = self.state
+        swap_idx: int | None = None
+        last_slot_id: str | None = None
+        while True:
+            rows = build_prematch_board_rows(
+                st, 0, include_accept=False, swap_source_idx=swap_idx
+            )
+            rows.append(
+                FormationRowView(
+                    name="Acciones",
+                    slots=(
+                        FormationSlotView(
+                            slot_id="action:cancel",
+                            label="Terminar",
+                            short_label="Volver",
+                            pan=0.0,
+                            occupied=True,
+                            is_action=True,
+                        ),
+                    ),
+                    pitch_ratio=1.0,
+                    is_action_row=True,
+                )
+            )
+            codes = scheme_slot_codes(st.scheme[0])
+            slots = list(st.board_slots[0])
+            title = (
+                f"Mover jugadores. Elige con quién intercambiar a {slots[swap_idx].name}"
+                if swap_idx is not None and slots[swap_idx] is not None
+                else "Mover jugadores en el esquema. Elige un jugador"
+            )
+            res = self.io.choose_formation(
+                title,
+                rows,
+                status_line=self._board_status_line(include_fatigue=False),
+                shortcuts={"i": lambda: self._announce_board_summary(include_fatigue=False)},
+                initial_slot_id=last_slot_id,
+                allow_remove=False,
+                allow_swap_key=False,
+            )
+            if res is None:
+                if swap_idx is not None:
+                    swap_idx = None
+                    self._tell("Intercambio cancelado.")
+                    continue
+                return
+            _action, slot_id = res
+            if slot_id == "action:cancel":
+                return
+            last_slot_id = slot_id
+            if not slot_id.startswith("slot:"):
+                continue
+            idx = int(slot_id.split(":", 1)[1])
+            if idx == 0:
+                self._tell("El portero no se intercambia con jugadores de campo.")
+                continue
+            if swap_idx is None:
+                if slots[idx] is None:
+                    self._tell("Esa posición está vacía. Usa Alineación en el esquema para colocar un jugador.")
+                    continue
+                swap_idx = idx
+                self._tell(
+                    f"Seleccionado {slots[idx].name} ({role_text(codes[idx])}). "
+                    "Elige otro puesto para intercambiar o moverlo."
+                )
+            elif swap_idx == idx:
+                swap_idx = None
+                self._tell("Selección cancelada.")
+            else:
+                self._swap_board_slots(swap_idx, idx)
+                swap_idx = None
 
     def _swap_sides(self, families: tuple[str, ...], persist: bool) -> None:
         left, right = self._wide_pairs(families)
@@ -350,60 +500,280 @@ class TacticsManager:
                 team.takers[kind] = chosen.name
                 self._tell(f"{name.lower()} cobrará siempre: {chosen.name}.")
 
-    def _squad_menu(self) -> None:
-        """Before kickoff: swap a starter with an eligible player from the bench."""
+    def _board_status_line(self, include_fatigue: bool = False) -> str:
+        st = self.state
+        avg_txt = format_quality(st.lineup_average_quality(0, include_fatigue=include_fatigue))
+        return f"Esquema {st.scheme[0]} | {len(st.xi[0])}/11 jugadores | Calidad media: {avg_txt}"
+
+    def _announce_board_summary(self, include_fatigue: bool = False) -> None:
+        st = self.state
+        avg_txt = format_quality(st.lineup_average_quality(0, include_fatigue=include_fatigue))
+        line_avgs = st.lineup_line_averages(0)
+        line_names = {"POR": "Portería", "DEF": "Defensa", "MED": "Medio", "DEL": "Ataque"}
+        parts = [f"{line_names[k]} {format_quality(v)}" for k, v in line_avgs.items()]
+        lines_txt = (". Por líneas: " + ", ".join(parts)) if parts else ""
+        warned = [
+            p.name
+            for p in st.xi[0]
+            if p.yellow_cards > 0 or st.match_yellows.get(id(p), 0) > 0
+        ]
+        warn_txt = (
+            f". Con tarjeta amarilla: {', '.join(warned)}" if warned else ". Sin jugadores apercibidos"
+        )
+        self._tell(
+            f"Esquema {st.scheme[0]}, {len(st.xi[0])} de 11 jugadores. "
+            f"Calidad media {avg_txt}{lines_txt}{warn_txt}."
+        )
+
+    def _swap_board_slots(self, idx_a: int, idx_b: int) -> None:
+        st = self.state
+        slots = list(st.board_slots[0])
+        codes = scheme_slot_codes(st.scheme[0])
+        a, b = slots[idx_a], slots[idx_b]
+        slots[idx_a], slots[idx_b] = b, a
+        st.apply_board_slots(0, slots, persist=True)
+        self.io.update_hud(st.hud_status())
+        avg_txt = format_quality(st.lineup_average_quality(0, include_fatigue=False))
+        if a is not None and b is not None:
+            self._tell(
+                f"{a.name} pasa a {role_text(codes[idx_b])}, y {fit_text(st.slot_fit(a))}. "
+                f"{b.name} pasa a {role_text(codes[idx_a])}, y {fit_text(st.slot_fit(b))}. "
+                f"Calidad media {avg_txt}."
+            )
+        elif a is not None:
+            self._tell(
+                f"{a.name} pasa a {role_text(codes[idx_b])}, y {fit_text(st.slot_fit(a))}. "
+                f"Calidad media {avg_txt}."
+            )
+
+    def _pick_bench_for_slot(self, slot_idx: int) -> bool:
         st = self.state
         team = self._team(0)
-        pos = 0
-        while True:
-            xi = list(st.xi[0])
-            ops = [f"{p.name}, {st.slot_text(p)}, calidad {p.overall}" for p in xi] + ["Terminar"]
-            k = self._menu("Tu once. ¿A quién quitas del once?", ops, pos, prematch=True)
-            if k is None or k >= len(xi):
-                return
-            pos = k
-            out = xi[k]
+        codes = scheme_slot_codes(st.scheme[0])
+        code = codes[slot_idx]
+        target_group = group_of(code)
+        on_pitch = {id(p) for p in st.xi[0]}
+        eligible_pool = [
+            p
+            for p in team.players
+            if id(p) not in on_pitch
+            and p.suspended_matches <= 0
+            and id(p) not in st.excluded_suspended[0]
+            and id(p) not in st.subbed_off[0]
+        ]
+        if slot_idx == 0:
+            gks = [p for p in eligible_pool if p.position == "POR"]
+            bench = sorted(gks or eligible_pool, key=lambda p: -p.overall)
+        else:
+            outfield = [p for p in eligible_pool if p.position != "POR"]
             bench = sorted(
-                (
-                    p for p in team.players
-                    if p not in xi
-                    and p.suspended_matches <= 0
-                    and id(p) not in st.excluded_suspended[0]
-                    and id(p) not in st.subbed_off[0]
-                    and p.position == out.position
+                outfield,
+                key=lambda p: (
+                    -fit(p, code),
+                    p.position != target_group,
+                    -p.overall,
                 ),
-                key=lambda p: -p.overall,
             )
-            if not bench:
+        if not bench:
+            self._tell("No tienes jugadores disponibles en el banquillo para ese puesto.")
+            return False
+
+        current = st.board_slots[0][slot_idx]
+        first_opt = (
+            f"Dejar a {current.name} en este puesto"
+            if current is not None
+            else "Dejar el puesto vacío"
+        )
+        ops = [first_opt]
+        for p in bench:
+            badge = yellow_card_badge(p, in_match=False)
+            if slot_idx == 0:
+                fit_note = "" if p.position == "POR" else ", fuera de puesto"
+            else:
+                fit_note = "" if fit(p, code) >= 0.7 else ", fuera de puesto"
+            ops.append(
+                f"{p.name}, {preferred_role_text(p)}, calidad {p.overall}{badge}{fit_note}"
+            )
+        k = self._menu(
+            f"{role_text(code).capitalize()}. ¿A quién colocas aquí?",
+            ops,
+            prematch=True,
+        )
+        if not k:
+            return False
+        chosen = bench[k - 1]
+        slots = list(st.board_slots[0])
+        slots[slot_idx] = chosen
+        st.apply_board_slots(0, slots, persist=True)
+        self.io.update_hud(st.hud_status())
+        avg_txt = format_quality(st.lineup_average_quality(0, include_fatigue=False))
+        self._tell(
+            f"{chosen.name} queda como {role_text(code)}. "
+            f"{fit_text(st.slot_fit(chosen)).capitalize()}. "
+            f"{len(st.xi[0])} de 11 jugadores, calidad media {avg_txt}."
+        )
+        return True
+
+    def _lineup_board(self) -> None:
+        """Interactive 2D spatial board for placing, removing, and moving starters."""
+        st = self.state
+        last_slot_id: str | None = None
+        swap_source_idx: int | None = None
+        while True:
+            rows = build_prematch_board_rows(
+                st,
+                0,
+                include_accept=True,
+                swap_source_idx=swap_source_idx,
+            )
+            title = (
+                f"Alineación {st.scheme[0]} — elige destino para intercambiar"
+                if swap_source_idx is not None
+                else f"Alineación {st.scheme[0]}"
+            )
+            res = self.io.choose_formation(
+                title,
+                rows,
+                status_line=self._board_status_line(include_fatigue=False),
+                shortcuts={"i": lambda: self._announce_board_summary(include_fatigue=False)},
+                initial_slot_id=last_slot_id,
+                allow_remove=True,
+                allow_swap_key=True,
+            )
+            if res is None:
+                if swap_source_idx is not None:
+                    swap_source_idx = None
+                    self._tell("Intercambio cancelado.")
+                    continue
+                return
+            action, slot_id = res
+            last_slot_id = slot_id
+
+            if slot_id == "action:accept":
+                filled = len(st.xi[0])
+                avg_txt = format_quality(st.lineup_average_quality(0, include_fatigue=False))
+                if filled < MIN_STARTING_PLAYERS:
+                    self._tell(
+                        f"No puedes iniciar el partido con {filled} jugadores. "
+                        f"Debes colocar al menos {MIN_STARTING_PLAYERS} jugadores en la alineación."
+                    )
+                    continue
+                if filled < 11:
+                    if st.board_slots[0][0] is None:
+                        q = (
+                            f"Aviso: no colocaste portero y tienes {filled} de 11 jugadores, "
+                            f"calidad media {avg_txt}. ¿Confirmas esta alineación?"
+                        )
+                    else:
+                        q = (
+                            f"Tienes {filled} de 11 jugadores colocados, calidad media {avg_txt}. "
+                            "¿Confirmas esta alineación?"
+                        )
+                    if not self.io.confirm(q):
+                        continue
                 self._tell(
-                    "No tienes otro jugador de esa posición. Si quieres otra distribución, "
-                    "cambia el esquema."
+                    f"Alineación confirmada. {st.scheme[0]}, {filled} jugadores, calidad media {avg_txt}."
+                )
+                return
+
+            if not slot_id.startswith("slot:"):
+                continue
+            idx = int(slot_id.split(":", 1)[1])
+            slots = list(st.board_slots[0])
+            codes = scheme_slot_codes(st.scheme[0])
+
+            if action == "remove":
+                removed = slots[idx]
+                if removed is None:
+                    continue
+                slots[idx] = None
+                st.apply_board_slots(0, slots, persist=True)
+                self.io.update_hud(st.hud_status())
+                avg_txt = format_quality(st.lineup_average_quality(0, include_fatigue=False))
+                self._tell(
+                    f"Quitaste a {removed.name} de {role_text(codes[idx])}. "
+                    f"Quedan {len(st.xi[0])} jugadores, calidad media {avg_txt}."
                 )
                 continue
-            k2 = self._menu(
-                f"Sale {out.name}. ¿Quién entra en su lugar?",
-                [f"Dejar a {out.name} en el once"]
-                + [f"{p.name}, {preferred_role_text(p)}, calidad {p.overall}" for p in bench],
+
+            if action == "swap":
+                if idx == 0:
+                    self._tell(
+                        "El portero no se intercambia con jugadores de campo; "
+                        "pulsa Enter para cambiarlo desde el banquillo."
+                    )
+                    continue
+                if swap_source_idx is None:
+                    if slots[idx] is None:
+                        self._tell("Ese puesto está vacío. Pulsa Enter para colocar un jugador.")
+                        continue
+                    swap_source_idx = idx
+                    self._tell(
+                        f"Seleccionado {slots[idx].name} para intercambiar. "
+                        "Muévete a otro puesto y pulsa Espacio o Enter."
+                    )
+                elif swap_source_idx == idx:
+                    swap_source_idx = None
+                    self._tell("Intercambio cancelado.")
+                else:
+                    self._swap_board_slots(swap_source_idx, idx)
+                    swap_source_idx = None
+                continue
+
+            # action == "select"
+            if swap_source_idx is not None:
+                if idx == 0:
+                    self._tell("El portero no se intercambia con jugadores de campo.")
+                elif swap_source_idx == idx:
+                    swap_source_idx = None
+                    self._tell("Intercambio cancelado.")
+                else:
+                    self._swap_board_slots(swap_source_idx, idx)
+                    swap_source_idx = None
+                continue
+
+            occupant = slots[idx]
+            if occupant is None:
+                self._pick_bench_for_slot(idx)
+                continue
+
+            slot_ops = ["Cambiar por un jugador del banquillo"]
+            slot_acts = ["bench"]
+            if idx != 0:
+                slot_ops.append("Intercambiar posición en el esquema")
+                slot_acts.append("swap")
+            slot_ops.extend(["Quitar del once", "Cancelar"])
+            slot_acts.extend(["remove", "cancel"])
+            badge = yellow_card_badge(occupant, in_match=False)
+            choice = self._menu(
+                f"{role_text(codes[idx]).capitalize()}: {occupant.name}, calidad {occupant.overall}{badge}",
+                slot_ops,
                 prematch=True,
             )
-            if not k2:
+            if choice is None:
                 continue
-            entering = bench[k2 - 1]
-            st.xi[0][st.xi[0].index(out)] = entering
-            code = st.slot.pop(id(out), None)
-            st.position_overrides.pop(id(out), None)
-            if code:
-                st.slot[id(entering)] = code
-                st.fit[id(entering)] = fit(entering, code)
-            st.sync_roles(0)
-            st.sort_lineup(0)
-            team.lineup_names = [p.name for p in st.xi[0]]
-            self._save_positions()
-            st.ratings[0] = st.compute_ratings(0)
-            self._tell(
-                f"{entering.name} entra al once como {st.slot_text(entering)}, en lugar de "
-                f"{out.name}. {fit_text(st.fit[id(entering)]).capitalize()}."
-            )
+            picked_act = slot_acts[choice]
+            if picked_act == "bench":
+                self._pick_bench_for_slot(idx)
+            elif picked_act == "swap":
+                swap_source_idx = idx
+                self._tell(
+                    f"Seleccionado {occupant.name} para intercambiar. "
+                    "Elige el puesto de destino en el esquema."
+                )
+            elif picked_act == "remove":
+                slots[idx] = None
+                st.apply_board_slots(0, slots, persist=True)
+                self.io.update_hud(st.hud_status())
+                avg_txt = format_quality(st.lineup_average_quality(0, include_fatigue=False))
+                self._tell(
+                    f"Quitaste a {occupant.name} de {role_text(codes[idx])}. "
+                    f"Quedan {len(st.xi[0])} jugadores, calidad media {avg_txt}."
+                )
+
+    def _squad_menu(self) -> None:
+        """Before kickoff: edit lineup on the 2D tactical formation board."""
+        self._lineup_board()
 
     # ------------------------------------------------------------------ Menus
     def menu(self, prematch: bool = False) -> None:
@@ -420,11 +790,15 @@ class TacticsManager:
                 ops.append(text)
 
             if prematch:
-                add("start", "Empezar el partido")
+                avg_txt = format_quality(st.lineup_average_quality(0, include_fatigue=False))
+                add("start", f"Empezar el partido ({len(st.xi[0])} jugadores, calidad media {avg_txt})")
             add("scheme", f"Esquema: {st.scheme_label(0)}. Cambiar el esquema")
             add("lineup", "Leer mi once con las posiciones")
             if prematch:
-                add("squad", "Plantilla: quitar jugadores del once y poner a otros")
+                add(
+                    "squad",
+                    f"Alineación en el esquema: poner, quitar y mover jugadores ({len(st.xi[0])} de 11)",
+                )
                 add("bench", "Leer el banquillo")
             if all(self._wide_pairs(("LAT",))):
                 add("lat", "Cambiar de banda a mis laterales o carrileros")
@@ -447,13 +821,31 @@ class TacticsManager:
             k = self._menu(title, ops, min(pos, len(ops) - 1), prematch=prematch)
             if k is None:
                 nones += 1
-                if not prematch or nones >= 3:
+                if not prematch:
+                    return
+                if nones >= 3:
+                    if len(st.xi[0]) < MIN_STARTING_PLAYERS:
+                        self._tell(
+                            f"No puedes iniciar el partido con {len(st.xi[0])} jugadores. "
+                            f"Debes colocar al menos {MIN_STARTING_PLAYERS} jugadores."
+                        )
+                        nones = 0
+                        continue
                     return
                 continue
             nones = 0
             pos = k
             act = acts[k]
-            if act in ("start", "back"):
+            if act == "start":
+                if len(st.xi[0]) < MIN_STARTING_PLAYERS:
+                    self._tell(
+                        f"No puedes iniciar el partido con {len(st.xi[0])} jugadores. "
+                        f"Debes colocar al menos {MIN_STARTING_PLAYERS} jugadores."
+                    )
+                    self._lineup_board()
+                    continue
+                return
+            if act == "back":
                 return
             if act == "scheme":
                 self._scheme_menu(prematch)

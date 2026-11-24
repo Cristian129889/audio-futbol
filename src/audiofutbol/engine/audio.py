@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import array
 import logging
+import math
 import os
 from pathlib import Path
 import random
@@ -135,6 +137,7 @@ class AudioEngine:
         self.assigned: dict[Path, str] = {}
         self.manual: dict[str, list[Path]] = {}
         self._cache: dict[Path, Any] = {}
+        self._synth_cache: dict[tuple[Any, ...], Any] = {}
         self._crowd_channel: Any = None
 
         if init_mixer:
@@ -368,3 +371,149 @@ class AudioEngine:
                 except Exception as exc:
                     logging.getLogger("audiofutbol").warning("Failed to play theme %s: %s", name, exc)
                 return
+
+    @staticmethod
+    def _equal_power_pan(gain: float, pan: float | None) -> tuple[float, float]:
+        """Compute equal-power left/right channel amplitudes for pan in [-1.0, +1.0]."""
+        if pan is None:
+            return gain, gain
+        clamped = max(-1.0, min(1.0, float(pan)))
+        angle = (clamped + 1.0) * (math.pi / 4.0)
+        return gain * math.cos(angle), gain * math.sin(angle)
+
+    def _mixer_format(self) -> tuple[int, int]:
+        try:
+            init = self._pygame.mixer.get_init()
+            if isinstance(init, tuple) and len(init) >= 3:
+                return int(init[0]), int(init[2])
+        except Exception:
+            pass
+        return 44100, 2
+
+    def _build_tone_sound(
+        self,
+        freq_hz: float,
+        duration_ms: int,
+        is_chime: bool,
+        append_edge_hz: float | None = None,
+    ) -> Any:
+        """Synthesize and cache a smooth 16-bit PCM tone for spatial formation navigation."""
+        rate, channels = self._mixer_format()
+        channels = 2 if channels >= 2 else 1
+        key = (round(freq_hz, 1), duration_ms, is_chime, append_edge_hz, rate, channels)
+        if key in self._synth_cache:
+            return self._synth_cache[key]
+
+        total_ms = duration_ms + (95 if append_edge_hz else 0)
+        n_samples = max(1, int(rate * total_ms / 1000))
+        main_samples = max(1, int(rate * duration_ms / 1000))
+        edge_start = max(0, int(rate * 85 / 1000))
+        edge_len = max(1, n_samples - edge_start)
+        samples = array.array("h", [0] * (n_samples * channels))
+        peak = 26000.0
+        attack_n = max(1, int(rate * (0.004 if is_chime else 0.010)))
+        tail_n = max(1, int(rate * (0.008 if is_chime else 0.025)))
+
+        for i in range(n_samples):
+            val = 0.0
+            if i < main_samples:
+                t = i / float(rate)
+                if is_chime:
+                    wave = (
+                        0.78 * math.sin(2.0 * math.pi * freq_hz * t)
+                        + 0.17 * math.sin(2.0 * math.pi * 2.0 * freq_hz * t)
+                        + 0.05 * math.sin(2.0 * math.pi * 3.0 * freq_hz * t)
+                    )
+                    env = math.exp(-t / 0.038)
+                else:
+                    wave = (
+                        0.88 * math.sin(2.0 * math.pi * freq_hz * t)
+                        + 0.12 * math.sin(2.0 * math.pi * 2.0 * freq_hz * t)
+                    )
+                    env = 0.72
+                if i < attack_n:
+                    env *= i / float(attack_n)
+                elif i >= main_samples - tail_n:
+                    env *= max(0.0, (main_samples - i) / float(tail_n))
+                val += wave * env
+
+            if append_edge_hz and i >= edge_start:
+                j = i - edge_start
+                t2 = j / float(rate)
+                wave2 = (
+                    0.88 * math.sin(2.0 * math.pi * append_edge_hz * t2)
+                    + 0.12 * math.sin(2.0 * math.pi * 2.0 * append_edge_hz * t2)
+                )
+                env2 = 0.68
+                e_att = max(1, int(rate * 0.010))
+                e_tail = max(1, int(rate * 0.025))
+                if j < e_att:
+                    env2 *= j / float(e_att)
+                elif j >= edge_len - e_tail:
+                    env2 *= max(0.0, (edge_len - j) / float(e_tail))
+                val += wave2 * env2
+
+            amp = max(-32767, min(32767, int(round(max(-1.0, min(1.0, val)) * peak))))
+            if channels == 2:
+                samples[2 * i] = amp
+                samples[2 * i + 1] = amp
+            else:
+                samples[i] = amp
+
+        try:
+            sound = self._pygame.mixer.Sound(buffer=samples.tobytes())
+        except Exception:
+            sound = None
+        self._synth_cache[key] = sound
+        return sound
+
+    def play_board_ting(
+        self, pan: float = 0.0, pitch_ratio: float = 0.0, is_line_end: bool = False
+    ) -> Any:
+        """Play a spatial stereo chime (`ting`) mapped by row depth and horizontal pan."""
+        if not self.ok or self._pygame is None:
+            return None
+        ratio = max(0.0, min(1.0, float(pitch_ratio)))
+        freq_hz = round(880.0 * ((493.88 / 880.0) ** ratio))
+        sound = self._build_tone_sound(
+            freq_hz=freq_hz,
+            duration_ms=115,
+            is_chime=True,
+            append_edge_hz=220.0 if is_line_end else None,
+        )
+        if sound is None:
+            return None
+        try:
+            channel = sound.play()
+            if channel is not None:
+                gain = perceptual_gain(
+                    self.config.vol_efectos,
+                    master=self.config.vol_maestro,
+                    headroom=MASTER_SFX_HEADROOM,
+                )
+                left, right = self._equal_power_pan(min(1.0, max(0.0, gain)), pan)
+                channel.set_volume(left, right)
+            return channel
+        except Exception:
+            return None
+
+    def play_board_edge(self, pan: float = 0.0) -> Any:
+        """Play a soft, non-intrusive low tone indicating the boundary of a formation line."""
+        if not self.ok or self._pygame is None:
+            return None
+        sound = self._build_tone_sound(freq_hz=220.0, duration_ms=110, is_chime=False)
+        if sound is None:
+            return None
+        try:
+            channel = sound.play()
+            if channel is not None:
+                gain = perceptual_gain(
+                    self.config.vol_efectos,
+                    master=self.config.vol_maestro,
+                    headroom=MASTER_SFX_HEADROOM,
+                )
+                left, right = self._equal_power_pan(min(1.0, max(0.0, gain)), pan)
+                channel.set_volume(left, right)
+            return channel
+        except Exception:
+            return None

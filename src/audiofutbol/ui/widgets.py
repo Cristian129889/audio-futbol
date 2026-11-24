@@ -7,6 +7,7 @@ from typing import Callable
 import pygame
 
 from audiofutbol.domain.formations import preferred_role_text
+from audiofutbol.domain.match.board import FormationRowView
 from audiofutbol.domain.models import POSITION_ORDER, Team
 from audiofutbol.domain.text import normalize_text
 from audiofutbol.engine.audio import AudioEngine
@@ -23,6 +24,7 @@ KEY_NAME_TO_PYGAME: dict[str, int] = {
     "f": pygame.K_f,
     "g": pygame.K_g,
     "h": pygame.K_h,
+    "i": pygame.K_i,
     "l": pygame.K_l,
     "m": pygame.K_m,
     "n": pygame.K_n,
@@ -161,6 +163,174 @@ class AudioUI:
             self.audio.play_sfx("mover")
             self.window.set_view(title, items=items, selected_index=idx)
             self.speech.speak(f"{items[idx]}, {idx + 1} de {total}", interrupt=True)
+
+    def formation_board(
+        self,
+        title: str,
+        rows: list[FormationRowView],
+        status_line: str = "",
+        shortcuts: dict[int, Callable[[], str | None]] | None = None,
+        initial_slot_id: str | None = None,
+        allow_remove: bool = False,
+        allow_swap_key: bool = False,
+    ) -> tuple[str, str] | None:
+        """Interactive 2D tactical formation board with spatial stereo chimes and line cues."""
+        if not rows:
+            return None
+        shortcuts = shortcuts or {}
+        row_idx = 0
+        col_idx = 0 if len(rows[0].slots) == 1 else -1
+        if initial_slot_id is not None:
+            for r_i, r in enumerate(rows):
+                for c_i, s in enumerate(r.slots):
+                    if s.slot_id == initial_slot_id:
+                        row_idx, col_idx = r_i, c_i
+                        break
+
+        board_hud_rows = [
+            (r.name, [s.short_label for s in r.slots], r.is_action_row) for r in rows
+        ]
+        hints = ["Arriba/Abajo: líneas", "Izq/Der: puestos", "Enter: elegir"]
+        if allow_swap_key:
+            hints.append("Espacio: intercambiar")
+        if allow_remove:
+            hints.append("Supr: quitar")
+        if pygame.K_i in shortcuts:
+            hints.append("I: resumen")
+        hints.append("Esc: volver")
+        footer = " | ".join(hints)
+
+        def announce(is_initial: bool = False) -> None:
+            row = rows[row_idx]
+            self.window.set_board_view(
+                title,
+                board_hud_rows,
+                (row_idx, col_idx),
+                status_line=status_line or None,
+                footer_hint=footer,
+            )
+            prefix = f"{title}. " if is_initial else ""
+            if col_idx == -1:
+                if not is_initial:
+                    self.audio.play_sfx("mover")
+                total_slots = len(row.slots)
+                occ = sum(1 for s in row.slots if s.occupied)
+                occ_txt = f", {occ} ocupadas" if occ < total_slots else ""
+                self.speech.speak(
+                    f"{prefix}{row.name}, {total_slots} posiciones{occ_txt}",
+                    interrupt=not is_initial,
+                )
+                return
+
+            slot = row.slots[col_idx]
+            if row.is_action_row:
+                if not is_initial:
+                    self.audio.play_sfx("mover")
+                self.speech.speak(f"{prefix}{slot.label}", interrupt=not is_initial)
+                return
+
+            is_line_end = len(row.slots) > 1 and col_idx == len(row.slots) - 1
+            self.audio.play_board_ting(
+                pan=slot.pan,
+                pitch_ratio=row.pitch_ratio,
+                is_line_end=is_line_end,
+            )
+            if len(row.slots) == 1 or is_initial:
+                msg = f"{prefix}{row.name}. {slot.label}"
+            else:
+                msg = slot.label
+            self.speech.speak(msg, interrupt=not is_initial)
+
+        announce(is_initial=True)
+
+        while True:
+            key, _ = self.window.wait_key()
+            row = rows[row_idx]
+            if key == pygame.K_DOWN:
+                if row_idx < len(rows) - 1:
+                    row_idx += 1
+                    col_idx = 0 if len(rows[row_idx].slots) == 1 else -1
+                    announce()
+                else:
+                    self.audio.play_board_edge(0.0)
+                    self.speech.speak("Fin del esquema.", interrupt=True)
+            elif key == pygame.K_UP:
+                if row_idx > 0:
+                    row_idx -= 1
+                    col_idx = 0 if len(rows[row_idx].slots) == 1 else -1
+                    announce()
+                else:
+                    self.audio.play_board_edge(0.0)
+                    self.speech.speak("Inicio del esquema.", interrupt=True)
+            elif key == pygame.K_RIGHT:
+                if len(row.slots) == 1:
+                    self.audio.play_board_edge(0.0)
+                    self.speech.speak(
+                        f"Única posición en {row.name}. {row.slots[0].label}",
+                        interrupt=True,
+                    )
+                elif col_idx == -1:
+                    col_idx = 0
+                    announce()
+                elif col_idx < len(row.slots) - 1:
+                    col_idx += 1
+                    announce()
+                else:
+                    self.audio.play_board_edge(1.0)
+                    self.speech.speak(f"Fin de {row.name.lower()}.", interrupt=True)
+            elif key == pygame.K_LEFT:
+                if len(row.slots) == 1:
+                    self.audio.play_board_edge(0.0)
+                    self.speech.speak(
+                        f"Única posición en {row.name}. {row.slots[0].label}",
+                        interrupt=True,
+                    )
+                elif col_idx == -1:
+                    col_idx = len(row.slots) - 1
+                    announce()
+                elif col_idx > 0:
+                    col_idx -= 1
+                    announce()
+                else:
+                    self.audio.play_board_edge(-1.0)
+                    self.speech.speak(f"Inicio de {row.name.lower()}.", interrupt=True)
+            elif key == pygame.K_HOME and len(row.slots) > 1:
+                col_idx = 0
+                announce()
+            elif key == pygame.K_END and len(row.slots) > 1:
+                col_idx = len(row.slots) - 1
+                announce()
+            elif key in (pygame.K_RETURN, pygame.K_KP_ENTER):
+                if col_idx == -1:
+                    col_idx = 0
+                    announce()
+                else:
+                    self.audio.play_sfx("aceptar")
+                    return ("select", row.slots[col_idx].slot_id)
+            elif (
+                allow_remove
+                and key in (pygame.K_DELETE, pygame.K_BACKSPACE)
+                and col_idx >= 0
+                and not row.is_action_row
+                and row.slots[col_idx].occupied
+            ):
+                self.audio.play_sfx("volver")
+                return ("remove", row.slots[col_idx].slot_id)
+            elif (
+                allow_swap_key
+                and key == pygame.K_SPACE
+                and col_idx >= 0
+                and not row.is_action_row
+            ):
+                self.audio.play_sfx("mover")
+                return ("swap", row.slots[col_idx].slot_id)
+            elif key == pygame.K_ESCAPE:
+                self.audio.play_sfx("volver")
+                return None
+            elif key in shortcuts:
+                res = shortcuts[key]()
+                if res == "releer":
+                    announce()
 
     def reader(self, title: str, lines: list[str]) -> None:
         """Read a list of lines interactively with arrow keys. Escape/Backspace exits."""
