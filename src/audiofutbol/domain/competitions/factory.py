@@ -12,6 +12,7 @@ from audiofutbol.domain.competitions.club_tournaments import (
     CopaPersonalizada,
     CopaSudamericana,
     Liga1Peru,
+    LigaArgentina,
     LigaMX,
     PremierLeague,
 )
@@ -114,6 +115,19 @@ CLUB_COMPETITIONS: dict[str, ClubCompetitionSpec] = {
             "tabla acumulada. Los dos últimos del acumulado descienden."
         ),
     ),
+    "liga_argentina": ClubCompetitionSpec(
+        key="liga_argentina",
+        title="Liga Profesional Argentina",
+        menu_label="Liga Profesional Argentina",
+        json_filename="liga_argentina_2025.json",
+        cls=LigaArgentina,
+        intro_text=(
+            "Liga Profesional Argentina con 20 clubes. Son 38 jornadas, todos contra todos "
+            "a ida y vuelta. No hay playoffs: el que termina primero es el campeón. "
+            "Los cuatro primeros clasifican a la Libertadores, del quinto al noveno a la "
+            "Sudamericana y los dos últimos descienden."
+        ),
+    ),
 }
 
 SAVE_SLOTS: tuple[tuple[str, str], ...] = (
@@ -126,6 +140,7 @@ SAVE_SLOTS: tuple[tuple[str, str], ...] = (
     ("ligamx", "Liga MX"),
     ("premier", "Premier League"),
     ("liga1", "Liga 1 de Perú"),
+    ("liga_argentina", "Liga Profesional Argentina"),
     ("copa_personalizada", "Copa personalizada"),
 )
 
@@ -139,6 +154,7 @@ _CLASS_BY_TYPE: dict[str, type[Any]] = {
     "ligamx": LigaMX,
     "premier": PremierLeague,
     "liga1": Liga1Peru,
+    "liga_argentina": LigaArgentina,
     "copa_personalizada": CopaPersonalizada,
 }
 

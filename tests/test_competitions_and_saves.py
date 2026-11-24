@@ -15,6 +15,7 @@ from audiofutbol.domain.competitions.club_tournaments import (
     CopaPersonalizada,
     CopaSudamericana,
     Liga1Peru,
+    LigaArgentina,
     LigaMX,
     PremierLeague,
 )
@@ -89,6 +90,7 @@ def test_all_club_competitions_simulate_and_serialize(tmp_path: Path) -> None:
         ("ligamx_apertura_2026.json", LigaMX),
         ("premier_league_2026_27.json", PremierLeague),
         ("liga1_peru_2026.json", Liga1Peru),
+        ("liga_argentina_2025.json", LigaArgentina),
     ]
     for json_file, cls in cases:
         data, eqs = load_competition_data(paths, json_file)

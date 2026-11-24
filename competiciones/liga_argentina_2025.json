@@ -1,15 +1,15 @@
 {
   "id": "liga_argentina_2025",
-  "nombre": "Liga Profesional Argentina 2026",
+  "nombre": "Liga Profesional Argentina 2025",
   "version_datos": "2025-11-24",
-  "nota": "Liga nacional de 20 clubes de Primera División de Argentina. Toma el formato de la premier league, ida y vuelta",
+  "nota": "Liga nacional de 20 clubes de Primera División de Argentina, formato todos contra todos a ida y vuelta (38 jornadas).",
   "equipos": [
     {
       "id": "boca_juniors",
       "nombre": "Boca Juniors",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 72,
+      "nivel": 75,
       "estadio": "La Bombonera",
       "ciudad": "Buenos Aires"
     },
@@ -18,25 +18,25 @@
       "nombre": "River Plate",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 71,
+      "nivel": 76,
       "estadio": "Estadio Más Monumental",
       "ciudad": "Buenos Aires"
     },
     {
-      "id": "estudiantes",
+      "id": "estudiantes_de_la_plata",
       "nombre": "Estudiantes de La Plata",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 70,
+      "nivel": 74,
       "estadio": "Estadio Jorge Luis Hirschi",
       "ciudad": "La Plata"
     },
     {
-      "id": "velez_sarsfield",
+      "id": "velez",
       "nombre": "Vélez Sarsfield",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 70,
+      "nivel": 74,
       "estadio": "Estadio José Amalfitani",
       "ciudad": "Buenos Aires"
     },
@@ -45,7 +45,7 @@
       "nombre": "Talleres",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 69,
+      "nivel": 74,
       "estadio": "Estadio Mario Alberto Kempes",
       "ciudad": "Córdoba"
     },
@@ -54,8 +54,8 @@
       "nombre": "Rosario Central",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 69,
-      "estadio": "Estadio Gigante de Arroyito",
+      "nivel": 74,
+      "estadio": "Gigante de Arroyito",
       "ciudad": "Rosario"
     },
     {
@@ -63,16 +63,16 @@
       "nombre": "Independiente",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 69,
-      "estadio": "Estadio Libertadores de América - Ricardo Enrique Bochini",
+      "nivel": 74,
+      "estadio": "Estadio Libertadores de América",
       "ciudad": "Avellaneda"
     },
     {
-      "id": "racing_club",
+      "id": "racing",
       "nombre": "Racing Club",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 68,
+      "nivel": 75,
       "estadio": "Estadio Presidente Perón",
       "ciudad": "Avellaneda"
     },
@@ -81,16 +81,16 @@
       "nombre": "Huracán",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 68,
+      "nivel": 71,
       "estadio": "Estadio Tomás Adolfo Ducó",
       "ciudad": "Buenos Aires"
     },
     {
-      "id": "gimnasia",
-      "nombre": "Gimnasia",
+      "id": "gimnasia_la_plata",
+      "nombre": "Gimnasia La Plata",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 68,
+      "nivel": 70,
       "estadio": "Estadio Juan Carmelo Zerillo",
       "ciudad": "La Plata"
     },
@@ -99,7 +99,7 @@
       "nombre": "Banfield",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 68,
+      "nivel": 69,
       "estadio": "Estadio Florencio Sola",
       "ciudad": "Banfield"
     },
@@ -108,16 +108,16 @@
       "nombre": "Belgrano",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 67,
+      "nivel": 72,
       "estadio": "Estadio Julio César Villagra",
       "ciudad": "Córdoba"
     },
     {
-      "id": "argentinos_jrs",
-      "nombre": "Argentinos Jrs.",
+      "id": "argentinos",
+      "nombre": "Argentinos Juniors",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 67,
+      "nivel": 73,
       "estadio": "Estadio Diego Armando Maradona",
       "ciudad": "Buenos Aires"
     },
@@ -126,8 +126,8 @@
       "nombre": "Lanús",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 67,
-      "estadio": "Estadio Ciudad de Lanús - Néstor Díaz Pérez",
+      "nivel": 73,
+      "estadio": "Estadio Ciudad de Lanús",
       "ciudad": "Lanús"
     },
     {
@@ -135,34 +135,34 @@
       "nombre": "Tigre",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 67,
+      "nivel": 69,
       "estadio": "Estadio José Dellagiovanna",
       "ciudad": "Victoria"
     },
     {
-      "id": "newells",
-      "nombre": "Newell's",
+      "id": "newells_old_boys",
+      "nombre": "Newell's Old Boys",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 67,
+      "nivel": 71,
       "estadio": "Estadio Marcelo Bielsa",
       "ciudad": "Rosario"
     },
     {
-      "id": "ind_rivadavia",
-      "nombre": "Ind. Rivadavia",
+      "id": "independiente_rivadavia",
+      "nombre": "Independiente Rivadavia",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 66,
+      "nivel": 70,
       "estadio": "Estadio Bautista Gargantini",
       "ciudad": "Mendoza"
     },
     {
-      "id": "defensa",
-      "nombre": "Defensa",
+      "id": "defensa_y_justicia",
+      "nombre": "Defensa y Justicia",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 66,
+      "nivel": 70,
       "estadio": "Estadio Norberto Tomaghello",
       "ciudad": "Florencio Varela"
     },
@@ -171,7 +171,7 @@
       "nombre": "Atlético Tucumán",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 66,
+      "nivel": 70,
       "estadio": "Estadio Monumental José Fierro",
       "ciudad": "San Miguel de Tucumán"
     },
@@ -180,7 +180,7 @@
       "nombre": "San Lorenzo",
       "pais": "Argentina",
       "plantilla": [],
-      "nivel": 66,
+      "nivel": 70,
       "estadio": "Estadio Pedro Bidegain",
       "ciudad": "Buenos Aires"
     }

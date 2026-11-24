@@ -723,6 +723,23 @@ class PremierLeague(LigaMX):
         return ""
 
 
+class LigaArgentina(PremierLeague):
+    """Liga Profesional Argentina: 20 clubs, double round-robin (38 matchdays), no playoffs."""
+
+    KEY = "liga_argentina"
+    TITLE = "Liga Profesional Argentina"
+
+    def zone_label(self, rank: int, finished: bool) -> str:
+        n = len(self.teams)
+        if rank <= 4:
+            return "Zona de Copa Libertadores"
+        if rank <= 9:
+            return "Zona de Copa Sudamericana"
+        if rank > n - 2:
+            return "Zona de descenso"
+        return ""
+
+
 class Liga1Peru(LigaMX):
     """Liga 1 de Perú 2026: 18 clubs, Apertura (17) + Clausura (17, local/visita invertidos),
     tabla acumulada y playoffs por el título entre ganadores de torneo y mejores del acumulado."""

@@ -38,6 +38,7 @@ class MainMenuScene:
             ("Liga MX", lambda: start_new_club_competition(ctx, "ligamx")),
             ("Premier League", lambda: start_new_club_competition(ctx, "premier")),
             ("Liga 1 de Perú", lambda: start_new_club_competition(ctx, "liga1")),
+            ("Liga Profesional Argentina", lambda: start_new_club_competition(ctx, "liga_argentina")),
             ("Copa de clubes personalizada", lambda: start_custom_cup(ctx)),
             ("Partido amistoso", lambda: run_friendly_match(ctx)),
         ]

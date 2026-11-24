@@ -15,5 +15,6 @@ premier_clubes.csv: las 20 plantillas de la Premier 2026-27 (Newcastle, Nottingh
 laliga_clubes.csv: 15 clubes de LaLiga 2026-27 (Real Madrid, Barcelona, Atletico, Betis y Villarreal estan en champions_clubes.csv).
 europa_clubes.csv: clubes europeos adicionales con calidades ESTIMADAS (Juventus, Milan, Bayern, Dortmund, etc.). Corrigelos libremente.
 liga1_clubes.csv: Universitario y Alianza Lima. Sporting Cristal, Melgar y Cusco estan en sudamericana_clubes.csv y libertadores_clubes.csv.
+liga_argentina_2025.csv: 10 clubes argentinos adicionales para la Liga Profesional Argentina (los otros 10 estan en libertadores_clubes.csv y sudamericana_clubes.csv).
 IMPORTANTE: los CSV de esta carpeta se fusionan por club. Un club debe vivir en un solo archivo.
 Para agregar un club propio escribe al menos 11 jugadores en cualquier CSV y aparecera en todos los selectores de torneos personalizados.

@@ -20,6 +20,7 @@ REGLAS: tuple[str, ...] = (
     "Liga MX: 18 clubes, 17 jornadas y liguilla de 8 equipos sin play-in. En cuartos y semifinales, si el global se empata pasa el mejor ubicado en la tabla y no hay tiempo extra. En la final hay tiempo extra y penales.",
     "Premier League: 20 clubes, 38 jornadas de todos contra todos a ida y vuelta, sin playoffs. El que termina primero es el campeón y los tres últimos descienden.",
     "Liga 1 de Perú: 18 clubes, Torneo Apertura y Torneo Clausura de 17 fechas cada uno con localías invertidas, tabla acumulada y playoffs por el título a ida y vuelta entre los ganadores de cada torneo y los mejores del acumulado.",
+    "Liga Profesional Argentina: 20 clubes, 38 jornadas de todos contra todos a ida y vuelta, sin playoffs. El que termina primero es el campeón, los cuatro primeros van a la Libertadores, del quinto al noveno a la Sudamericana y los dos últimos descienden.",
     "Copa de clubes personalizada y personalizar participantes: puedes armar tu propia copa de 8, 16, 32 o 64 clubes de cualquier liga, o reemplazar cualquier club en las competiciones oficiales antes de empezar.",
     "La barrida roba el balón si sale limpia. Si falla, es falta y puede acabar en tarjeta, y si es dentro de tu área, en penal.",
     "La falta táctica corta la jugada del rival pero casi siempre es amarilla. Dentro de tu área, es penal.",
