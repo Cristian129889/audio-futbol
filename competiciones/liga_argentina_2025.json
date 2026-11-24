@@ -1,0 +1,188 @@
+{
+  "id": "liga_argentina_2025",
+  "nombre": "Liga Profesional Argentina 2026",
+  "version_datos": "2025-11-24",
+  "nota": "Liga nacional de 20 clubes de Primera División de Argentina. Toma el formato de la premier league, ida y vuelta",
+  "equipos": [
+    {
+      "id": "boca_juniors",
+      "nombre": "Boca Juniors",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 72,
+      "estadio": "La Bombonera",
+      "ciudad": "Buenos Aires"
+    },
+    {
+      "id": "river_plate",
+      "nombre": "River Plate",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 71,
+      "estadio": "Estadio Más Monumental",
+      "ciudad": "Buenos Aires"
+    },
+    {
+      "id": "estudiantes",
+      "nombre": "Estudiantes de La Plata",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 70,
+      "estadio": "Estadio Jorge Luis Hirschi",
+      "ciudad": "La Plata"
+    },
+    {
+      "id": "velez_sarsfield",
+      "nombre": "Vélez Sarsfield",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 70,
+      "estadio": "Estadio José Amalfitani",
+      "ciudad": "Buenos Aires"
+    },
+    {
+      "id": "talleres",
+      "nombre": "Talleres",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 69,
+      "estadio": "Estadio Mario Alberto Kempes",
+      "ciudad": "Córdoba"
+    },
+    {
+      "id": "rosario_central",
+      "nombre": "Rosario Central",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 69,
+      "estadio": "Estadio Gigante de Arroyito",
+      "ciudad": "Rosario"
+    },
+    {
+      "id": "independiente",
+      "nombre": "Independiente",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 69,
+      "estadio": "Estadio Libertadores de América - Ricardo Enrique Bochini",
+      "ciudad": "Avellaneda"
+    },
+    {
+      "id": "racing_club",
+      "nombre": "Racing Club",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 68,
+      "estadio": "Estadio Presidente Perón",
+      "ciudad": "Avellaneda"
+    },
+    {
+      "id": "huracan",
+      "nombre": "Huracán",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 68,
+      "estadio": "Estadio Tomás Adolfo Ducó",
+      "ciudad": "Buenos Aires"
+    },
+    {
+      "id": "gimnasia",
+      "nombre": "Gimnasia",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 68,
+      "estadio": "Estadio Juan Carmelo Zerillo",
+      "ciudad": "La Plata"
+    },
+    {
+      "id": "banfield",
+      "nombre": "Banfield",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 68,
+      "estadio": "Estadio Florencio Sola",
+      "ciudad": "Banfield"
+    },
+    {
+      "id": "belgrano",
+      "nombre": "Belgrano",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 67,
+      "estadio": "Estadio Julio César Villagra",
+      "ciudad": "Córdoba"
+    },
+    {
+      "id": "argentinos_jrs",
+      "nombre": "Argentinos Jrs.",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 67,
+      "estadio": "Estadio Diego Armando Maradona",
+      "ciudad": "Buenos Aires"
+    },
+    {
+      "id": "lanus",
+      "nombre": "Lanús",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 67,
+      "estadio": "Estadio Ciudad de Lanús - Néstor Díaz Pérez",
+      "ciudad": "Lanús"
+    },
+    {
+      "id": "tigre",
+      "nombre": "Tigre",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 67,
+      "estadio": "Estadio José Dellagiovanna",
+      "ciudad": "Victoria"
+    },
+    {
+      "id": "newells",
+      "nombre": "Newell's",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 67,
+      "estadio": "Estadio Marcelo Bielsa",
+      "ciudad": "Rosario"
+    },
+    {
+      "id": "ind_rivadavia",
+      "nombre": "Ind. Rivadavia",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 66,
+      "estadio": "Estadio Bautista Gargantini",
+      "ciudad": "Mendoza"
+    },
+    {
+      "id": "defensa",
+      "nombre": "Defensa",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 66,
+      "estadio": "Estadio Norberto Tomaghello",
+      "ciudad": "Florencio Varela"
+    },
+    {
+      "id": "atletico_tucuman",
+      "nombre": "Atlético Tucumán",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 66,
+      "estadio": "Estadio Monumental José Fierro",
+      "ciudad": "San Miguel de Tucumán"
+    },
+    {
+      "id": "san_lorenzo",
+      "nombre": "San Lorenzo",
+      "pais": "Argentina",
+      "plantilla": [],
+      "nivel": 66,
+      "estadio": "Estadio Pedro Bidegain",
+      "ciudad": "Buenos Aires"
+    }
+  ]
+}
