@@ -1027,6 +1027,7 @@ class MatchEngine:
             if self.state.roll(0.50 + dfn_edge * 0.5):
                 self.state.blocks[0] += 1
                 self.state.shots[1] += 1
+                self.state.shots_blocked[1] += 1
                 self._sfx("barrera", self.state.stereo_pan())
                 msg = self.narrator.say(
                     "block_shot_blocked", def_=defender.name, riv=carrier.name

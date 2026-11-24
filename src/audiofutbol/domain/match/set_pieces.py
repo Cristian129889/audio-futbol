@@ -299,6 +299,8 @@ class SetPieceResolver:
         roll = self.state.rng.random()
         if roll < 0.30:
             self.state.shots_on_target[att_idx] += 1
+            self.state.shots_saved[att_idx] += 1
+            self.state.saves[def_idx] += 1
             self._sfx("parada")
             self._speak("El portero se estira y ataja el balón con esfuerzo.")
             self._announce_shots(att_idx)
@@ -307,6 +309,7 @@ class SetPieceResolver:
             else:
                 self.state.set_possession(def_idx, 1)
         elif roll < 0.42:
+            self.state.shots_post[att_idx] += 1
             self._sfx("poste")
             self._speak("¡Poste! El balón da en el poste, por centímetros.")
             self.state.add_highlight(
@@ -318,11 +321,13 @@ class SetPieceResolver:
             else:
                 self.state.set_possession(def_idx, 1)
         elif roll < 0.60:
+            self.state.shots_off_target[att_idx] += 1
             self._sfx("casi")
             self._speak("El balón se cuela rozando el travesaño y sale por encima.")
             self._announce_shots(att_idx)
             self.goal_kick(def_idx)
         else:
+            self.state.shots_off_target[att_idx] += 1
             self._sfx("casi")
             self._speak("El balón se va directo por la línea de fondo.")
             self._announce_shots(att_idx)
@@ -468,6 +473,7 @@ class SetPieceResolver:
         roll = self.state.rng.random()
         if roll < 0.38:
             self.state.shots_on_target[att_idx] += 1
+            self.state.shots_saved[att_idx] += 1
             self.state.drought_turns[att_idx] = 0
             self.state.saves[def_idx] += 1
             self.state.shift_morale(def_idx, 0.8)
@@ -493,6 +499,7 @@ class SetPieceResolver:
             else:
                 self.state.set_possession(def_idx, 1)
         elif roll < 0.55:
+            self.state.shots_post[att_idx] += 1
             self._sfx("poste", self.state.stereo_pan(0.15))
             self.state.shift_momentum(0.8 if att_idx == 0 else -0.8)
             self._speak("¡Poste!")
@@ -508,6 +515,7 @@ class SetPieceResolver:
             else:
                 self.state.set_possession(def_idx, 1)
         elif roll < 0.82:
+            self.state.shots_off_target[att_idx] += 1
             self._sfx("casi")
             q = self.state.rng.random()
             if q < 0.45:
@@ -523,6 +531,7 @@ class SetPieceResolver:
             self._announce_shots(att_idx)
             self.goal_kick(def_idx)
         else:
+            self.state.shots_blocked[att_idx] += 1
             self.state.blocks[def_idx] += 1
             blocker = self.state.pick_player(
                 def_idx, {"DEF": 5.0, "MED": 2.0, "DEL": 0.2, "POR": 0.0}
@@ -919,6 +928,8 @@ class SetPieceResolver:
 
         if self.state.roll(block_prob):
             self.state.shots[att_idx] += 1
+            self.state.shots_blocked[att_idx] += 1
+            self.state.blocks[def_idx] += 1
             self._sfx("barrera")
             self._speak("¡El balón da en la barrera!")
             self._announce_shots(att_idx)
@@ -958,6 +969,18 @@ class SetPieceResolver:
             f"¡Penal para {self.state.team_name(att_idx)}! Va a lanzar {taker.name}."
         )
         outcome = self.take_penalty_kick(att_idx, taker)
+        if not self.state.abandoned:
+            self.state.shots[att_idx] += 1
+            if outcome == "gol":
+                self.state.shots_on_target[att_idx] += 1
+            elif outcome == "parada":
+                self.state.shots_on_target[att_idx] += 1
+                self.state.shots_saved[att_idx] += 1
+                self.state.saves[1 - att_idx] += 1
+            elif outcome == "poste":
+                self.state.shots_post[att_idx] += 1
+            else:
+                self.state.shots_off_target[att_idx] += 1
         if outcome == "gol":
             self.score_goal(att_idx, taker, goal_type="de penal")
         else:

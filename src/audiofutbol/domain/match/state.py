@@ -319,6 +319,10 @@ class MatchState:
         self.gk_penalty: list[int] = [0, 0]
         self.shots: list[int] = [0, 0]
         self.shots_on_target: list[int] = [0, 0]
+        self.shots_post: list[int] = [0, 0]
+        self.shots_saved: list[int] = [0, 0]
+        self.shots_off_target: list[int] = [0, 0]
+        self.shots_blocked: list[int] = [0, 0]
         self.saves: list[int] = [0, 0]
         self.interceptions: list[int] = [0, 0]
         self.blocks: list[int] = [0, 0]
@@ -1138,6 +1142,10 @@ class MatchState:
             "tarjetas": list(self.cards_log),
             "tiros": list(self.shots),
             "tiros_p": list(self.shots_on_target),
+            "tiros_poste": list(self.shots_post),
+            "tiros_atajados": list(self.shots_saved),
+            "tiros_desviados": list(self.shots_off_target),
+            "tiros_bloqueados": list(self.shots_blocked),
             "atajadas": list(self.saves),
             "intercepciones": list(self.interceptions),
             "bloqueos": list(self.blocks),
@@ -1161,9 +1169,25 @@ class MatchState:
         pa, pb = self.possession_pct(snap["pos"])
         out = [
             f"Posesión del balón: {n0} {pa} por ciento, {n1} {pb} por ciento.",
+            f"Tiros totales: {n0} {snap['tiros'][0]}, {n1} {snap['tiros'][1]}.",
+            f"Tiros a puerta: {n0} {snap['tiros_p'][0]}, {n1} {snap['tiros_p'][1]}.",
             (
-                f"Tiros: {n0} {snap['tiros'][0]}, {self.format_on_target(snap['tiros_p'][0])}. "
-                f"{n1} {snap['tiros'][1]}, {self.format_on_target(snap['tiros_p'][1])}."
+                f"Tiros al poste: {n0} {snap.get('tiros_poste', [0, 0])[0]}, "
+                f"{n1} {snap.get('tiros_poste', [0, 0])[1]}."
+            ),
+            (
+                f"Tiros atajados por el portero contrario: "
+                f"{n0} {snap.get('tiros_atajados', [0, 0])[0]}, "
+                f"{n1} {snap.get('tiros_atajados', [0, 0])[1]}."
+            ),
+            (
+                f"Tiros desviados: {n0} {snap.get('tiros_desviados', [0, 0])[0]}, "
+                f"{n1} {snap.get('tiros_desviados', [0, 0])[1]}."
+            ),
+            (
+                f"Tiros interceptados o bloqueados: "
+                f"{n0} {snap.get('tiros_bloqueados', [0, 0])[0]}, "
+                f"{n1} {snap.get('tiros_bloqueados', [0, 0])[1]}."
             ),
             f"Atajadas del portero: {n0} {snap.get('atajadas', [0, 0])[0]}, {n1} {snap.get('atajadas', [0, 0])[1]}.",
             f"Intercepciones y bloqueos defensivos: {n0} {snap.get('intercepciones', [0, 0])[0] + snap.get('bloqueos', [0, 0])[0]}, "
