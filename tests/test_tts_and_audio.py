@@ -248,3 +248,119 @@ def test_board_ting_and_edge_use_equal_power_stereo_pan_and_perceptual_gain() ->
     assert edge_l < 1e-6 and abs(edge_r - er_vol) < 1e-6
 
 
+def test_play_menu_music_falls_back_to_bytesio_when_path_load_fails(tmp_path: Path) -> None:
+    import io
+    from unittest.mock import MagicMock
+
+    music_dir = tmp_path / "musica"
+    music_dir.mkdir()
+    track = music_dir / "musica_menu.ogg"
+    track.write_bytes(b"OggS-fake-menu-track")
+
+    paths = AppPaths(tmp_path)
+    cfg = GameConfig(musica=True, vol_maestro=0.6, vol_musica=1.0)
+    audio = AudioEngine(paths, cfg, init_mixer=False)
+    audio.ok = True
+    audio._pygame = MagicMock()
+    music = audio._pygame.mixer.music
+
+    load_targets: list[object] = []
+
+    def fake_load(target, **_kwargs):  # type: ignore[no-untyped-def]
+        load_targets.append(target)
+        if isinstance(target, str):
+            raise RuntimeError("SDL path load failed")
+
+    music.load.side_effect = fake_load
+    music.get_busy.return_value = True
+
+    audio.play_menu_music()
+
+    assert len(load_targets) == 2
+    assert isinstance(load_targets[0], str)
+    assert isinstance(load_targets[1], io.BytesIO)
+    assert audio._music_stream is load_targets[1]
+    music.play.assert_called_once_with(-1)
+    assert audio.is_music_playing() is True
+
+
+def test_ensure_mixer_retries_fallback_and_respects_headless_flag(
+    tmp_path: Path, caplog
+) -> None:
+    import logging
+    from unittest.mock import MagicMock
+
+    paths = AppPaths(tmp_path)
+    cfg = GameConfig(musica=True)
+    audio = AudioEngine(paths, cfg, init_mixer=False)
+    assert audio.ok is False
+    audio.play_menu_music()
+    assert audio.ok is False  # init_mixer=False stays inert without ensure_mixer()
+
+    fake_pg = MagicMock()
+    fake_pg.mixer.get_init.side_effect = [None, (44100, -16, 2)]
+    attempts = {"n": 0}
+
+    def fake_init(**_kwargs):  # type: ignore[no-untyped-def]
+        attempts["n"] += 1
+        if attempts["n"] == 1:
+            raise RuntimeError("default buffer failed")
+
+    fake_pg.mixer.init.side_effect = fake_init
+    audio._pygame = fake_pg
+
+    assert audio.ensure_mixer() is True
+    assert audio.ok is True
+    assert attempts["n"] == 2
+    fake_pg.mixer.set_num_channels.assert_called_once_with(32)
+
+    # When every attempt fails, ensure_mixer logs a warning and returns False
+    audio2 = AudioEngine(paths, cfg, init_mixer=False)
+    broken_pg = MagicMock()
+    broken_pg.mixer.get_init.return_value = None
+    broken_pg.mixer.init.side_effect = RuntimeError("no audio device")
+    audio2._pygame = broken_pg
+
+    with caplog.at_level(logging.WARNING, logger="audiofutbol"):
+        assert audio2.ensure_mixer() is False
+    assert audio2.ok is False
+    assert any("Failed to initialize audio mixer" in rec.message for rec in caplog.records)
+
+
+def test_is_music_playing_mirrors_mixer_busy(tmp_path: Path) -> None:
+    from unittest.mock import MagicMock
+
+    audio = AudioEngine(AppPaths(tmp_path), GameConfig(), init_mixer=False)
+    assert audio.is_music_playing() is False
+
+    audio.ok = True
+    audio._pygame = MagicMock()
+    audio._pygame.mixer.music.get_busy.return_value = 1
+    assert audio.is_music_playing() is True
+
+    audio._pygame.mixer.music.get_busy.return_value = 0
+    assert audio.is_music_playing() is False
+
+
+def test_app_run_opens_window_before_initializing_mixer(tmp_path: Path, monkeypatch) -> None:
+    from audiofutbol.app import AudioFutbolApp
+    from audiofutbol.scenes.main_menu import MainMenuScene
+
+    events: list[str] = []
+    app = AudioFutbolApp(base_dir=tmp_path, headless=False)
+    # Mark non-headless only for call-order spy; avoid opening a real SDL window
+    app.window.headless = True
+    app.config.buscar_actualizaciones_al_iniciar = False
+
+    monkeypatch.setattr(app.window, "open", lambda: events.append("window.open"))
+    monkeypatch.setattr(app.window, "close", lambda: events.append("window.close"))
+    monkeypatch.setattr(
+        app.audio, "ensure_mixer", lambda force_reinit=False: events.append("audio.ensure_mixer") or True
+    )
+    monkeypatch.setattr(MainMenuScene, "run", lambda self, ctx: None)
+
+    assert app.run() == 0
+    assert events.index("window.open") < events.index("audio.ensure_mixer")
+
+
+

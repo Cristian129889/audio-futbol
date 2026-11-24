@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import array
+import io
 import logging
 import math
 import os
 from pathlib import Path
 import random
+import sys
 from typing import Any
 
 from audiofutbol.domain.text import normalize_text, tokenize
@@ -132,6 +134,7 @@ class AudioEngine:
         self.paths = paths
         self.config = config
         self.ok = False
+        self._allow_mixer_init = init_mixer
         self._pygame: Any = None
         self.files: list[Path] = []
         self.assigned: dict[Path, str] = {}
@@ -139,20 +142,81 @@ class AudioEngine:
         self._cache: dict[Path, Any] = {}
         self._synth_cache: dict[tuple[Any, ...], Any] = {}
         self._crowd_channel: Any = None
+        self._music_stream: io.BytesIO | None = None
 
         if init_mixer:
-            try:
+            self.ensure_mixer()
+
+        self.index_sounds()
+
+    def ensure_mixer(self, force_reinit: bool = False) -> bool:
+        """Initialize (or reinitialize) pygame.mixer with Windows driver fallbacks."""
+        self._allow_mixer_init = True
+        logger = logging.getLogger("audiofutbol")
+        try:
+            if self._pygame is None:
                 import pygame
 
                 self._pygame = pygame
-                if not pygame.mixer.get_init():
-                    pygame.mixer.init()
-                pygame.mixer.set_num_channels(32)
+            pygame = self._pygame
+            if not force_reinit and pygame.mixer.get_init():
                 self.ok = True
-            except Exception:
-                self.ok = False
+                return True
+            if force_reinit:
+                try:
+                    pygame.mixer.quit()
+                except Exception:
+                    pass
+        except Exception as exc:
+            self.ok = False
+            logger.warning("Failed to import/prepare pygame mixer: %s", exc)
+            return False
 
-        self.index_sounds()
+        had_env = "SDL_AUDIODRIVER" in os.environ
+        orig_env = os.environ.get("SDL_AUDIODRIVER")
+        drivers: list[str | None] = [None]
+        if sys.platform == "win32":
+            for drv in ("directsound", "winmm"):
+                if drv != orig_env:
+                    drivers.append(drv)
+
+        last_exc: Exception | None = None
+        for drv in drivers:
+            if drv is not None:
+                os.environ["SDL_AUDIODRIVER"] = drv
+            for init_kwargs in (
+                {"frequency": 44100, "size": -16, "channels": 2, "buffer": 2048},
+                {},
+            ):
+                try:
+                    pygame.mixer.init(**init_kwargs)
+                    pygame.mixer.set_num_channels(32)
+                    self.ok = True
+                    logger.info("Audio mixer initialized: %s", pygame.mixer.get_init())
+                    return True
+                except Exception as exc:
+                    last_exc = exc
+                    try:
+                        pygame.mixer.quit()
+                    except Exception:
+                        pass
+
+        if had_env and orig_env is not None:
+            os.environ["SDL_AUDIODRIVER"] = orig_env
+        else:
+            os.environ.pop("SDL_AUDIODRIVER", None)
+        self.ok = False
+        logger.warning("Failed to initialize audio mixer: %s", last_exc)
+        return False
+
+    def is_music_playing(self) -> bool:
+        """Return True when mixer music is actively playing."""
+        if not self.ok or self._pygame is None:
+            return False
+        try:
+            return bool(self._pygame.mixer.music.get_busy())
+        except Exception:
+            return False
 
     def index_sounds(self) -> None:
         """Scan sounds directory and apply optional manual overrides from sonidos.txt."""
@@ -305,8 +369,69 @@ class AudioEngine:
                 pass
             self._crowd_channel = None
 
+    def _start_music_file(self, track: Path, loops: int, volume: float) -> bool:
+        """Load and play a music track, falling back to BytesIO and mixer reinit on failure."""
+        if not self.ok and self._allow_mixer_init:
+            self.ensure_mixer()
+        if not self.ok or self._pygame is None:
+            return False
+
+        logger = logging.getLogger("audiofutbol")
+        vol = max(0.0, min(1.0, float(volume)))
+
+        def _try_load_and_play(use_bytes: bool) -> bool:
+            music = self._pygame.mixer.music
+            try:
+                music.stop()
+            except Exception:
+                pass
+            if hasattr(music, "unload"):
+                try:
+                    music.unload()
+                except Exception:
+                    pass
+            try:
+                if use_bytes:
+                    buf = io.BytesIO(track.read_bytes())
+                    self._music_stream = buf
+                    namehint = track.suffix.lstrip(".").lower()
+                    try:
+                        music.load(buf, namehint=namehint)
+                    except TypeError:
+                        music.load(buf)
+                else:
+                    self._music_stream = None
+                    music.load(str(track))
+                music.set_volume(vol)
+                music.play(loops)
+                music.set_volume(vol)
+                return bool(music.get_busy())
+            except Exception as exc:
+                logger.warning(
+                    "Music load/play attempt (%s) failed for %s: %s",
+                    "bytes" if use_bytes else "path",
+                    track,
+                    exc,
+                )
+                return False
+
+        if _try_load_and_play(use_bytes=False):
+            return True
+        if _try_load_and_play(use_bytes=True):
+            return True
+        if self._allow_mixer_init:
+            logger.warning("Retrying music playback for %s after mixer reinit", track)
+            if self.ensure_mixer(force_reinit=True) and _try_load_and_play(use_bytes=True):
+                return True
+        logger.warning("Unable to play music track %s", track)
+        return False
+
     def play_menu_music(self) -> None:
-        if not self.config.musica or not self.ok or self._pygame is None:
+        if not self.config.musica:
+            return
+        if not self.ok and self._allow_mixer_init:
+            self.ensure_mixer()
+        if not self.ok or self._pygame is None:
             return
         tracks: list[Path] = []
         if self.paths.music_dir.is_dir():
@@ -320,14 +445,12 @@ class AudioEngine:
                 if any(tok in keywords for tok in tokenize(filepath.name)):
                     tracks.append(filepath)
         if tracks:
-            try:
-                self._pygame.mixer.music.stop()
-                self._pygame.mixer.music.load(str(random.choice(tracks)))
-                self.set_music_volume(self.config.vol_musica)
-                self._pygame.mixer.music.play(-1)
-                self.set_music_volume(self.config.vol_musica)
-            except Exception as exc:
-                logging.getLogger("audiofutbol").warning("Failed to play menu music: %s", exc)
+            gain = perceptual_gain(
+                self.config.vol_musica,
+                master=self.config.vol_maestro,
+                headroom=MASTER_MUSIC_HEADROOM,
+            )
+            self._start_music_file(random.choice(tracks), loops=-1, volume=gain)
 
     def stop_music(self, fade_ms: int = 600) -> None:
         if not self.ok or self._pygame is None:
@@ -351,25 +474,22 @@ class AudioEngine:
             pass
 
     def play_theme(self, name: str, loop: bool = False, volume: float = 1.0) -> None:
-        if not self.config.musica or not self.ok or self._pygame is None:
+        if not self.config.musica:
+            return
+        if not self.ok and self._allow_mixer_init:
+            self.ensure_mixer()
+        if not self.ok or self._pygame is None:
             return
         for ext in AUDIO_EXTENSIONS:
             candidate = self.paths.themes_dir / f"{name}{ext}"
             if candidate.is_file():
-                try:
-                    self._pygame.mixer.music.stop()
-                    self._pygame.mixer.music.load(str(candidate))
-                    gain = perceptual_gain(
-                        self.config.vol_musica,
-                        master=self.config.vol_maestro,
-                        headroom=MASTER_MUSIC_HEADROOM,
-                    )
-                    vol = max(0.0, min(1.0, gain * max(0.0, float(volume))))
-                    self._pygame.mixer.music.set_volume(vol)
-                    self._pygame.mixer.music.play(-1 if loop else 0)
-                    self._pygame.mixer.music.set_volume(vol)
-                except Exception as exc:
-                    logging.getLogger("audiofutbol").warning("Failed to play theme %s: %s", name, exc)
+                gain = perceptual_gain(
+                    self.config.vol_musica,
+                    master=self.config.vol_maestro,
+                    headroom=MASTER_MUSIC_HEADROOM,
+                )
+                vol = max(0.0, min(1.0, gain * max(0.0, float(volume))))
+                self._start_music_file(candidate, loops=-1 if loop else 0, volume=vol)
                 return
 
     @staticmethod

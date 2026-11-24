@@ -44,6 +44,8 @@ class MainMenuScene:
         ]
 
         while True:
+            if ctx.config.musica and not ctx.audio.is_music_playing():
+                ctx.audio.play_menu_music()
             choice = ctx.ui.menu(
                 "Menú principal",
                 ["Nuevo juego", "Partidas guardadas", "Opciones", "Salir"],

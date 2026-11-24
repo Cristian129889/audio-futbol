@@ -44,6 +44,7 @@ class AudioFutbolApp:
 
     def __init__(self, base_dir: Path | None = None, headless: bool = False) -> None:
         self.paths = AppPaths.detect(base_dir)
+        self._headless = headless
         self.logger = _configure_logging(self.paths)
         self.config = GameConfig.load(self.paths.config_file)
         self.speech = create_default_speech_service(
@@ -51,7 +52,7 @@ class AudioFutbolApp:
             braille_enabled=self.config.braille,
         )
         self.window = GameWindow(self.speech, headless=headless)
-        self.audio = AudioEngine(self.paths, self.config, init_mixer=not headless)
+        self.audio = AudioEngine(self.paths, self.config, init_mixer=False)
         self.ui = AudioUI(self.speech, self.audio, self.window)
         self.saves = SaveManager(self.paths)
         self.stadiums = StadiumDirectory(self.paths)
@@ -65,6 +66,8 @@ class AudioFutbolApp:
             if not self.window.headless and self.config.buscar_actualizaciones_al_iniciar:
                 self.updater.start_background_check()
             self.window.open()
+            if not self._headless:
+                self.audio.ensure_mixer()
             teams, from_csv = load_national_teams(self.paths)
             extra_teams = load_extra_national_teams(self.paths)
             ctx = GameContext(
