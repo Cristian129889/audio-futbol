@@ -48,19 +48,24 @@ class VarSystem:
         self.state.add_highlight(f"VAR: {text}")
         self._speak(text)
 
-    def review_goal(self, team_idx: int, scorer: Player) -> None:
+    def review_goal(
+        self, team_idx: int, scorer: Player, goal_type: str | None = None
+    ) -> None:
         self._begin_review(
             f"el gol de {scorer.name}, de {self.state.team_name(team_idx)}"
         )
         if self.state.roll(0.30):
-            reason = self.state.rng.choices(
-                [
-                    "fuera de juego",
-                    "una falta previa sobre un defensa",
-                    "una mano previa de un atacante",
-                ],
-                [55, 25, 20],
-            )[0]
+            if goal_type in ("de tiro libre", "gol olímpico", "de penal"):
+                reason = "una falta en el área sobre la defensa"
+            else:
+                reason = self.state.rng.choices(
+                    [
+                        "fuera de juego",
+                        "una falta previa sobre un defensa",
+                        "una mano previa de un atacante",
+                    ],
+                    [55, 25, 20],
+                )[0]
             self.state.goals[team_idx] -= 1
             scorer.goals -= 1
             if self.state.scorers and self.state.scorers[-1][1] is scorer:

@@ -703,6 +703,95 @@ def test_context_shortcut_n_returns_structured_lines() -> None:
     assert "Cambio pedido al cuarto árbitro" in joined
 
 
+def test_direct_free_kick_and_olympic_goals_never_ruled_offside_by_var() -> None:
+    team_a = create_generic_team("Argentina", 86)
+    team_b = create_generic_team("Brasil", 84)
+
+    for seed in range(200):
+        rng = random.Random(seed)
+        io = HeadlessMatchIO(rng=rng)
+        eng = MatchEngine(
+            team_a,
+            team_b,
+            io=io,
+            settings=MatchSettings(var_enabled=True),
+            auto=False,
+            prematch_menu=False,
+            rng=rng,
+        )
+        scorer = eng.state.xi[0][-1]
+        eng.set_pieces.score_goal(0, scorer, goal_type="de tiro libre")
+        eng.set_pieces.score_goal(0, scorer, goal_type="gol olímpico")
+        eng.var.review_goal(0, scorer, goal_type="de tiro libre")
+        eng.var.review_goal(0, scorer, goal_type="gol olímpico")
+        assert all("fuera de juego" not in msg.lower() for msg in io.messages)
+
+
+def test_substitution_menu_uses_2d_formation_board_and_shows_yellow_cards() -> None:
+    team_a = create_generic_team("Argentina", 86)
+    team_b = create_generic_team("Brasil", 84)
+
+    def decide(title: str, options: list[str]) -> int:
+        if "¿Quién sale?" in title:
+            return 1  # first defender (LI)
+        return 0  # best bench replacement
+
+    io = HeadlessMatchIO(decision_callback=decide)
+    eng = MatchEngine(team_a, team_b, io=io, max_substitutions=5, auto=False, prematch_menu=False)
+    starter_def = next(p for p in eng.state.xi[0] if p.position == "DEF")
+    starter_def.yellow_cards = 1
+    bench_def = next(
+        p for p in eng.subs.eligible_replacements(0, starter_def) if p.position == "DEF"
+    )
+    bench_def.yellow_cards = 1
+
+    captured_bench_opts: list[str] = []
+    orig_choose = io.choose
+
+    def spy_choose(title, options, shortcuts=None, quick_keys=None, initial_index=0):
+        if "¿Quién entra?" in title:
+            captured_bench_opts.extend(options)
+        return orig_choose(title, options, shortcuts, quick_keys, initial_index)
+
+    io.choose = spy_choose  # type: ignore[method-assign]
+    assert eng.subs.open_substitution_menu() is True
+    assert len(io.formation_calls) == 1
+    _title, rows = io.formation_calls[0]
+    row_names = [r.name for r in rows]
+    assert row_names == ["Portería", "Zona defensiva", "Mediocampo", "Delantera", "Acciones"]
+    def_row = rows[1]
+    assert def_row.slots[0].pan == -1.0
+    assert def_row.slots[-1].pan == 1.0
+    assert any("1 amarilla" in s.label for s in def_row.slots)
+    assert any("1 amarilla" in opt for opt in captured_bench_opts)
+
+
+def test_match_with_eight_players_plays_and_abandons_below_seven_on_red_cards() -> None:
+    team_a = create_generic_team("México", 82)
+    team_b = create_generic_team("Colombia", 82)
+    io = HeadlessMatchIO(rng=random.Random(10))
+    eng = MatchEngine(team_a, team_b, io=io, auto=False, prematch_menu=False, rng=random.Random(10))
+    # Clear 3 slots to start with 8 players
+    slots = list(eng.state.board_slots[0])
+    for idx in (8, 9, 10):
+        slots[idx] = None
+    eng.state.apply_board_slots(0, slots, persist=True)
+    assert len(eng.state.xi[0]) == 8
+
+    # First red card -> 7 players, match continues
+    p1 = eng.state.xi[0][-1]
+    eng.set_pieces.give_card(0, p1, "roja")
+    assert len(eng.state.xi[0]) == 7
+    assert eng.state.suspended_match is False
+
+    # Second red card -> 6 players (< 7), match is suspended
+    p2 = eng.state.xi[0][-1]
+    eng.set_pieces.give_card(0, p2, "roja")
+    assert len(eng.state.xi[0]) == 6
+    assert eng.state.suspended_match is True
+
+
+
 
 
 

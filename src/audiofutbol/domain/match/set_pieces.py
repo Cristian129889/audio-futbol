@@ -13,6 +13,7 @@ from audiofutbol.domain.models import Player
 NO_ASSIST_GOAL_TYPES = frozenset(
     {"de penal", "de tiro libre", "gol olímpico", "de contrarremate"}
 )
+NO_VAR_GOAL_TYPES = frozenset({"de penal", "de tiro libre", "gol olímpico"})
 
 
 class SetPieceResolver:
@@ -607,12 +608,12 @@ class SetPieceResolver:
         self.state.shift_momentum(3.5 if team_idx == 0 else -3.5)
         self.state.set_possession(1 - team_idx, 1, lane=0)
         if (
-            goal_type != "de penal"
+            goal_type not in NO_VAR_GOAL_TYPES
             and self.state.settings.var_enabled
             and not self.state.suspended_match
             and self.state.roll(0.12)
         ):
-            self.var.review_goal(team_idx, scorer)
+            self.var.review_goal(team_idx, scorer, goal_type=goal_type)
         self._notify_stoppage("la reanudación tras el gol")
 
     # ------------------------------------------------------- Cross, Corner, Restarts
@@ -1405,14 +1406,16 @@ class SetPieceResolver:
         self.state.fit.pop(id(player), None)
         if player in self.state.xi[team_idx]:
             self.state.xi[team_idx].remove(player)
+        self.state.sync_board_slots(team_idx)
         if self.state.ball_carrier is player:
             self.state.ball_carrier = None
         self.state.red_cards[team_idx] += 1
         self.state.ratings[team_idx] = self.state.compute_ratings(team_idx)
+        remaining = len(self.state.xi[team_idx])
         self._speak(
-            f"{self.state.team_name(team_idx)} se queda con {11 - self.state.red_cards[team_idx]} jugadores."
+            f"{self.state.team_name(team_idx)} se queda con {remaining} jugadores."
         )
-        if self.state.red_cards[team_idx] >= 5 and not self.state.suspended_match:
+        if remaining < 7 and not self.state.suspended_match:
             self.state.suspended_match = True
             winner = 1 - team_idx
             self.state.goals[winner] = max(
