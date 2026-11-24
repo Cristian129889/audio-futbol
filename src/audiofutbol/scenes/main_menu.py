@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 from audiofutbol.scenes.base import GameContext, Scene
+from audiofutbol.scenes.economy import run_economy_menu
 from audiofutbol.scenes.friendly import run_friendly_match
+from audiofutbol.scenes.online import OnlineScene
 from audiofutbol.scenes.league_hub import (
     continue_saved_league,
     start_custom_cup,
@@ -38,19 +40,27 @@ class MainMenuScene:
             ("Liga MX", lambda: start_new_club_competition(ctx, "ligamx")),
             ("Premier League", lambda: start_new_club_competition(ctx, "premier")),
             ("Liga 1 de Perú", lambda: start_new_club_competition(ctx, "liga1")),
-            ("Liga Profesional Argentina", lambda: start_new_club_competition(ctx, "liga_argentina")),
+            ("Serie A", lambda: start_new_club_competition(ctx, "seriea")),
+            ("Bundesliga", lambda: start_new_club_competition(ctx, "bundesliga")),
+            ("Liga Argentina", lambda: start_new_club_competition(ctx, "liga_argentina")),
+            ("Clubes históricos", lambda: start_new_club_competition(ctx, "historicas")),
             ("Copa de clubes personalizada", lambda: start_custom_cup(ctx)),
             ("Partido amistoso", lambda: run_friendly_match(ctx)),
         ]
 
         while True:
-            if ctx.config.musica and not ctx.audio.is_music_playing():
-                ctx.audio.play_menu_music()
             choice = ctx.ui.menu(
                 "Menú principal",
-                ["Nuevo juego", "Partidas guardadas", "Opciones", "Salir"],
+                [
+                    "Nuevo juego",
+                    "Mi equipo",
+                    "Partidas guardadas",
+                    "En línea",
+                    "Opciones",
+                    "Salir",
+                ],
             )
-            if choice is None or choice == 3:
+            if choice is None or choice == 5:
                 ctx.ui.speak("Hasta luego.", interrupt=True)
                 ctx.window.pause(600)
                 return None
@@ -63,6 +73,8 @@ class MainMenuScene:
                 if sub is not None and sub < len(new_game_entries):
                     new_game_entries[sub][1]()
             elif choice == 1:
+                run_economy_menu(ctx)
+            elif choice == 2:
                 saved = ctx.saves.list_saved_slots()
                 if not saved:
                     ctx.ui.speak("No hay partidas guardadas todavía.")
@@ -80,5 +92,7 @@ class MainMenuScene:
                         continue_world_cup(ctx)
                     else:
                         continue_saved_league(ctx, slot_key)
-            elif choice == 2:
+            elif choice == 3:
+                OnlineScene().run(ctx)
+            elif choice == 4:
                 run_options_menu(ctx)

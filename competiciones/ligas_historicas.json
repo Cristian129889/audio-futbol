@@ -1,0 +1,24 @@
+{
+  "id": "ligas_historicas",
+  "nombre": "Clubes históricos del fútbol",
+  "version_datos": "2026-11-23",
+  "nota": "Homenaje a clubes históricos y grandes protagonistas del fútbol mundial. Se usan plantillas actuales del juego como referencia de homenaje, no plantillas de épocas pasadas. Incluye clubes citados en el ranking FIFA Club of the Century y campeones históricos de la AFA.",
+  "equipos": [
+    {"id": "historico_real_madrid", "nombre": "Real Madrid", "pais": "España", "plantilla": [], "nivel": 89, "estadio": "Estadio Santiago Bernabéu", "ciudad": "Madrid"},
+    {"id": "historico_barcelona", "nombre": "Barcelona", "pais": "España", "plantilla": [], "nivel": 88, "estadio": "Spotify Camp Nou", "ciudad": "Barcelona"},
+    {"id": "historico_atletico", "nombre": "Atlético de Madrid", "pais": "España", "plantilla": [], "nivel": 84, "estadio": "Estadio Metropolitano", "ciudad": "Madrid"},
+    {"id": "historico_bayern", "nombre": "Bayern de Múnich", "pais": "Alemania", "plantilla": [], "nivel": 90, "estadio": "Allianz Arena", "ciudad": "Múnich"},
+    {"id": "historico_dortmund", "nombre": "Borussia Dortmund", "pais": "Alemania", "plantilla": [], "nivel": 87, "estadio": "Signal Iduna Park", "ciudad": "Dortmund"},
+    {"id": "historico_milan", "nombre": "Milan", "pais": "Italia", "plantilla": [], "nivel": 86, "estadio": "Stadio Giuseppe Meazza (San Siro)", "ciudad": "Milán"},
+    {"id": "historico_juventus", "nombre": "Juventus", "pais": "Italia", "plantilla": [], "nivel": 85, "estadio": "Allianz Stadium", "ciudad": "Turín"},
+    {"id": "historico_inter", "nombre": "Inter de Milán", "pais": "Italia", "plantilla": [], "nivel": 87, "estadio": "Stadio Giuseppe Meazza (San Siro)", "ciudad": "Milán"},
+    {"id": "historico_ajax", "nombre": "Ajax", "pais": "Países Bajos", "plantilla": [], "nivel": 82, "estadio": "Johan Cruijff Arena", "ciudad": "Ámsterdam"},
+    {"id": "historico_benfica", "nombre": "Benfica", "pais": "Portugal", "plantilla": [], "nivel": 82, "estadio": "Estádio da Luz", "ciudad": "Lisboa"},
+    {"id": "historico_oporto", "nombre": "Oporto", "pais": "Portugal", "plantilla": [], "nivel": 82, "estadio": "Estádio do Dragão", "ciudad": "Oporto"},
+    {"id": "historico_liverpool", "nombre": "Liverpool", "pais": "Inglaterra", "plantilla": [], "nivel": 86, "estadio": "Anfield", "ciudad": "Liverpool"},
+    {"id": "historico_manchester_united", "nombre": "Manchester United", "pais": "Inglaterra", "plantilla": [], "nivel": 85, "estadio": "Old Trafford", "ciudad": "Mánchester"},
+    {"id": "historico_flamengo", "nombre": "Flamengo", "pais": "Brasil", "plantilla": [], "nivel": 83, "estadio": "Maracanã", "ciudad": "Río de Janeiro"},
+    {"id": "historico_boca", "nombre": "Boca Juniors", "pais": "Argentina", "plantilla": [], "nivel": 83, "estadio": "Estadio Alberto J. Armando (La Bombonera)", "ciudad": "Buenos Aires"},
+    {"id": "historico_penarol", "nombre": "Peñarol", "pais": "Uruguay", "plantilla": [], "nivel": 81, "estadio": "Estadio Centenario", "ciudad": "Montevideo"}
+  ]
+}

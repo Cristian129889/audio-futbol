@@ -196,3 +196,15 @@ Antes de compartir tus archivos `.csv` o `.json`, revisa esta lista:
 - [ ] Todos los jugadores tienen dorsal (`numero` de 1 a 99 sin repetir dentro del mismo club) y `calidad` entre 50 y 95.
 - [ ] El nombre del club en el `.csv` coincide con el campo `"nombre"` del `.json` en `competiciones/`.
 - [ ] En una liga o fase de grupos, la cantidad de equipos es par (en copas de grupos, múltiplo de 4: 8, 16, 32 o 64).
+- [ ] La columna `puesto` es coherente con `posicion`: por ejemplo `ED`/`EI` son `DEL`, `VD`/`VI`/`MP` son `MED`, `LD`/`LI`/`CE` son `DEF`. La suite lo comprueba automáticamente.
+- [ ] Si aportas un club premium, añádelo también a `PREMIUM_TEAMS` en `src/audiofutbol/data/economy.py` y documenta la fuente en `FUENTES_NUEVOS.txt`.
+
+---
+
+## 6. Consideraciones nuevas de v0.18.0
+
+- Los datos nuevos viven en `datos/clubes/nuevos_clubes.csv` (12 clubes, 281 jugadores) y en cuatro JSON de `competiciones/`: `serie_a_2026_27.json`, `bundesliga_2026_27.json`, `liga_argentina_2026.json` y `ligas_historicas.json`. Antes de enviar cambios, ejecuta `pytest -q`; las pruebas validan dorsales únicos, posiciones, calidad y que cada liga cargue todos sus equipos con plantilla.
+- Las fuentes consultadas se registran en `datos/clubes/FUENTES_NUEVOS.txt` con la fecha de consulta. La `calidad` y el `puesto` son valores de equilibrio para la simulación, no valoraciones oficiales.
+- El progreso económico y social ya no se guarda en archivos sueltos: usa la caja fuerte CQL (`saves/vault.db` + `saves/vault.key`). No añadas código que escriba monedas, amistad o fichajes en JSON o pickle; usa `EconomyService` y `CQLStore`.
+- Si hosteas una partida, la configuración del servidor independiente está en `servidor/config.json` junto a `AudioFutbolServer.exe`. `vault.db`, `vault.key` y `server.log` de esa carpeta son datos del anfitrión: inclúyelos en tus copias y no los subas a un repositorio público con la clave.
+- El partido en línea es autoritativo: `net/authoritative.py` ejecuta `MatchEngine` en el servidor y difunde narración, sonidos, HUD, eventos y marcador; el cliente controlador envía decisiones con `MSG.MATCH_DECISION` y los demás solo observan. Si contribuyes en red, mantén `domain/` puro: amplía `MatchIO` con métodos portables y tradúcelos a mensajes de `net/protocol.py` en el adaptador del servidor. Nunca ejecutes el motor en el cliente para partidos de sala.

@@ -17,12 +17,10 @@ from audiofutbol.domain.formations import (
     assign_roles,
     choose_ai_scheme,
     family_of,
-    fit,
     fit_multiplier,
     group_of,
     role_text,
     scheme_counts,
-    scheme_slot_codes,
     side_of,
 )
 from audiofutbol.domain.match.ports import MatchSettings
@@ -285,7 +283,6 @@ class MatchState:
         ]
         self.slot: dict[int, str] = {}
         self.fit: dict[int, float] = {}
-        self.board_slots: list[list[Player | None]] = [[None] * 11, [None] * 11]
         self.assign_slots(0)
         self.assign_slots(1)
         self.sort_lineup(0)
@@ -319,10 +316,6 @@ class MatchState:
         self.gk_penalty: list[int] = [0, 0]
         self.shots: list[int] = [0, 0]
         self.shots_on_target: list[int] = [0, 0]
-        self.shots_post: list[int] = [0, 0]
-        self.shots_saved: list[int] = [0, 0]
-        self.shots_off_target: list[int] = [0, 0]
-        self.shots_blocked: list[int] = [0, 0]
         self.saves: list[int] = [0, 0]
         self.interceptions: list[int] = [0, 0]
         self.blocks: list[int] = [0, 0]
@@ -565,121 +558,6 @@ class MatchState:
         self.fit.update(fits)
         self.sync_roles(idx)
         self.sort_lineup(idx)
-        self.sync_board_slots(idx)
-
-    def sync_board_slots(self, idx: int) -> None:
-        """Align `board_slots[idx]` (length 11) with active XI and concrete slot codes."""
-        codes = scheme_slot_codes(self.scheme[idx])
-        on_pitch = list(self.xi[idx])
-        prev = self.board_slots[idx] if len(self.board_slots[idx]) == len(codes) else [None] * len(codes)
-        new_slots: list[Player | None] = [None] * len(codes)
-        used: set[int] = set()
-        for i, code in enumerate(codes):
-            cand = prev[i]
-            if (
-                cand is not None
-                and cand in on_pitch
-                and id(cand) not in used
-                and self.slot.get(id(cand)) == code
-            ):
-                new_slots[i] = cand
-                used.add(id(cand))
-        for i, code in enumerate(codes):
-            if new_slots[i] is not None:
-                continue
-            match = next(
-                (p for p in on_pitch if id(p) not in used and self.slot.get(id(p)) == code),
-                None,
-            )
-            if match is not None:
-                new_slots[i] = match
-                used.add(id(match))
-        self.board_slots[idx] = new_slots
-
-    def apply_board_slots(
-        self, idx: int, slots: list[Player | None], persist: bool = False
-    ) -> None:
-        """Rebuild XI, concrete roles, fits, and ratings from 11 tactical board slots."""
-        codes = scheme_slot_codes(self.scheme[idx])
-        padded = (list(slots) + [None] * len(codes))[: len(codes)]
-        self.board_slots[idx] = list(padded)
-        old_xi = list(self.xi[idx])
-        for p in old_xi:
-            self.slot.pop(id(p), None)
-            self.fit.pop(id(p), None)
-            self.position_overrides.pop(id(p), None)
-
-        new_xi: list[Player] = []
-        for code, player in zip(codes, padded):
-            if player is None or player in new_xi:
-                continue
-            new_xi.append(player)
-            self.slot[id(player)] = code
-            self.fit[id(player)] = (
-                (1.0 if player.position == "POR" else 0.3)
-                if code == "POR"
-                else fit(player, code)
-            )
-        self.xi[idx] = new_xi
-        has_natural_gk = (
-            padded[0] is not None and padded[0].position == "POR"
-        ) or any(
-            p.position == "POR" and self.slot.get(id(p)) == "POR" for p in new_xi
-        )
-        self.gk_penalty[idx] = 0 if has_natural_gk else -25
-        self.sync_roles(idx)
-        self.sort_lineup(idx)
-        self.ratings[idx] = self.compute_ratings(idx)
-        if persist:
-            team = self.teams[idx]
-            team.scheme = self.scheme[idx]
-            team.lineup_names = [p.name for p in self.xi[idx]]
-            team.positions = {
-                p.name: code
-                for code, p in zip(codes, padded)
-                if p is not None and code != "POR"
-            }
-
-    def clear_lineup(
-        self, idx: int, new_scheme: str | None = None, persist: bool = True
-    ) -> None:
-        """Clear all starters for team `idx`, optionally switching to `new_scheme`."""
-        if new_scheme is not None:
-            self.scheme[idx] = new_scheme
-        self.apply_board_slots(idx, [None] * 11, persist=persist)
-
-    def lineup_average_quality(
-        self, team_idx: int = 0, include_fatigue: bool = False
-    ) -> float:
-        """Return average quality of currently placed players in `xi[team_idx]`."""
-        xi = self.xi[team_idx]
-        if not xi:
-            return 0.0
-        if include_fatigue:
-            return sum(self.effective_overall(p) for p in xi) / float(len(xi))
-        total = 0.0
-        for p in xi:
-            val = float(p.overall) * self.out_of_position_factor(p)
-            if self.player_role(p) == p.position:
-                val *= fit_multiplier(self.fit.get(id(p), 1.0))
-            total += val
-        return total / float(len(xi))
-
-    def lineup_line_averages(self, team_idx: int = 0) -> dict[str, float]:
-        """Return prematch average quality per occupied core position line."""
-        out: dict[str, float] = {}
-        for grp in ("POR", "DEF", "MED", "DEL"):
-            players = [p for p in self.xi[team_idx] if self.player_role(p) == grp]
-            if not players:
-                continue
-            vals = []
-            for p in players:
-                val = float(p.overall) * self.out_of_position_factor(p)
-                if self.player_role(p) == p.position:
-                    val *= fit_multiplier(self.fit.get(id(p), 1.0))
-                vals.append(val)
-            out[grp] = sum(vals) / float(len(vals))
-        return out
 
     def sync_roles(self, idx: int) -> None:
         """Keep `position_overrides` synchronized with concrete tactical slots."""
@@ -960,8 +838,7 @@ class MatchState:
         morale_boost = self.morale[team_idx] * 0.22
         if key == "gk":
             return val + self.gk_penalty[team_idx] + (mom_boost + morale_boost) * 0.5
-        shortage = max(self.red_cards[team_idx], max(0, 11 - len(self.xi[team_idx])))
-        return (val + mom_boost + morale_boost) * max(0.3, 1.0 - 0.07 * shortage)
+        return (val + mom_boost + morale_boost) * (1.0 - 0.07 * self.red_cards[team_idx])
 
     def duel_advantage(self, player_a: Player, player_b: Player) -> float:
         """Strong individual player-vs-player rating edge (-0.26..+0.26)."""
@@ -1142,10 +1019,6 @@ class MatchState:
             "tarjetas": list(self.cards_log),
             "tiros": list(self.shots),
             "tiros_p": list(self.shots_on_target),
-            "tiros_poste": list(self.shots_post),
-            "tiros_atajados": list(self.shots_saved),
-            "tiros_desviados": list(self.shots_off_target),
-            "tiros_bloqueados": list(self.shots_blocked),
             "atajadas": list(self.saves),
             "intercepciones": list(self.interceptions),
             "bloqueos": list(self.blocks),
@@ -1169,25 +1042,9 @@ class MatchState:
         pa, pb = self.possession_pct(snap["pos"])
         out = [
             f"Posesión del balón: {n0} {pa} por ciento, {n1} {pb} por ciento.",
-            f"Tiros totales: {n0} {snap['tiros'][0]}, {n1} {snap['tiros'][1]}.",
-            f"Tiros a puerta: {n0} {snap['tiros_p'][0]}, {n1} {snap['tiros_p'][1]}.",
             (
-                f"Tiros al poste: {n0} {snap.get('tiros_poste', [0, 0])[0]}, "
-                f"{n1} {snap.get('tiros_poste', [0, 0])[1]}."
-            ),
-            (
-                f"Tiros atajados por el portero contrario: "
-                f"{n0} {snap.get('tiros_atajados', [0, 0])[0]}, "
-                f"{n1} {snap.get('tiros_atajados', [0, 0])[1]}."
-            ),
-            (
-                f"Tiros desviados: {n0} {snap.get('tiros_desviados', [0, 0])[0]}, "
-                f"{n1} {snap.get('tiros_desviados', [0, 0])[1]}."
-            ),
-            (
-                f"Tiros interceptados o bloqueados: "
-                f"{n0} {snap.get('tiros_bloqueados', [0, 0])[0]}, "
-                f"{n1} {snap.get('tiros_bloqueados', [0, 0])[1]}."
+                f"Tiros: {n0} {snap['tiros'][0]}, {self.format_on_target(snap['tiros_p'][0])}. "
+                f"{n1} {snap['tiros'][1]}, {self.format_on_target(snap['tiros_p'][1])}."
             ),
             f"Atajadas del portero: {n0} {snap.get('atajadas', [0, 0])[0]}, {n1} {snap.get('atajadas', [0, 0])[1]}.",
             f"Intercepciones y bloqueos defensivos: {n0} {snap.get('intercepciones', [0, 0])[0] + snap.get('bloqueos', [0, 0])[0]}, "

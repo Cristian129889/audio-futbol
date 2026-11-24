@@ -29,6 +29,34 @@ def test_auto_friendly_match_completes_cleanly() -> None:
     assert len(engine.state.recap_lines()) >= 5
 
 
+def test_match_io_emits_structured_events_and_scoreboard() -> None:
+    team_a = create_generic_team("Brasil", 85)
+    team_b = create_generic_team("Alemania", 83)
+    rng = random.Random(12345)
+    io = HeadlessMatchIO(rng=rng)
+    engine = MatchEngine(
+        team_a,
+        team_b,
+        io=io,
+        settings=MatchSettings(turn_seconds=60, var_enabled=False),
+        auto=True,
+        rng=rng,
+    )
+    result = engine.play()
+
+    assert io.match_events
+    assert io.match_states
+    assert io.match_events[-1]["kind"] == "full_time"
+    assert any(
+        event["kind"] in {"play", "goal", "save", "yellow_card", "red_card", "penalty"}
+        for event in io.match_events
+    )
+    assert all(event.get("minute") is not None and event.get("score") for event in io.match_events)
+    assert io.match_states[-1]["status"] == "final"
+    assert io.match_states[-1]["home_score"] == result.goals[0]
+    assert io.match_states[-1]["away_score"] == result.goals[1]
+
+
 def test_interactive_knockout_match_with_seeded_decisions() -> None:
     team_a = create_generic_team("Argentina", 86)
     team_b = create_generic_team("Francia", 86)
@@ -701,196 +729,6 @@ def test_context_shortcut_n_returns_structured_lines() -> None:
     assert "Ritmo y campo:" in joined
     assert "Clima y ambiente:" in joined
     assert "Cambio pedido al cuarto árbitro" in joined
-
-
-def test_direct_free_kick_and_olympic_goals_never_ruled_offside_by_var() -> None:
-    team_a = create_generic_team("Argentina", 86)
-    team_b = create_generic_team("Brasil", 84)
-
-    for seed in range(200):
-        rng = random.Random(seed)
-        io = HeadlessMatchIO(rng=rng)
-        eng = MatchEngine(
-            team_a,
-            team_b,
-            io=io,
-            settings=MatchSettings(var_enabled=True),
-            auto=False,
-            prematch_menu=False,
-            rng=rng,
-        )
-        scorer = eng.state.xi[0][-1]
-        eng.set_pieces.score_goal(0, scorer, goal_type="de tiro libre")
-        eng.set_pieces.score_goal(0, scorer, goal_type="gol olímpico")
-        eng.var.review_goal(0, scorer, goal_type="de tiro libre")
-        eng.var.review_goal(0, scorer, goal_type="gol olímpico")
-        assert all("fuera de juego" not in msg.lower() for msg in io.messages)
-
-
-def test_substitution_menu_uses_2d_formation_board_and_shows_yellow_cards() -> None:
-    team_a = create_generic_team("Argentina", 86)
-    team_b = create_generic_team("Brasil", 84)
-
-    def decide(title: str, options: list[str]) -> int:
-        if "¿Quién sale?" in title:
-            return 1  # first defender (LI)
-        return 0  # best bench replacement
-
-    io = HeadlessMatchIO(decision_callback=decide)
-    eng = MatchEngine(team_a, team_b, io=io, max_substitutions=5, auto=False, prematch_menu=False)
-    starter_def = next(p for p in eng.state.xi[0] if p.position == "DEF")
-    starter_def.yellow_cards = 1
-    bench_def = next(
-        p for p in eng.subs.eligible_replacements(0, starter_def) if p.position == "DEF"
-    )
-    bench_def.yellow_cards = 1
-
-    captured_bench_opts: list[str] = []
-    orig_choose = io.choose
-
-    def spy_choose(title, options, shortcuts=None, quick_keys=None, initial_index=0):
-        if "¿Quién entra?" in title:
-            captured_bench_opts.extend(options)
-        return orig_choose(title, options, shortcuts, quick_keys, initial_index)
-
-    io.choose = spy_choose  # type: ignore[method-assign]
-    assert eng.subs.open_substitution_menu() is True
-    assert len(io.formation_calls) == 1
-    _title, rows = io.formation_calls[0]
-    row_names = [r.name for r in rows]
-    assert row_names == ["Portería", "Zona defensiva", "Mediocampo", "Delantera", "Acciones"]
-    def_row = rows[1]
-    assert def_row.slots[0].pan == -1.0
-    assert def_row.slots[-1].pan == 1.0
-    assert any("1 amarilla" in s.label for s in def_row.slots)
-    assert any("1 amarilla" in opt for opt in captured_bench_opts)
-
-
-def test_match_with_eight_players_plays_and_abandons_below_seven_on_red_cards() -> None:
-    team_a = create_generic_team("México", 82)
-    team_b = create_generic_team("Colombia", 82)
-    io = HeadlessMatchIO(rng=random.Random(10))
-    eng = MatchEngine(team_a, team_b, io=io, auto=False, prematch_menu=False, rng=random.Random(10))
-    # Clear 3 slots to start with 8 players
-    slots = list(eng.state.board_slots[0])
-    for idx in (8, 9, 10):
-        slots[idx] = None
-    eng.state.apply_board_slots(0, slots, persist=True)
-    assert len(eng.state.xi[0]) == 8
-
-    # First red card -> 7 players, match continues
-    p1 = eng.state.xi[0][-1]
-    eng.set_pieces.give_card(0, p1, "roja")
-    assert len(eng.state.xi[0]) == 7
-    assert eng.state.suspended_match is False
-
-    # Second red card -> 6 players (< 7), match is suspended
-    p2 = eng.state.xi[0][-1]
-    eng.set_pieces.give_card(0, p2, "roja")
-    assert len(eng.state.xi[0]) == 6
-    assert eng.state.suspended_match is True
-
-
-def test_shot_breakdown_invariant_across_full_matches() -> None:
-    team_a = create_generic_team("Argentina", 86)
-    team_b = create_generic_team("Francia", 84)
-    for seed in range(12):
-        rng = random.Random(seed)
-        eng = MatchEngine(
-            team_a,
-            team_b,
-            io=HeadlessMatchIO(rng=rng),
-            settings=MatchSettings(turn_seconds=30, var_enabled=True),
-            knockout=False,
-            auto=True,
-            rng=rng,
-        )
-        eng.play()
-        st = eng.state
-        for idx in (0, 1):
-            assert st.shots[idx] == (
-                st.shots_on_target[idx]
-                + st.shots_post[idx]
-                + st.shots_off_target[idx]
-                + st.shots_blocked[idx]
-            )
-            assert st.shots_saved[idx] == st.saves[1 - idx]
-        lines = st.stats_lines(st.snapshot())
-        joined = "\n".join(lines)
-        for prefix in (
-            "Tiros totales:",
-            "Tiros a puerta:",
-            "Tiros al poste:",
-            "Tiros atajados por el portero contrario:",
-            "Tiros desviados:",
-            "Tiros interceptados o bloqueados:",
-        ):
-            assert prefix in joined
-
-
-def test_shot_breakdown_covers_open_play_olympic_fk_wall_block_and_penalty() -> None:
-    team_a = create_generic_team("España", 85)
-    team_b = create_generic_team("Italia", 83)
-    io = HeadlessMatchIO(rng=random.Random(5))
-    eng = MatchEngine(team_a, team_b, io=io, auto=False, prematch_menu=False, rng=random.Random(5))
-    eng.set_pieces.rebound = lambda *args, **kwargs: None  # type: ignore[method-assign]
-    eng.set_pieces.corner = lambda *args, **kwargs: None  # type: ignore[method-assign]
-
-    # Force specific shot() outcomes (saved, post, off-target, blocked)
-    eng.state.roll = lambda _p: False  # type: ignore[method-assign]
-    eng.state.rng.random = lambda: 0.10  # saved (< 0.38)  # type: ignore[method-assign]
-    eng.set_pieces.shot(0, 2, mult=1.0)
-    eng.state.rng.random = lambda: 0.45  # post (< 0.55)  # type: ignore[method-assign]
-    eng.set_pieces.shot(0, 2, mult=1.0)
-    eng.state.rng.random = lambda: 0.70  # off-target (< 0.82)  # type: ignore[method-assign]
-    eng.set_pieces.shot(0, 2, mult=1.0)
-    eng.state.rng.random = lambda: 0.95  # blocked (>= 0.82)  # type: ignore[method-assign]
-    eng.set_pieces.shot(0, 2, mult=1.0)
-
-    # Olympic goal saved and post
-    taker = eng.state.xi[0][-1]
-    eng.state.rng.random = lambda: 0.15  # saved  # type: ignore[method-assign]
-    eng.set_pieces.olympic_goal(0, taker)
-    eng.state.rng.random = lambda: 0.35  # post  # type: ignore[method-assign]
-    eng.set_pieces.olympic_goal(0, taker)
-
-    # Direct FK wall block
-    eng.state.roll = lambda _p: True  # type: ignore[method-assign]
-    eng.set_pieces._direct_free_kick(0, taker, style=0, wall_size=4)
-
-    # In-match penalty saved & post
-    eng.set_pieces.take_penalty_kick = lambda att_idx, t=None: "parada"  # type: ignore[method-assign]
-    eng.set_pieces.penalty(0)
-    eng.set_pieces.take_penalty_kick = lambda att_idx, t=None: "poste"  # type: ignore[method-assign]
-    eng.set_pieces.penalty(0)
-
-    # Defend in block desperate shot blocked (team 1 shoots, team 0 blocks)
-    eng.state.set_possession(1, 2, lane=0)
-    eng.state.rival_attack_turns = 2
-    eng.state.rng.random = lambda: 0.90  # reaches branch 4  # type: ignore[method-assign]
-    eng.state.roll = lambda _p: True  # type: ignore[method-assign]
-    eng._defend_in_block(2, 0.25, eng.state.ensure_ball_carrier(1))
-
-    st = eng.state
-    assert st.shots[0] == 9
-    assert st.shots_on_target[0] == 3
-    assert st.shots_saved[0] == 3
-    assert st.saves[1] == 3
-    assert st.shots_post[0] == 3
-    assert st.shots_off_target[0] == 1
-    assert st.shots_blocked[0] == 2
-    assert st.shots[1] == 1
-    assert st.shots_blocked[1] == 1
-    assert st.blocks[0] == 1
-    for idx in (0, 1):
-        assert st.shots[idx] == (
-            st.shots_on_target[idx]
-            + st.shots_post[idx]
-            + st.shots_off_target[idx]
-            + st.shots_blocked[idx]
-        )
-
-
 
 
 

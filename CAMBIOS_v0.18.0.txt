@@ -1,0 +1,323 @@
+AUDIOFÚTBOL v0.18.0 - CAMBIOS REALIZADOS Y ARCHIVOS TOCADOS
+=============================================================
+
+Base de partida: v0.17.0 (https://github.com/rayo-alcantar/audio-futbol/archive/refs/tags/v0.17.0.zip)
+Fecha de los datos nuevos: 23/11/2026
+Resultado de la compilación: AudioFutbol.exe y AudioFutbolServer.exe (portables, sin consola)
+
+
+1. NOVEDADES PRINCIPALES
+========================
+
+1.1. Almacenamiento cifrado CQL (Ciphered Query Layer)
+------------------------------------------------------
+Se ha añadido una capa de almacenamiento cifrado encima de SQLite. No es un
+archivo pickle ni un JSON en claro: cada documento se guarda como ciphertext
+autenticado dentro de una base de datos SQL real.
+
+Archivos:
+- NUEVO src/audiofutbol/security/__init__.py
+- NUEVO src/audiofutbol/security/crypto.py
+- NUEVO src/audiofutbol/security/cql.py
+
+Qué hace `security/crypto.py`:
+- ChaCha20 (RFC 8439) implementado en Python puro para la confidencialidad.
+- HMAC-SHA256 con cifrado-then-MAC (nonce || tag || ciphertext) para integridad.
+- Cada payload se enlaza a su "namespace" y clave mediante AAD; cambiar una
+  fila de sitio o modificar un byte hace que falle la autenticación.
+- `load_or_create_key()` crea `saves/vault.key` (32 bytes aleatorios) o, si se
+  proporciona frase de paso, guarda `AFPB + salt + clave maestra sellada` con
+  PBKDF2-HMAC-SHA256 (210.000 iteraciones).
+- No se necesita instalar la librería `cryptography`: todo está en la stdlib o
+  implementado en el propio módulo, por lo que funciona dentro del EXE.
+
+Qué hace `security/cql.py`:
+- Tabla SQL `vault(ns, k, nonce, tag, value)` con el valor cifrado.
+- Tabla SQL `vault_index(ns, k, token)` con tokens HMAC deterministas para
+  búsquedas exactas por etiqueta sin revelar la etiqueta en claro.
+- API: `put`, `get`, `delete`, `keys`, `all`, `query`, `count`, `sql`,
+  `transaction`, `clear_namespace` y fachada `table()`.
+- `sql()` solo consulta metadatos; el contenido legible solo existe en memoria
+  después de verificar y descifrar la fila.
+- Nota sobre el nombre: en el proyecto se solía decir "CQL" cuando se quería
+  decir SQL. Esta capa mantiene SQL por debajo y ofrece una API pequeña y
+  auditada encima. No requiere servidor de base de datos externo.
+
+IMPORTANTE: copia `saves/vault.db` junto con `saves/vault.key` (y la carpeta
+`servidor/` si hosteas una partida). Si pierdes la clave, los datos cifrados
+no se pueden recuperar. Esa irreversibleidad es deliberada.
+
+
+1.2. Economía: monedas, desbloqueos y fichajes
+----------------------------------------------
+Archivos:
+- NUEVO src/audiofutbol/data/economy.py
+- NUEVO src/audiofutbol/scenes/economy.py
+- MODIFICADO src/audiofutbol/app.py
+- MODIFICADO src/audiofutbol/scenes/base.py
+- MODIFICADO src/audiofutbol/scenes/match_scene.py
+- MODIFICADO src/audiofutbol/scenes/friendly.py
+
+- Saldo inicial: 300 monedas, guardado en el namespace `economy` del vault.
+- Victoria: 180 monedas + 12 por gol. Empate: 60 + 12 por gol. Derrota:
+  20 + 12 por gol. En tandas de penales se usa el resultado de la tanda para
+  decidir quién gana.
+- Cada movimiento se escribe en un ledger cifrado de los últimos 100 eventos,
+  visible desde "Mi equipo" -> "Ver saldo y movimientos".
+- Equipos premium (River Plate, Schalke 04, Hamburger SV, Borussia
+  Mönchengladbach, 1. FC Köln, Werder Bremen y los nuevos clubes italianos)
+  empiezan bloqueados; desbloquear cuesta 900 monedas. Los clubes de v0.17.0
+  siguen disponibles para no romper partidas antiguas.
+- Precio de un jugador: 120 * 1.09^(calidad-55), redondeado. Calidad 55 ~ 120,
+  75 ~ 450, 90 ~ 900 monedas.
+- "Mi equipo" permite ver saldo/historial, desbloquear clubes, fichar jugadores
+  del pool real y consultar los fichajes por club.
+- Las recompensas se conceden al terminar partidos de liga/copa y amistosos,
+  una sola vez por resultado, mediante `award_from_result()`.
+
+
+1.3. Servidor independiente y cliente en línea
+----------------------------------------------
+Archivos nuevos:
+- src/audiofutbol/net/__init__.py
+- src/audiofutbol/net/protocol.py
+- src/audiofutbol/net/match_sync.py
+- src/audiofutbol/net/client.py
+- src/audiofutbol/net/server.py
+- src/audiofutbol/scenes/online.py
+- servidor.pyw
+
+Archivos modificados:
+- src/audiofutbol/engine/paths.py (rutas `servidores.json` y `servidor/`)
+- src/audiofutbol/engine/window.py (hooks de teclado y `set_idle_hook`)
+- src/audiofutbol/ui/widgets.py (`input_text`, `on_idle`, compatibilidad)
+- src/audiofutbol/scenes/main_menu.py (entradas "Mi equipo" y "En línea")
+- src/audiofutbol/engine/updater.py (proteger vault y datos de servidor)
+- src/audiofutbol/domain/match/ports.py (`MatchIO.emit_match_event` y `emit_match_state`)
+- src/audiofutbol/domain/match/engine.py (estado periódico y evento final)
+- src/audiofutbol/domain/match/set_pieces.py (goles, jugadas, paradas, tarjetas, penales)
+- src/audiofutbol/domain/match/substitutions.py (cambios)
+- src/audiofutbol/domain/match/var.py (desenlaces del VAR)
+- src/audiofutbol/scenes/base.py (cliente persistente, bombeo y anuncios en segundo plano)
+- src/audiofutbol/scenes/match_scene.py (puente de `MatchIO` al contexto)
+- src/audiofutbol/app.py (cliente único durante toda la sesión)
+
+Servidor:
+- `AudioFutbolServer.exe` es un EXE propio sin Pygame y sin consola.
+- Configuración en `servidor/config.json` junto al EXE:
+  `name`, `host`, `port`, `max_players`, `motd`, `passphrase`.
+  Valores por defecto: 127.0.0.1:3840, 32 jugadores.
+  Para LAN pon `host` a 0.0.0.0 y comparte la IP local del equipo.
+- Escribe `servidor/server.log`, `servidor/vault.db` y `servidor/vault.key`.
+  Amigos, bloqueos e historial de reinicios sobreviven al cierre.
+- Protocolo TCP con frames de 4 bytes de longitud + JSON, límite de payload,
+  versión de protocolo y validación de errores.
+
+Cliente:
+- `servidores.json` guarda nombre, IP/host, puerto principal y puertos extra.
+- Formulario de alta con "Guardar y conectar", "Guardar sin conectar" y
+  "Cancelar". Enter conecta; Escape cancela.
+- Acepta IPs con puerto inline (192.168.1.10:3840) y listas `3840, 3841`.
+- `127.0.0.1` solo sirve para conectarte en el mismo equipo donde corre el
+  servidor. Para jugar con otros, guarda la IP real del anfitrión (LAN) o su IP
+  pública con el puerto redirigido. El repositorio público no incluye ni
+  arranca un servidor: cada sala la hospeda quien ejecuta el EXE.
+- Nombre de jug editable (1-24 caracteres).
+
+Sala "En línea":
+- `-` abre chat global; `}` abre chat de sala.
+- F1: tiempo encendido (uptime), último reinicio (UTC) y sonido propio.
+- F2: ping/lag (latencia de ida y vuelta) en milisegundos y sonido propio.
+- F3: jugadores conectados, solicitudes de amistad e invitaciones; permite
+  enviar solicitud, invitar a sala, mensaje privado, bloquear/desbloquear y
+  aceptar solicitudes. Cada evento tiene sonido accesible distinto.
+- Salas: listar, unirse, crear, iniciar partido autoritativo, detenerlo,
+  añadir/quitar bots, invitar, expulsar, música play/pause y salir.
+- Partido autoritativo: el servidor ejecuta `MatchEngine` con los ajustes que
+  envía el anfitrión (`turno_seg`, `var`, `aviso_tiros`, `vol_ambiente`). El
+  cliente que controla el partido envía `MATCH_DECISION`; si abandona la sala,
+  el servidor elige otro controlador automáticamente.
+- Mensajes del partido: `MATCH_START`/`MATCH_STOP`, `MATCH_PROMPT`,
+  `MATCH_NARRATION`, `MATCH_SFX`, `MATCH_AUDIO`, `MATCH_HUD`, `MATCH_EVENT`,
+  `MATCH_STATE` y `MATCH_END`. Todos los clientes reciben exactamente la misma
+  narración, sonidos, HUD, eventos y marcador, sin simulación local.
+- *Mi sala* incluye "Leer goles, tarjetas y jugadas compartidas" y "Marcador
+  compartido de la sala". Los eventos se anuncian por voz y con sonidos ya
+  existentes (`gol`, `tarjeta`, `tarjeta_roja`, `cambio`, `balon`, `parada`,
+  `penal`, `var`, `silbato_final`) sin duplicar la narración del servidor.
+- La conexión permanece abierta al salir del vestíbulo: el bombeo en segundo
+  plano (`GameWindow.set_idle_hook`) sigue recibiendo y anunciando el partido
+  mientras juegas otros menús; se cierra al salir del juego.
+
+PARTIDO EN LÍNEA
+- No hay simulaciones paralelas ni marcadores informativos: la sala juega un
+  único partido gestionado por `AudioFutbolServer.exe`. F2 muestra el
+  ping/lag (latencia de ida y vuelta) en milisegundos para diagnosticar la
+  conexión con ese servidor.
+
+
+1.4. Reproductor de música accesible
+-------------------------------------
+Archivos:
+- NUEVO src/audiofutbol/engine/music_player.py
+- MODIFICADO src/audiofutbol/engine/audio.py
+- MODIFICADO src/audiofutbol/engine/window.py
+- MODIFICADO src/audiofutbol/ui/widgets.py
+- MODIFICADO src/audiofutbol/scenes/online.py
+
+- Se abre con Tab; Shift+Tab abre directamente la búsqueda de YouTube.
+- Opciones: buscar en YouTube y reproducir, reproducir esta URL, pausar/
+  reanudar, avanzar/retroceder 10 segundos, volumen con flechas, leer pista
+  actual y enviar pista a la sala.
+- Los resultados se anuncian numerados; Enter sobre un resultado reproduce;
+  "Reproducir esta URL" acepta URLs directas o de YouTube.
+- `yt-dlp` se incluye DENTRO del EXE (`--collect-all yt_dlp`). Resuelve la URL
+  directa del mejor audio y `urllib` la streama a un temporal; no hace falta
+  instalar yt-dlp, ffmpeg, Python ni ningún paquete adicional.
+- Si no hay red o yt-dlp falla, el reproductor busca automáticamente en
+  `musica/` y `temas/` y avisa de la caída sin cerrar el juego.
+- AudioEngine añade `play_music_file`, `music_pause`, `music_unpause`,
+  `music_seek`, `music_position` y `music_playing`.
+
+
+1.5. Equipos, ligas y competiciones nuevas
+------------------------------------------
+Archivos nuevos:
+- datos/clubes/nuevos_clubes.csv (12 clubes reales, 281 jugadores)
+- datos/clubes/FUENTES_NUEVOS.txt (fuentes consultadas y fecha)
+- competiciones/serie_a_2026_27.json (20 equipos)
+- competiciones/bundesliga_2026_27.json (18 equipos)
+- competiciones/liga_argentina_2026.json (18 equipos)
+- competiciones/ligas_historicas.json (16 clubes históricos)
+
+Archivos modificados:
+- src/audiofutbol/domain/competitions/club_tournaments.py
+- src/audiofutbol/domain/competitions/factory.py
+- src/audiofutbol/ui/rules_text.py
+- tests/test_competitions_and_saves.py
+- datos/clubes/nuevos_clubes.csv (corrección de `puesto`/`posicion` de
+  Bakery Jatta: DEL/ED, coherente con su rol de extremo derecho)
+
+Clubes nuevos: River Plate; Schalke 04, Hamburger SV, Borussia
+Mönchengladbach, 1. FC Köln y Werder Bremen; Venezia, Frosinone, Monza, Genoa,
+Torino, Udinese, Cagliari, Parma, Lecce y Sassuolo (según el CSV y las ligas).
+Antes había 170 clubes reales; ahora el pool global tiene 182 clubes únicos.
+
+Competiciones nuevas en el menú "Nuevo juego":
+- Serie A 2026-27: 20 equipos, ida y vuelta.
+- Bundesliga 2026-27: 18 equipos, ida y vuelta.
+- Liga Argentina 2026: 18 equipos, ida y vuelta.
+- Clubes históricos: 16 equipos, ida y vuelta.
+Todas heredan de `PremierLeague` (tabla única, 2 vueltas, sin playoffs), con
+clave propia en `CLUB_COMPETITIONS`, `SAVE_SLOTS` y `_CLASS_BY_TYPE`.
+
+
+1.6. Compilación portable y dependencias
+-----------------------------------------
+Archivos modificados:
+- scripts/build_exe.py
+- scripts/prepare_audio.py
+- pyproject.toml
+- src/audiofutbol/version.py
+- CHANGELOG.md
+- COLABORAR.md
+- README.md
+- sonidos.txt
+
+- Corregido el `sys.path` de `scripts/build_exe.py` para poder ejecutarlo
+  directamente sin tener el paquete instalado en el intérprete.
+- `python scripts/build_exe.py` genera `AudioFutbol_Portable/` y
+  `AudioFutbol_Portable.zip` con:
+  AudioFutbol.exe, AudioFutbolServer.exe, config.json,
+  servidor/config.json, sonidos/, musica/, temas/, datos/, competiciones/,
+  lib/, sonidos.txt, README.md, CHANGELOG.md, COLABORAR.md y este TXT.
+- El ZIP incluye hash SHA-256 impreso al terminar, para el actualizador.
+- `config.json` se escribe limpio (valores por defecto) aunque no haya Git en
+  la carpeta de trabajo.
+- Dependencias declaradas: pygame-ce, comtypes (Windows) e yt-dlp.
+- Versión 0.18.0 en `version.py` y `pyproject.toml`.
+- El actualizador ya no sobrescribe `vault.db`, `vault.key`, `servidor/` ni
+  `servidores.json`.
+
+
+2. ARCHIVOS TOCADOS (RESUMEN)
+=============================
+
+NUEVOS
+------
+src/audiofutbol/security/__init__.py
+src/audiofutbol/security/crypto.py
+src/audiofutbol/security/cql.py
+src/audiofutbol/data/economy.py
+src/audiofutbol/net/__init__.py
+src/audiofutbol/net/protocol.py
+src/audiofutbol/net/match_sync.py
+src/audiofutbol/net/client.py
+src/audiofutbol/net/server.py
+src/audiofutbol/engine/music_player.py
+src/audiofutbol/scenes/online.py
+src/audiofutbol/scenes/economy.py
+servidor.pyw
+sonidos/servidor/notificacion_mensaje.wav
+sonidos/servidor/notificacion_envio.wav
+sonidos/servidor/ping_servidor.wav
+sonidos/servidor/estado_servidor.wav
+sonidos/servidor/jugador_conectado.wav
+sonidos/servidor/jugador_desconectado.wav
+datos/clubes/nuevos_clubes.csv
+datos/clubes/FUENTES_NUEVOS.txt
+competiciones/serie_a_2026_27.json
+competiciones/bundesliga_2026_27.json
+competiciones/liga_argentina_2026.json
+competiciones/ligas_historicas.json
+tests/test_v018_features.py
+CAMBIOS_v0.18.0.txt
+
+MODIFICADOS
+-----------
+src/audiofutbol/app.py
+src/audiofutbol/scenes/base.py
+src/audiofutbol/scenes/main_menu.py
+src/audiofutbol/scenes/match_scene.py
+src/audiofutbol/scenes/friendly.py
+src/audiofutbol/domain/match/ports.py
+src/audiofutbol/domain/match/engine.py
+src/audiofutbol/domain/match/set_pieces.py
+src/audiofutbol/domain/match/substitutions.py
+src/audiofutbol/domain/match/var.py
+src/audiofutbol/engine/audio.py
+src/audiofutbol/engine/paths.py
+src/audiofutbol/engine/window.py
+src/audiofutbol/engine/updater.py
+src/audiofutbol/ui/widgets.py
+src/audiofutbol/ui/rules_text.py
+src/audiofutbol/domain/competitions/club_tournaments.py
+src/audiofutbol/domain/competitions/factory.py
+scripts/prepare_audio.py
+scripts/build_exe.py
+sonidos.txt
+pyproject.toml
+src/audiofutbol/version.py
+tests/test_match_engine.py
+tests/test_competitions_and_saves.py
+README.md
+CHANGELOG.md
+COLABORAR.md
+
+
+3. VERIFICACIÓN
+===============
+
+- Suite completa: `python -m pytest -q` -> 95 pruebas pasadas.
+- Pruebas nuevas (v018): cifrado ChaCha20/HMAC, vault CQL, economía,
+  directorio de servidores, protocolo, servidor/cliente en vivo con chat,
+  salas, amistad y bloqueos, historial/estado/reinicio de eventos de partido,
+  emisores estructurados de `MatchIO`, reproductor, datos y competiciones.
+- Compilación portable verificada: se generan los dos EXE y el ZIP; el script
+  imprime el SHA-256 del paquete al terminar para poder publicarlo.
+- `AudioFutbolServer.exe` iniciado desde la carpeta portable: respondió
+  PING y F1 con el nombre "Servidor de AudioFutbol" en 127.0.0.1:3840.
+- `AudioFutbol.exe` iniciado desde la carpeta portable: se mantuvo abierto
+  8 segundos sin generar `error.log`.
+- No se usa `print()` ni `input()` bajo `src/audiofutbol/` (lo comprueba la
+  suite), para mantener el funcionamiento sin consola con NVDA/SAPI5.

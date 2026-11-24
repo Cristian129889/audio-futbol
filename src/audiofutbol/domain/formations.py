@@ -43,75 +43,17 @@ ROLES: dict[str, tuple[str, str, str, str]] = {
     "SD": ("segundo delantero", "DEL", "centro", "DC"),
 }
 
-# Ten outfield slots per tactical scheme, ordered left-to-right from defense to attack.
+# Ten outfield slots per tactical scheme, ordered from defense to attack.
 SCHEMES: dict[str, list[str]] = {
-    "4-3-3": ["LI", "CEI", "CED", "LD", "MI", "MCD", "MDR", "EI", "DC", "ED"],
+    "4-3-3": ["LI", "CEI", "CED", "LD", "MCD", "MI", "MDR", "EI", "DC", "ED"],
     "4-4-2": ["LI", "CEI", "CED", "LD", "VI", "MC", "MC", "VD", "DC", "SD"],
     "4-2-3-1": ["LI", "CEI", "CED", "LD", "MCD", "MC", "VI", "MP", "VD", "DC"],
     "4-5-1": ["LI", "CEI", "CED", "LD", "VI", "MC", "MCD", "MC", "VD", "DC"],
     "4-1-4-1": ["LI", "CEI", "CED", "LD", "MCD", "VI", "MC", "MC", "VD", "DC"],
-    "3-5-2": ["CEI", "CE", "CED", "CAI", "MC", "MCD", "MC", "CAD", "DC", "SD"],
+    "3-5-2": ["CEI", "CE", "CED", "CAI", "MCD", "MC", "MC", "CAD", "DC", "SD"],
     "3-4-3": ["CEI", "CE", "CED", "CAI", "MC", "MC", "CAD", "EI", "DC", "ED"],
-    "5-3-2": ["CAI", "CEI", "CE", "CED", "CAD", "MC", "MCD", "MC", "DC", "SD"],
+    "5-3-2": ["CAI", "CEI", "CE", "CED", "CAD", "MCD", "MC", "MC", "DC", "SD"],
     "5-4-1": ["CAI", "CEI", "CE", "CED", "CAD", "VI", "MCD", "MC", "VD", "DC"],
-}
-SCHEME_ROWS: dict[str, list[tuple[str, list[str]]]] = {
-    "4-3-3": [
-        ("Portería", ["POR"]),
-        ("Zona defensiva", ["LI", "CEI", "CED", "LD"]),
-        ("Mediocampo", ["MI", "MCD", "MDR"]),
-        ("Delantera", ["EI", "DC", "ED"]),
-    ],
-    "4-4-2": [
-        ("Portería", ["POR"]),
-        ("Zona defensiva", ["LI", "CEI", "CED", "LD"]),
-        ("Mediocampo", ["VI", "MC", "MC", "VD"]),
-        ("Delantera", ["DC", "SD"]),
-    ],
-    "4-2-3-1": [
-        ("Portería", ["POR"]),
-        ("Zona defensiva", ["LI", "CEI", "CED", "LD"]),
-        ("Mediocampo defensivo", ["MCD", "MC"]),
-        ("Mediocampo ofensivo", ["VI", "MP", "VD"]),
-        ("Delantera", ["DC"]),
-    ],
-    "4-5-1": [
-        ("Portería", ["POR"]),
-        ("Zona defensiva", ["LI", "CEI", "CED", "LD"]),
-        ("Mediocampo", ["VI", "MC", "MCD", "MC", "VD"]),
-        ("Delantera", ["DC"]),
-    ],
-    "4-1-4-1": [
-        ("Portería", ["POR"]),
-        ("Zona defensiva", ["LI", "CEI", "CED", "LD"]),
-        ("Mediocentro defensivo", ["MCD"]),
-        ("Mediocampo", ["VI", "MC", "MC", "VD"]),
-        ("Delantera", ["DC"]),
-    ],
-    "3-5-2": [
-        ("Portería", ["POR"]),
-        ("Zona defensiva", ["CEI", "CE", "CED"]),
-        ("Mediocampo", ["CAI", "MC", "MCD", "MC", "CAD"]),
-        ("Delantera", ["DC", "SD"]),
-    ],
-    "3-4-3": [
-        ("Portería", ["POR"]),
-        ("Zona defensiva", ["CEI", "CE", "CED"]),
-        ("Mediocampo", ["CAI", "MC", "MC", "CAD"]),
-        ("Delantera", ["EI", "DC", "ED"]),
-    ],
-    "5-3-2": [
-        ("Portería", ["POR"]),
-        ("Zona defensiva", ["CAI", "CEI", "CE", "CED", "CAD"]),
-        ("Mediocampo", ["MC", "MCD", "MC"]),
-        ("Delantera", ["DC", "SD"]),
-    ],
-    "5-4-1": [
-        ("Portería", ["POR"]),
-        ("Zona defensiva", ["CAI", "CEI", "CE", "CED", "CAD"]),
-        ("Mediocampo", ["VI", "MCD", "MC", "VD"]),
-        ("Delantera", ["DC"]),
-    ],
 }
 SCHEME_ORDER: list[str] = [
     "4-3-3", "4-4-2", "4-2-3-1", "4-5-1", "4-1-4-1", "3-5-2", "3-4-3", "5-3-2", "5-4-1",
@@ -384,17 +326,6 @@ def scheme_counts(scheme: str) -> dict[str, int]:
     for code in SCHEMES.get(scheme, SCHEMES[DEFAULT_SCHEME]):
         counts[ROLES[code][1]] += 1
     return counts
-
-
-def scheme_rows(scheme: str) -> list[tuple[str, list[str]]]:
-    """Return left-to-right tactical rows from goalkeeper to forwards for `scheme`."""
-    rows = SCHEME_ROWS.get(scheme) or SCHEME_ROWS[DEFAULT_SCHEME]
-    return [(label, list(codes)) for label, codes in rows]
-
-
-def scheme_slot_codes(scheme: str) -> list[str]:
-    """Return all 11 slot codes (`POR` + 10 outfield) in row-major order."""
-    return ["POR"] + list(SCHEMES.get(scheme) or SCHEMES[DEFAULT_SCHEME])
 
 
 def scheme_from_roles(codes: Iterable[str]) -> str:

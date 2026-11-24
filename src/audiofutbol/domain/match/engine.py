@@ -103,6 +103,18 @@ class MatchEngine:
                 volume=0.75,
             )
 
+    def _emit_match_state(self, status: str = "live") -> None:
+        """Publish a structured snapshot (authoritative online or local fallback)."""
+
+        self.io.emit_match_state(
+            home=self.state.team_name(0),
+            away=self.state.team_name(1),
+            home_score=self.state.goals[0],
+            away_score=self.state.goals[1],
+            minute=self.state.minute(),
+            status=status,
+        )
+
     def _rival_aggression(self) -> float:
         """Adaptive AI urgency based on score, clock, knockout context, morale, and match heat."""
         if self.state.total_turns <= 0:
@@ -1027,7 +1039,6 @@ class MatchEngine:
             if self.state.roll(0.50 + dfn_edge * 0.5):
                 self.state.blocks[0] += 1
                 self.state.shots[1] += 1
-                self.state.shots_blocked[1] += 1
                 self._sfx("barrera", self.state.stereo_pan())
                 msg = self.narrator.say(
                     "block_shot_blocked", def_=defender.name, riv=carrier.name
@@ -1527,6 +1538,7 @@ class MatchEngine:
             self.state.refresh_ratings()
 
         self.state.set_possession(self.state.rng.choice((0, 1)), 1, lane=0)
+        self._emit_match_state()
 
         try:
             while (
@@ -1541,6 +1553,7 @@ class MatchEngine:
                         break
                     self._halftime("primer tiempo", "segundo tiempo")
                 self._play_turn()
+                self._emit_match_state()
 
             if not self.state.abandoned:
                 self._added_time()
@@ -1606,15 +1619,31 @@ class MatchEngine:
 
             self._sfx("silbato_final")
             if not self.state.abandoned:
+                final_text = self.state.scoreboard_text()
                 self._speak("¡Final del partido!")
-                self._speak(self.state.scoreboard_text())
+                self._speak(final_text)
                 if self.state.penalties:
-                    self._speak(
+                    penalty_text = (
                         f"Penales: {self.state.team_name(0)} {self.state.penalties[0]}, "
                         f"{self.state.team_name(1)} {self.state.penalties[1]}."
                     )
+                    self._speak(penalty_text)
+                    final_text += " " + penalty_text
                 if self.state.first_leg is not None:
                     self._announce_aggregate()
+                self.io.emit_match_event(
+                    "full_time",
+                    f"¡Final del partido! {final_text}",
+                    minute=self.state.minute(),
+                    score=f"{self.state.goals[0]}-{self.state.goals[1]}",
+                    home=self.state.team_name(0),
+                    away=self.state.team_name(1),
+                    penalties=(
+                        f"{self.state.penalties[0]}-{self.state.penalties[1]}"
+                        if self.state.penalties else ""
+                    ),
+                )
+                self._emit_match_state(status="final")
         finally:
             self._cleanup()
 

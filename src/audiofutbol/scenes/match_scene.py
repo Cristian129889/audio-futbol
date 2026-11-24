@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import Any, Callable
 
+from audiofutbol.data.economy import award_from_result
 from audiofutbol.domain.competitions.attendance import calculate_attendance
-from audiofutbol.domain.match.board import FormationRowView
 from audiofutbol.domain.match.engine import MatchEngine
 from audiofutbol.domain.models import format_result_text
 from audiofutbol.scenes.base import GameContext
@@ -20,6 +20,12 @@ class PygameMatchIO:
 
     def speak(self, text: str, interrupt: bool = False) -> None:
         self.ctx.speech.speak(text, interrupt=interrupt)
+
+    def emit_match_event(self, kind: str, text: str = "", **payload: Any) -> None:
+        self.ctx.share_match_event(kind, text, **payload)
+
+    def emit_match_state(self, **payload: Any) -> None:
+        self.ctx.share_match_state(**payload)
 
     def play_sfx(
         self, event: str, pan: float | None = None, volume: float = 1.0
@@ -61,26 +67,6 @@ class PygameMatchIO:
             shortcuts=map_shortcut_keys(shortcuts),
             initial_index=initial_index,
             quick_keys=map_quick_keys(quick_keys),
-        )
-
-    def choose_formation(
-        self,
-        title: str,
-        rows: list[FormationRowView],
-        status_line: str = "",
-        shortcuts: dict[str, Callable[[], str | None]] | None = None,
-        initial_slot_id: str | None = None,
-        allow_remove: bool = False,
-        allow_swap_key: bool = False,
-    ) -> tuple[str, str] | None:
-        return self.ctx.ui.formation_board(
-            title,
-            rows,
-            status_line=status_line,
-            shortcuts=map_shortcut_keys(shortcuts),
-            initial_slot_id=initial_slot_id,
-            allow_remove=allow_remove,
-            allow_swap_key=allow_swap_key,
         )
 
     def confirm(self, question: str) -> bool:
@@ -135,6 +121,12 @@ def run_tournament_match(ctx: GameContext, tournament: Any, simulate: bool) -> N
 
     result = engine.play()
     ga, gb, pen = tournament.register_result(idx, tournament.user_team, result)
+    reward_text = award_from_result(
+        ctx.economy, result, getattr(tournament, "title", "competición"),
+        tournament.user_team.name,
+    )
+    if reward_text:
+        ctx.ui.speak(reward_text)
     ctx.window.update_status("")
     if not simulate:
         ctx.audio.play_menu_music()

@@ -47,25 +47,37 @@ class VarSystem:
         self.state.var_log.append((self.state.minute(), text))
         self.state.add_highlight(f"VAR: {text}")
         self._speak(text)
+        self.io.emit_match_event(
+            "var",
+            text,
+            minute=self.state.minute(),
+            score=f"{self.state.goals[0]}-{self.state.goals[1]}",
+            home=self.state.team_name(0),
+            away=self.state.team_name(1),
+            overturned=overturned,
+        )
+        self.io.emit_match_state(
+            home=self.state.team_name(0),
+            away=self.state.team_name(1),
+            home_score=self.state.goals[0],
+            away_score=self.state.goals[1],
+            minute=self.state.minute(),
+            status="live",
+        )
 
-    def review_goal(
-        self, team_idx: int, scorer: Player, goal_type: str | None = None
-    ) -> None:
+    def review_goal(self, team_idx: int, scorer: Player) -> None:
         self._begin_review(
             f"el gol de {scorer.name}, de {self.state.team_name(team_idx)}"
         )
         if self.state.roll(0.30):
-            if goal_type in ("de tiro libre", "gol olímpico", "de penal"):
-                reason = "una falta en el área sobre la defensa"
-            else:
-                reason = self.state.rng.choices(
-                    [
-                        "fuera de juego",
-                        "una falta previa sobre un defensa",
-                        "una mano previa de un atacante",
-                    ],
-                    [55, 25, 20],
-                )[0]
+            reason = self.state.rng.choices(
+                [
+                    "fuera de juego",
+                    "una falta previa sobre un defensa",
+                    "una mano previa de un atacante",
+                ],
+                [55, 25, 20],
+            )[0]
             self.state.goals[team_idx] -= 1
             scorer.goals -= 1
             if self.state.scorers and self.state.scorers[-1][1] is scorer:

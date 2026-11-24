@@ -1,0 +1,35 @@
+FUENTES CONSULTADAS PARA LOS NUEVOS DATOS
+Fecha de consulta: 23/11/2026
+Proyecto: audio-futbol-v0.18.0
+
+NOTA IMPORTANTE
+Las plantillas de datos/clubes/nuevos_clubes.csv son orientativas para el juego. Los nombres de jugadores y dorsales se han tomado de fuentes públicas consultadas en la fecha indicada, pero los valores de "calidad" y "puesto" son asignaciones de equilibrio deportivo para la simulación, no valoraciones oficiales de los clubes. Pueden haberse producido cambios de plantilla, dorsales o entrenador después de la consulta.
+
+CLUBES NUEVOS - ARGENTINA
+https://es.wikipedia.org/wiki/Anexo:Temporada_2026_del_Club_Atl%C3%A9tico_River_Plate
+https://riverplatenews.info/squad
+
+CLUBES NUEVOS - ALEMANIA
+https://en.wikipedia.org/wiki/2026%E2%80%9327_FC_Schalke_04_season
+https://en.wikipedia.org/wiki/2026%E2%80%9327_Borussia_M%C3%B6nchengladbach_season
+https://en.wikipedia.org/wiki/2026%E2%80%9327_1._FC_K%C3%B6ln_season
+https://en.wikipedia.org/wiki/2026%E2%80%9327_SV_Werder_Bremen_season
+https://www.transfermarkt.us/hamburger-sv/kader/verein/41/saison_id/2026
+
+CLUBES NUEVOS - ITALIA
+https://en.wikipedia.org/wiki/2026%E2%80%9327_Genoa_CFC_season
+https://en.wikipedia.org/wiki/2026%E2%80%9327_Venezia_FC_season
+https://en.wikipedia.org/wiki/2026%E2%80%9327_AC_Monza_season
+https://www.transfermarkt.us/torino-fc/kader/verein/416
+https://www.transfermarkt.us/udinese/kader/verein/410/saison_id/2026
+https://www.transfermarkt.us/frosinone-calcio/kader/verein/8970/saison_id/2026
+
+COMPETICIONES
+https://www.corriere.it/sport/calcio/serie-a/26_agosto_19/serie-a-2026-27-tutto-quello-da-sapere-998b889e-6f2e-4bc7-a785-73b1194ebxlk.shtml
+https://www.bundesliga.com/en/bundesliga/clubs
+https://en.wikipedia.org/wiki/2026%E2%80%9327_Bundesliga
+https://www.afa.com.ar/es/pages/campeones-de-primera-division
+https://en.wikipedia.org/wiki/FIFA_Club_of_the_Century
+
+NOMBRES Y CATEGORÍAS DE CLUBES PREMIUM
+src/audiofutbol/data/economy.py (constante PREMIUM_TEAMS; archivo consultado, no modificado)

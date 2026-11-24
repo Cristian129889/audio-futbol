@@ -1,4 +1,13 @@
-"""Build a no-console Windows portable executable for AudioFutbol using PyInstaller."""
+"""Build no-console Windows portable executables with PyInstaller.
+
+Produces two independent EXEs inside ``AudioFutbol_Portable``:
+
+* ``AudioFutbol.exe`` - the game, with yt-dlp bundled for YouTube playback.
+* ``AudioFutbolServer.exe`` - the self-hostable lobby server.
+
+The server gets its own ``servidor/config.json`` so the host can change IP and
+ports without rebuilding either executable.
+"""
 
 from __future__ import annotations
 
@@ -9,7 +18,14 @@ import shutil
 import subprocess
 import sys
 
-from audiofutbol.engine.config import GameConfig
+# Running this file directly puts ``scripts/`` (not ``src/``) on sys.path.
+_ROOT = Path(__file__).resolve().parents[1]
+_SRC = _ROOT / "src"
+if str(_SRC) not in sys.path:
+    sys.path.insert(0, str(_SRC))
+
+from audiofutbol.engine.config import GameConfig  # noqa: E402
+from audiofutbol.net.server import ServerConfig  # noqa: E402
 
 
 def _write_clean_default_config(root: Path, dest: Path) -> None:
@@ -34,6 +50,40 @@ def _write_clean_default_config(root: Path, dest: Path) -> None:
     )
 
 
+def _build_one(
+    root: Path,
+    name: str,
+    entry: Path,
+    workpath: Path,
+    distpath: Path,
+    extra_args: list[str],
+) -> Path:
+    cmd = [
+        sys.executable,
+        "-m",
+        "PyInstaller",
+        "--noconfirm",
+        "--clean",
+        "--onefile",
+        "--windowed",
+        "--name",
+        name,
+        "--paths",
+        str(root / "src"),
+        "--workpath",
+        str(workpath),
+        "--distpath",
+        str(distpath),
+        *extra_args,
+        str(entry),
+    ]
+    subprocess.run(cmd, cwd=root, check=True)
+    exe = distpath / f"{name}.exe"
+    if not exe.is_file():
+        raise FileNotFoundError(f"Expected executable was not created: {exe}")
+    return exe
+
+
 def main() -> None:
     root = Path(__file__).resolve().parents[1]
     dist_dir = root / "dist"
@@ -44,32 +94,31 @@ def main() -> None:
         if folder.exists():
             shutil.rmtree(folder)
 
-    cmd = [
-        sys.executable,
-        "-m",
-        "PyInstaller",
-        "--noconfirm",
-        "--clean",
-        "--onefile",
-        "--windowed",
-        "--name",
+    game_exe = _build_one(
+        root,
         "AudioFutbol",
-        "--paths",
-        str(root / "src"),
-        "--hidden-import",
-        "comtypes",
-        "--hidden-import",
-        "comtypes.client",
-        str(root / "jugar.pyw"),
-    ]
-    subprocess.run(cmd, cwd=root, check=True)
+        root / "jugar.pyw",
+        build_dir / "game",
+        dist_dir / "game",
+        [
+            "--hidden-import", "comtypes",
+            "--hidden-import", "comtypes.client",
+            "--collect-all", "yt_dlp",
+        ],
+    )
 
-    exe = dist_dir / "AudioFutbol.exe"
-    if not exe.is_file():
-        raise FileNotFoundError(f"Expected executable was not created: {exe}")
+    server_exe = _build_one(
+        root,
+        "AudioFutbolServer",
+        root / "servidor.pyw",
+        build_dir / "server",
+        dist_dir / "server",
+        [],
+    )
 
     portable_dir.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(exe, portable_dir / "AudioFutbol.exe")
+    shutil.copy2(game_exe, portable_dir / "AudioFutbol.exe")
+    shutil.copy2(server_exe, portable_dir / "AudioFutbolServer.exe")
 
     for folder_name in ("sonidos", "musica", "temas", "datos", "competiciones", "lib"):
         src = root / folder_name
@@ -81,11 +130,14 @@ def main() -> None:
         "README.md",
         "CHANGELOG.md",
         "COLABORAR.md",
+        "CAMBIOS_v0.18.0.txt",
     ):
         src = root / file_name
         if src.is_file():
             shutil.copy2(src, portable_dir / file_name)
+
     _write_clean_default_config(root, portable_dir / "config.json")
+    ServerConfig().save(portable_dir / "servidor" / "config.json")
 
     zip_path = root / "AudioFutbol_Portable.zip"
     if zip_path.exists():

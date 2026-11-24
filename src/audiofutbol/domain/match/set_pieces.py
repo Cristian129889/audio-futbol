@@ -13,7 +13,6 @@ from audiofutbol.domain.models import Player
 NO_ASSIST_GOAL_TYPES = frozenset(
     {"de penal", "de tiro libre", "gol olímpico", "de contrarremate"}
 )
-NO_VAR_GOAL_TYPES = frozenset({"de penal", "de tiro libre", "gol olímpico"})
 
 
 class SetPieceResolver:
@@ -54,6 +53,40 @@ class SetPieceResolver:
     def _announce_scoreboard(self) -> None:
         self._speak(self.state.scoreboard_text())
         self.io.update_hud(self.state.hud_status())
+
+    def _emit(
+        self,
+        kind: str,
+        text: str = "",
+        team_idx: int | None = None,
+        player: Player | None = None,
+        **payload: object,
+    ) -> None:
+        """Send a structured event to the online room (no-op in headless mode)."""
+
+        data: dict[str, object] = {
+            "minute": self.state.minute(),
+            "score": f"{self.state.goals[0]}-{self.state.goals[1]}",
+            "home": self.state.team_name(0),
+            "away": self.state.team_name(1),
+        }
+        if team_idx is not None:
+            data["team"] = self.state.team_name(team_idx)
+        if player is not None:
+            data["player"] = player.name
+        data.update(payload)
+        self.io.emit_match_event(kind, text, **data)
+        self._emit_state()
+
+    def _emit_state(self, status: str = "live") -> None:
+        self.io.emit_match_state(
+            home=self.state.team_name(0),
+            away=self.state.team_name(1),
+            home_score=self.state.goals[0],
+            away_score=self.state.goals[1],
+            minute=self.state.minute(),
+            status=status,
+        )
 
     # ------------------------------------------------------- Goalkeeper 1v1
     def goalkeeper_duel(self, att_idx: int, striker: Player | None = None) -> tuple[bool, float]:
@@ -299,8 +332,6 @@ class SetPieceResolver:
         roll = self.state.rng.random()
         if roll < 0.30:
             self.state.shots_on_target[att_idx] += 1
-            self.state.shots_saved[att_idx] += 1
-            self.state.saves[def_idx] += 1
             self._sfx("parada")
             self._speak("El portero se estira y ataja el balón con esfuerzo.")
             self._announce_shots(att_idx)
@@ -309,7 +340,6 @@ class SetPieceResolver:
             else:
                 self.state.set_possession(def_idx, 1)
         elif roll < 0.42:
-            self.state.shots_post[att_idx] += 1
             self._sfx("poste")
             self._speak("¡Poste! El balón da en el poste, por centímetros.")
             self.state.add_highlight(
@@ -321,13 +351,11 @@ class SetPieceResolver:
             else:
                 self.state.set_possession(def_idx, 1)
         elif roll < 0.60:
-            self.state.shots_off_target[att_idx] += 1
             self._sfx("casi")
             self._speak("El balón se cuela rozando el travesaño y sale por encima.")
             self._announce_shots(att_idx)
             self.goal_kick(def_idx)
         else:
-            self.state.shots_off_target[att_idx] += 1
             self._sfx("casi")
             self._speak("El balón se va directo por la línea de fondo.")
             self._announce_shots(att_idx)
@@ -431,7 +459,7 @@ class SetPieceResolver:
         sfx_kind = "chilena" if bicycle else ("cabezazo" if header else "balon")
         self._sfx(sfx_kind, self.state.stereo_pan(0.18))
         if bicycle:
-            self._speak(f"¡{taker.name} se eleva de espaldas al arco e intenta una chilena!")
+            shot_text = f"¡{taker.name} se eleva de espaldas al arco e intenta una chilena!"
         elif rebound:
             phrase = self.state.rng.choice(
                 [
@@ -439,10 +467,12 @@ class SetPieceResolver:
                     "%s aprovecha el rebote y dispara de nuevo.",
                 ]
             )
-            self._speak(phrase % taker.name)
+            shot_text = phrase % taker.name
         else:
             verb = "remata de cabeza" if header else "dispara"
-            self._speak(f"{taker.name} {verb}.")
+            shot_text = f"{taker.name} {verb}."
+        self._speak(shot_text)
+        self._emit("play", shot_text, team_idx=att_idx, player=taker)
 
         if bicycle:
             resolved_type = "de chilena"
@@ -473,17 +503,21 @@ class SetPieceResolver:
         roll = self.state.rng.random()
         if roll < 0.38:
             self.state.shots_on_target[att_idx] += 1
-            self.state.shots_saved[att_idx] += 1
             self.state.drought_turns[att_idx] = 0
             self.state.saves[def_idx] += 1
             self.state.shift_morale(def_idx, 0.8)
             self.state.shift_momentum(-1.4 if att_idx == 0 else 1.8)
             self._sfx("parada", self.state.stereo_pan(0.15))
             gk = self.state.goalkeeper(def_idx)
-            self._speak(
+            save_text = (
                 f"El portero {gk.name} ataja el disparo."
                 if gk
                 else "El portero ataja el disparo."
+            )
+            self._speak(save_text)
+            self._emit(
+                "save", save_text, team_idx=def_idx, player=gk,
+                shooter=taker.name,
             )
             if zone >= 3:
                 self.state.add_highlight(
@@ -499,7 +533,6 @@ class SetPieceResolver:
             else:
                 self.state.set_possession(def_idx, 1)
         elif roll < 0.55:
-            self.state.shots_post[att_idx] += 1
             self._sfx("poste", self.state.stereo_pan(0.15))
             self.state.shift_momentum(0.8 if att_idx == 0 else -0.8)
             self._speak("¡Poste!")
@@ -515,7 +548,6 @@ class SetPieceResolver:
             else:
                 self.state.set_possession(def_idx, 1)
         elif roll < 0.82:
-            self.state.shots_off_target[att_idx] += 1
             self._sfx("casi")
             q = self.state.rng.random()
             if q < 0.45:
@@ -531,7 +563,6 @@ class SetPieceResolver:
             self._announce_shots(att_idx)
             self.goal_kick(def_idx)
         else:
-            self.state.shots_blocked[att_idx] += 1
             self.state.blocks[def_idx] += 1
             blocker = self.state.pick_player(
                 def_idx, {"DEF": 5.0, "MED": 2.0, "DEL": 0.2, "POR": 0.0}
@@ -599,30 +630,35 @@ class SetPieceResolver:
         else:
             self._crowd_react("abucheo", 1.1)
         if wonder_goal and goal_type == "gol olímpico":
-            self._speak(
+            goal_text = (
                 f"¡Goooool! ¡GOL OLÍMPICO de {scorer.name}, de {self.state.team_name(team_idx)}! "
                 f"El balón entra directo desde el saque de esquina. Minuto {self.state.minute()}."
             )
         elif wonder_goal:
-            self._speak(
+            goal_text = (
                 f"¡Goooool! ¡Qué golazo de {scorer.name}, de {self.state.team_name(team_idx)}{suffix}! "
                 f"Minuto {self.state.minute()}.{assist_txt}"
             )
         else:
-            self._speak(
+            goal_text = (
                 f"¡Goooool! {scorer.name}, de {self.state.team_name(team_idx)}{suffix}. "
                 f"Minuto {self.state.minute()}.{assist_txt}"
             )
+        self._speak(goal_text)
+        self._emit(
+            "goal", goal_text, team_idx=team_idx, player=scorer,
+            goal_type=goal_type or "", assistant=assistant.name if assistant else "",
+        )
         self._announce_scoreboard()
         self.state.shift_momentum(3.5 if team_idx == 0 else -3.5)
         self.state.set_possession(1 - team_idx, 1, lane=0)
         if (
-            goal_type not in NO_VAR_GOAL_TYPES
+            goal_type != "de penal"
             and self.state.settings.var_enabled
             and not self.state.suspended_match
             and self.state.roll(0.12)
         ):
-            self.var.review_goal(team_idx, scorer, goal_type=goal_type)
+            self.var.review_goal(team_idx, scorer)
         self._notify_stoppage("la reanudación tras el gol")
 
     # ------------------------------------------------------- Cross, Corner, Restarts
@@ -928,8 +964,6 @@ class SetPieceResolver:
 
         if self.state.roll(block_prob):
             self.state.shots[att_idx] += 1
-            self.state.shots_blocked[att_idx] += 1
-            self.state.blocks[def_idx] += 1
             self._sfx("barrera")
             self._speak("¡El balón da en la barrera!")
             self._announce_shots(att_idx)
@@ -965,22 +999,12 @@ class SetPieceResolver:
         taker, notice = self.state.designated_taker(att_idx, "penal")
         if notice:
             self._speak(notice)
-        self._speak(
+        penalty_text = (
             f"¡Penal para {self.state.team_name(att_idx)}! Va a lanzar {taker.name}."
         )
+        self._speak(penalty_text)
+        self._emit("penalty", penalty_text, team_idx=att_idx, player=taker)
         outcome = self.take_penalty_kick(att_idx, taker)
-        if not self.state.abandoned:
-            self.state.shots[att_idx] += 1
-            if outcome == "gol":
-                self.state.shots_on_target[att_idx] += 1
-            elif outcome == "parada":
-                self.state.shots_on_target[att_idx] += 1
-                self.state.shots_saved[att_idx] += 1
-                self.state.saves[1 - att_idx] += 1
-            elif outcome == "poste":
-                self.state.shots_post[att_idx] += 1
-            else:
-                self.state.shots_off_target[att_idx] += 1
         if outcome == "gol":
             self.score_goal(att_idx, taker, goal_type="de penal")
         else:
@@ -1048,19 +1072,30 @@ class SetPieceResolver:
         if self.state.roll(miss):
             if self.state.roll(0.35):
                 self._sfx("poste")
-                self._speak("¡El balón da en el poste!")
+                outcome_text = "¡El balón da en el poste!"
+                self._speak(outcome_text)
+                self._emit("penalty", outcome_text, team_idx=att_idx, player=taker,
+                           outcome="poste")
                 return "poste"
             self._sfx("casi")
-            self._speak("El penal se va fuera.")
+            outcome_text = "El penal se va fuera."
+            self._speak(outcome_text)
+            self._emit("penalty", outcome_text, team_idx=att_idx, player=taker,
+                       outcome="fuera")
             return "fuera"
         if dive_dir == shot_dir and self.state.roll(
             0.60 + (self.state.rating(def_idx, "gk") - 70) / 100.0 * 0.4
         ):
             self._sfx("parada")
-            self._speak(
+            outcome_text = (
                 f"¡El portero adivina y detiene el penal {PENALTY_DIRECTIONS[shot_dir + 1]}!"
             )
+            self._speak(outcome_text)
+            self._emit("save", outcome_text, team_idx=def_idx, player=taker,
+                       outcome="parada")
             return "parada"
+        self._emit("penalty", f"Penal convertido por {taker.name if taker else 'el lanzador'}.",
+                   team_idx=att_idx, player=taker, outcome="gol")
         return "gol"
 
     # ------------------------------------------------------- One-by-One Shootout
@@ -1389,8 +1424,13 @@ class SetPieceResolver:
                 self.state.add_highlight(
                     f"Expulsado {player.name}, de {club}, por doble amarilla."
                 )
-                self._speak(
+                card_text = (
                     f"Segunda amarilla para {player.name}, de {club}{suffix}. ¡Es expulsado!"
+                )
+                self._speak(card_text)
+                self._emit(
+                    "red_card", card_text, team_idx=team_idx, player=player,
+                    reason=reason or "doble amarilla",
                 )
                 self._send_off(team_idx, player)
                 return
@@ -1402,7 +1442,12 @@ class SetPieceResolver:
             self.state.add_highlight(
                 f"Tarjeta amarilla para {player.name}, de {club}{suffix}."
             )
-            self._speak(f"Tarjeta amarilla para {player.name}, de {club}{suffix}.")
+            card_text = f"Tarjeta amarilla para {player.name}, de {club}{suffix}."
+            self._speak(card_text)
+            self._emit(
+                "yellow_card", card_text, team_idx=team_idx, player=player,
+                reason=reason or "",
+            )
             player.yellow_cards += 1
             if player.yellow_cards >= 2:
                 player.yellow_cards = 0
@@ -1416,7 +1461,12 @@ class SetPieceResolver:
             self.state.add_highlight(
                 f"Tarjeta roja directa para {player.name}, de {club}."
             )
-            self._speak(f"¡Tarjeta roja directa para {player.name}, de {club}!")
+            card_text = f"¡Tarjeta roja directa para {player.name}, de {club}!"
+            self._speak(card_text)
+            self._emit(
+                "red_card", card_text, team_idx=team_idx, player=player,
+                reason=reason or "roja directa",
+            )
             self._send_off(team_idx, player)
 
     def _send_off(self, team_idx: int, player: Player) -> None:
@@ -1429,16 +1479,14 @@ class SetPieceResolver:
         self.state.fit.pop(id(player), None)
         if player in self.state.xi[team_idx]:
             self.state.xi[team_idx].remove(player)
-        self.state.sync_board_slots(team_idx)
         if self.state.ball_carrier is player:
             self.state.ball_carrier = None
         self.state.red_cards[team_idx] += 1
         self.state.ratings[team_idx] = self.state.compute_ratings(team_idx)
-        remaining = len(self.state.xi[team_idx])
         self._speak(
-            f"{self.state.team_name(team_idx)} se queda con {remaining} jugadores."
+            f"{self.state.team_name(team_idx)} se queda con {11 - self.state.red_cards[team_idx]} jugadores."
         )
-        if remaining < 7 and not self.state.suspended_match:
+        if self.state.red_cards[team_idx] >= 5 and not self.state.suspended_match:
             self.state.suspended_match = True
             winner = 1 - team_idx
             self.state.goals[winner] = max(

@@ -1,0 +1,282 @@
+equipo,numero,jugador,posicion,calidad,puesto
+River Plate,41,Santiago Beltrán,POR,70,POR
+River Plate,33,Ezequiel Centurión,POR,68,POR
+River Plate,28,Lucas Martínez Quarta,DEF,82,CE
+River Plate,29,Gonzalo Montiel,DEF,80,LD
+River Plate,21,Marcos Acuña,DEF,79,LI
+River Plate,13,Lautaro Rivero,DEF,76,CE
+River Plate,30,Nicolás Otamendi,DEF,81,CE
+River Plate,3,Francisco Ortega,DEF,73,LI
+River Plate,31,Facundo González,DEF,72,CE
+River Plate,20,Giovanni González,DEF,71,LD
+River Plate,2,Tobías Palacio,DEF,66,CE
+River Plate,26,Tomás Galván,MED,79,MC
+River Plate,15,Fausto Vera,MED,77,MCD
+River Plate,6,Aníbal Moreno,MED,80,MCD
+River Plate,24,Juan Cruz Meza,MED,72,MC
+River Plate,10,Ángel Correa,MED,83,MP
+River Plate,25,Lautaro Pereyra,MED,70,MP
+River Plate,50,Tobías Andrada,MED,68,MC
+River Plate,44,Lucas Silva,MED,68,MC
+River Plate,9,Sebastián Driussi,DEL,83,DC
+River Plate,18,Lucas Beltrán,DEL,77,DC
+River Plate,23,Thiago Almada,MED,84,MP
+River Plate,19,Rafael Borré,DEL,78,DC
+Schalke 04,1,Loris Karius,POR,76,POR
+Schalke 04,22,Kevin Müller,POR,77,POR
+Schalke 04,36,Johannes Siebeking,POR,77,POR
+Schalke 04,4,Hasan Kuruçay,DEF,79,CE
+Schalke 04,5,Timo Becker,DEF,79,CE
+Schalke 04,8,Robin Gosens,DEF,79,LI
+Schalke 04,17,Adrian Gantenbein,DEF,76,LD
+Schalke 04,25,Nikola Katić,DEF,76,CE
+Schalke 04,29,Junior Dina Ebimbe,DEF,76,LD
+Schalke 04,33,Vitalie Becker,DEF,76,LI
+Schalke 04,39,Maximilian Wöber,DEF,76,CE
+Schalke 04,43,Mertcan Ayhan,DEF,71,CE
+Schalke 04,6,Ron Schallenberg,MED,71,MCD
+Schalke 04,13,Satoshi Tanaka,MED,71,MCD
+Schalke 04,14,Janik Bachmann,MED,71,MC
+Schalke 04,21,Dejan Ljubičić,MED,78,MC
+Schalke 04,23,Soufiane El-Faouzi,MED,71,MC
+Schalke 04,24,Adil Aouchiche,MED,77,MP
+Schalke 04,27,Finn Porath,MED,67,MP
+Schalke 04,7,Hee-chan Hwang,DEL,80,DC
+Schalke 04,9,Moussa Sylla,DEL,66,DC
+Schalke 04,10,Edin Džeko,DEL,81,DC
+Schalke 04,11,Bryan Lasme,DEL,66,DC
+Schalke 04,19,Kenan Karaman,DEL,80,DC
+Hamburger SV,12,Sander Tangvik,POR,78,POR
+Hamburger SV,1,Daniel Heuer Fernandes,POR,78,POR
+Hamburger SV,41,Fernando Dickes,POR,78,POR
+Hamburger SV,24,Nicolás Capaldo,DEF,77,CE
+Hamburger SV,33,Sebastiaan Bornauw,DEF,76,CE
+Hamburger SV,17,Warmed Omari,DEF,77,CE
+Hamburger SV,23,Jordan Torunarigha,DEF,77,CE
+Hamburger SV,3,David Møller Wolfe,DEF,77,LI
+Hamburger SV,28,Miro Muheim,DEF,76,LI
+Hamburger SV,7,Zakaria El Ouahdi,DEF,77,LD
+Hamburger SV,21,Nicolai Remberg,MED,77,MCD
+Hamburger SV,22,Kofi Amoako,MED,72,MCD
+Hamburger SV,6,Albert Sambi Lokonga,MED,79,MC
+Hamburger SV,4,Bilal Nadir,MED,72,MC
+Hamburger SV,18,Bakery Jatta,DEL,73,ED
+Hamburger SV,20,Fábio Vieira,MED,80,MP
+Hamburger SV,11,Albert Grønbaek,MED,72,MP
+Hamburger SV,10,Immanuel Pherai,MED,68,MP
+Hamburger SV,38,Alexander Røssing-Lelesiit,DEL,67,EI
+Hamburger SV,9,Terem Moffi,DEL,78,DC
+Hamburger SV,27,Patson Daka,DEL,78,DC
+Hamburger SV,15,Yussuf Poulsen,DEL,77,DC
+Borussia Mönchengladbach,1,Moritz Nicolas,POR,76,POR
+Borussia Mönchengladbach,21,Tobias Sippel,POR,78,POR
+Borussia Mönchengladbach,23,Jan Olschowsky,POR,78,POR
+Borussia Mönchengladbach,2,Fabio Chiarodia,DEF,80,CE
+Borussia Mönchengladbach,4,Kevin Diks,DEF,77,CE
+Borussia Mönchengladbach,5,Jan Leszczyński,DEF,77,CE
+Borussia Mönchengladbach,6,Kō Itakura,DEF,77,CE
+Borussia Mönchengladbach,14,Daiki Hashioka,DEF,77,CE
+Borussia Mönchengladbach,20,David Herold,DEF,77,LI
+Borussia Mönchengladbach,26,Lukas Ullrich,DEF,77,LI
+Borussia Mönchengladbach,29,Joe Scally,DEF,72,LD
+Borussia Mönchengladbach,7,Kevin Stöger,MED,78,MC
+Borussia Mönchengladbach,8,Enzo Leopold,MED,72,MC
+Borussia Mönchengladbach,10,Florian Neuhaus,MED,77,MC
+Borussia Mönchengladbach,16,Philipp Sander,MED,72,MC
+Borussia Mönchengladbach,17,Jens Castrop,MED,72,MC
+Borussia Mönchengladbach,25,Robin Hack,MED,68,MP
+Borussia Mönchengladbach,3,Isac Lidberg,DEL,67,DC
+Borussia Mönchengladbach,11,Tim Kleindienst,DEL,79,DC
+Borussia Mönchengladbach,18,Shūto Machino,DEL,67,DC
+Borussia Mönchengladbach,19,Nicolas Kühn,DEL,67,DC
+1. FC Köln,1,Marvin Schwäbe,POR,76,POR
+1. FC Köln,20,Ron-Robert Zieler,POR,76,POR
+1. FC Köln,21,Martin James,POR,76,POR
+1. FC Köln,2,Joël Schmied,DEF,78,CE
+1. FC Köln,3,Julian Pauli,DEF,78,CE
+1. FC Köln,4,Timo Hübers,DEF,75,CE
+1. FC Köln,14,Gideon Mensah,DEF,75,LI
+1. FC Köln,17,Alessio Castro-Montes,DEF,75,LD
+1. FC Köln,22,Jahmai Simpson-Pusey,DEF,75,CE
+1. FC Köln,24,Luka Lochoshvili,DEF,75,CE
+1. FC Köln,28,Sebastian Sebulonsen,DEF,75,LD
+1. FC Köln,33,Rav van den Berg,DEF,70,CE
+1. FC Köln,5,Tom Krauß,MED,70,MCD
+1. FC Köln,6,Ellyes Skhiri,MED,78,MC
+1. FC Köln,18,Ísak Bergmann Jóhannesson,MED,70,MC
+1. FC Köln,23,Paul Okon-Engstler,MED,70,MC
+1. FC Köln,31,Gil Neves,MED,70,MC
+1. FC Köln,37,Linton Maina,MED,76,MP
+1. FC Köln,7,Luca Waldschmidt,DEL,77,DC
+1. FC Köln,9,Ragnar Ache,DEL,65,DC
+1. FC Köln,10,Saïd El Mala,DEL,65,DC
+1. FC Köln,27,Thijs Dallinga,DEL,77,DC
+1. FC Köln,30,Marius Bülter,DEL,76,DC
+Werder Bremen,1,Karl Hein,POR,76,POR
+Werder Bremen,25,Markus Kolke,POR,79,POR
+Werder Bremen,30,Alexander Schlager,POR,79,POR
+Werder Bremen,2,Olivier Deman,DEF,81,CE
+Werder Bremen,3,Oskar Wójcik,DEF,81,CE
+Werder Bremen,4,Niklas Stark,DEF,78,CE
+Werder Bremen,5,Amos Pieper,DEF,78,CE
+Werder Bremen,13,Arthur,DEF,78,CE
+Werder Bremen,16,Moussa N'Diaye,DEF,78,CE
+Werder Bremen,32,Marco Friedl,DEF,78,CE
+Werder Bremen,8,Mitchell Weiser,DEF,77,LD
+Werder Bremen,27,Felix Agu,DEF,73,LD
+Werder Bremen,6,Jens Stage,MED,79,MC
+Werder Bremen,14,Senne Lynen,MED,73,MCD
+Werder Bremen,15,Ludovit Reis,MED,73,MC
+Werder Bremen,18,Eren Dinkçi,MED,73,MP
+Werder Bremen,28,Skelly Alvero,MED,73,MC
+Werder Bremen,44,Youri Regeer,MED,73,MC
+Werder Bremen,9,Keke Topp,DEL,68,DC
+Werder Bremen,10,Niclas Füllkrug,DEL,83,DC
+Werder Bremen,11,Justin Njinmah,DEL,68,DC
+Werder Bremen,17,Marco Grüll,DEL,68,DC
+Werder Bremen,26,Cedric Itten,DEL,68,DC
+Genoa,1,Justin Bijlow,POR,78,POR
+Genoa,39,Daniele Sommariva,POR,76,POR
+Genoa,99,Franz Stolz,POR,76,POR
+Genoa,2,Mario Mitaj,DEF,78,CE
+Genoa,3,Kingsley Ehizibue,DEF,75,CE
+Genoa,5,Leo Østigård,DEF,77,CE
+Genoa,16,Cody Drameh,DEF,75,LD
+Genoa,20,Stefano Sabelli,DEF,75,LD
+Genoa,22,Johan Vásquez,DEF,75,CE
+Genoa,27,Alessandro Marcandalli,DEF,75,CE
+Genoa,34,Sebastian Otoa,DEF,70,CE
+Genoa,4,Alex Amorim,MED,70,MCD
+Genoa,8,Tommaso Baldanzi,MED,77,MP
+Genoa,25,Hamed Traorè,MED,70,MC
+Genoa,32,Morten Frendrup,MED,78,MCD
+Genoa,77,Mikael Egill Ellertsson,MED,70,MP
+Genoa,97,Djibril Sow,MED,77,MCD
+Genoa,9,Vitinha,DEL,77,DC
+Genoa,10,Júnior Messias,DEL,77,DC
+Genoa,18,Milutin Osmajić,DEL,65,DC
+Genoa,29,Lorenzo Colombo,DEL,76,DC
+Genoa,92,Stephan El Shaarawy,DEL,80,DC
+Venezia,1,Filip Stanković,POR,76,POR
+Venezia,23,Matteo Grandi,POR,73,POR
+Venezia,96,Lorenzo Montipò,POR,73,POR
+Venezia,2,Matías Moreno,DEF,75,CE
+Venezia,3,Joël Schingtienne,DEF,75,CE
+Venezia,4,Bartol Franjić,DEF,72,CE
+Venezia,5,Ridgeciano Haps,DEF,72,LI
+Venezia,14,Thierry Correia,DEF,72,LD
+Venezia,15,Juan Jesus,DEF,72,CE
+Venezia,17,Armel Bella-Kotchap,DEF,72,CE
+Venezia,33,Marin Šverko,DEF,72,CE
+Venezia,70,Pasquale Mazzocchi,DEF,67,LD
+Venezia,6,Gianluca Busio,MED,78,MCD
+Venezia,8,Lamine Fanne,MED,67,MC
+Venezia,19,Simon Sohm,MED,76,MC
+Venezia,21,Þórir Jóhann Helgason,MED,67,MC
+Venezia,26,Toma Bašić,MED,67,MC
+Venezia,32,Alfred Duncan,MED,76,MCD
+Venezia,71,Kike Pérez,MED,63,MP
+Venezia,7,Albion Rrahmani,DEL,62,DC
+Venezia,9,Andrea Adorante,DEL,76,DC
+Venezia,10,John Yeboah,DEL,76,DC
+Venezia,29,Lion Lauberbach,DEL,62,DC
+Venezia,45,Akor Adams,DEL,76,DC
+Monza,1,Noel Törnqvist,POR,75,POR
+Monza,20,Demba Thiam,POR,74,POR
+Monza,43,Aljaž Strajnar,POR,74,POR
+Monza,2,Saba Goglichidze,DEF,76,CE
+Monza,3,Lorenzo Lucchesi,DEF,76,CE
+Monza,4,Jan Ziółkowski,DEF,73,CE
+Monza,5,Yvan Maye,DEF,73,CE
+Monza,6,Valentin Antov,DEF,73,CE
+Monza,19,Samuele Birindelli,DEF,73,LD
+Monza,24,Adam Bakoune,DEF,73,CE
+Monza,44,Andrea Carboni,DEF,73,CE
+Monza,8,Manga Foe Ondoa,MED,73,MCD
+Monza,11,Omari Forson,MED,68,MP
+Monza,14,Ebenezer Akinsanmiro,MED,68,MC
+Monza,21,Leonardo Colombo,MED,68,MC
+Monza,27,Idrissa Touré,MED,68,MC
+Monza,32,Matteo Pessina,MED,79,MCD
+Monza,90,Michael Folorunsho,MED,77,MP
+Monza,9,Gustavo Varela,DEL,67,DC
+Monza,10,Patrick Cutrone,DEL,78,DC
+Monza,16,Cyril Ngonge,DEL,76,DC
+Monza,17,Keita Baldé,DEL,76,DC
+Monza,26,Patrick Ciurria,DEL,63,DC
+Monza,28,Andrea Colpani,DEL,77,DC
+Monza,47,Dany Mota,DEL,76,DC
+Torino,20,Lucas Perri,POR,78,POR
+Torino,81,Franco Israel,POR,77,POR
+Torino,26,Diego Mascardi,POR,77,POR
+Torino,15,Pietro Comuzzo,DEF,78,CE
+Torino,23,Saúl Coco,DEF,79,CE
+Torino,44,Ardian Ismajli,DEF,76,CE
+Torino,5,Eray Cömert,DEF,76,CE
+Torino,29,Niccolò Fortini,DEF,76,LI
+Torino,13,Ricardo Rodríguez,DEF,76,LI
+Torino,3,Cristiano Biraghi,DEF,76,LI
+Torino,45,Rafik Belghali,DEF,76,LD
+Torino,2,Nathan Patterson,DEF,76,LD
+Torino,8,Rolando Mandragora,MED,79,MCD
+Torino,6,Emirhan İlkhan,MED,71,MCD
+Torino,22,Cesare Casadei,MED,77,MC
+Torino,66,Gvidas Gineitis,MED,71,MC
+Torino,21,Daniel Bragança,MED,71,MC
+Torino,28,Kian Fitz-Jim,MED,71,MC
+Torino,10,Nikola Vlašić,MED,81,MP
+Torino,11,Gaetano Oristanio,MED,67,MP
+Torino,7,Zakaria Aboukhlal,DEL,66,ED
+Torino,18,Giovanni Simeone,DEL,78,DC
+Torino,19,Ché Adams,DEL,78,DC
+Torino,91,Duván Zapata,DEL,77,DC
+Udinese,40,Maduka Okoye,POR,77,POR
+Udinese,41,Bartosz Mrozek,POR,77,POR
+Udinese,93,Daniele Padelli,POR,77,POR
+Udinese,28,Oumar Solet,DEF,80,CE
+Udinese,14,James Abankwah,DEF,79,CE
+Udinese,16,Matteo Palma,DEF,76,CE
+Udinese,13,Nicolò Bertola,DEF,76,CE
+Udinese,5,David Alaba,DEF,79,CE
+Udinese,77,Enzo Ebosse,DEF,76,CE
+Udinese,11,Hassane Kamara,DEF,76,LI
+Udinese,59,Alessandro Zanoli,DEF,76,LD
+Udinese,23,Mërgim Vojvoda,DEF,76,LD
+Udinese,8,Jesper Karlström,MED,77,MCD
+Udinese,32,Jurgen Ekkelenkamp,MED,78,MC
+Udinese,4,Sandi Lovrić,MED,77,MC
+Udinese,6,Oier Zarraga,MED,71,MC
+Udinese,20,Juan Arizala,DEL,70,EI
+Udinese,46,Unai Gómez,MED,71,MP
+Udinese,30,Giorgi Chakvetadze,MED,67,MP
+Udinese,91,Lazar Jovanovic,DEL,66,ED
+Udinese,10,Nicolò Zaniolo,DEL,81,SD
+Udinese,9,Keinan Davis,DEL,78,DC
+Udinese,7,Idrissa Gueye,DEL,66,DC
+Udinese,15,Vakoun Bayo,DEL,66,DC
+Frosinone,22,Lorenzo Palmisani,POR,72,POR
+Frosinone,91,Sebastiano Desplanches,POR,72,POR
+Frosinone,12,Matteo Pisseri,POR,72,POR
+Frosinone,3,Gabriele Calvani,DEF,74,CE
+Frosinone,30,Ilario Monterisi,DEF,74,CE
+Frosinone,2,Giorgio Cittadini,DEF,71,CE
+Frosinone,25,Kevin Akpoguma,DEF,71,CE
+Frosinone,5,Wisdom Amey,DEF,71,CE
+Frosinone,74,Omar Fayed,DEF,71,CE
+Frosinone,79,Gabriele Bracaglia,DEF,71,LI
+Frosinone,71,Aleksa Terzić,DEF,76,LI
+Frosinone,20,Anthony Oyono,DEF,71,LD
+Frosinone,90,Enzo Tchato,DEF,66,LD
+Frosinone,16,Matteo Cichella,MED,66,MCD
+Frosinone,14,Giacomo Calò,MED,66,MCD
+Frosinone,27,Florian Grillitsch,MED,77,MCD
+Frosinone,70,Luis Hasa,MED,66,MC
+Frosinone,73,Patrizio Masini,MED,66,MC
+Frosinone,4,Ben Lhassine Kone,MED,66,MC
+Frosinone,10,Romano Schmid,MED,81,MP
+Frosinone,17,Giorgi Kvernadze,DEL,61,EI
+Frosinone,24,Alessio Zerbin,DEL,61,EI
+Frosinone,7,Farès Ghedjemis,DEL,78,ED
+Frosinone,89,Tomas Bobcek,DEL,77,DC
+Frosinone,9,Antonio Raimondo,DEL,76,DC
+Frosinone,11,Daniel Bîrligea,DEL,77,DC

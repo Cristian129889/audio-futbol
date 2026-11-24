@@ -8,6 +8,7 @@ import traceback
 
 from audiofutbol.data.competition_loader import StadiumDirectory
 from audiofutbol.data.csv_loader import load_extra_national_teams, load_national_teams
+from audiofutbol.data.economy import EconomyService
 from audiofutbol.data.save_manager import SaveManager
 from audiofutbol.engine.audio import AudioEngine
 from audiofutbol.engine.config import GameConfig
@@ -15,6 +16,7 @@ from audiofutbol.engine.paths import AppPaths
 from audiofutbol.engine.tts.service import create_default_speech_service
 from audiofutbol.engine.updater import UpdateService
 from audiofutbol.engine.window import GameWindow, QuitRequested
+from audiofutbol.net.client import OnlineClient
 from audiofutbol.scenes.base import GameContext, SceneManager
 from audiofutbol.scenes.main_menu import MainMenuScene
 from audiofutbol.ui.widgets import AudioUI
@@ -44,7 +46,6 @@ class AudioFutbolApp:
 
     def __init__(self, base_dir: Path | None = None, headless: bool = False) -> None:
         self.paths = AppPaths.detect(base_dir)
-        self._headless = headless
         self.logger = _configure_logging(self.paths)
         self.config = GameConfig.load(self.paths.config_file)
         self.speech = create_default_speech_service(
@@ -52,10 +53,12 @@ class AudioFutbolApp:
             braille_enabled=self.config.braille,
         )
         self.window = GameWindow(self.speech, headless=headless)
-        self.audio = AudioEngine(self.paths, self.config, init_mixer=False)
+        self.audio = AudioEngine(self.paths, self.config, init_mixer=not headless)
         self.ui = AudioUI(self.speech, self.audio, self.window)
         self.saves = SaveManager(self.paths)
         self.stadiums = StadiumDirectory(self.paths)
+        self.economy = EconomyService.from_base_dir(self.paths.base_dir)
+        self.online = OnlineClient()
         self.updater = UpdateService(self.paths)
         self.updater.clean_stale_staging()
 
@@ -66,8 +69,6 @@ class AudioFutbolApp:
             if not self.window.headless and self.config.buscar_actualizaciones_al_iniciar:
                 self.updater.start_background_check()
             self.window.open()
-            if not self._headless:
-                self.audio.ensure_mixer()
             teams, from_csv = load_national_teams(self.paths)
             extra_teams = load_extra_national_teams(self.paths)
             ctx = GameContext(
@@ -83,7 +84,10 @@ class AudioFutbolApp:
                 loaded_from_csv=from_csv,
                 extra_national_teams=extra_teams,
                 updater=self.updater,
+                economy=self.economy,
+                online=self.online,
             )
+            self.window.set_idle_hook(ctx.pump_online)
             manager = SceneManager(ctx, MainMenuScene())
             manager.run()
             return 0
@@ -105,6 +109,8 @@ class AudioFutbolApp:
         finally:
             self.audio.stop_crowd_ambience()
             self.audio.stop_music(200)
+            self.online.close()
+            self.window.set_idle_hook(None)
             self.config.save(self.paths.config_file)
             self.window.close()
 

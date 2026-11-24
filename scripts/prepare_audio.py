@@ -388,6 +388,14 @@ sorteo = menu_seleccionar
 mover = menu_mover
 aceptar = menu_aceptar
 volver = menu_error
+
+# Servidor / chat
+mensaje = notificacion_mensaje
+mensaje_enviado = notificacion_envio
+ping = ping_servidor
+estado_servidor = estado_servidor
+jugador_conectado = jugador_conectado
+jugador_desconectado = jugador_desconectado
 """
     (repo_root / "sonidos.txt").write_text(sonidos_txt, encoding="utf-8")
     print("Audio import, synthesis, and normalization complete!")

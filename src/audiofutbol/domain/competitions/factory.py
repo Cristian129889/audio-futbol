@@ -6,7 +6,9 @@ from dataclasses import dataclass
 from typing import Any
 
 from audiofutbol.domain.competitions.club_tournaments import (
+    Bundesliga,
     ChampionsLeague,
+    ClubesHistoricos,
     CopaInteramericana,
     CopaLibertadores,
     CopaPersonalizada,
@@ -15,6 +17,7 @@ from audiofutbol.domain.competitions.club_tournaments import (
     LigaArgentina,
     LigaMX,
     PremierLeague,
+    SerieA,
 )
 from audiofutbol.domain.competitions.nations_league import NationsLeague
 from audiofutbol.domain.competitions.world_cup import WorldCup
@@ -115,17 +118,49 @@ CLUB_COMPETITIONS: dict[str, ClubCompetitionSpec] = {
             "tabla acumulada. Los dos últimos del acumulado descienden."
         ),
     ),
+    "seriea": ClubCompetitionSpec(
+        key="seriea",
+        title="Serie A",
+        menu_label="Serie A",
+        json_filename="serie_a_2026_27.json",
+        cls=SerieA,
+        intro_text=(
+            "Serie A 2026-27 con 20 clubes. Son 38 jornadas de todos contra todos a ida "
+            "y vuelta, sin playoffs. El primero es el campeón y los tres últimos descienden."
+        ),
+    ),
+    "bundesliga": ClubCompetitionSpec(
+        key="bundesliga",
+        title="Bundesliga",
+        menu_label="Bundesliga",
+        json_filename="bundesliga_2026_27.json",
+        cls=Bundesliga,
+        intro_text=(
+            "Bundesliga 2026-27 con 18 clubes. Son 34 jornadas de todos contra todos a ida "
+            "y vuelta, sin playoffs. El primero es el campeón; el penúltimo juega la promoción "
+            "y el último desciende."
+        ),
+    ),
     "liga_argentina": ClubCompetitionSpec(
         key="liga_argentina",
-        title="Liga Profesional Argentina",
-        menu_label="Liga Profesional Argentina",
-        json_filename="liga_argentina_2025.json",
+        title="Liga Argentina",
+        menu_label="Liga Argentina",
+        json_filename="liga_argentina_2026.json",
         cls=LigaArgentina,
         intro_text=(
-            "Liga Profesional Argentina con 20 clubes. Son 38 jornadas, todos contra todos "
-            "a ida y vuelta. No hay playoffs: el que termina primero es el campeón. "
-            "Los cuatro primeros clasifican a la Libertadores, del quinto al noveno a la "
-            "Sudamericana y los dos últimos descienden."
+            "Selección de 18 clubes argentinos de 2026 con 34 jornadas de todos contra todos "
+            "a ida y vuelta. El primero es el campeón. No representa la lista completa de la LPF."
+        ),
+    ),
+    "historicas": ClubCompetitionSpec(
+        key="historicas",
+        title="Clubes históricos del fútbol",
+        menu_label="Clubes históricos",
+        json_filename="ligas_historicas.json",
+        cls=ClubesHistoricos,
+        intro_text=(
+            "Torneo de homenaje con 16 clubes históricos de todas las épocas. Se usan las "
+            "plantillas actuales del juego como referencia. El primero es el campeón histórico."
         ),
     ),
 }
@@ -140,7 +175,10 @@ SAVE_SLOTS: tuple[tuple[str, str], ...] = (
     ("ligamx", "Liga MX"),
     ("premier", "Premier League"),
     ("liga1", "Liga 1 de Perú"),
-    ("liga_argentina", "Liga Profesional Argentina"),
+    ("seriea", "Serie A"),
+    ("bundesliga", "Bundesliga"),
+    ("liga_argentina", "Liga Argentina"),
+    ("historicas", "Clubes históricos"),
     ("copa_personalizada", "Copa personalizada"),
 )
 
@@ -154,7 +192,10 @@ _CLASS_BY_TYPE: dict[str, type[Any]] = {
     "ligamx": LigaMX,
     "premier": PremierLeague,
     "liga1": Liga1Peru,
+    "seriea": SerieA,
+    "bundesliga": Bundesliga,
     "liga_argentina": LigaArgentina,
+    "historicas": ClubesHistoricos,
     "copa_personalizada": CopaPersonalizada,
 }
 

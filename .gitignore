@@ -27,6 +27,7 @@ _update_staging/
 *.sav
 error.log
 lista_sonidos.txt
+/servidor/
 
 # Portable build output
 AudioFutbol_Portable/

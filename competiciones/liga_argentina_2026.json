@@ -1,0 +1,26 @@
+{
+  "id": "liga_argentina_2026",
+  "nombre": "Liga Argentina 2026",
+  "version_datos": "2026-11-23",
+  "nota": "Selección de 18 clubes argentinos para torneos personalizados, basada en los campeones y clubes citados por la AFA en 2026. No representa la lista completa de la LPF 2026. Los clubes con CSV propio cargan plantilla real; los demás usan plantilla genérica generada por el juego.",
+  "equipos": [
+    {"id": "argentina_river", "nombre": "River Plate", "pais": "Argentina", "plantilla": [], "nivel": 84, "estadio": "Estadio Monumental", "ciudad": "Buenos Aires"},
+    {"id": "argentina_boca", "nombre": "Boca Juniors", "pais": "Argentina", "plantilla": [], "nivel": 83, "estadio": "Estadio Alberto J. Armando (La Bombonera)", "ciudad": "Buenos Aires"},
+    {"id": "argentina_racing", "nombre": "Racing Club", "pais": "Argentina", "plantilla": [], "nivel": 81, "estadio": "Estadio Presidente Perón (El Cilindro)", "ciudad": "Avellaneda"},
+    {"id": "argentina_independiente", "nombre": "Independiente", "pais": "Argentina", "plantilla": [], "nivel": 80, "estadio": "Estadio Libertadores de América", "ciudad": "Avellaneda"},
+    {"id": "argentina_velez", "nombre": "Vélez Sarsfield", "pais": "Argentina", "plantilla": [], "nivel": 80, "estadio": "Estadio José Amalfitani", "ciudad": "Buenos Aires"},
+    {"id": "argentina_talleres", "nombre": "Talleres", "pais": "Argentina", "plantilla": [], "nivel": 79, "estadio": "Estadio Mario Alberto Kempes", "ciudad": "Córdoba"},
+    {"id": "argentina_estudiantes", "nombre": "Estudiantes de La Plata", "pais": "Argentina", "plantilla": [], "nivel": 79, "estadio": "Estadio Jorge Luis Hirschi", "ciudad": "La Plata"},
+    {"id": "argentina_rosario_central", "nombre": "Rosario Central", "pais": "Argentina", "plantilla": [], "nivel": 78, "estadio": "Estadio Gigante de Arroyito", "ciudad": "Rosario"},
+    {"id": "argentina_lanus", "nombre": "Lanús", "pais": "Argentina", "plantilla": [], "nivel": 78, "estadio": "Estadio Ciudad de Lanús", "ciudad": "Lanús"},
+    {"id": "argentina_argentinos", "nombre": "Argentinos Juniors", "pais": "Argentina", "plantilla": [], "nivel": 77, "estadio": "Estadio Diego Armando Maradona", "ciudad": "Buenos Aires"},
+    {"id": "argentina_platense", "nombre": "Platense", "pais": "Argentina", "plantilla": [], "nivel": 75, "estadio": "Estadio Ciudad de Vicente López", "ciudad": "Vicente López"},
+    {"id": "argentina_independiente_rivadavia", "nombre": "Independiente Rivadavia", "pais": "Argentina", "plantilla": [], "nivel": 75, "estadio": "Estadio Bautista Gargantini", "ciudad": "Mendoza"},
+    {"id": "argentina_huracan", "nombre": "Huracán", "pais": "Argentina", "plantilla": [], "nivel": 77, "estadio": "Estadio Tomás Adolfo Ducó", "ciudad": "Buenos Aires"},
+    {"id": "argentina_san_lorenzo", "nombre": "San Lorenzo", "pais": "Argentina", "plantilla": [], "nivel": 78, "estadio": "Estadio Pedro Bidegain", "ciudad": "Buenos Aires"},
+    {"id": "argentina_newells", "nombre": "Newell's Old Boys", "pais": "Argentina", "plantilla": [], "nivel": 78, "estadio": "Estadio Marcelo Bielsa", "ciudad": "Rosario"},
+    {"id": "argentina_belgrano", "nombre": "Belgrano", "pais": "Argentina", "plantilla": [], "nivel": 77, "estadio": "Estadio Mario Alberto Kempes", "ciudad": "Córdoba"},
+    {"id": "argentina_godoy_cruz", "nombre": "Godoy Cruz", "pais": "Argentina", "plantilla": [], "nivel": 76, "estadio": "Estadio Feliciano Gambarte", "ciudad": "Godoy Cruz"},
+    {"id": "argentina_tigre", "nombre": "Tigre", "pais": "Argentina", "plantilla": [], "nivel": 76, "estadio": "Estadio José Dellagiovanna", "ciudad": "Tigre"}
+  ]
+}

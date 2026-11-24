@@ -1,0 +1,26 @@
+{
+  "id": "bundesliga_2026_27",
+  "nombre": "Bundesliga 2026-27",
+  "version_datos": "2026-11-23",
+  "nota": "18 clubes de la Bundesliga 2026-27 según la web oficial de la Bundesliga (23/11/2026). Incluye a Schalke 04, Hamburger SV, 1. FC Köln, Werder Bremen, SV Elversberg y SC Paderborn 07. Los clubes con CSV propio cargan plantilla real; los demás usan plantilla genérica generada por el juego.",
+  "equipos": [
+    {"id": "bundesliga_bayern", "nombre": "Bayern de Múnich", "pais": "Alemania", "plantilla": [], "nivel": 90, "estadio": "Allianz Arena", "ciudad": "Múnich"},
+    {"id": "bundesliga_dortmund", "nombre": "Borussia Dortmund", "pais": "Alemania", "plantilla": [], "nivel": 87, "estadio": "Signal Iduna Park", "ciudad": "Dortmund"},
+    {"id": "bundesliga_leipzig", "nombre": "RB Leipzig", "pais": "Alemania", "plantilla": [], "nivel": 84, "estadio": "Red Bull Arena", "ciudad": "Leipzig"},
+    {"id": "bundesliga_stuttgart", "nombre": "VfB Stuttgart", "pais": "Alemania", "plantilla": [], "nivel": 82, "estadio": "MHPArena", "ciudad": "Stuttgart"},
+    {"id": "bundesliga_hoffenheim", "nombre": "TSG Hoffenheim", "pais": "Alemania", "plantilla": [], "nivel": 79, "estadio": "PreZero Arena", "ciudad": "Sinsheim"},
+    {"id": "bundesliga_leverkusen", "nombre": "Bayer Leverkusen", "pais": "Alemania", "plantilla": [], "nivel": 86, "estadio": "BayArena", "ciudad": "Leverkusen"},
+    {"id": "bundesliga_freiburg", "nombre": "SC Freiburg", "pais": "Alemania", "plantilla": [], "nivel": 79, "estadio": "Europa-Park Stadion", "ciudad": "Friburgo"},
+    {"id": "bundesliga_frankfurt", "nombre": "Eintracht Frankfurt", "pais": "Alemania", "plantilla": [], "nivel": 82, "estadio": "Deutsche Bank Park", "ciudad": "Fráncfort del Meno"},
+    {"id": "bundesliga_augsburg", "nombre": "FC Augsburg", "pais": "Alemania", "plantilla": [], "nivel": 76, "estadio": "WWK Arena", "ciudad": "Augsburgo"},
+    {"id": "bundesliga_mainz", "nombre": "Mainz 05", "pais": "Alemania", "plantilla": [], "nivel": 78, "estadio": "Mewa Arena", "ciudad": "Maguncia"},
+    {"id": "bundesliga_union", "nombre": "Union Berlin", "pais": "Alemania", "plantilla": [], "nivel": 77, "estadio": "An der Alten Försterei", "ciudad": "Berlín"},
+    {"id": "bundesliga_gladbach", "nombre": "Borussia Mönchengladbach", "pais": "Alemania", "plantilla": [], "nivel": 78, "estadio": "Borussia-Park", "ciudad": "Mönchengladbach"},
+    {"id": "bundesliga_hamburg", "nombre": "Hamburger SV", "pais": "Alemania", "plantilla": [], "nivel": 76, "estadio": "Volksparkstadion", "ciudad": "Hamburgo"},
+    {"id": "bundesliga_koln", "nombre": "1. FC Köln", "pais": "Alemania", "plantilla": [], "nivel": 75, "estadio": "RheinEnergieStadion", "ciudad": "Colonia"},
+    {"id": "bundesliga_bremen", "nombre": "Werder Bremen", "pais": "Alemania", "plantilla": [], "nivel": 76, "estadio": "Weserstadion", "ciudad": "Bremen"},
+    {"id": "bundesliga_schalke", "nombre": "Schalke 04", "pais": "Alemania", "plantilla": [], "nivel": 75, "estadio": "Veltins-Arena", "ciudad": "Gelsenkirchen"},
+    {"id": "bundesliga_elversberg", "nombre": "SV Elversberg", "pais": "Alemania", "plantilla": [], "nivel": 70, "estadio": "Ursapharm-Arena", "ciudad": "Spiesen-Elversberg"},
+    {"id": "bundesliga_paderborn", "nombre": "SC Paderborn 07", "pais": "Alemania", "plantilla": [], "nivel": 72, "estadio": "Home Deluxe Arena", "ciudad": "Paderborn"}
+  ]
+}

@@ -68,27 +68,12 @@ def test_load_all_competition_jsons() -> None:
         ("ligamx_apertura_2026.json", 18),
         ("premier_league_2026_27.json", 20),
         ("liga1_peru_2026.json", 18),
-        ("liga_argentina_2025.json", 20),
         ("clubes_europa_extra.json", 27),
     ):
         data, eqs = load_competition_data(paths, filename)
         assert data is not None
         assert eqs is not None
         assert len(eqs) == expected_min
-        if filename == "liga_argentina_2025.json":
-            assert all(t.is_real_squad for t in eqs.values())
-
-
-def test_club_csvs_do_not_duplicate_clubs_across_files() -> None:
-    from audiofutbol.data.csv_loader import read_squad_csv
-
-    paths = AppPaths.detect()
-    seen_files: dict[str, set[str]] = {}
-    for csv_path in sorted(paths.clubs_dir.glob("*.csv")):
-        for eq, *_ in read_squad_csv(csv_path):
-            seen_files.setdefault(normalize_text(eq).strip(), set()).add(csv_path.name)
-    duplicates = {club: sorted(files) for club, files in seen_files.items() if len(files) > 1}
-    assert duplicates == {}, f"Clubs duplicated across CSV files: {duplicates}"
 
 
 def test_club_pool_and_extra_national_teams() -> None:

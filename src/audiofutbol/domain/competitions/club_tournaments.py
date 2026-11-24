@@ -1,4 +1,6 @@
-"""Club competitions: Champions League, Libertadores, Sudamericana, Interamericana, Liga MX, Premier League, Liga 1 de Perú, and Custom Club Cup."""
+"""Club competitions: Champions League, Libertadores, Sudamericana, Interamericana,
+Liga MX, Premier League, Liga 1 de Perú, Serie A, Bundesliga, Liga Argentina,
+Clubes históricos and Custom Club Cup."""
 
 from __future__ import annotations
 
@@ -723,23 +725,6 @@ class PremierLeague(LigaMX):
         return ""
 
 
-class LigaArgentina(PremierLeague):
-    """Liga Profesional Argentina: 20 clubs, double round-robin (38 matchdays), no playoffs."""
-
-    KEY = "liga_argentina"
-    TITLE = "Liga Profesional Argentina"
-
-    def zone_label(self, rank: int, finished: bool) -> str:
-        n = len(self.teams)
-        if rank <= 4:
-            return "Zona de Copa Libertadores"
-        if rank <= 9:
-            return "Zona de Copa Sudamericana"
-        if rank > n - 2:
-            return "Zona de descenso"
-        return ""
-
-
 class Liga1Peru(LigaMX):
     """Liga 1 de Perú 2026: 18 clubs, Apertura (17) + Clausura (17, local/visita invertidos),
     tabla acumulada y playoffs por el título entre ganadores de torneo y mejores del acumulado."""
@@ -955,3 +940,65 @@ class Liga1Peru(LigaMX):
         inst.apertura_snapshot = data.get("apertura_snapshot", {})
         inst.bye_team = data.get("bye_team")
         return inst
+
+
+class SerieA(PremierLeague):
+    """Serie A 2026-27: 20 clubs, 38 matchdays, no playoffs."""
+
+    KEY = "seriea"
+    TITLE = "Serie A"
+    LEAGUE_PHASE_LABEL = "la temporada"
+
+    def zone_label(self, rank: int, finished: bool) -> str:
+        if rank <= 4:
+            return "Zona de Liga de Campeones"
+        if rank <= 6:
+            return "Zona de competiciones europeas"
+        if rank > len(self.teams) - 3:
+            return "Zona de descenso"
+        return ""
+
+
+class Bundesliga(PremierLeague):
+    """Bundesliga 2026-27: 18 clubs, 34 matchdays, no playoffs."""
+
+    KEY = "bundesliga"
+    TITLE = "Bundesliga"
+    LEAGUE_PHASE_LABEL = "la temporada"
+
+    def zone_label(self, rank: int, finished: bool) -> str:
+        if rank <= 4:
+            return "Zona de Liga de Campeones"
+        if rank <= 6:
+            return "Zona de Europa League"
+        if rank == len(self.teams) - 1:
+            return "Promoción de descenso"
+        if rank == len(self.teams):
+            return "Descenso directo"
+        return ""
+
+
+class LigaArgentina(PremierLeague):
+    """Liga Argentina 2026: single-table 18-club selection, no playoffs."""
+
+    KEY = "liga_argentina"
+    TITLE = "Liga Argentina"
+    LEAGUE_PHASE_LABEL = "la temporada"
+
+    def zone_label(self, rank: int, finished: bool) -> str:
+        if rank <= 6:
+            return "Zona de Copa Libertadores"
+        if rank <= 12:
+            return "Zona de Copa Sudamericana"
+        return ""
+
+
+class ClubesHistoricos(PremierLeague):
+    """Historical-club tribute competition using current squads as a reference."""
+
+    KEY = "historicas"
+    TITLE = "Clubes históricos del fútbol"
+    LEAGUE_PHASE_LABEL = "el torneo histórico"
+
+    def zone_label(self, rank: int, finished: bool) -> str:
+        return "Campeón histórico" if rank == 1 and finished else ""

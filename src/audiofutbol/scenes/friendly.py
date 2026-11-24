@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from audiofutbol.data.economy import award_from_result
 from audiofutbol.domain.match.engine import MatchEngine
 from audiofutbol.domain.models import format_result_text
 from audiofutbol.scenes.base import GameContext
@@ -44,6 +45,9 @@ def run_friendly_match(ctx: GameContext) -> None:
         stadium=venue,
     )
     result = engine.play()
+    reward_text = award_from_result(ctx.economy, result, "amistoso", user_team.name)
+    if reward_text:
+        ctx.ui.speak(reward_text)
     ctx.window.update_status("")
     ctx.audio.play_menu_music()
 

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import Callable
 
 import pygame
 
@@ -33,8 +34,6 @@ class HudState:
     last_spoken: str = ""
     items: list[str] = field(default_factory=list)
     selected_index: int = 0
-    board_rows: list[tuple[str, list[str], bool]] | None = None
-    board_cursor: tuple[int, int] = (0, 0)
     footer_hint: str = (
         "Flechas: navegar | Enter: elegir | Esc: volver | ,/.: historial | F1: ayuda | F2: repetir | Ctrl: callar"
     )
@@ -60,8 +59,31 @@ class GameWindow:
         self._font_body: pygame.font.Font | None = None
         self._font_small: pygame.font.Font | None = None
         self._initialized = False
+        self._key_hooks: dict[int, Callable[[], None]] = {}
+        self._idle_hook: Callable[[], None] | None = None
 
         self.speech.add_listener(self._on_speech)
+
+    def set_idle_hook(self, callback: Callable[[], None] | None) -> None:
+        """Install a main-thread callback run on every window polling cycle.
+
+        The online client uses this to keep receiving room events while the
+        player is inside a local match or any other scene.
+        """
+
+        self._idle_hook = callback
+
+    def _pump_idle(self) -> None:
+        if self._idle_hook is not None:
+            self._idle_hook()
+
+    def register_key_hook(self, key: int, callback: Callable[[], None]) -> None:
+        """Install a contextual shortcut (used by the online lobby for F1/F2/F3)."""
+        self._key_hooks[key] = callback
+
+    def clear_key_hooks(self) -> None:
+        """Remove every contextual shortcut installed previously."""
+        self._key_hooks.clear()
 
     def _on_speech(self, message: str, _interrupt: bool) -> None:
         self.hud.last_spoken = message
@@ -102,28 +124,9 @@ class GameWindow:
         footer_hint: str | None = None,
     ) -> None:
         self.hud.screen_title = title
-        self.hud.board_rows = None
         if items is not None:
             self.hud.items = list(items)
         self.hud.selected_index = selected_index
-        if status_line is not None:
-            self.hud.status_line = status_line
-        if footer_hint is not None:
-            self.hud.footer_hint = footer_hint
-        self.render()
-
-    def set_board_view(
-        self,
-        title: str,
-        rows: list[tuple[str, list[str], bool]],
-        cursor: tuple[int, int],
-        status_line: str | None = None,
-        footer_hint: str | None = None,
-    ) -> None:
-        self.hud.screen_title = title
-        self.hud.board_rows = list(rows)
-        self.hud.board_cursor = cursor
-        self.hud.items = []
         if status_line is not None:
             self.hud.status_line = status_line
         if footer_hint is not None:
@@ -200,11 +203,9 @@ class GameWindow:
             cy += 26
         y += panel_h + 12
 
-        # Visible 2D formation board OR menu / reader items
+        # Visible menu / reader items
         footer_h = 34
-        if self.hud.board_rows:
-            self._render_board_panel(pad, y, content_w, h - footer_h - pad)
-        elif self.hud.items:
+        if self.hud.items:
             total = len(self.hud.items)
             sel = max(0, min(self.hud.selected_index, total - 1))
             counter_surf = self._font_small.render(
@@ -244,59 +245,6 @@ class GameWindow:
 
         pygame.display.flip()
 
-    def _render_board_panel(
-        self, x: int, top_y: int, width: int, bottom_y: int
-    ) -> None:
-        """Render a high-contrast 2D tactical pitch layout for formation editing."""
-        assert self._surface is not None
-        assert self._font_body is not None and self._font_small is not None
-        rows = self.hud.board_rows or []
-        if not rows:
-            return
-        avail_h = max(80, bottom_y - top_y)
-        pitch_rect = pygame.Rect(x, top_y, width, avail_h)
-        pygame.draw.rect(self._surface, (16, 42, 32), pitch_rect, border_radius=10)
-        pygame.draw.rect(self._surface, BORDER_COLOR, pitch_rect, width=2, border_radius=10)
-
-        n_rows = len(rows)
-        row_gap = 6
-        inner_pad = 10
-        row_h = max(36, (avail_h - inner_pad * 2 - row_gap * (n_rows - 1)) // n_rows)
-        cur_r, cur_c = self.hud.board_cursor
-
-        for r_idx, (row_name, labels, is_action) in enumerate(rows):
-            ry = top_y + inner_pad + r_idx * (row_h + row_gap)
-            is_cur_row = r_idx == cur_r
-            if is_cur_row and cur_c == -1:
-                band = pygame.Rect(x + 6, ry - 2, width - 12, row_h + 4)
-                pygame.draw.rect(self._surface, SELECTED_BG, band, border_radius=8)
-                pygame.draw.rect(self._surface, ACCENT_COLOR, band, width=2, border_radius=8)
-
-            hdr_w = min(160, max(100, width // 5))
-            hdr_surf = self._font_small.render(row_name, True, ACCENT_COLOR if is_cur_row else MUTED_COLOR)
-            self._surface.blit(hdr_surf, (x + 14, ry + max(4, (row_h - hdr_surf.get_height()) // 2)))
-
-            slots_x = x + hdr_w + 14
-            slots_w = max(80, width - hdr_w - 28)
-            n_cols = max(1, len(labels))
-            col_gap = 8
-            card_w = max(54, (slots_w - col_gap * (n_cols - 1)) // n_cols)
-            for c_idx, lbl in enumerate(labels):
-                cx = slots_x + c_idx * (card_w + col_gap)
-                card_rect = pygame.Rect(cx, ry + 2, card_w, row_h - 4)
-                is_sel = is_cur_row and c_idx == cur_c
-                bg = SELECTED_BG if is_sel else ((40, 56, 82) if is_action else PANEL_COLOR)
-                border = ACCENT_COLOR if is_sel else BORDER_COLOR
-                pygame.draw.rect(self._surface, bg, card_rect, border_radius=6)
-                pygame.draw.rect(self._surface, border, card_rect, width=2 if is_sel else 1, border_radius=6)
-                txt = lbl
-                while len(txt) > 4 and self._font_small.size(txt)[0] > card_w - 10:
-                    txt = txt[:-4] + "..."
-                surf = self._font_small.render(txt, True, ACCENT_COLOR if is_sel else TEXT_COLOR)
-                tx = cx + max(4, (card_w - surf.get_width()) // 2)
-                ty = ry + 2 + max(2, (row_h - 4 - surf.get_height()) // 2)
-                self._surface.blit(surf, (tx, ty))
-
     def _handle_system_event(self, event: pygame.event.Event) -> None:
         if event.type == pygame.QUIT:
             raise QuitRequested()
@@ -309,6 +257,10 @@ class GameWindow:
         Returns True if the event was consumed globally.
         """
         key = event.key
+        hook = self._key_hooks.get(key)
+        if hook is not None:
+            hook()
+            return True
         if key in (pygame.K_LCTRL, pygame.K_RCTRL):
             self.speech.silence()
             return True
@@ -335,9 +287,16 @@ class GameWindow:
             return True
         return False
 
-    def wait_key(self) -> tuple[int, str]:
-        """Block cleanly until a gameplay keypress arrives, keeping window responsive."""
+    def wait_key(self, on_idle: Callable[[], None] | None = None) -> tuple[int, str]:
+        """Block cleanly until a gameplay keypress arrives, keeping window responsive.
+
+        ``on_idle`` runs on the main thread on every polling cycle, so network
+        events can be spoken without touching Pygame from a worker thread.
+        """
         while True:
+            self._pump_idle()
+            if on_idle is not None:
+                on_idle()
             for event in pygame.event.get():
                 self._handle_system_event(event)
                 if event.type == pygame.KEYDOWN:
@@ -352,6 +311,7 @@ class GameWindow:
             return
         deadline = pygame.time.get_ticks() + ms
         while pygame.time.get_ticks() < deadline:
+            self._pump_idle()
             for event in pygame.event.get():
                 self._handle_system_event(event)
                 if event.type == pygame.KEYDOWN:
@@ -364,6 +324,7 @@ class GameWindow:
             return None
         deadline = pygame.time.get_ticks() + ms
         while pygame.time.get_ticks() < deadline:
+            self._pump_idle()
             for event in pygame.event.get():
                 self._handle_system_event(event)
                 if event.type == pygame.KEYDOWN:

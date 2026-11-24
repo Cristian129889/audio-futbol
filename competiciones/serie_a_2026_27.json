@@ -1,0 +1,28 @@
+{
+  "id": "serie_a_2026_27",
+  "nombre": "Serie A 2026-27",
+  "version_datos": "2026-11-23",
+  "nota": "20 clubes de la Serie A 2026-27 según Corriere della Sera (19/08/2026). Los clubes con CSV propio cargan plantilla real; los demás usan plantilla genérica generada por el juego.",
+  "equipos": [
+    {"id": "serie_a_atalanta", "nombre": "Atalanta", "pais": "Italia", "plantilla": [], "nivel": 81, "estadio": "Gewiss Stadium", "ciudad": "Bérgamo"},
+    {"id": "serie_a_bologna", "nombre": "Bologna", "pais": "Italia", "plantilla": [], "nivel": 77, "estadio": "Stadio Renato Dall'Ara", "ciudad": "Bolonia"},
+    {"id": "serie_a_cagliari", "nombre": "Cagliari", "pais": "Italia", "plantilla": [], "nivel": 73, "estadio": "Unipol Domus", "ciudad": "Cagliari"},
+    {"id": "serie_a_como", "nombre": "Como", "pais": "Italia", "plantilla": [], "nivel": 76, "estadio": "Stadio Giuseppe Sinigaglia", "ciudad": "Como"},
+    {"id": "serie_a_fiorentina", "nombre": "Fiorentina", "pais": "Italia", "plantilla": [], "nivel": 78, "estadio": "Stadio Artemio Franchi", "ciudad": "Florencia"},
+    {"id": "serie_a_frosinone", "nombre": "Frosinone", "pais": "Italia", "plantilla": [], "nivel": 71, "estadio": "Stadio Benito Stirpe", "ciudad": "Frosinone"},
+    {"id": "serie_a_genoa", "nombre": "Genoa", "pais": "Italia", "plantilla": [], "nivel": 75, "estadio": "Stadio Luigi Ferraris", "ciudad": "Génova"},
+    {"id": "serie_a_inter", "nombre": "Inter de Milán", "pais": "Italia", "plantilla": [], "nivel": 87, "estadio": "Stadio Giuseppe Meazza (San Siro)", "ciudad": "Milán"},
+    {"id": "serie_a_juventus", "nombre": "Juventus", "pais": "Italia", "plantilla": [], "nivel": 85, "estadio": "Allianz Stadium", "ciudad": "Turín"},
+    {"id": "serie_a_lazio", "nombre": "Lazio", "pais": "Italia", "plantilla": [], "nivel": 80, "estadio": "Stadio Olimpico", "ciudad": "Roma"},
+    {"id": "serie_a_lecce", "nombre": "Lecce", "pais": "Italia", "plantilla": [], "nivel": 72, "estadio": "Stadio Via del Mare", "ciudad": "Lecce"},
+    {"id": "serie_a_milan", "nombre": "Milan", "pais": "Italia", "plantilla": [], "nivel": 85, "estadio": "Stadio Giuseppe Meazza (San Siro)", "ciudad": "Milán"},
+    {"id": "serie_a_monza", "nombre": "Monza", "pais": "Italia", "plantilla": [], "nivel": 72, "estadio": "U-Power Stadium (Brianteo)", "ciudad": "Monza"},
+    {"id": "serie_a_napoli", "nombre": "Napoli", "pais": "Italia", "plantilla": [], "nivel": 84, "estadio": "Stadio Diego Armando Maradona", "ciudad": "Nápoles"},
+    {"id": "serie_a_parma", "nombre": "Parma", "pais": "Italia", "plantilla": [], "nivel": 74, "estadio": "Stadio Ennio Tardini", "ciudad": "Parma"},
+    {"id": "serie_a_roma", "nombre": "Roma", "pais": "Italia", "plantilla": [], "nivel": 83, "estadio": "Stadio Olimpico", "ciudad": "Roma"},
+    {"id": "serie_a_sassuolo", "nombre": "Sassuolo", "pais": "Italia", "plantilla": [], "nivel": 73, "estadio": "Mapei Stadium", "ciudad": "Sassuolo"},
+    {"id": "serie_a_torino", "nombre": "Torino", "pais": "Italia", "plantilla": [], "nivel": 76, "estadio": "Stadio Olimpico Grande Torino", "ciudad": "Turín"},
+    {"id": "serie_a_udinese", "nombre": "Udinese", "pais": "Italia", "plantilla": [], "nivel": 75, "estadio": "Bluenergy Stadium", "ciudad": "Udine"},
+    {"id": "serie_a_venezia", "nombre": "Venezia", "pais": "Italia", "plantilla": [], "nivel": 72, "estadio": "Stadio Pier Luigi Penzo", "ciudad": "Venecia"}
+  ]
+}

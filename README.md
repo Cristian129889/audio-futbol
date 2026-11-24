@@ -30,6 +30,17 @@ pythonw -m audiofutbol
 
 También puedes iniciar desde terminal con `python -m audiofutbol`.
 
+## Novedades de v0.18.0
+
+- **Caja fuerte cifrada CQL**: monedas, historial, amigos, bloqueos y fichajes se guardan en SQLite con ChaCha20 + HMAC-SHA256 (`saves/vault.db` y `saves/vault.key`). Copia ambos archivos al hacer copias de seguridad; sin la clave no hay recuperación.
+- **Economía accesible**: el menú principal incluye *Mi equipo*, con saldo inicial de 300 monedas, recompensas por victoria/goles, desbloqueo de clubes premium y fichaje de jugadores reales.
+- **Servidor propio**: el ZIP incluye `AudioFutbolServer.exe`, independiente del juego. Edita `servidor/config.json` (`host`, `port`, `name`, `max_players`, `motd`, `passphrase`) y ejecútalo en el equipo que hará de anfitrión. No necesita Python. `127.0.0.1` solo conecta dentro de ese mismo equipo: los demás jugadores deben guardar la IP real del anfitrión (por ejemplo `192.168.1.10:3840` en la LAN, o la IP pública con el puerto redirigido). Publicar el código en GitHub **no** pone en marcha ningún servidor: cada sala la hospeda quien ejecuta el EXE.
+- **Vestíbulo en línea**: *En línea* permite guardar servidores por nombre/IP/puertos, conectarse con Enter, chatear con `-` (global) y `}` (sala), crear/unirse a salas, gestionar amigos con F3, consultar F1 (uptime/reinicio) y F2 (ping/lag en ms), y abrir música con Tab.
+- **Partido en línea autoritativo**: el anfitrión inicia un partido y el servidor ejecuta el motor por todos. La sala recibe la misma narración, los mismos sonidos, los mismos eventos y el mismo marcador; un cliente controla las decisiones y los demás ven el mismo encuentro. Puedes leer el historial y el marcador desde *Mi sala*; el anfitrión puede detenerlo y reiniciarlo.
+- **Música sin instalar nada**: `yt-dlp` va dentro de `AudioFutbol.exe`. Busca en YouTube, reproduce URLs y no requiere ffmpeg ni Python. Si falla la red, busca en `musica/` y `temas/`.
+- **Nuevas competiciones y clubes**: Serie A, Bundesliga, Liga Argentina y Clubes históricos, además de 12 clubes reales nuevos con 281 jugadores. Fuentes en `datos/clubes/FUENTES_NUEVOS.txt`.
+- **Sincronización autoritativa**: no hay simulaciones paralelas. `MatchEngine` se ejecuta dentro de `AudioFutbolServer.exe`, emite cada jugada, evento y cambio de marcador a toda la sala, y aplica las decisiones que envía el cliente controlador. Si ese cliente abandona, el servidor asigna otro; F2 muestra el ping/lag en milisegundos.
+
 ## Accesibilidad, voz y audio
 
 - **Voz prioritaria con NVDA DLL**: detecta automáticamente `lib/nvdaControllerClient64.dll` o `lib/nvdaControllerClient32.dll` según la arquitectura de Python e incluye soporte opcional para línea Braille.
@@ -37,7 +48,7 @@ También puedes iniciar desde terminal con `python -m audiofutbol`.
 - **Ventana accesible sin consola**: muestra el título de pantalla, el motor TTS activo, el estado en vivo del partido, el último mensaje hablado y las opciones del menú en alto contraste.
 - **Audio normalizado EBU R128 y curva perceptual**: los efectos (`sonidos/`), música (`musica/`) y temas (`temas/`) están normalizados entre `-16.5` y `-22.5 LUFS` para no saturar ni tapar la voz del lector de pantalla. Los controles de volumen usan una curva exponencial suave con deslizador maestro y pasos de 5 por ciento.
 - **Guardado seguro y migración heredada**: todas las partidas se guardan en formato JSON versionado dentro de `saves/`. Si existen partidas `.sav` de versiones anteriores (`v0.2`–`v0.14`) en la carpeta raíz o en `saves/`, se detectan y migran automáticamente con un deserializador restringido.
-- **Actualizador integrado vía GitHub Releases**: comprueba actualizaciones al iniciar (configurable) o bajo demanda en Opciones, lee el historial de novedades antes de confirmar, verifica el hash **SHA-256** del paquete y protege frente a *Zip-Slip* sin sobrescribir `saves/`, `.sav`, `config.json` ni `sonidos.txt`.
+- **Actualizador integrado vía GitHub Releases**: comprueba actualizaciones al iniciar (configurable) o bajo demanda en Opciones, lee el historial de novedades antes de confirmar, verifica el hash **SHA-256** del paquete y protege frente a *Zip-Slip* sin sobrescribir `saves/`, `.sav`, `vault.db`, `vault.key`, `servidor/`, `servidores.json`, `config.json` ni `sonidos.txt`.
 
 ## Competiciones y personalización
 
@@ -51,8 +62,12 @@ También puedes iniciar desde terminal con `python -m audiofutbol`.
 | Copa Interamericana | 64 clubes de toda América | 16 grupos de 4 sorteados en 4 bombos, dieciseisavos a ida y vuelta y final única en Miami |
 | Liga MX | 18 clubes | 17 jornadas y liguilla de 8 equipos a ida y vuelta (desempata mejor posición hasta semifinales) |
 | Premier League | 20 clubes | 38 jornadas a ida y vuelta sin playoffs; zonas europeas y descenso |
+| Serie A | 20 clubes | 38 jornadas a ida y vuelta sin playoffs |
+| Bundesliga | 18 clubes | 34 jornadas a ida y vuelta sin playoffs |
+| Liga Argentina | 18 clubes | 34 jornadas a ida y vuelta sin playoffs |
+| Clubes históricos | 16 clubes | 30 jornadas a ida y vuelta sin playoffs |
 | Liga 1 de Perú | 18 clubes | Apertura y Clausura (17 fechas cada uno con localías invertidas), tabla acumulada y playoffs por el título |
-| Copa de clubes personalizada | 8, 16, 32 o 64 clubes libres | Selección libre desde el pool global de 183 clubes (170 con plantilla real), grupos y eliminatorias |
+| Copa de clubes personalizada | 8, 16, 32 o 64 clubes libres | Selección libre desde el pool global de 182 clubes con plantilla real, grupos y eliminatorias |
 | Partido amistoso | 50 selecciones (48 del Mundial y 2 adicionales) | Partido único en formato amistoso o eliminatoria con tiempo extra y penales |
 
 En las competiciones oficiales de clubes puedes activar **Personalizar participantes** antes de iniciar para intercambiar cualquier club conservando el calendario oficial. Para agregar equipos, selecciones o torneos nuevos, consulta la [Guía para colaboradores](COLABORAR.md).
@@ -71,6 +86,18 @@ Disponibles en todas las pantallas del juego:
 | `.` (punto) | Leer el mensaje siguiente del historial de voz |
 | `Shift + ,` | Saltar al primer mensaje guardado en el historial |
 | `Shift + .` | Saltar al último mensaje guardado en el historial |
+
+### Atajos del vestíbulo en línea
+
+| Tecla | Acción |
+|---|---|
+| `-` | Escribir mensaje global |
+| `}` | Escribir mensaje de la sala |
+| `F1` | Estado del servidor: tiempo encendido y último reinicio |
+| `F2` | Latencia (ping) en milisegundos |
+| `F3` | Jugadores conectados, amigos, invitaciones y acciones de jugador |
+| `Tab` | Abrir el reproductor de música |
+| `Shift + Tab` | Abrir directamente la búsqueda de música en YouTube |
 
 ### Navegación en menús y lectores
 
@@ -117,9 +144,12 @@ El código sigue una arquitectura modular que separa el dominio puro de fútbol,
 | [src/audiofutbol/app.py](src/audiofutbol/app.py) | Raíz de composición, registro de errores sin consola y ciclo de vida |
 | [src/audiofutbol/domain/](src/audiofutbol/domain/models.py) | Entidades (`Player`, `Team`, `MatchResult`), motor de partido (`match/`) y competiciones (`competitions/`), sin dependencias de Pygame ni del sistema operativo |
 | [src/audiofutbol/engine/](src/audiofutbol/engine/paths.py) | Infraestructura: rutas (`paths.py`), configuración (`config.py`), audio (`audio.py`), ventana HUD (`window.py`), cadena TTS (`tts/`) y actualizador (`updater.py`) |
-| [src/audiofutbol/data/](src/audiofutbol/data/save_manager.py) | Lectores de CSV/JSON (`csv_loader.py`, `competition_loader.py`, `club_pool.py`) y persistencia JSON segura (`save_manager.py`) |
-| [src/audiofutbol/ui/](src/audiofutbol/ui/widgets.py) | Widgets accesibles (`AudioUI`: menú, lector, confirmación y recuento por secciones) y textos de reglas (`rules_text.py`) |
-| [src/audiofutbol/scenes/](src/audiofutbol/scenes/base.py) | Máquina de escenas: menú principal, hubs de torneos, personalización, amistosos, partido, opciones y actualizador |
+| [src/audiofutbol/data/](src/audiofutbol/data/save_manager.py) | Lectores de CSV/JSON (`csv_loader.py`, `competition_loader.py`, `club_pool.py`), persistencia JSON segura (`save_manager.py`) y economía cifrada (`economy.py`) |
+| [src/audiofutbol/security/](src/audiofutbol/security/cql.py) | Caja fuerte CQL: ChaCha20 + HMAC-SHA256 sobre SQLite, sin dependencias externas |
+| [src/audiofutbol/net/](src/audiofutbol/net/server.py) | Protocolo TCP, servidor autohospedable y cliente del vestíbulo en línea |
+| [src/audiofutbol/engine/music_player.py](src/audiofutbol/engine/music_player.py) | Reproductor accesible con búsqueda en YouTube, URLs y archivos locales |
+| [src/audiofutbol/ui/](src/audiofutbol/ui/widgets.py) | Widgets accesibles (`AudioUI`: menú, lector, confirmación, entrada de texto y recuento por secciones) y textos de reglas (`rules_text.py`) |
+| [src/audiofutbol/scenes/](src/audiofutbol/scenes/base.py) | Máquina de escenas: menú principal, hubs de torneos, personalización, amistosos, partido, opciones, economía, vestíbulo en línea y actualizador |
 | `datos/` y `competiciones/` | Bases CSV de selecciones y clubes, estadios y calendarios/participantes en JSON |
 | `sonidos/`, `musica/` y `temas/` | Recursos de audio normalizados y mapeados mediante `sonidos.txt` |
 | `scripts/` y `tests/` | Scripts de compilación/limpieza/audio y suite automatizada con `pytest` |
@@ -145,7 +175,7 @@ Opciones de `.\scripts\setup_and_build.ps1`:
 - `-CleanAfter`: elimina `build/`, `dist/` y `AudioFutbol.spec` al finalizar.
 - `-SkipTests`: omite `pytest` antes de compilar.
 
-También puedes compilar directamente con `python scripts/build_exe.py` dentro del entorno activo. Para reglas detalladas de contribución en código consulta [AGENTS.md](AGENTS.md), y para el historial de versiones revisa [CHANGELOG.md](CHANGELOG.md).
+También puedes compilar directamente con `python scripts/build_exe.py` dentro del entorno activo: genera `AudioFutbol_Portable/` y `AudioFutbol_Portable.zip` con **dos ejecutables**, `AudioFutbol.exe` y `AudioFutbolServer.exe`, y con `yt-dlp` incluido en el juego. El detalle completo de archivos tocados y de la caja fuerte cifrada está en [CAMBIOS_v0.18.0.txt](CAMBIOS_v0.18.0.txt). Para reglas detalladas de contribución en código consulta [AGENTS.md](AGENTS.md), y para el historial de versiones revisa [CHANGELOG.md](CHANGELOG.md).
 
 ## Licencias de terceros
 

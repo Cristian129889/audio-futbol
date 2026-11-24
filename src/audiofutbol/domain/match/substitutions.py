@@ -11,11 +11,6 @@ from audiofutbol.domain.formations import (
     preferred_role,
     preferred_role_text,
 )
-from audiofutbol.domain.match.board import (
-    build_live_board_rows,
-    format_quality,
-    yellow_card_badge,
-)
 from audiofutbol.domain.match.ports import MatchIO
 from audiofutbol.domain.match.state import MatchState
 from audiofutbol.domain.models import POSITION_NAMES_ES, Player
@@ -43,6 +38,28 @@ class SubstitutionManager:
     def _sfx(self, event: str) -> None:
         if not self.state.muted:
             self.io.play_sfx(event)
+
+    def _emit_substitution(self, team_idx: int, out_player: Player, in_player: Player) -> None:
+        text = f"Cambio: entra {in_player.name} por {out_player.name}."
+        self.io.emit_match_event(
+            "substitution",
+            text,
+            minute=self.state.minute(),
+            score=f"{self.state.goals[0]}-{self.state.goals[1]}",
+            home=self.state.team_name(0),
+            away=self.state.team_name(1),
+            team=self.state.team_name(team_idx),
+            player=in_player.name,
+            outgoing=out_player.name,
+        )
+        self.io.emit_match_state(
+            home=self.state.team_name(0),
+            away=self.state.team_name(1),
+            home_score=self.state.goals[0],
+            away_score=self.state.goals[1],
+            minute=self.state.minute(),
+            status="live",
+        )
 
     def bench(self, team_idx: int) -> list[Player]:
         on_pitch = {id(p) for p in self.state.xi[team_idx]}
@@ -103,9 +120,8 @@ class SubstitutionManager:
         )
         if id(player) in self.state.injured:
             text += ", lesionado"
-        text += yellow_card_badge(
-            player, self.state.match_yellows.get(id(player), 0), in_match=True
-        )
+        if self.state.match_yellows.get(id(player), 0):
+            text += ", con amarilla"
         return text
 
     def remaining_subs_text(self, team_idx: int = 0, human: bool = True) -> str:
@@ -146,9 +162,9 @@ class SubstitutionManager:
         self.state.gk_penalty[team_idx] = 0 if has_natural_gk else -25
         self._assign_incoming_slot(team_idx, out_player, in_player)
         self.state.sort_lineup(team_idx)
-        self.state.sync_board_slots(team_idx)
         self.state.ratings[team_idx] = self.state.compute_ratings(team_idx)
         self._sfx("cambio")
+        self._emit_substitution(team_idx, out_player, in_player)
         self.io.update_hud(self.state.hud_status())
 
     def _assign_incoming_slot(
@@ -175,8 +191,7 @@ class SubstitutionManager:
         st.sync_roles(team_idx)
 
     def read_lineup(self) -> None:
-        avg_txt = format_quality(self.state.lineup_average_quality(0, include_fatigue=True))
-        lines = [f"{self.state.formation_text(0)}. Calidad media {avg_txt}."]
+        lines = [self.state.formation_text(0) + "."]
         lines.extend(self.player_status_text(p) for p in self.state.xi[0])
         lines.append(
             f"Cambios hechos: {self.state.substitutions_used[0]}. "
@@ -203,35 +218,21 @@ class SubstitutionManager:
             self.io.speak("No tienes suplentes disponibles.", interrupt=True)
             return False
 
-        last_slot_id: str | None = None
+        pos_out = 0
         while True:
             if forced_out is not None:
                 out_player = forced_out
             else:
-                rows = build_live_board_rows(
-                    self.state, 0, action_label="Cancelar cambio", include_fatigue=True
-                )
-                avg_txt = format_quality(
-                    self.state.lineup_average_quality(0, include_fatigue=True)
-                )
-                res = self.io.choose_formation(
+                on_pitch = list(self.state.xi[0])
+                idx = self.io.choose(
                     f"Cambios. {self.state.formation_text(0)}. {self.remaining_subs_text(0)}. ¿Quién sale?",
-                    rows,
-                    status_line=f"{self.state.formation_text(0)} | Calidad media: {avg_txt}",
-                    initial_slot_id=last_slot_id,
-                    allow_remove=False,
-                    allow_swap_key=False,
+                    [self.player_status_text(p) for p in on_pitch],
+                    initial_index=pos_out,
                 )
-                if res is None:
+                if idx is None:
                     return False
-                _action, slot_id = res
-                if slot_id == "action:cancel" or not slot_id.startswith("player:"):
-                    return False
-                last_slot_id = slot_id
-                pid = int(slot_id.split(":", 1)[1])
-                out_player = next((p for p in self.state.xi[0] if id(p) == pid), None)
-                if out_player is None:
-                    continue
+                pos_out = idx
+                out_player = on_pitch[idx]
 
             candidates = self.eligible_replacements(0, out_player)
             if not candidates:
@@ -247,7 +248,7 @@ class SubstitutionManager:
             idx_in = self.io.choose(
                 f"Sale {out_player.name}. ¿Quién entra?",
                 [
-                    f"{p.name}, {preferred_role_text(p)}, calidad {p.overall}{yellow_card_badge(p, in_match=False)}"
+                    f"{p.name}, {preferred_role_text(p)}, calidad {p.overall}"
                     for p in candidates
                 ],
             )
@@ -336,26 +337,13 @@ class SubstitutionManager:
                 "Elige qué jugador de campo sale para que entre el portero suplente."
             )
             while True:
-                rows = build_live_board_rows(
-                    self.state,
-                    0,
-                    action_label="No meter al portero suplente",
-                    exclude_gk=True,
-                    include_fatigue=True,
-                )
-                res = self.io.choose_formation(
+                on_pitch = list(self.state.xi[0])
+                idx_out = self.io.choose(
                     f"Expulsión del portero. {self.remaining_subs_text(0)}. "
                     "¿Qué jugador de campo sale para que entre el portero suplente?",
-                    rows,
-                    status_line=f"{self.state.formation_text(0)} | Elige al jugador que sale",
+                    [self.player_status_text(p) for p in on_pitch],
                 )
-                out_player: Player | None = None
-                if res is not None:
-                    _act, slot_id = res
-                    if slot_id.startswith("player:"):
-                        pid = int(slot_id.split(":", 1)[1])
-                        out_player = next((p for p in self.state.xi[0] if id(p) == pid), None)
-                if out_player is None:
+                if idx_out is None:
                     if self.io.confirm(
                         "¿Seguro que no quieres meter al portero suplente? Un jugador de campo tendrá que ponerse los guantes."
                     ):
@@ -368,6 +356,7 @@ class SubstitutionManager:
                         return
                     continue
 
+                out_player = on_pitch[idx_out]
                 if len(backup_gks) == 1:
                     in_gk = backup_gks[0]
                 else:

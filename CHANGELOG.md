@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.18.0
+
+- **Caja fuerte cifrada CQL**: nueva capa `security/` con ChaCha20 (RFC 8439) + HMAC-SHA256 sobre SQLite (`vault.db` / `vault.key`). Los valores se guardan cifrados y autenticados; el contenido solo existe en claro en memoria. Sin el archivo de clave los datos son irrecuperables, así que hay que copiar ambos al hacer backups. No requiere instalar `cryptography`.
+- **Economía y fichajes**: menú *Mi equipo* con 300 monedas iniciales, recompensas por partido (victoria 180 + 12 por gol, empate 60 + 12, derrota 20 + 12), ledger cifrado de los últimos 100 movimientos, desbloqueo de clubes premium por 900 monedas y mercado de jugadores con precio según calidad. Los clubes antiguos siguen disponibles.
+- **Servidor y cliente en línea autohospedables**: `AudioFutbolServer.exe` independiente con `servidor/config.json` (nombre, host, puerto, jugadores, MOTD y frase de paso), `server.log` y vault propio. Cliente con `servidores.json` para guardar nombre/IP/puertos, formulario con guardar/conectar/cancelar y nombre de jug editable.
+- **Vestíbulo accesible**: chat global con `-` y de sala con `}`, F1 (uptime y último reinicio con sonido), F2 (ping/lag en ms con sonido), F3 (jugadores, solicitudes de amistad, invitaciones, mensajes privados, bloqueos), salas con bots/invitar/expulsar/iniciar aviso, y estado musical compartido. Seis sonidos nuevos en `sonidos/servidor/`.
+- **Reproductor de música integrado**: Tab abre el reproductor y Shift+Tab la búsqueda directa en YouTube; reproduces resultados numerados, URLs y archivos locales con avance/retroceso de 10 s, volumen con flechas y envío de pista a la sala. `yt-dlp` se empaqueta dentro del EXE y el audio se descarga con `urllib`: **no hacen falta ffmpeg, Python ni yt-dlp instalados**. Si falla la red, busca música local.
+- **Competiciones y datos nuevos**: Serie A 2026-27 (20), Bundesliga 2026-27 (18), Liga Argentina 2026 (18) y Clubes históricos (16), todas a ida y vuelta; 12 clubes reales y 281 jugadores nuevos en `datos/clubes/nuevos_clubes.csv`, con fuentes en `FUENTES_NUEVOS.txt`. El pool global pasa a 182 clubes con plantilla real.
+- **Portable y seguridad de actualización**: `scripts/build_exe.py` genera ambos EXE, `config.json` limpio, `servidor/config.json` y el ZIP con SHA-256; el actualizador protege `vault.db`, `vault.key`, `servidor/` y `servidores.json`. Dependencias: `pygame-ce`, `comtypes` y `yt-dlp`. Versión 0.18.0.
+- **Partido en línea autoritativo**: `MatchEngine` se ejecuta en el servidor dentro de `net/authoritative.py`; la sala recibe la narración, los efectos, el HUD, los eventos y el marcador de un único partido. El cliente controlador envía sus decisiones mediante `MATCH_DECISION`; si se desconecta, el servidor elige otro. Los clientes son espectadores sin simulación local.
+- **Documentación y pruebas**: nuevo `CAMBIOS_v0.18.0.txt`, README/COLABORAR actualizados y 95 pruebas pasadas, incluidas las del vault cifrado, economía, protocolo, servidor/cliente en vivo, partido autoritativo compartido y datos nuevos.
+- **Corrección del vestíbulo**: los cuadros de texto (nombre en línea, servidores, chat, salas y música) vuelven a usar el contexto activo; se documenta que `127.0.0.1` solo conecta en el mismo equipo y que el repositorio público no hospeda partidas.
+
 ## v0.17.0
 
 - **Sistema táctico completo con nueve esquemas y puestos concretos (aporte de Asuma-Sarutovi)**:

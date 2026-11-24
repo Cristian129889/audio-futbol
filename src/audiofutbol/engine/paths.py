@@ -83,6 +83,16 @@ class AppPaths:
         return self.base_dir / "sonidos.txt"
 
     @property
+    def server_list_file(self) -> Path:
+        """Saved online server directory (names/IPs/ports, not secret)."""
+        return self.base_dir / "servidores.json"
+
+    @property
+    def server_data_dir(self) -> Path:
+        """Local data folder used by the standalone server executable."""
+        return self.base_dir / "servidor"
+
+    @property
     def error_log_file(self) -> Path:
         return self.base_dir / "error.log"
 
